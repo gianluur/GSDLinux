@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-v1.json
+
+type: dnf
+repos:
+  copr:
+    - duxlabs/dux-repo
+    - duxlabs/dms
+    - lionheartp/Hyprland
+    - deltacopy/darkly
+
+install:
+  packages:
+    - niri
+    - greetd
+    - dux-qt-base
+    - gtk4-layer-shell
+    - matugen
+    - quickshell
+    - xwayland-satellite
+    - dux-search
+    - dux-greeter
+    - dux-calendar
+    - dms
+    - nwg-look
+    - qt6ct-kde
+    - darkly
+    - xdg-desktop-portal
+    - xdg-desktop-portal-kde
+    - xdg-desktop-portal-gnome

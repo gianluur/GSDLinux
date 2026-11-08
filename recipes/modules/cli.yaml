@@ -1,0 +1,50 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+
+modules:
+  - type: dnf
+    repos:
+      files:
+        add:
+          - https://download.docker.com/linux/fedora/docker-ce.repo
+
+      copr:
+        enable:
+          - atim/starship
+          - lihaohong/yazi
+          - jdxcode/mise
+
+    install:
+      packages:
+        - fastfetch
+        - yazi
+        - eza
+        - zoxide
+        - bat
+        - ripgrep
+        - fd-find
+        - fzf
+        - tldr
+        - btop
+        - gh
+        - jq
+        - yq
+        - unzip
+        - wget
+        - curl
+        - git
+        - kitty
+        - starship
+        - zsh
+        - distrobox
+        - mise
+        - nix
+        - wl-clipboard
+
+  - type: systemd
+    system:
+      enabled:
+        - nix-daemon.socket
+        - nix-daemon
+        - nix.mount
+        - nix-directory

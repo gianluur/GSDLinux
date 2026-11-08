@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://schema.blue-build.org/module-v1.json
+
+type: systemd
+system:
+  enabled:
+    - tlp
+
+  disabled:
+    - NetworkManager-wait-online.service
+    - fedora-atomic-desktop-mandb-update.service
+    - systemd-oomd.service

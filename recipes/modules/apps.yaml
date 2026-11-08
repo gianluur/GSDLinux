@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+
+modules:
+  - type: dnf
+    repos:
+      copr:
+        - netflate/lumine-capture
+
+    install:
+      packages:
+        - kitty
+        - lumine-capture
+        - kde-partitionmanager
+        - seahorse
+
+  - type: default-flatpaks
+    configurations:
+      - scope: system
+      - notify: true
+        install:
+          - app.zen_browser.zen
+          - org.kde.dolphin
+          - org.kde.gwenview
+          - org.kde.okular
+          - org.kde.ark
+          - org.kde.kalk
+          - org.videolan.VLC
+          - org.onlyoffice.desktopeditors
+          - com.obsproject.Studio
+          - dev.vencord.Vesktop
+          - org.localsend.localsend_app
+          - dev.zed.Zed

@@ -1,0 +1,5 @@
+# AC plugged in → Gaming mode
+SUBSYSTEM=="power_supply", ATTR{type}=="Mains|AC", ATTR{online}=="1", RUN+="/usr/bin/systemd-run --no-block /usr/bin/scxctl switch -s lavd -m gaming"
+
+# AC unplugged → PowerSave mode
+SUBSYSTEM=="power_supply", ATTR{type}=="Mains|AC", ATTR{online}=="0", RUN+="/usr/bin/systemd-run --no-block /usr/bin/scxctl switch -s lavd -m powersave"

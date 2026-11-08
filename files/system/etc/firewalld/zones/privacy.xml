@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zone>
+  <short>Privacy</short>
+  <description>Accepts printing, IPv6, denies everything else</description>
+  <service name="mdns"/>
+  <service name="ipp"/>
+  <service name="ipp-client"/>
+  <service name="dhcpv6-client"/>
+  <service name="samba-client"/>
+</zone>

@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-v1.json
+
+type: fonts
+fonts:
+  nerd-fonts:
+    - JetBrainsMono
+  google-fonts:
+    - Noto Color Emoji
+  url-fonts:
+    - name: Inter
+      url: https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip

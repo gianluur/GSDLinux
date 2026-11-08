@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-v1.json
+
+type: dnf
+repos:
+  files:
+    add:
+      - https://download.docker.com/linux/fedora/docker-ce.repo
+
+install:
+  packages:
+    - tlp
+    - tlp-rdw
+    - powertop

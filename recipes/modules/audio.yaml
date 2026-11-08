@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-v1.json
+
+type: dnf
+install:
+  packages:
+    - pipewire
+    - wireplumber
+    - pipewire-alsa
+    - pipewire-pulseaudio
+    - pipewire-utils
+    - alsa-utils
+    - alsa-ucm
+    - alsa-firmware
+    - alsa-tools
+    - alsa-sof-firmware
+    - gstreamer1-plugins-base
+    - gstreamer1-plugins-good
+    - gstreamer1-plugins-bad-free
+    - gstreamer1-plugins-ugly-free
+    - realtime-setup
+    - rtkit

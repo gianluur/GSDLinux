@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+
+modules:
+  - type: dnf
+    repos:
+      files:
+        add:
+          - netbird.repo
+      keys:
+        - https://repo.protonvpn.com/fedora-%OS_VERSION%-stable/public_key.asc
+
+  # Step 1: Install the Proton VPN release RPM and refresh the repository cache
+  - type: script
+    snippets:
+      - "dnf install -y https://repo.protonvpn.com/fedora-$(rpm -E %fedora)-stable/protonvpn-stable-release/protonvpn-stable-release-1.0.5-1.noarch.rpm && dnf makecache"
+      - "dnf install -y --setopt=tsflags=noscripts proton-vpn-gnome-desktop"
+      - "dnf install -y --setopt=tsflags=noscripts netbird netbird-ui gtk4 webkitgtk6.0 xdg-utils"
