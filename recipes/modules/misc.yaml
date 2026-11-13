@@ -2,8 +2,8 @@
 
 type: systemd
 system:
-  enabled:
-    - tlp
+  # enabled:
+  #   - tlp
 
   disabled:
     - NetworkManager-wait-online.service

@@ -1,0 +1,68 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-v1.json
+
+type: akmods
+base: ogc
+nvidia-driver: nvidia-open
+install:
+  # - openrazer
+  - xone
+  # - logitech-trueforce
+  # - new-lg4ff
+
+# modules:
+#   - type: dnf
+#     repos:
+#       copr:
+#         - lnvso/new-lg4ff
+#       files:
+#         - https://github.com/terrapkg/subatomic-repos/raw/main/terra.repo
+
+#   - type: akmods
+#     base: main
+
+#     # GPU Drivers (Use this if not already baked into your base image)
+#     nvidia-driver: nvidia-open
+
+#     install:
+#       # ==========================================
+#       # 🎮 Gaming Controllers & Peripherals
+#       # ==========================================
+#       - xone # Xbox One controllers via USB wireless dongle (replaces xpad)
+#       - xpadneo # Xbox One controllers via Bluetooth (replaces xpad)
+#       - openrazer # Support for Razer mice, keyboards, and accessories (RGB, macros)
+
+#       # ==========================================
+#       # 🏎️ Racing Wheels & Force Feedback
+#       # ==========================================
+#       # - hid-fanatecff # Force feedback for Fanatec racing wheels
+#       # - hid-tmff2 # Force feedback for Thrustmaster T300RS, T248, TX, T128, etc.
+#       # - t150-driver # Force feedback specifically for Thrustmaster T150 wheels
+#       - new-lg4ff # Force feedback for Logitech wheels (G25, G27, G29, etc.)
+#       - logitech-trueforce # Force feedback & TrueForce for newer Logitech wheels (G923, RS50)
+
+#       # ==========================================
+#       # 💻 Laptops, Handhelds & Motherboards
+#       # ==========================================
+#       # - system76       # Hardware support (keyboard backlight, fan control) for System76 laptops
+#       # - system76-io    # Hardware support for System76 Thelio desktop I/O boards
+#       - nct6687d # Fan control for motherboards with Nuvoton NCT6687D/R sensor chips
+
+#       # ==========================================
+#       # 🔴 AMD Ryzen CPU Specifics
+#       # ==========================================
+#       # - ryzen-smu # Allows tools like ZenStates to interact with AMD Ryzen System Management Unit
+#       # - zenergy # Better energy/power consumption monitoring for AMD Zen CPUs
+
+#       # ==========================================
+#       # 📹 Video Capture, Streaming & Virtual Devices
+#       # ==========================================
+#       - v4l2loopback # Creates virtual video devices (e.g., for OBS Virtual Camera or Zoom)
+#       # - sc0710         # Driver for Elgato 4K60 Pro MK.2 / 4K Pro capture cards
+#       # - evdi           # Driver for DisplayLink USB graphics adapters (multi-monitor via USB)
+#       # - kvmfr          # KVM framebuffer relay for Looking Glass (low-latency VM passthrough)
+
+#       # ==========================================
+#       # 📡 Networking
+#       # ==========================================
+#       - wl # Proprietary driver for older Broadcom Wi-Fi cards (if default driver fails)
