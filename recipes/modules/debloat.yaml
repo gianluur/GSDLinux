@@ -4,7 +4,6 @@
 modules:
   - type: dnf
     remove:
-      auto-remove: true
       packages:
         - plasma-desktop
         - plasma-workspace
