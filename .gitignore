@@ -5,4 +5,4 @@ cosign.private
 *.iso-CHECKSUM
 /.bluebuild-scripts_*
 build/iso
-build/osbuild-*
+build/cache
