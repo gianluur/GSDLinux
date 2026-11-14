@@ -4,5 +4,5 @@
 modules:
     - type: script
       snippets:
-          - "dnf remove --setopt=tsflags=noscripts plasma-* kwin-* kde-* kio-* kaccounts-*"
+          - "dnf remove -y --setopt=tsflags=noscripts plasma-* kwin-* kde-* kio-* kaccounts-*"
 
