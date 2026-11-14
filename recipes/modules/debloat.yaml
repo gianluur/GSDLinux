@@ -4,7 +4,7 @@
 modules:
     - type: script
       snippets:
-          - "dnf remove -y --setopt=tsflags=noscripts plasma-* kwin-* kde-* kio-* kaccounts-*"
+          - "dnf remove -y --setopt=tsflags=noscripts plasma-* kwin-* kde-* kio-* kaccounts-* kscreen* ksystemstats ksshaskpass kwayland plasma5support polkit-kde* layer-shell-qt kactivitymanagerd kdecoration kpipewire kwrite* kwalletmanager5 kdegraphics-mobipocket steamdeck-kde-presets* sddm*"
 
     - type: dnf
       remove:
@@ -12,3 +12,4 @@ modules:
               - firefox
               - alacritty
               - kf6-*
+              - kf5-*
