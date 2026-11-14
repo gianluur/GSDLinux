@@ -11,3 +11,4 @@ modules:
           packages:
               - firefox
               - alacritty
+              - kf6-*
