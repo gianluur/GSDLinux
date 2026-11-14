@@ -11,4 +11,3 @@ modules:
         - "kde-*"
         - "kio-*"
         - "kaccounts-*"
-        - "akonadi-*"
