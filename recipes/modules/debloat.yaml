@@ -6,3 +6,8 @@ modules:
       snippets:
           - "dnf remove -y --setopt=tsflags=noscripts plasma-* kwin-* kde-* kio-* kaccounts-*"
 
+    - type: dnf
+      remove:
+          packages:
+              - firefox
+              - alacritty
