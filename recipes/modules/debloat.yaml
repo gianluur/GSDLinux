@@ -2,7 +2,12 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
 
 modules:
-  - type: dnf
-    group-remove:
-      packages:
-        - kde-desktop-environment
+  - type: rpm-ostree
+    remove:
+      - "plasma-*"
+      - "kwin-*"
+      - "kf6-*"
+      - "kde-*"
+      - "kio-*"
+      - "kaccounts-*"
+      - "akonadi-*"
