@@ -2,12 +2,13 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
 
 modules:
-  - type: rpm-ostree
+  - type: dnf
     remove:
-      - "plasma-*"
-      - "kwin-*"
-      - "kf6-*"
-      - "kde-*"
-      - "kio-*"
-      - "kaccounts-*"
-      - "akonadi-*"
+      packages:
+        - "plasma-*"
+        - "kwin-*"
+        - "kf6-*"
+        - "kde-*"
+        - "kio-*"
+        - "kaccounts-*"
+        - "akonadi-*"
