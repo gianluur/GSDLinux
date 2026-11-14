@@ -59,7 +59,6 @@ modules:
         - ffmpegthumbs
         - filelight
         - flatpak-kcm
-        - fprintd-pam
         - libappindicator-gtk3
         - pam-kwallet
         - phonon-qt6-backend-vlc
