@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 
 name: gsdlinux
@@ -8,7 +7,7 @@ base-image: ghcr.io/ublue-os/bazzite-nvidia-open
 image-version: latest
 
 modules:
-  #  - from-file: modules/info.yaml
+  - from-file: modules/info.yaml
   - from-file: modules/configs.yaml
   # - from-file: modules/audio.yaml
   #- from-file: modules/power.yaml
@@ -19,16 +18,4 @@ modules:
   - from-file: modules/vms.yaml
   - from-file: modules/misc.yaml
 
-  - type: dnf
-    install:
-      packages:
-        - grub2-efi-x64-cdboot
-        - isomd5sum
-
-  - type: script
-    snippets:
-      - "mkdir -p /boot/efi && cp -ra /usr/lib/efi/*/*/EFI /boot/efi"
-
   - type: signing
-
-#TODO: Don't forget to add gnome-pam

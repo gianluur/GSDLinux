@@ -1,0 +1,105 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+
+modules:
+  - type: dnf
+    install:
+      packages:
+        - anaconda
+        - anaconda-install-img-deps
+        - anaconda-dracut
+        - dracut-config-generic
+        - dracut-network
+        - dracut-live
+        - net-tools
+        - grub2-efi-x64-cdboot
+        - grub2-common
+        - grub2-pc-modules
+        - grub2-tools
+        - plymouth
+        - default-fonts-core-sans
+        - default-fonts-other-sans
+        - google-noto-sans-cjk-fonts
+        - xorriso
+        - squashfs-tools
+        - jq
+        - isomd5sum
+        - podman
+        - python3
+
+  - type: script
+    snippets:
+      - "mkdir -p /boot/efi && cp -ra /usr/lib/efi/*/*/EFI /boot/efi"
+
+  - type: script
+    snippets:
+      - |
+        cat > /usr/lib/dracut/dracut.conf.d/40-iso.conf <<'EOF'
+        compress="xz"
+        add_dracutmodules+=" qemu qemu-net livenet dmsquash-live anaconda "
+        early_microcode="no"
+        EOF
+      - |
+        set -xe
+        kver=$(ls /usr/lib/modules)
+        env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"
+
+  - type: script
+    snippets:
+      - |
+        mkdir -p /usr/lib/image-builder/bootc
+        cat > /usr/lib/image-builder/bootc/iso.yaml <<'EOF'
+        label: "GSDLinux-Installer"
+        grub2:
+          entries:
+            - name: "Install GSDLinux (bootc)"
+              linux: "/images/pxeboot/vmlinuz inst.stage2=hd:LABEL=GSDLinux-Installer systemd.unit=anaconda.target console=tty0 inst.graphical selinux=0 rhgb quiet"
+              initrd: "/images/pxeboot/initrd.img"
+        EOF
+
+  - type: script
+    snippets:
+      - |
+        cat > /usr/share/anaconda/interactive-defaults.ks <<'EOF'
+        bootc --source-imgref registry:IMAGE-NAME --target-imgref IMAGE-NAME
+        EOF
+
+  - type: script
+    snippets:
+      - "echo 'install:x:0:0:root:/root:/usr/libexec/anaconda/run-anaconda' >> /etc/passwd"
+      - "echo 'install::14438:0:99999:7:::' >> /etc/shadow"
+      - "passwd -d root"
+      - "mv /usr/share/anaconda/list-harddrives-stub /usr/bin/list-harddrives"
+      - "mv /usr/share/dnf5/repos.d /etc/anaconda.repos.d"
+
+      - "systemctl set-default anaconda.target"
+      - "systemctl enable anaconda.service"
+
+      - "rm -v /usr/lib/systemd/system-generators/systemd-gpt-auto-generator"
+      - "ln -s /usr/lib/systemd/system/anaconda-shell@.service /usr/lib/systemd/system/autovt@.service"
+
+      - |
+        mkdir -p /usr/lib/systemd/logind.conf.d
+        cat > /usr/lib/systemd/logind.conf.d/anaconda-shell.conf <<'EOF'
+        [Login]
+        ReserveVT=2
+        EOF
+
+  - type: script
+    snippets:
+      - |
+        mkdir -p /etc/systemd/user/pipewire.service.d/
+        cat > /etc/systemd/user/pipewire.service.d/allowroot.conf <<'EOF'
+        [Unit]
+        ConditionUser=
+        EOF
+      - |
+        mkdir -p /etc/systemd/user/pipewire.socket.d/
+        cat > /etc/systemd/user/pipewire.socket.d/allowroot.conf <<'EOF'
+        [Unit]
+        ConditionUser=
+        EOF
+
+  - type: script
+    snippets:
+      - "systemctl mask bootloader-update.service"

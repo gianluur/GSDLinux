@@ -1,0 +1,324 @@
+ARG BASE_IMAGE="ghcr.io/ublue-os/bazzite-nvidia-open@sha256:da914ab19940bf2959fba9bcba0c7359982dbb390e4759aa07b64cc58262e441"
+FROM "${BASE_IMAGE}" AS gsdlinux
+
+# This stage is responsible for holding onto
+# your config without copying it directly into
+# the final image
+FROM scratch AS stage-files
+COPY ./files /files
+
+# Bins to install
+# These are basic tools that are added to all images.
+# Generally used for the build process. We use a multi
+# stage process so that adding the bins into the image
+# can be added to the ostree commits.
+FROM scratch AS stage-bins
+COPY --from=ghcr.io/sigstore/cosign/cosign:v3.1.4 \
+  /ko-app/cosign /bins/cosign
+COPY --from=ghcr.io/blue-build/cli:latest-installer \
+  /out/bluebuild /bins/bluebuild
+# Keys for pre-verified images
+# Used to copy the keys into the final image
+# and perform an ostree commit.
+#
+# Currently only holds the current image's
+# public key.
+FROM scratch AS stage-keys
+COPY cosign.pub /keys/gsdlinux.pub
+
+# Main image
+FROM gsdlinux
+ARG TARGETARCH
+ARG RECIPE=recipes/recipe.yaml
+ARG IMAGE_REGISTRY=localhost
+ARG BB_BUILD_FEATURES=""
+ARG CONFIG_DIRECTORY="/tmp/files"
+ARG MODULE_DIRECTORY="/tmp/modules"
+ARG IMAGE_NAME="gsdlinux"
+ARG BASE_IMAGE="ghcr.io/ublue-os/bazzite-nvidia-open"
+ARG FORCE_COLOR=1
+ARG CLICOLOR_FORCE=1
+ARG RUST_LOG_STYLE=always
+# Key RUN
+RUN --mount=type=bind,from=stage-keys,src=/keys,dst=/tmp/keys \
+  mkdir -p /etc/pki/containers/ \
+  && cp /tmp/keys/* /etc/pki/containers/
+
+# Bin RUN
+RUN --mount=type=bind,from=stage-bins,src=/bins,dst=/tmp/bins \
+  mkdir -p /usr/bin/ \
+  && cp /tmp/bins/* /usr/bin/
+RUN --mount=type=bind,from=ghcr.io/blue-build/nushell-image:default,src=/nu,dst=/tmp/nu \
+  mkdir -p /usr/libexec/bluebuild/nu \
+  && cp -r /tmp/nu/* /usr/libexec/bluebuild/nu/
+RUN \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/scripts/,Z \
+  /scripts/pre_build.sh
+
+# Module RUNs
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/files:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'files' '{"type":"files","files":[{"source":"system","destination":"/"}]}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/fonts:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'fonts' '{"type":"fonts","fonts":{"nerd-fonts":["JetBrainsMono"],"google-fonts":["Noto Color Emoji"],"url-fonts":[{"name":"Inter","url":"https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip"}]}}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/dnf:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'dnf' '{"type":"dnf","repos":{"files":{"add":["https://download.docker.com/linux/fedora/docker-ce.repo"]},"copr":{"enable":["atim/starship","lihaohong/yazi","jdxcode/mise"]}},"install":{"packages":["fastfetch","yazi","eza","zoxide","bat","ripgrep","fd-find","fzf","tldr","btop","gh","jq","yq","unzip","wget","curl","git","kitty","starship","zsh","distrobox","mise","nix","wl-clipboard"]}}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/systemd:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'systemd' '{"type":"systemd","system":{"enabled":["nix-daemon.socket","nix-daemon","nix.mount","nix-directory"]}}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/dnf:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'dnf' '{"type":"dnf","repos":{"copr":["netflate/lumine-capture"]},"install":{"packages":["kitty","lumine-capture","kde-partitionmanager","seahorse"]}}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/default-flatpaks:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'default-flatpaks' '{"type":"default-flatpaks","configurations":[{"scope":"system"},{"notify":true,"install":["app.zen_browser.zen","org.kde.dolphin","org.kde.gwenview","org.kde.okular","org.kde.ark","org.kde.kalk","org.videolan.VLC","org.onlyoffice.desktopeditors","com.obsproject.Studio","dev.vencord.Vesktop","org.localsend.localsend_app","dev.zed.Zed"]}]}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/dnf:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'dnf' '{"type":"dnf","repos":{"files":{"add":["netbird.repo"]},"keys":["https://repo.protonvpn.com/fedora-%OS_VERSION%-stable/public_key.asc"]}}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/script:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'script' '{"type":"script","snippets":["dnf install -y https://repo.protonvpn.com/fedora-$(rpm -E %fedora)-stable/protonvpn-stable-release/protonvpn-stable-release-1.0.5-1.noarch.rpm \u0026\u0026 dnf makecache","dnf install -y --setopt=tsflags=noscripts proton-vpn-gnome-desktop","dnf install -y --setopt=tsflags=noscripts netbird netbird-ui gtk4 webkitgtk6.0 xdg-utils"]}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/dnf:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'dnf' '{"type":"dnf","repos":{"files":{"add":["https://download.docker.com/linux/fedora/docker-ce.repo"]}},"install":{"packages":["qemu-kvm","libvirt","virt-install","edk2-ovmf","swtpm","qemu-img","docker-ce","docker-ce-cli","containerd.io","docker-buildx-plugin","docker-compose-plugin","freerdp","uxplay"]}}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/script:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'script' '{"type":"script","snippets":["mkdir -p /var/lib/swtpm-localca","chown tss:tss /var/lib/swtpm-localca","restorecon -Rv /var/lib/libvirt /var/log/libvirt /var/lib/swtpm-localca 2\u003e/dev/null || true"]}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/systemd:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'systemd' '{"type":"systemd","system":{"enabled":["docker.socket","nix-daemon.socket","virtqemud.socket","virtlxcd.socket","virtxend.socket","virtvboxd.socket","virtnetworkd.socket","virtstoraged.socket"],"disabled":["NetworkManager-wait-online.service","fedora-atomic-desktop-mandb-update.service","systemd-oomd.service","docker.service","libvirtd.service"]}}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/systemd:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'systemd' '{"type":"systemd","system":{"disabled":["NetworkManager-wait-online.service","fedora-atomic-desktop-mandb-update.service","systemd-oomd.service"]}}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/dnf:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'dnf' '{"type":"dnf","install":{"packages":["anaconda","anaconda-install-img-deps","anaconda-dracut","dracut-config-generic","dracut-network","dracut-live","net-tools","grub2-efi-x64-cdboot","grub2-common","grub2-pc-modules","grub2-tools","plymouth","default-fonts-core-sans","default-fonts-other-sans","google-noto-sans-cjk-fonts","xorriso","squashfs-tools","jq","isomd5sum","podman","python3"]}}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/script:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'script' '{"type":"script","snippets":["mkdir -p /boot/efi \u0026\u0026 cp -ra /usr/lib/efi/*/*/EFI /boot/efi"]}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/script:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'script' '{"type":"script","snippets":["cat \u003e /usr/lib/dracut/dracut.conf.d/40-iso.conf \u003c\u003c\u0027EOF\u0027\ncompress=\"xz\"\nadd_dracutmodules+=\" qemu qemu-net livenet dmsquash-live anaconda \"\nearly_microcode=\"no\"\nEOF\n","set -xe\nkver=$(ls /usr/lib/modules)\nenv DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img \"$kver\"\n"]}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/script:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'script' '{"type":"script","snippets":["mkdir -p /usr/lib/image-builder/bootc\ncat \u003e /usr/lib/image-builder/bootc/iso.yaml \u003c\u003c\u0027EOF\u0027\nlabel: \"GsdLinux-Installer\"\ngrub2:\n  entries:\n    - name: \"Install GsdLinux (bootc)\"\n      linux: \"/images/pxeboot/vmlinuz inst.stage2=hd:LABEL=GsdLinux-Installer systemd.unit=anaconda.target console=tty0 inst.graphical selinux=0 rhgb quiet\"\n      initrd: \"/images/pxeboot/initrd.img\"\nEOF\n"]}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/script:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'script' '{"type":"script","snippets":["cat \u003e /usr/share/anaconda/interactive-defaults.ks \u003c\u003c\u0027EOF\u0027\nbootc --source-imgref registry:IMAGE-NAME --target-imgref IMAGE-NAME\nEOF\n"]}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/script:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'script' '{"type":"script","snippets":["echo \u0027install:x:0:0:root:/root:/usr/libexec/anaconda/run-anaconda\u0027 \u003e\u003e /etc/passwd","echo \u0027install::14438:0:99999:7:::\u0027 \u003e\u003e /etc/shadow","passwd -d root","mv /usr/share/anaconda/list-harddrives-stub /usr/bin/list-harddrives","mv /usr/share/dnf5/repos.d /etc/anaconda.repos.d","systemctl set-default anaconda.target","systemctl enable anaconda.service","rm -v /usr/lib/systemd/system-generators/systemd-gpt-auto-generator","ln -s /usr/lib/systemd/system/anaconda-shell@.service /usr/lib/systemd/system/autovt@.service","mkdir -p /usr/lib/systemd/logind.conf.d\ncat \u003e /usr/lib/systemd/logind.conf.d/anaconda-shell.conf \u003c\u003c\u0027EOF\u0027\n[Login]\nReserveVT=2\nEOF\n"]}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/script:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'script' '{"type":"script","snippets":["mkdir -p /etc/systemd/user/pipewire.service.d/\ncat \u003e /etc/systemd/user/pipewire.service.d/allowroot.conf \u003c\u003c\u0027EOF\u0027\n[Unit]\nConditionUser=\nEOF\n","mkdir -p /etc/systemd/user/pipewire.socket.d/\ncat \u003e /etc/systemd/user/pipewire.socket.d/allowroot.conf \u003c\u003c\u0027EOF\u0027\n[Unit]\nConditionUser=\nEOF\n"]}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/script:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'script' '{"type":"script","snippets":["systemctl mask bootloader-update.service"]}'
+RUN \
+--mount=type=bind,from=stage-files,src=/files,dst=/tmp/files,rw \
+--mount=type=bind,from=ghcr.io/blue-build/modules/signing:latest,src=/modules,dst=/tmp/modules,rw \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/tmp/scripts/,Z \
+--mount=type=cache,sharing=locked,dst=/var/cache/rpm-ostree,id=rpm-ostree-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/libdnf5,id=dnf-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/zypp,id=zypper-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apk,id=apk-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/apt,id=apt-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/var/cache/pacman,id=pacman-cache-gsdlinux-45-stage-gsdlinux \
+--mount=type=cache,sharing=locked,dst=/usr/lib/sysimage/cache/pacman,id=pacman-sysimage-cache-gsdlinux-45-stage-gsdlinux \
+/tmp/scripts/run_module.sh 'signing' '{"type":"signing"}'
+
+RUN \
+--mount=type=bind,src=.bluebuild-scripts_,dst=/scripts/,Z \
+  /scripts/post_build.sh
+
+# Labels are added last since they cause cache misses with buildah
+LABEL io.artifacthub.package.readme-url="https://raw.githubusercontent.com/blue-build/cli/main/README.md"
+LABEL org.blue-build.build-id="f7f41dfc-0dd4-4e39-808d-45769fe4d84c"
+LABEL org.opencontainers.image.base.digest="sha256:da914ab19940bf2959fba9bcba0c7359982dbb390e4759aa07b64cc58262e441"
+LABEL org.opencontainers.image.base.name="ghcr.io/ublue-os/bazzite-nvidia-open:latest"
+LABEL org.opencontainers.image.created="2026-11-14T12:08:13.476418709+00:00"
+LABEL org.opencontainers.image.description="This is my personal OS image."
+LABEL org.opencontainers.image.source=""
+LABEL org.opencontainers.image.title="gsdlinux"

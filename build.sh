@@ -66,18 +66,20 @@ mkdir -p "${BUILD_DIR}/osbuild-var-tmp"
 mkdir -p "${BUILD_DIR}/osbuild-cache"
 
 echo ">>> [3/3] Generazione ISO in ${ISO_DIR}..."
-sudo podman run --rm --privileged \
-  -v "$(realpath "${BUILD_DIR}/osbuild-tmp"):/tmp:Z" \
-  -v "$(realpath "${BUILD_DIR}/osbuild-var-tmp"):/var/tmp:Z" \
-  -v "$(realpath "${BUILD_DIR}/osbuild-cache"):/var/cache/image-builder:Z" \
-  -v "$(realpath "${ISO_DIR}"):/output" \
-  -v "$(realpath "${BLUEPRINT}"):/blueprint.toml:ro" \
-  -v /var/lib/containers/storage:/var/lib/containers/storage \
-  "${IMAGE_BUILDER_IMAGE}" build \
-  --bootc-ref "${IMAGE_TAG}" \
-  --bootc-default-fs btrfs \
-  --blueprint /blueprint.toml \
-  bootc-generic-iso
+# sudo podman run --rm --privileged \
+#   -v "$(realpath "${BUILD_DIR}/osbuild-tmp"):/tmp:Z" \
+#   -v "$(realpath "${BUILD_DIR}/osbuild-var-tmp"):/var/tmp:Z" \
+#   -v "$(realpath "${BUILD_DIR}/osbuild-cache"):/var/cache/image-builder:Z" \
+#   -v "$(realpath "${ISO_DIR}"):/output" \
+#   -v "$(realpath "${BLUEPRINT}"):/blueprint.toml:ro" \
+#   -v /var/lib/containers/storage:/var/lib/containers/storage \
+#   "${IMAGE_BUILDER_IMAGE}" build \
+#   --bootc-ref "${IMAGE_TAG}" \
+#   --bootc-default-fs btrfs \
+#   --blueprint /blueprint.toml \
+#   bootc-generic-iso
+#
+sudo image-builder build --bootc-ref "${IMAGE_TAG}" --bootc-default-fs btrfs bootc-generic-iso
 
 echo
 echo ">>> Fatto. ISO disponibile in: $(realpath "${ISO_DIR}")"
