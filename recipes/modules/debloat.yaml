@@ -4,18 +4,15 @@
 modules:
   - type: dnf
     remove:
+      auto-remove: true
       packages:
         - plasma-desktop
         - plasma-workspace
         - plasma-login-manager
-        - plasma-discover
-        - plasma-discover-notifier
         - plasma-disks
-        - plasma-drkonqi
         - plasma-nm
         - plasma-nm-openconnect
         - plasma-nm-openvpn
-        - plasma-nm-vpnc
         - plasma-pa
         - plasma-breeze
         - plasma-desktop-doc
@@ -28,7 +25,6 @@ modules:
         - kde-connect
         - kde-gtk-config
         - kde-inotify-survey
-        - kde-partitionmanager
         - kdegraphics-thumbnailers
         - kdeplasma-addons
         - kdenetwork-filesharing
@@ -49,7 +45,6 @@ modules:
         - kunifiedpush
         - kwalletmanager5
         - kwrite
-        - kcharselect
         - kdebugsettings
         - kaccounts-integration-qt6
         - kaccounts-providers
@@ -70,4 +65,3 @@ modules:
         - pam-kwallet
         - phonon-qt6-backend-vlc
         - pinentry-qt
-        - sddm
