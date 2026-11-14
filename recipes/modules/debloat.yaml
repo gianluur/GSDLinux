@@ -2,12 +2,7 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
 
 modules:
-  - type: dnf
-    remove:
-      packages:
-        - "plasma-*"
-        - "kwin-*"
-        - "kf6-*"
-        - "kde-*"
-        - "kio-*"
-        - "kaccounts-*"
+    - type: script
+      snippets:
+          - "sudo dnf remove --setopt=tsflags=noscripts plasma-* kwin-* kde-* kio-* kaccounts-*"
+
