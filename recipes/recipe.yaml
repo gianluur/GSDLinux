@@ -8,6 +8,7 @@ image-version: latest
 
 modules:
   - from-file: modules/configs.yaml
+  - from-file: modules/debloat.yaml
   - from-file: modules/fonts.yaml
   - from-file: modules/cli.yaml
   - from-file: modules/desktop.yaml

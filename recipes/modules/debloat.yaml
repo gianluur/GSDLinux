@@ -1,0 +1,73 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+
+modules:
+  - type: dnf
+    remove:
+      packages:
+        - plasma-desktop
+        - plasma-workspace
+        - plasma-login-manager
+        - plasma-discover
+        - plasma-discover-notifier
+        - plasma-disks
+        - plasma-drkonqi
+        - plasma-nm
+        - plasma-nm-openconnect
+        - plasma-nm-openvpn
+        - plasma-nm-vpnc
+        - plasma-pa
+        - plasma-breeze
+        - plasma-desktop-doc
+        - kwin
+        - kscreen
+        - kscreenlocker
+        - kcm-plasmalogin
+        - kde-settings-plasmalogin
+        - kde-settings-pulseaudio
+        - kde-connect
+        - kde-gtk-config
+        - kde-inotify-survey
+        - kde-partitionmanager
+        - kdegraphics-thumbnailers
+        - kdeplasma-addons
+        - kdenetwork-filesharing
+        - kdialog
+        - kdnssd
+        - kf6-baloo-file
+        - kfind
+        - khelpcenter
+        - kinfocenter
+        - kio-admin
+        - kio-gdrive
+        - kjournald
+        - kmenuedit
+        - konsole
+        - krdp
+        - krfb
+        - ksshaskpass
+        - kunifiedpush
+        - kwalletmanager5
+        - kwrite
+        - kcharselect
+        - kdebugsettings
+        - kaccounts-integration-qt6
+        - kaccounts-providers
+        - akonadi-server
+        - akonadi-server-mysql
+        - ark
+        - audiocd-kio
+        - aurorae
+        - bluedevil
+        - breeze-icon-theme
+        - colord-kde
+        - dolphin
+        - ffmpegthumbs
+        - filelight
+        - flatpak-kcm
+        - fprintd-pam
+        - libappindicator-gtk3
+        - pam-kwallet
+        - phonon-qt6-backend-vlc
+        - pinentry-qt
+        - sddm
