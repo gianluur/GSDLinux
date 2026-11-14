@@ -1,0 +1,6 @@
+#!/usr/bin/sh
+
+if test -n "$PAM_KWALLET5_LOGIN" ; then
+    QUOTING_STYLE=literal env -u QUOTING_STYLE | socat STDIN UNIX-CONNECT:$PAM_KWALLET5_LOGIN
+fi
+

@@ -1,0 +1,225 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What is D-Bus? &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Release notes" href="release-notes.html" />
+    <link rel="prev" title="Design &amp; Limitations" href="design.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">What is D-Bus?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#methods-signals">Methods &amp; signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#names">Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#message-buses">Message buses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#special-features">Special features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">What is D-Bus?</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dbus-background.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="what-is-d-bus">
+<h1>What is D-Bus?<a class="headerlink" href="#what-is-d-bus" title="Link to this heading"></a></h1>
+<p>D-Bus is a system for programs on the same computer to communicate.
+It’s used primarily on Linux, to interact with various parts of the operating
+system.</p>
+<p>For example, take desktop notifications - the alerts that appear to tell you
+about things like new chat messages.</p>
+<figure class="align-default" id="id1">
+<img alt="_images/desktop-notification.png" src="_images/desktop-notification.png" />
+<figcaption>
+<p><span class="caption-text">A desktop notification on GNOME</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>A program that wants to display a notification sends a D-Bus message to the
+‘notification server’, which displays an alert for a brief time and then hides
+it again. Different desktops, like GNOME and KDE, have different notification
+servers, but they handle the same messages (defined in the <a class="reference external" href="https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html">desktop notification
+spec</a>),
+so programs don’t need to do different things for different desktops.</p>
+<p>Other things that use D-Bus include:</p>
+<ul class="simple">
+<li><p>Retrieving passwords from the desktop’s ‘keyring’</p></li>
+<li><p>Disabling the screensaver while playing a film</p></li>
+<li><p>Special keyboard keys, like pause &amp; skip track, working with whichever
+media player you use.</p></li>
+<li><p>Opening a user’s files in a sandboxed (<a class="reference external" href="https://flatpak.org/">Flatpak</a>)
+application.</p></li>
+</ul>
+<section id="methods-signals">
+<h2>Methods &amp; signals<a class="headerlink" href="#methods-signals" title="Link to this heading"></a></h2>
+<p>D-Bus uses two types of messaging:</p>
+<p><strong>Method calls</strong> go to a specific destination, which replies with either a
+‘method return’ or an error message. In the notifications example above,
+the program sends a method call message to the notification server to ask it
+to display a notification.</p>
+<p><strong>Signals</strong> are sent out to any program that subscribes to them. For example,
+when a desktop notification is closed, the notification server sends a signal.
+The application might use this to choose between updating the notification
+(’<strong>2</strong> new messages’) or sending a new one. There’s no reply to a signal,
+and the sender doesn’t know if anything received it or not.</p>
+</section>
+<section id="names">
+<h2>Names<a class="headerlink" href="#names" title="Link to this heading"></a></h2>
+<p>There are a lot of names in D-Bus, and they can look quite similar.
+For instance, displaying a desktop notification involves sending a message to
+the bus name <code class="docutils literal notranslate"><span class="pre">org.freedesktop.Notifications</span></code>, for the object
+<code class="docutils literal notranslate"><span class="pre">/org/freedesktop/Notifications</span></code>, with the interface
+<code class="docutils literal notranslate"><span class="pre">org.freedesktop.Notifications</span></code>. What do those all mean?</p>
+<ul class="simple">
+<li><p>The bus name (<code class="docutils literal notranslate"><span class="pre">.</span></code> separated) is which program you’re talking to.</p></li>
+<li><p>The object name (<code class="docutils literal notranslate"><span class="pre">/</span></code> separated) is which thing inside that program you want
+to use, e.g. which password in the keyring.</p></li>
+<li><p>The interface name (<code class="docutils literal notranslate"><span class="pre">.</span></code> separated) is which set of methods and signals
+you are using. Most objects have one main interface plus a few
+standard ones for things like introspection (finding what methods are
+available).</p></li>
+</ul>
+<p>Finally, a simple name like <code class="docutils literal notranslate"><span class="pre">Notify</span></code> or <code class="docutils literal notranslate"><span class="pre">NotificationClosed</span></code> identifies
+which method is being called, or which signal is being sent, from a list for
+that interface.</p>
+<p>The bus, object and interface names are all based on reversed domain names.
+The people who control <a class="reference external" href="https://freedesktop.org/">https://freedesktop.org/</a> can define names starting
+with <code class="docutils literal notranslate"><span class="pre">org.freedesktop.</span></code> (or <code class="docutils literal notranslate"><span class="pre">/org/freedesktop/</span></code> for objects). There’s no way
+to enforce this, but so long as everyone sticks to it, we don’t have to worry
+about the same name being used for different things.</p>
+</section>
+<section id="message-buses">
+<h2>Message buses<a class="headerlink" href="#message-buses" title="Link to this heading"></a></h2>
+<p>Applications using D-Bus connect to a <em>message bus</em>, a small program which is
+always running. The bus takes care of delivering messages to other applications.</p>
+<p>There are normally two buses you need to know about.
+Each logged-in user has their own <strong>session bus</strong>, handling things
+like desktop notifications (and the other examples above).</p>
+<p>The <strong>system bus</strong> is shared for all users. In particular, requests sent via the
+system bus can do things that would otherwise require admin (sudo) access, like
+unmounting a USB stick or installing new packages. (How the system decides
+whether to allow these actions or not is a separate topic - look up ‘polkit’ if
+you want to know about that).</p>
+<p>You can also talk to the message bus itself (using D-Bus messages, of course).
+This is how you subscribe to signals, or claim a bus name so other programs can
+send you method calls. The message bus has the name <code class="docutils literal notranslate"><span class="pre">org.freedesktop.DBus</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Programs <em>can</em> agree some other way to connect and send each other D-Bus
+messages without a message bus. This isn’t very common, though.</p>
+</div>
+</section>
+<section id="special-features">
+<h2>Special features<a class="headerlink" href="#special-features" title="Link to this heading"></a></h2>
+<p>You can send a D-Bus message to a program that’s not even running, and the
+message bus will start it and then deliver the message. This feature
+(<em>activation</em>) means that programs don’t have to stay running just to reply to
+D-Bus method calls. A config file installed with the application defines its
+bus name and how to launch it.</p>
+<p>Because D-Bus is designed to be used between programs on the same computer,
+it can do things that are impossible over the network. D-Bus messages can
+include ‘file descriptors’, handles for things like open files, pipes and
+sockets. This can be used to selectively give a program access to something
+that would normally be off limits. See <a class="reference internal" href="integrate.html#send-recv-fds"><span class="std std-ref">Sending &amp; receiving file descriptors</span></a> for how to use this
+from Jeepney.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://www.freedesktop.org/wiki/IntroductionToDBus/">Introduction to D-Bus (freedesktop.org)</a></p>
+<p><a class="reference external" href="https://develop.kde.org/docs/d-bus/introduction_to_dbus/">Introduction to D-Bus (KDE)</a></p>
+<p><a class="reference external" href="https://pythonhosted.org/txdbus/dbus_overview.html">D-Bus overview (txdbus)</a></p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="design.html" class="btn btn-neutral float-left" title="Design &amp; Limitations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="release-notes.html" class="btn btn-neutral float-right" title="Release notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

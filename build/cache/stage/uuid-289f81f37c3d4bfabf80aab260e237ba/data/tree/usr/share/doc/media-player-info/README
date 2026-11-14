@@ -1,0 +1,118 @@
+INTRODUCTION
+============
+
+media-player-info is a repository of data files describing media player
+(only USB Mass Storage ones) capabilities. These files contain information
+about the directory layout to use to add music to these devices, about the
+supported file formats, ... These capabilities used to be provided by HAL 
+in the 10-usb-music-players.fdi file but had to be moved elsewhere as part
+of the big HALectomy.
+
+The music player capabilities are now described in .mpi files (which are 
+.ini-like files) which you can find in media-players/. These mpi files are
+used to generate an udev rule to identify these devices. This rule associate
+an ID_MEDIA_PLAYER attribute to the media player devices. This attribute
+specifies the name of the .mpi file to use to find out the device
+capabilities. The .mpi can then be looked up in $XDG_DATA_DIRS/media-player-info
+(see the XDG Base Directory Specification for more information about what
+this means).
+
+Both the mpi files and the udev rule have to be installed on the system.
+Indeed, the udev rule only contain what is strictly necessary, ie it only
+matches media player devices and set an ID_MEDIA_PLAYER udev property on 
+the device. This property contains the name of the mpi file. It's up to 
+applications needing detailed information about media players (like the audio 
+formats they support, ...) to parse this file and extract whatever is necessary
+from it. The media player information isn't included directly in udev database
+because not many apps need it, and because we didn't want to repeat the same
+mistakes as HAL and include everything in its database.
+
+If you encounter an USB Mass Storage device that isn't detected correctly, 
+please open a bug against media-player-info :
+https://bugs.freedesktop.org/enter_bug.cgi?product=media-player-info
+
+
+MPI FILE FORMAT
+===============
+
+Each mpi file is separated in several sections:
+- [Device] (only mandatory section)
+- [Media]
+- [Playlist]
+- [storage]
+
+
+The [Device] section contains information about the media player:
+- Product: human-readable product (device) name
+- Vendor: human-readable vendor name
+- AccessProtocol: the way this device is accessed. For now the only
+  supported value is "storage" for USB mass storage devices.
+- Icon: (optional) Icon name to use instead of the default "media-player".
+
+For actually identifying a player from hardware information in /sys, there are
+two possibilities:
+
+- DeviceMatch field: semi-colon separated list of "usb:<vid>:<pid>" values
+  (<vid> is the USB vendor ID, <pid> is the USB product ID). This lists all the
+  USB that are described by the current mpi file.
+
+- A combination of "USBVendor", "USBProduct", "USBModel", and "USBManufacturer"
+  strings (which map to the corresponding sysfs fields). You can use the '*'
+  wildcard. See apple-ipod.mpi for an example.
+
+The [Media] section describes in more details which media formats the player
+supports. For now it only describes audio capabilities, but video or artwork
+capabilities might be added in the future. Each entry in the Media section
+is a semi-colon-separated list of media mime types (audio/mpeg, audio/x-wav,
+...).
+- InputFormats: audio formats the media player can record to
+- OutputFormats: audio formats the media player can play back
+
+
+The [Playlist] section describes the player playlist capabilites. If it's
+absent, it means the player doesn't support playlists (or that the information
+contained in media-player-info is incomplete, in such a case, please email us
+or file a bug).
+- Formats: a semi-colon-separated list of the mime-types of the
+  playlist formats supported by the device
+- FolderSeparator: separator between directory/file names in playlist files. If
+  not given, "Unix" is assumed, which uses '/'. Some players require 
+  "DOS", which will use '\'. Other values are invalid and will be ignored.
+- LineEnding: line separator in playlist files. This can have the values 'CR',
+  'LF', or 'CRLF', which correspond to 0x0D (\r), 0x0A (\n), and 0x0D0A (\r\n)
+  respectively. If not given, the default behaviour depends on the music player
+  software.
+
+The [storage] section describes the location where media files can be found and
+have to be stored.
+- AudioFolders: a semi-colon-separeted list of directories where audio files
+  can be found and must be stored
+- PlaylistPath: describes where and how the playlist files can be found and
+  have to be stored 
+- RequiresEject: the eject ioctl is required to properly eject the media
+- FolderDepth: this tells applications exactly how deep of directory
+  hierarchies files should be placed in. If the device does not have a
+  limit, do not set this property.
+
+
+MPI FILES NAMING CONVENTION
+===========================
+The current naming convention for .mpi file is as follows :
+
+<vendor>_<device>.mpi
+
+Where :
+- <vendor> is the official name of the device's manufacturer. If the same
+  usb id is used by different market names, use the manufacturer name from
+  usb.ids/lsusb. If vendor name has more than one word, words are separated by
+  '-'
+- <device> is the official name of the device. If the same .mpi file matches
+  more than one device, you can separate devices with extra "_". If the .mpi
+  file matches a lot of different market names, you can use 0x1111 where 1111
+  is the product id of the device (in this case, use a generic name inside the
+  .mpi file (e.g. "Mobile phone", "Media player"). If device name has more than
+  one word, words are separated by '-'
+
+Please note that these conventions are not absolute rules but we try to keep
+the naming coherant.
+

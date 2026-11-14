@@ -1,0 +1,347 @@
+Changes in 1.15.3
+=================
+Released: 2025-03-21
+
+- Fix build against newer xdg-desktop-portal
+- Fix return value for the access portal
+
+Changes in 1.15.2
+=================
+Released: 2025-01-09
+
+- Plug memory leak in the notification portal backend
+- Implement the contrast setting
+- Set correct platform data for notification activation
+- Drop use of private GNOME Shell notification API
+- Depend on the graphical-session target
+- Ensure proper shutdown target
+- Build against xdg-desktop-portal >= 1.19.1
+- Translation updates
+
+Changes in 1.15.1
+=================
+Released: 2023-10-21
+
+- Fix build of feature-gated portals
+
+Changes in 1.15.0
+=================
+Released: 2023-10-20
+
+- Switch to the Meson build system, and drop Autotools
+- Drop most use of private GNOME API; the following portal interfaces
+  have been removed:
+    - org.freedesktop.impl.portal.Screenshot
+    - org.freedesktop.impl.portal.ScreenCast
+    - org.freedesktop.impl.portal.RemoteDesktop
+    - org.freedesktop.impl.portsl.Background
+- Do not add duplicate notifications
+- Expose the org.gnome.desktop.calendar settings
+- Fix type for org.gnome.desktop.background.picture-uri setting
+- Support current_folder in org.freedesktop.impl.portal.FileChooser
+- Update list of translatable files
+- Translation updates
+
+Changes in 1.14.1, 2022-11-29
+=============================
+
+- printing, wallpaper: Fix some memory leaks
+- printing: Consistently include .desktop in the fallback app name
+- screencast: Fall back to desktop ID if we don't know the app name
+- appchooser: Fix a use-after-free
+- wallpaper: Handle errors storing images in the cache
+- email: Fix a crash if no addresses are provided
+- notification: Fix notifications for apps with no ID not appearing
+- screenshot: Report whether PickColor is implemented, if possible
+  (this requires a sufficiently new xdg-desktop-portal at runtime)
+
+Changes in 1.14.0, 2022-03-18
+=============================
+
+- Add an implementation of the dynamic launcher portal
+- notification: Fix activation of default action with target
+- New translations: oc, pt
+- Translation updates
+
+Changes in 1.12.0, 2021-12-21
+=============================
+
+- settings: Provide org.freedesktop.appearance.color-scheme key
+- settings: Handle org.gnome.desktop.a11y.interface schema
+- notification: Handle actions with targets properly
+- Enable settings and appchooser portals by default
+- Translation updates
+
+Changes in 1.10.0
+=================
+
+- filechooser: Fix a focus issue
+- inhibit: Autostart org.gnome.ScreenSaver
+- screencast: Force window icon size
+- Make portal backends with GNOME dependencies optional and
+  disable them by default. Use xdg-desktop-portal-gnome, or use
+  --enable-wallpaper to build with the wallpaper backend
+  --enable-screenshot to build with the screenshot backend
+  --enable-screencast to build with screencast/remoting backends
+  --enable-background to build with the background backend
+  --enable-settings to build with the settings backend
+  --enable-appchooser to build with the appchooser backend
+- Translation updates
+
+Changes in 1.8.0
+================
+
+- filechooser: Return the current filter
+- screenshot: Fix cancellation
+- appchooser: Avoid a crash
+- wallpaper: Properly preview placement settings
+- wallpaper: Drop the lockscreen option
+- printing: Improve the notification
+- Translation updates
+
+Changes in 1.7.1
+================
+
+- filechooser: Handle the "directory" option to select directories
+- filechooser: Only show preview when we have an image
+- Translation updates
+
+Changes in 1.7.0
+================
+
+- screencast: Support mutter version 3
+- settings: Fall back to gsettings for enable-animations
+- Translation updates
+
+Changes in 1.6.0
+================
+
+- Translation updates
+
+Changes in 1.5.2
+================
+
+- email: Work with sandboxed email clients
+- wallpaper: Support http: uris
+- wallpaper: Improve preview
+- appchooser: Modernize the appearance
+- background: Improve application monitoring
+- Require xdg-desktop-portal 1.5
+
+Changes in 1.5.1
+================
+
+* settings: Get animations-enabled setting from gnome-shell
+* wallpaper: Add a portal backend for setting desktop backgrounds
+* email: Support multiple addresses, cc and bcc
+* filechooser: Support saving multiple files
+* Translation updates
+
+Changes in 1.5.0
+================
+
+* screencast: Support window selection
+* screencast: Fix a crash
+* settings: Add a settings portal backend
+* settings: Handle enable-animations setting like gsd
+* Translation updates
+
+Changes in 1.4.0
+================
+
+* Translation updates
+* inhibit: Implement session state tracking
+* screencast: Allow selecting source types
+* screencast: Support cursor modes
+* Add a background & autostart portal
+
+Changes in 1.2.0
+================
+
+* Translation updates
+* file chooser: Support setting current filter
+
+Changes in 1.1.1
+================
+
+* lockdown: Implement the lockdown backend
+* email: Be more careful when selecting a handler
+* Translation updates
+
+Changes in 1.1.0
+================
+
+* Respect GNOME lockdown settings for printing, save-to-disk and app choosing
+* filechooser: Set proper default accept label
+* appchooser: Implement UpdateChoices and update the dialog
+* Translation updates
+
+Major changes in 1.0.2
+======================
+
+* filechooser: Add returned files to recent files
+* inhibit: Implement screensaver monitoring
+
+Major changes in 1.0.1
+======================
+
+* Use gvfs
+* Unset GTK_USE_PORTAL
+* Require xdg-desktop-portal 1.0
+* Translation updates
+
+Major changes in 1.0
+====================
+
+* screenshot: Add a PickColor method
+* screencast: Some UI improvements
+* Improve --help output
+
+Major changes in 0.99
+=====================
+
+* Shorten excessively long filenames in the app chooser dialog
+* Fixes for the screencast portal
+* Support more email clients in the Email portal
+* Fix a crash in the print portal
+
+Major changes in 0.11
+=====================
+
+* Add dependency on gio-unix-2.0.
+* remotedesktop: Add support for the 'finish' flag of NotifyPointerAxis.
+* remotedesktop: Correctly expose device types supporting remote control.
+* print: Add a 'Print Preview' button (requires evince-previewer).
+* screenshot: Make sure the dialog is shown in the interactive case.
+
+* Translation updates
+ Brazilian Portuguese
+ Chinese (Taiwan)
+ Czech
+ Hungarian
+ Indonesian
+ Italian
+ Lithuanian
+ Spanish
+ Ukrainian
+
+Major changes in 0.10
+=====================
+
+ * Fix critical in file chooser
+ * Add options to screenshot portals
+ * Add screencast and remote portal implementations
+
+Major changes in 0.9
+====================
+
+* Improve the app picker ui
+
+* Fix error reporting in the email portal
+
+* Translation updates
+ Brazilian Portuguese
+ Czech
+ Galician
+ Indonesian
+ Italian
+ Polish
+ Slovak
+ Turkish
+ Ukrainian
+
+* Version 0.8 was skipped
+
+Major changes in 0.7
+====================
+
+* Add a more complete app chooser dialog
+
+* Fix problems with the notification portal
+
+* Translation updates:
+ Brazilian Portuguese
+ Czech
+ Italian
+ Polish
+
+
+Major changes in 0.6
+====================
+
+* Implement the portal for composing email. Currently supported
+  clients: evolution, thunderbird
+
+* Install a systemd service file to put xdg-desktop-portal-gtk
+  into its own cgroup
+
+* Install a desktop file to provide an icon and name for
+  xdg-desktop-portal-gtk
+
+* Apply image rotations in the file chooser preview
+
+* Add a new app chooser dialog
+
+* Translation updates
+ Brazilian Portuguese
+ French
+ German
+ Hungarian
+ Swedish
+ Ukrainian
+
+
+Major changes in 0.5
+====================
+
+* Add Wayland transient parent support to all portals
+
+* Support non-exported actions in the notification portal
+
+* Add image preview to the filechooser portal
+
+* Added backend interfaces:
+ - org.freedesktop.impl.portal.Account
+
+* Translation updates
+ Czech
+ Serbian
+ Simplified Chinese
+ Swedish
+
+
+Major changes in 0.3
+====================
+
+* Add Wayland support for transient-for dialogs
+
+* Translation updates:
+ Brazilian Portuguese
+ Hungarian
+ Slovak
+ Ukrainian
+
+
+Major changes in 0.2
+====================
+
+* Make app chooser use app ids without .desktop
+
+* Added backend interfaces:
+ - org.freedesktop.impl.portal.Access
+
+* Translation updates
+ German
+ Polish
+
+
+Initial release 0.1
+===================
+
+Implemented portal backend interfaces:
+ * org.freedesktop.impl.portal.FileChooser
+ * org.freedesktop.impl.portal.Print
+ * org.freedesktop.impl.portal.AppChooser
+ * org.freedesktop.impl.portal.Screenshot
+ * org.freedesktop.impl.portal.Inhibit
+ * org.freedestkop.impl.portal.Notification

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-nintendo-3ds-smdh">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Nintendo 3DS icon file</comment>
+  <acronym>SMDH</acronym>
+  <expanded-acronym>System Menu Data Header</expanded-acronym>
+  <sub-class-of type="image/x-generic"/>
+  <generic-icon name="image-x-generic"/>
+  <alias type="application/x-ctr-smdh"/>
+  <glob pattern="*.smdh"/>
+  <glob pattern="*.icn"/>
+</mime-type>

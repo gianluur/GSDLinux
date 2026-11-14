@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-ique-cmd">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>iQue Player content metadata file</comment>
+  <acronym>CMD</acronym>
+  <expanded-acronym>Content Metadata</expanded-acronym>
+  <sub-class-of type="application/octet-stream"/>
+  <generic-icon name="application-octet-stream"/>
+</mime-type>

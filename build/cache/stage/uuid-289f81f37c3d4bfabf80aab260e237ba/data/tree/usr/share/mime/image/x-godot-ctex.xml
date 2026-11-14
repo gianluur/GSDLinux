@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="image/x-godot-ctex">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Godot CTEX (v4) texture image</comment>
+  <sub-class-of type="image/x-generic"/>
+  <glob pattern="*.ctex"/>
+  <generic-icon name="image-x-generic"/>
+</mime-type>

@@ -1,0 +1,17 @@
+{
+  "lockfileVersion": 1,
+  "plugins": {
+    "calculator": {
+      "repo": "https://github.com/rochacbruno/DankCalculator",
+      "commit": "a27b80ad8c3dd42da11af83461674fb362817515"
+    },
+    "dankSoftwareDepot": {
+      "repo": "https://github.com/vinceecniv/DuxSoftwareDepot",
+      "commit": "41ae00755fe8c4d926b3344a86450d036fe98893"
+    },
+    "smartTimer": {
+      "repo": "https://github.com/lung595/Sands",
+      "commit": "0f49779d5c96c38b8d983f6833031e17581e2005"
+    }
+  }
+}

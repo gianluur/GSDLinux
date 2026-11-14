@@ -1,0 +1,5231 @@
+2019-07-03  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.20.0
+
+2019-04-23  Klas Lindfors <klas@yubico.com>
+
+	* : commit 72a8a15cd4ea24abd4a16ac2db2a964dad5ef81e Author: Ernie
+	Hershey <github@ernie.org> Date:   Thu Apr 18 17:09:30 2019 -0400
+
+2019-03-15  Klas Lindfors <klas@yubico.com>
+
+	* : commit 731d6b5cee16670e896ceddd8badb3704f1664da Merge: 3bd3104
+	5b29733 Author: Klas Lindfors <klas@yubico.com> Date:   Fri Mar 15
+	09:06:32 2019 +0100
+
+2019-03-15  Klas Lindfors <klas@yubico.com>
+
+	* : commit f0ae7670a4f5b04419a85855b9cb889d19826d46 Author: Gabriel
+	Kihlman <g.kihlman@yubico.com> Date:   Thu Mar 14 12:35:19 2019
+	+0100
+
+2019-03-14  Gabriel Kihlman <g.kihlman@yubico.com>
+
+	* ykpers.c: Clear potentially sensitive material from stack
+	allocated buffer
+
+2019-03-14  Gabriel Kihlman <g.kihlman@yubico.com>
+
+	* ykcore/ykcore.c: Return the handle to the opened key
+
+2019-03-11  Klas Lindfors <klali@avm.se>
+
+	* : Merge pull request #139 from Yubico/open_vid_pid add yk_open_key_vid_pid() function allowing vid and pid to be
+	specified
+
+2019-03-05  pedro martelletto <pedro@yubico.com>
+
+	* contrib/oath-unlock-reprogram.sh: contrib/oath-unlock-reprogram:
+	rely on /dev/urandom's distribution as per https://github.com/Yubico/developers.yubico.com/issues/87
+
+2019-03-05  pedro martelletto <pedro@yubico.com>
+
+	* ykpersonalize.1.adoc: ykpersonalize.1: rely on /dev/urandom's
+	distribution to generate secrets as per https://github.com/Yubico/developers.yubico.com/issues/87
+
+2019-03-04  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac, libykpers-1.map, ykcore/ykcore.c, ykcore/ykcore.h,
+	ykcore/ykcore_backend.h, ykcore/ykcore_libusb-1.0.c,
+	ykcore/ykcore_libusb.c, ykcore/ykcore_osx.c, ykcore/ykcore_stub.c,
+	ykcore/ykcore_windows.c: add yk_open_key_vid_pid() function allowing
+	vid and pid to be specified fixes #136
+
+2019-02-22  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump version to 1.19.4
+
+2019-02-22  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.19.3
+
+2019-02-22  Alessio Di Mauro <a-dma@users.noreply.github.com>
+
+	* : Merge pull request #137 from Yubico/fix_wrongsize ykcore: the length check should only be done if expect_bytes > 0
+
+2019-02-20  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4win.mk: win: step back down to json-c 0.11 and add
+	-Wno-error so travis works and we can build it..
+
+2019-02-19  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions to 1.19.3
+
+2019-02-19  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.19.2
+
+2019-02-19  Klas Lindfors <klali@avm.se>
+
+	* : Merge pull request #134 from Yubico/expect_fix ykcore: fix broken check for expected length from device
+
+2019-02-19  Klas Lindfors <klali@avm.se>
+
+	* : Merge pull request #135 from Yubico/mac_is_bsd tests: osx is a bsd variant as well
+
+2019-02-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4win.mk: bump libjson for windows
+
+2019-02-19  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump version to 1.19.2
+
+2019-02-19  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.19.1
+
+2019-02-19  Klas Lindfors <klas@yubico.com>
+
+	* : commit 4fda553da54123dfaac17856242a016bb3ae3f6d Merge: f8af9d0
+	b7a9673 Author: Klas Lindfors <klas@yubico.com> Date:   Mon Feb 18
+	14:56:53 2019 +0100
+
+2019-02-18  Trevor Bentley <trevor@yubico.com>
+
+	* ykcore/Makefile.am: Add ykbzero to Makefile
+
+2019-01-25  Trevor Bentley <trevor@yubico.com>
+
+	* ykpers-json.c: Fix: Exported JSON might not be null terminated
+
+2019-01-25  Trevor Bentley <trevor@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.c: Fix: possible buffer overflows in CLI argument
+	parsing
+
+2019-01-25  Trevor Bentley <trevor@yubico.com>
+
+	* ykpers-args.c, ykpersonalize.c: Fix: possible out-of-bounds access
+	after fgets()
+
+2019-01-21  Trevor Bentley <trevor@yubico.com>
+
+	* ykpers.c: Fix: handle snprintf errors
+
+2019-01-18  Trevor Bentley <trevor@yubico.com>
+
+	* configure.ac, ykcore/ykbzero.h, ykcore/ykcore.c: Fix: clear
+	sensitive stack variables after use
+
+2019-01-18  Trevor Bentley <trevor@yubico.com>
+
+	* ykcore/ykcore.c: Fix: validate key responses are expected length
+
+2019-01-18  Trevor Bentley <trevor@yubico.com>
+
+	* ykpbkdf2.c: Fix: bounds check of PBKDF2 salt length
+
+2019-01-18  Trevor Bentley <trevor@yubico.com>
+
+	* ykpers.c: Fix: check for overflows when using snprintf
+
+2019-02-07  Heiko Becker <heirecka@exherbo.org>
+
+	* tests/test_args_to_config.c: Handle the *BSDs specifically instead
+	of glibc and win After all they appear to be different in that regard.  This also
+	fixes building with musl (#115).
+
+2019-01-02  Klas Lindfors <klas@yubico.com>
+
+	* : commit cfbc245bbf9218717623d2a4cb076f05179227d4 Author: Tero
+	Paloheimo <tero.paloheimo@iki.fi> Date:   Tue Jan 1 21:38:46 2019
+	+0200
+
+2018-11-13  Klas Lindfors <klas@yubico.com>
+
+	* : commit 6db09804f638478bdcb396973f07a871dbcda105 Author: Yonghyun
+	Kim <drvoss@gmail.com> Date:   Tue Nov 13 08:45:55 2018 +0900
+
+2018-11-13  Klas Lindfors <klas@yubico.com>
+
+	* : commit 77e6316651a21cfa2b18b392da8524c0010b8284 Author: Yonghyun
+	Kim <drvoss@gmail.com> Date:   Tue Nov 13 08:50:42 2018 +0900
+
+2018-10-24  Klas Lindfors <klas@yubico.com>
+
+	* : commit a89947138c0e32e3aa3220d91a28520545c9ffa9 Author: Tero
+	Paloheimo <tero.paloheimo@iki.fi> Date:   Wed Oct 24 17:27:49 2018
+	+0300
+
+2018-10-16  Klas Lindfors <klas@yubico.com>
+
+	* : commit 67db50e3b6b6489b8b75d5a970071b98953a11ea Author: Gabriel
+	Kihlman <g.kihlman@yubico.com> Date:   Tue Oct 16 13:53:56 2018
+	+0200
+
+2018-09-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: json: error out on randomSeed instead of silently
+	not providing it also don't set ykp_errno when there's no error
+
+2018-04-24  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after release
+
+2018-04-24  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.19.0
+
+2018-04-24  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1.adoc: manpage for -D option
+
+2018-04-19  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.c: add ykpersonalize command -D to set device info takes an encoded string and sends to the device
+
+2018-04-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: additions for yubikey version 5
+
+2018-03-23  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac, libykpers-1.map: bump version to 1.19.0 and
+	update stuff
+
+2018-03-23  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c, ykcore/ykcore.h, ykcore/ykdef.h: add
+	yk_write_device_info() for writing device info
+
+2018-01-16  Thordur Bjornsson <thorduri@yubico.com>
+
+	* doc/Compatibility.asciidoc: doc: Update compat
+
+2018-01-16  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after release
+
+2018-01-16  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.18.1
+
+2018-01-16  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_yk_utilities.c, ykcore/ykcore.c: treat all firmware
+	versions as supported due to backwards compatibility etc it doesn't really make sense to
+	continually update a list of known firmware versions
+
+2018-01-16  Klas Lindfors <klas@yubico.com>
+
+	* : commit 152aec812c73349647f2225d9723649bb498e4f0 Author: Robert
+	Giles <rgtx@users.noreply.github.com> Date:   Fri Jan 12 16:31:53
+	2018 -0600
+
+2017-12-11  Klas Lindfors <klas@yubico.com>
+
+	* README: typo: it's -> its reported at
+	https://github.com/Yubico/developers.yubico.com/issues/91
+
+2017-10-24  Klas Lindfors <klas@yubico.com>
+
+	* : commit 69b2a1da08054590b64c9891a88b38babdd9ccc9 Author: Klas
+	Lindfors <klas@yubico.com> Date:   Tue Oct 24 08:47:58 2017 +0200
+
+2017-10-22  Patrick C. F. Ernzer <pcfe@pcfe.net>
+
+	* README: DNF is the default package manager since Fedora 22.
+
+2017-05-17  Dag Heyman <dag@yubico.com>
+
+	* : commit 55d3dee55b29eb7af6fd20731f2c60cc3d150301 Author: Dag
+	Heyman <dag@yubico.com> Date:   Wed May 17 10:53:45 2017 +0200
+
+2017-05-17  Klas Lindfors <klas@yubico.com>
+
+	* : commit 3fc99635ea567d729da84b9dab5c09b54046497d Author:
+	Alexandre <pcraft@outlook.fr> Date:   Tue May 16 19:33:09 2017 +0200
+
+2017-04-24  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: warnings fixup
+
+2017-04-20  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1.adoc: more updates to manual to mark values as
+	optional
+
+2017-04-20  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: update help output for optional arguments
+
+2017-04-20  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1.adoc: Add a few words to manpage about stdin
+	prompting
+
+2017-04-20  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.c: move all key handling to ykpers-args and support h:
+	and m: syntax
+
+2017-04-20  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpersonalize.c: move reading of key from stdin to
+	ykpers-args to align
+
+2017-04-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: fix so we parse optional arguments correctly this is a bit crazy, but when we get an argument that might be
+	optional, check if the first character of it is -, in that case step
+	back optind and ask for it on stdin, otherwise we take the next
+	option as this ones argument.
+
+2017-04-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: try to fixup whitespace damage this occured in 61411d7dcfd357f710dd679ee5620fa60df82416
+
+2017-04-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: support reading private id from stdin
+
+2017-04-19  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.c: support reading accesscode from stdin, not only
+	command line requires some minor refactoring
+
+2017-01-27  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after release
+
+2017-01-27  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: add NEWS for 1.18.0
+
+2017-01-27  Klas Lindfors <klas@yubico.com>
+
+	* build-and-test.sh: do check-doc-dist on travis
+
+2017-01-27  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am: move around EXTRA_DIST to match for check-doc-dist
+	check
+
+2017-01-11  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpersonalize.c: handle -V (version) in first run
+	of getopt this way no yubikey has to be present for -V to work..
+
+2017-01-10  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_windows.c: ykcore_win: break out of the loop after
+	finding a yubikey if this is not done anything found after the yubikey will leak a
+	filedescriptor
+
+2017-01-10  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpersonalize.c: args: :: is a gnu-ism in getopt()
+	that doesn't work on bsd handle this by catching the case where getopt() returns that we
+	didn't give an argument to -S or -a and check optopt and handle the
+	case of no argument there fixes #94
+
+2017-01-10  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: add a test for scanmap args without
+	arguments relates #94
+
+2016-11-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1.adoc: fixup documentation of the send-ref flag
+
+2016-11-01  Thordur Bjornsson <thorduri@users.noreply.github.com>
+
+	* : Merge pull request #91 from Yubico/usage-no-args Usage: Print it if called with no arguments.
+
+2016-09-30  Thordur Bjornsson <thorduri@yubico.com>
+
+	* ykpers-args.c: ykpers-args: print usage when called with no args
+
+2016-09-30  Thordur Bjornsson <thorduri@yubico.com>
+
+	* ykpers-args.c: ykpers-args: drop debug printf
+
+2016-09-30  Thordur Bjornsson <thorduri@users.noreply.github.com>
+
+	* : Merge pull request #90 from Yubico/t-janitor Janitorial: Small fixups.
+
+2016-09-30  Thordur Bjornsson <thorduri@yubico.com>
+
+	* ykpers.c: ykpers: Fixup logic error in version cmp
+
+2016-09-30  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, build-and-test.sh: do set -e after installing
+	dependencies and hope for the best..
+
+2016-09-30  Klas Lindfors <klas@yubico.com>
+
+	* build-and-test.sh: autoreconf after installing dependencies
+
+2016-09-30  Klas Lindfors <klas@yubico.com>
+
+	* build-and-test.sh: fixup libtool for mac builds on travis
+
+2016-09-15  Klas Lindfors <klas@yubico.com>
+
+	* build-and-test.sh: more fixes for mac build
+
+2016-09-15  Klas Lindfors <klas@yubico.com>
+
+	* build-and-test.sh: add docbook-xsl for mac builds
+
+2016-09-15  Klas Lindfors <klas@yubico.com>
+
+	* doc/Compatibility.asciidoc: update Compatibility page for 4.3
+
+2016-09-09  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.1.adoc, ykinfo.1.adoc, ykpersonalize.1.adoc: drop old
+	URL syntax from manpages
+
+2016-09-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1.adoc: add example for yubicloud programming fixes #89
+
+2016-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* ykchalresp.1.adoc: Typo.
+
+2016-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Dist adoc sources.
+
+2016-06-13  Klas Lindfors <klas@yubico.com>
+
+	* build-and-test.sh: should be better to install docbook-xsl for
+	travis seems to help with hangs on a2x
+
+2016-06-02  Klas Lindfors <klali@avm.se>
+
+	* : Merge pull request #83 from mscherer/fix_prev_commit Improve the warning message, as suggested by Jonathan Cross
+
+2016-05-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: make max timeout 256 seconds instead of 15
+	seconds
+
+2016-05-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpersonalize.1.adoc: try to clairfy what options
+	can be used with neo and yk4
+
+2016-05-11  Klas Lindfors <klali@avm.se>
+
+	* : Merge pull request #80 from mscherer/improve_doc Be more explicit on what happen when the OTP mode is disabled
+
+2016-05-11  Klas Lindfors <klali@avm.se>
+
+	* : Merge pull request #82 from sampablokuper/patch-1 Replace non-ASCII minus sign w/ASCII hyphen-minus
+
+2016-05-10  modem_down <sampablokuper@users.noreply.github.com>
+
+	* ykpersonalize.1.adoc: Replace non-ASCII minus sign w/ASCII
+	hyphen-minus Options are entered with the ASCII hyphen-minus character, not with
+	the U+2212 code point.
+
+2016-05-04  Michael Scherer <misc@redhat.com>
+
+	* ykpersonalize.1.adoc, ykpersonalize.c: Be more explicit on what
+	happen when the OTP mode is disabled
+
+2016-03-29  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: remove traces of YK_EMORETHANONE from osx
+	backend
+
+2016-02-17  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: drop commented declaraction of _yk_hexdump()
+
+2016-02-17  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: convert _yk_hexdump() into a macro and add what function the printout comes from
+
+2016-02-17  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac, ykcore/Makefile.am: enable YK_DEBUG with
+	--enable-debug
+
+2016-02-08  Klas Lindfors <klas@yubico.com>
+
+	* README: git:// -> https://
+
+2016-02-05  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.1.adoc, ykchalresp.c: add key index option to
+	ykchalresp.
+
+2016-02-05  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpers-args.h, ykpersonalize.1.adoc,
+	ykpersonalize.c: implement key index parsing for ykpersonalize unfortunately this needed a pre-step with getopt() to read index
+	before entering "real" argument parser.
+
+2016-02-05  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.c: break out set_oath_id from argument parser this way the argument parser doesn't have to take a YK_KEY*
+
+2016-02-05  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: Revert "properly pad challenge-response with
+	shorter than 64 byte challenge" This reverts commit 27a2fbd772a29136ccaac8b65747df1b6e6e0fd3.  This commit is wrong since the padding should only be done in the
+	case when hmac-lt64 is set and that is unknown to the API. Thus
+	padding like this must be done from the calling application that
+	might know more about it's requirements.
+
+2016-02-05  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: properly pad challenge-response with shorter than
+	64 byte challenge For challenge response with short challenge (hmac-lt64 set) the
+	challenge is considered padded with a differet value than the last
+	value of the challenge. With nothing done this turns into 0 which
+	means any 0 byte at the end of the challenge will be stripped. Here
+	we make sure to pad with something different than the last value (by
+	xoring with 0xff).
+
+2016-02-05  Klas Lindfors <klas@yubico.com>
+
+	* ykinfo.1.adoc, ykinfo.c: add -n to ykinfo man page
+
+2016-02-05  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c, ykcore/ykcore.h: add void argument to
+	yk_open_first_key() declaration
+
+2016-02-05  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac, libykpers-1.map: mark next version as 1.18.0
+
+2016-02-05  Klas Lindfors <klali@avm.se>
+
+	* : Merge pull request #74 from ThomasHabets/master Add -n option to ykinfo to support multiple connected Yubikeys
+
+2016-02-05  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1.adoc: some man fixups
+
+2016-02-01  Thomas Habets <habets@google.com>
+
+	* ykcore/ykcore_libusb-1.0.c, ykcore/ykcore_osx.c,
+	ykcore/ykcore_windows.c: Fix multi yubikey support for libusb-1.0,
+	osx and windows
+
+2016-01-29  Thomas Habets <habets@google.com>
+
+	* AUTHORS, libykpers-1.map, tests/test_threaded_calls.c,
+	ykchalresp.c, ykcore/ykcore.c, ykcore/ykcore.h,
+	ykcore/ykcore_backend.h, ykcore/ykcore_libusb.c, ykinfo.c,
+	ykpersonalize.c: Add -n option to ykinfo to support multiple
+	connected Yubikeys
+
+2016-01-11  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: update ykdef.h
+
+2016-01-11  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.1.adoc, ykchalresp.c: support reading challenge from a
+	file in ykchalresp fixes #73
+
+2015-12-28  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.17.3
+
+2015-12-28  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.c, ykpers-args.c: add extern declarations for getopt()
+	parameters
+
+2015-11-20  Klas Lindfors <klali@avm.se>
+
+	* : Merge pull request #70 from KyleOndy/69_readme_update Update readme to add asciidoc dependency
+
+2015-11-19  Kyle Ondy <KyleOndy@gmail.com>
+
+	* README: Move asciidoc section to 'building from git' section
+
+2015-11-18  Kyle Ondy <KyleOndy@gmail.com>
+
+	* README: Update readme to add asciidoc dependency
+
+2015-11-05  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_yk_utilities.c: make tests work
+
+2015-11-05  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: raise minor to 3 for 4
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: correct logic for mode switch question
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am: drop dropped docs
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* doc/Windows-Build.asciidoc: drop old Windows documentation
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: add header for 1.17.3 to NEWS
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* doc/Compatibility.asciidoc: update Compatibility
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* doc/Make-Release.asciidoc: drop old release documentation
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore: ignore man artefacts
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, man/ykchalresp.1.adoc => ykchalresp.1.adoc,
+	man/ykinfo.1.adoc => ykinfo.1.adoc, man/ykpersonalize.1.adoc =>
+	ykpersonalize.1.adoc: put manpages in root dir
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* build-and-test.sh: try to use no-install-recommends
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml, build-and-test.sh: move installation of asciidoc to
+	build-and-test
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: add a2x as extra to all builds windows build will probably still fail
+
+2015-10-26  Jean Paul Galea <jeanpaul@yubico.com>
+
+	* man/ykpersonalize.1.adoc: Fix broken link for yubikey manual doc.
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, configure.ac, ykchalresp.1, ykinfo.1,
+	ykpersonalize.1: use a2x to generate the manpages fixes #63
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* man/ykchalresp.1.adoc, man/ykinfo.1.adoc: add space to make
+	examples line up
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* man/ykchalresp.1.adoc: try to show better which options are
+	alternatives to each other
+
+2015-10-26  Klas Lindfors <klas@yubico.com>
+
+	* man/ykinfo.1.adoc: convert ykinfo manpage to asciidoc
+
+2015-10-16  Klas Lindfors <klas@yubico.com>
+
+	* man/ykchalresp.1.adoc: fix
+
+2015-10-16  Klas Lindfors <klas@yubico.com>
+
+	* man/ykchalresp.1.adoc: convert ykchalresp manpage to adoc
+
+2015-10-16  Klas Lindfors <klas@yubico.com>
+
+	* man/ykpersonalize.1.adoc: minor fixes
+
+2015-10-16  Henrik Stråth <henrik@yubico.com>
+
+	* man/ykpersonalize.1.adoc: Added Asciidoc version of the man page
+	ykpersonalize.1
+
+2015-10-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: Add some text about updatable to swap and update relates #64
+
+2015-10-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: try to make the allow-update parameter clearer relates #64
+
+2015-10-08  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml, build-and-test.sh: start adding travis for osx
+
+2015-10-08  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: sizeof(pids) will return entries * 4 here, divide
+	with sizeof(int)
+
+2015-10-08  Klas Lindfors <klas@yubico.com>
+
+	* tests/Makefile.am: actually run valgrind for the tests
+
+2015-09-24  Simon Josefsson <simon@josefsson.org>
+
+	* tests/selftest.c: Avoid -Wimplicit-function-declaration warning
+	regarding strcmp.
+
+2015-09-22  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: bump version
+
+2015-09-22  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: fixup
+
+2015-09-22  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.17.2
+
+2015-09-22  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: bump version and libtool stuff
+
+2015-09-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: Warn if the user is putting the device in a
+	non-OTP mode
+
+2015-09-15  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_yk_utilities.c, ykcore/ykcore.c: add 4.2 as supported
+	firmware
+
+2015-09-04  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_yk_utilities.c: test for version with two digit build
+	number
+
+2015-08-21  Henrik Stråth <minisu@users.noreply.github.com>
+
+	* README: Update README
+
+2015-08-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: fix a mistake in help, fixed is up to 16 bytes, 32
+	characters.
+
+2015-08-12  Klas Lindfors <klas@yubico.com>
+
+	* README: add slot so examples in README are correct this behavorial change was added in 1.7.0 (in 2012) fixes #60
+
+2015-08-12  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am: change libhmac dependency to be relative fixes #61
+
+2015-05-05  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: ignore errors from apt-get update for travis
+
+2015-05-05  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: drop old commented code
+
+2015-05-05  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: let _yk_write() return an error if
+	yk_wait_for_key_status() fails
+
+2015-04-01  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: NEWS and version for 1.17.1
+
+2015-04-01  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: fixup libtool age
+
+2015-04-01  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.17.0
+
+2015-03-31  Klas Lindfors <klas@yubico.com>
+
+	* ykinfo.1: man entry for -c
+
+2015-03-31  Klas Lindfors <klas@yubico.com>
+
+	* ykinfo.c: honor -q for -c
+
+2015-03-27  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_yk_utilities.c: make test pass firmware 4.1
+
+2015-03-27  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore, Makefile.am: build sha/hmac stuff into it's own temp
+	library disable extra warnings on that part
+
+2015-03-27  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am: drop reference to rfc4634 directory
+
+2015-03-27  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac, libykpers-1.map, ykcore/ykcore.c, ykcore/ykcore.h,
+	ykinfo.c: add yk_get_capabilities() to library and -c to ykinfo also bumps version to 1.17.0
+
+2015-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: update ykdef.h
+
+2015-03-27  Klas Lindfors <klas@yubico.com>
+
+	* doc/Compatibility.asciidoc, ykcore/ykcore.c: whitelist 4.1
+
+2015-03-23  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_libusb-1.0.c: move variable to start of block
+
+2015-03-23  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: add NEWS placeholder for 1.16.5
+
+2015-03-23  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: bump versions
+
+2015-03-23  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.16.4
+
+2015-03-20  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.c: for some reason autoeject tiem was limited to 1
+	byte in the tool change around so it's treated as a short throughout the code
+
+2015-03-10  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions
+
+2015-03-10  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.16.3
+
+2015-03-10  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4mac.mk, ykpers4win.mk: bump yubico-c version for binaries
+
+2015-03-10  Klas Lindfors <klali@avm.se>
+
+	* : Merge pull request #58 from pm-kan/master Check current cofiguration before calling libusb_set_configuration
+
+2015-03-07  Andrey Kuznetsov <pm_kan@mail.ru>
+
+	* ykcore/ykcore_libusb-1.0.c: Check current cofiguration before
+	calling libusb_set_configuration (fixes hang in VirtualBox)
+
+2015-03-02  Klas Lindfors <klas@yubico.com>
+
+	* doc/Compatibility.asciidoc: more compatibility
+
+2015-03-02  Klas Lindfors <klas@yubico.com>
+
+	* doc/Compatibility.asciidoc, tests/test_yk_utilities.c,
+	ykcore/ykcore.c: whitelist 3.4 firmware
+
+2015-01-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml, build-and-test.sh: enable coverage build on travis
+	and coveralls
+
+2015-01-20  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore, Makefile.am, configure.ac, tests/Makefile.am,
+	ykcore/Makefile.am: add --enable-coverage
+
+2014-12-22  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4mac.mk: build universal binaries fixes #56
+
+2014-11-28  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions
+
+2014-11-28  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.16.2
+
+2014-11-27  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: add new PID to devices searched
+
+2014-11-27  Klas Lindfors <klas@yubico.com>
+
+	* 69-yubikey.rules, 70-yubikey.rules, ykcore/ykdef.h: add pid for
+	PLUS_U2F_OTP_PID also fix formatting for the other recent pids in ykdef
+
+2014-11-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpersonalize.1: some text about options for
+	versions
+
+2014-11-24  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: no ndef for yk4
+
+2014-11-21  Klas Lindfors <klas@yubico.com>
+
+	* 69-yubikey.rules, 70-yubikey.rules: whitelist more pids for udev
+
+2014-11-24  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: try to open new pids we can work with
+
+2014-11-24  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: updated ykdef.h
+
+2014-11-21  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_yk_utilities.c, ykcore/ykcore.c: whitelist version
+	4.0.x
+
+2014-11-21  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: refactor yk_check_firmware_version2() a bit use a switch instead to improve readability
+
+2014-10-31  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4mac.mk: test that everything is correctly linked
+
+2014-10-31  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4mac.mk: fixup mac linking
+
+2014-10-30  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.c: drop unused variable
+
+2014-10-30  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: skip the -Woverlength-strings warning
+
+2014-10-30  Klas Lindfors <klas@yubico.com>
+
+	* ykinfo.c: fix the modhex printout when serial is an uneven number of hex characters also print out hex
+	with leading 0 in that case
+
+2014-10-30  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: versions after release
+
+2014-10-30  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.16.1
+
+2014-10-29  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4mac.mk: replace wget with curl for mac. do
+	install_name_tool magic later this way tests work and it only needs pkg-config to build
+
+2014-10-28  Klas Lindfors <klali@avm.se>
+
+	* : Merge pull request #54 from eworm-de/productid product ids are four digit, so we need the leading zero
+
+2014-10-20  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: make sure variable is initialized
+
+2014-10-07  Christian Hesse <mail@eworm.de>
+
+	* ykcore/ykcore_libusb-1.0.c: detach kernel driver only if kernel
+	driver is active
+
+2014-10-01  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpersonalize.1: clarify that import is only
+	available for the json format relates #50
+
+2014-10-01  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: don't overwrite the error in ykp_import_config() fixes #50
+
+2014-09-26  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions
+
+2014-09-26  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: release 1.16.0
+
+2014-09-26  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykdef.h: Typo.
+
+2014-09-24  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS
+
+2014-09-24  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: look at usagePage and usage to make sure we
+	get a keyboard interface
+
+2014-09-23  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: preparing NEWS for 1.16.0
+
+2014-09-23  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_libusb.c: fixup libusb vid/pid function
+
+2014-09-23  Klas Lindfors <klas@yubico.com>
+
+	* ykinfo.c: let ykinfo print vid/pid
+
+2014-09-23  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac, libykpers-1.map, ykcore/ykcore.c, ykcore/ykcore.h: 
+	add yk_get_key_vid_pid() to get the vid and pid of an opened device
+
+2014-09-23  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_backend.h, ykcore/ykcore_libusb-1.0.c,
+	ykcore/ykcore_libusb.c, ykcore/ykcore_osx.c, ykcore/ykcore_stub.c,
+	ykcore/ykcore_windows.c: add a function for the backend to expose
+	vid/pid of an opened device
+
+2014-09-04  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers4win.mk: Abstract.
+
+2014-09-04  Simon Josefsson <simon@josefsson.org>
+
+	* doc/Make-Release.asciidoc: Fix markup.
+
+2014-09-04  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.15.3.
+
+2014-09-04  Simon Josefsson <simon@josefsson.org>
+
+	* BLURB, Makefile.am, NEWS, README, configure.ac, ykchalresp.1,
+	ykinfo.1, ykpers4mac.mk, ykpers4win.mk, ykpersonalize.1,
+	ykpersonalize.c: Fix URLs for opensource.y.com -> developers.y.com
+	move.
+
+2014-09-04  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, doc/Compatibility.asciidoc: Doc fix.
+
+2014-09-04  Simon Josefsson <simon@josefsson.org>
+
+	* : Merge remote-tracking branch 'remotes/origin/feature/v3.3' into
+	upstream-master
+
+2014-08-14  Klas Lindfors <klas@yubico.com>
+
+	* 69-yubikey.rules, 70-yubikey.rules: add new pids to the udev rules
+
+2014-08-14  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: correct comment for U2F + CCID mode
+
+2014-08-14  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: add documentation for new mode flags
+
+2014-08-12  Klas Lindfors <klas@yubico.com>
+
+	* : commit ef1274821bf0a74da856e23ae84acf3615d7e5ef Author: Klas
+	Lindfors <klas@yubico.com> Date:   Wed Jul 30 11:09:53 2014 +0200
+
+2014-07-30  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after release
+
+2014-07-30  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.15.2
+
+2014-07-28  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: add the new otp pids when opening key
+
+2014-07-28  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: drop const on argv variables since the parse function isn't const
+
+2014-07-28  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: update ykdef for version 3.3
+
+2014-07-28  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_yk_utilities.c, ykcore/ykcore.c: whitelist firmware 3.3
+
+2014-06-24  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore, Makefile.am, tests/Makefile.am, tests/ykpers-args.c,
+	tests/ykpers-args.h: re-work linking of ykpers-args so the test is linked in a sane way..
+
+2014-06-19  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: when YK_DEBUG is configured, dump all writes
+
+2014-06-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: actually check return states when dealing with
+	ndef there is a very real risk of trying to do a to long write, that
+	isn't reported before this fix.  relates to #45
+
+2014-05-28  Klas Lindfors <klas@yubico.com>
+
+	* README.adoc: test add README.adoc -> README symlink
+
+2014-04-28  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: defint json_bool for older json-c
+
+2014-04-28  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac, ykpers-json.c: json_object_object_get() is
+	deprecated from json-c 0.11 but only added in 0.10, so add a configure check for it and a macro
+	that calls json_object_object_get_ex() if it's available.  resolves #44
+
+2014-04-28  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: let strncpy copy \0 as well..
+
+2014-04-28  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: read in key even if we're importing a
+	configuration
+
+2014-04-28  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: slight refactor of duplicated code to set options
+	from json object
+
+2014-04-23  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: set error to true from the start instead of
+	reassigning
+
+2014-03-25  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_yk_utilities.c, ykcore/ykcore.c: whitelist 2.5 firmware
+
+2014-03-17  Klas Lindfors <klas@yubico.com>
+
+	* : Merge pull request #43 from eworm-de/var use macro for response size
+
+2014-03-12  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after release
+
+2014-03-12  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.15.1
+
+2014-03-07  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: change url to compatibility doc
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* : commit e777db10ec1441b5aa3573df2957949af602a07b Author: Antti
+	KerÃ¤nen <detegr@gmail.com> Date:   Mon Mar 3 14:48:23 2014 +0200
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_ndef_construction.c: use memcmp instead of strncmp to
+	drop warnings in test
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_key_generation.c: make functions static to drop
+	warnings
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_key_generation.c: don't do sizeof() on pointer even in test
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_ndef_construction.c: fix warnings in
+	test_ndef_construction
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_threaded_calls.c: fix warnings in test_threaded_calls
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_json.c: fix a couple of warnings in test_json
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: make sure that keylocation is
+	initialized in the tests
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: correct argc
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: make const to avoid warning
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.h, ykcore/ykcore_lcl.h: move yk_endian_swap_16 to
+	ykcore.h since we export it anyways..
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: include yubikey.h to get function
+	definitions we need
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: use memcmp instead of strcmp
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: make functions static
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: drop unused ycfg structs
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: drop argc+argv to main since it's not
+	used
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: constify to get rid of more warnings
+
+2014-03-03  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: make test functions return void to
+	drop warnings and since we never returned anything
+
+2014-02-26  Antti Keränen <detegr@gmail.com>
+
+	* ykcore/ykcore_libusb.c: Fixed segmentation fault in
+	ykcore_libusb.c
+
+2014-02-17  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.1, ykinfo.1, ykpersonalize.1: change yubico.github.io
+	homepage to opensource.yubico.com
+
+2014-02-14  Klas Lindfors <klas@yubico.com>
+
+	* README: fix link to yubico-c
+
+2014-02-14  Klas Lindfors <klas@yubico.com>
+
+	* BLURB: add travis reference to BLURB
+
+2014-02-13  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am: .gitmodules went away with submodules
+
+2014-02-13  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, doc/Todo.asciidoc: drop old Todo file
+
+2014-02-13  Klas Lindfors <klas@yubico.com>
+
+	* doc/Compatibility.asciidoc: correct capitalization
+
+2014-02-13  Klas Lindfors <klas@yubico.com>
+
+	* doc/Compatibility.asciidoc: change unsupported to comments, drop
+	wiki link
+
+2014-02-13  Klas Lindfors <klas@yubico.com>
+
+	* doc/Compatibility.asciidoc: add more versions to Compatibility
+
+2014-02-13  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, doc/Read-Me.asciidoc: drop extra Read-Me
+
+2014-02-13  Klas Lindfors <klas@yubico.com>
+
+	* doc/Compatibility.asciidoc, doc/Make-Release.asciidoc,
+	doc/Read-Me.asciidoc, doc/Todo.asciidoc,
+	doc/USB-Hid-Issue.asciidoc, doc/Windows-Build.asciidoc: add doc back
+	as non submodule
+
+2014-02-13  Klas Lindfors <klas@yubico.com>
+
+	* doc: drop doc again..
+
+2014-02-13  Klas Lindfors <klas@yubico.com>
+
+	* README: drop submodule info from README
+
+2014-02-13  Klas Lindfors <klas@yubico.com>
+
+	* doc: add documentation back without being a submodule
+
+2014-02-13  Klas Lindfors <klas@yubico.com>
+
+	* .gitmodules, doc: drop doc submodule
+
+2014-01-27  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.1: Fix markup to avoid lintian warnings.
+
+2014-01-23  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.1: man for recent totp additions to ykchalresp
+
+2014-01-23  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.c: refuse challenge on command line if -t is given
+
+2014-01-21  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.c: minor indentation fix
+
+2014-01-18  joernchen of Phenoelit <joernchen@phenoelit.de>
+
+	* ykchalresp.c: Bugfix: -Y should not work with -6 or -8
+
+2014-01-18  joernchen of Phenoelit <joernchen@phenoelit.de>
+
+	* ykchalresp.c: Make -6 and -8 available for non time based HMACs
+
+2014-01-18  joernchen of Phenoelit <joernchen@phenoelit.de>
+
+	* ykchalresp.c: Refactoring TOTP/HOTP command line flags
+
+2014-01-16  joernchen of Phenoelit <joernchen@phenoelit.de>
+
+	* ykchalresp.c: Added flag for 8 Digit TOTP
+
+2014-01-16  joernchen of Phenoelit <joernchen@phenoelit.de>
+
+	* ykchalresp.c: Tab fixup
+
+2014-01-16  joernchen of Phenoelit <joernchen@phenoelit.de>
+
+	* ykchalresp.c: Added TOTP (6 digits) functionality to ykchalresp.c
+
+2014-01-10  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after release
+
+2014-01-10  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.15.0
+
+2014-01-10  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: miss-commited stuff reverted parts of 944e83959d61890503610b902165872a8e9f9e81
+
+2014-01-10  Klas Lindfors <klas@yubico.com>
+
+	* COPYING, configure.ac, libykpers-1.map,
+	tests/test_args_to_config.c, tests/test_yk_utilities.c,
+	ykcore/ykcore.c, ykcore/ykcore.h, ykcore/ykcore_libusb-1.0.c,
+	ykcore/ykcore_libusb.c, ykcore/ykcore_osx.c, ykpers-args.c,
+	ykpers-args.h, ykpers.c, ykpers.h, ykpersonalize.1, ykpersonalize.c: 
+	bump copyrights
+
+2014-01-10  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c, ykcore/ykcore.h, ykcore/ykcore_libusb-1.0.c,
+	ykcore/ykcore_libusb.c, ykcore/ykcore_osx.c: add a new error:
+	YK_ENODATA used when read from device returns no data but no underlying error
+
+2014-01-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: update man page for ykpersonalize
+
+2014-01-09  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.c: drop salt parameter to ykpers-args
+
+2014-01-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: more text about -a
+
+2014-01-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: use ykp_get_supported_key_length()
+
+2014-01-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: better text about HMAC key must be 40 bytes
+
+2014-01-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: add code for generating random key
+
+2014-01-09  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, ykpers.c, ykpers.h: add functions to set AES and
+	HMAC key from raw bytes
+
+2014-01-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: fix logic of ykp_get_supported_key_length() was reporting wrong size for yubico-challenge
+
+2014-01-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c, ykpers.h: make the ykp_get functions take a const
+	YKP_CONFIG*
+
+2014-01-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: use ykp_get_supported_key_length() to get key
+	length
+
+2014-01-09  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac, libykpers-1.map, ykpers.c, ykpers.h: make
+	ykp_get_supported_key_length() exported
+
+2014-01-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c, ykpers.h: add YKP_ENORANDOM for when there's no random
+	available
+
+2014-01-08  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpers-args.h, ykpersonalize.c: prompt for key on
+	stdin if -a is given without key
+
+2014-01-08  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: set errno for errors in ykp_HMAC_key_from_hex()
+
+2014-01-08  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: let ykp_AES_key_from_hex() return error
+
+2014-01-08  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: if there's no salt available, don't make a cheap one fixes #40
+
+2014-01-08  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: test that the args_to_config()
+	function returns the salt
+
+2014-01-08  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.c: pass a reference to the salt to args_to_config() otherwise we won't get a salt back even when we ask for it
+
+2014-01-02  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_yk_utilities.c: let the firmware test do negative
+	testing
+
+2014-01-02  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_yk_utilities.c: add a more versions to firmware test
+
+2014-01-02  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: add 3.2 as supported
+
+2013-12-30  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4mac.mk, ykpers4win.mk: bump LIBYUBIKEYVERSION for mac and
+	windows
+
+2013-12-30  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after release
+
+2013-12-30  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: release 1.14.2
+
+2013-12-30  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.14.2
+
+2013-12-27  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: shorter initial sleep when waiting for key status relates to #38
+
+2013-12-20  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore: ignore more
+
+2013-12-20  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: use strncat to build the option strings for printing slightly simpler code
+
+2013-12-20  Klas Lindfors <klas@yubico.com>
+
+	* ykpers_lcl.c: add missing static-ticket to list of flags, fix
+	others ticket-first is only available on yubikey 1, short ticket is valid
+	for output
+
+2013-12-17  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: move the sleep in yk_wait_for_status() to the top
+	of the loop fixes #38 it seems there is a race if a fast computer makes control
+	transfers very close to each other in time, this enforces a 10ms
+	sleep at the start of a read.
+
+2013-11-18  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: use json.h instead of json/json.h the include directory should be added by configure script
+
+2013-11-05  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers4mac.mk, ykpers4win.mk: Typo.
+
+2013-10-21  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4mac.mk: add -mmacosx-version-min=10.6 to CFLAGS for
+	configure this reportedly fixes some compability issues on earlier osX
+	releases.
+
+2013-09-26  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.h: fix broken indentation
+
+2013-09-26  Klas Lindfors <klas@yubico.com>
+
+	* BLURB: add category to BLURB
+
+2013-09-26  Klas Lindfors <klas@yubico.com>
+
+	* README: copy wiki README to base
+
+2013-09-26  Klas Lindfors <klas@yubico.com>
+
+	* BLURB: BLURB for yubikey-personalization
+
+2013-09-24  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: make _yk_hexdump() static and declare it
+
+2013-09-17  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.1, ykpersonalize.c: let -m take challengeresponse time
+	and autoeject time as well
+
+2013-09-17  Klas Lindfors <klas@yubico.com>
+
+	* doc: update submodule
+
+2013-09-17  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: update webpage references
+
+2013-09-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: change url to github wiki
+
+2013-09-17  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after release
+
+2013-09-16  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers4win.mk: Fix upload rules.
+
+2013-09-16  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: More release rule fixes.
+
+2013-09-16  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix release rules.
+
+2013-09-16  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.14.1.
+
+2013-09-16  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Doc fix.
+
+2013-09-16  Simon Josefsson <simon@josefsson.org>
+
+	* : Merge pull request #37 from eworm-de/master Moved files from rfc4634/ to the root directory, to work with modern
+	automake.
+
+2013-07-04  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions post-release
+
+2013-07-04  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: release 1.14.0
+
+2013-07-02  Klas Lindfors <klas@yubico.com>
+
+	* contrib/oath-unlock-reprogram.sh: send stderr of ykinfo to
+	/dev/null to lessen noise
+
+2013-07-01  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.14.0
+
+2013-06-24  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers-1.pc.in: Let pkg-config echo pthreads related settings, for
+	#10.
+
+2013-06-18  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: new homepage
+
+2013-06-18  Klas Lindfors <klas@yubico.com>
+
+	* ykinfo.1, ykinfo.c: give ykinfo -1 and -2 for programming status
+	of the slots
+
+2013-06-07  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.h: raise NONE from 0 to 1 to make empty the default
+
+2013-06-07  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: set protection in the exported json if the
+	meta-property is set
+
+2013-06-07  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, ykpers.c, ykpers.h, ykpers_lcl.h: add
+	ykp_{get,set}_acccode_type()
+
+2013-05-13  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.1, ykchalresp.c, ykinfo.1, ykinfo.c, ykpers-args.c,
+	ykpersonalize.1: add -V switch to get tool version
+
+2013-05-02  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: fixup logic for import with targetConfig
+
+2013-04-30  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: check that the flag is set to what we check since we overload flags in curious ways it's important to check that
+	the flag is set to the thing we check for, not just set.
+
+2013-04-30  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c, ykpers_lcl.c, ykpers_lcl.h: add pointer to setter
+	function to mapping tables also use those for import
+
+2013-04-30  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: use getter functions in ykpers-args.c
+
+2013-04-30  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, ykpers.c, ykpers.h: add getter functions for all
+	configflags
+
+2013-04-30  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac, libykpers-1.map, ykpers-args.c,
+	ykpers-json.c, ykpers.c, ykpers.h, ykpersonalize.c: add
+	ykp_clear_config() for clearing all config flags
+
+2013-04-29  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.1, ykinfo.1, ykpersonalize.1: update home page url in
+	manpages
+
+2013-04-29  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: don't mention ndef type in the text, just ndef is
+	good enough solves #33
+
+2013-04-25  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.1, ykpersonalize.c: implement dry-run for the cli
+
+2013-04-25  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore: ignore mac artefacts
+
+2013-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: make sure json objects are released on error
+	conditions
+
+2013-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: add parsing of targetConfig to import
+
+2013-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: add targetConfig to export
+
+2013-04-22  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Dist more.
+
+2013-04-22  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions
+
+2013-04-22  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4mac.mk, ykpers4win.mk: releases moved to github
+
+2013-04-22  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4win.mk: fixup typo
+
+2013-04-22  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.13.0
+
+2013-04-22  Simon Josefsson <simon@josefsson.org>
+
+	* contrib/draft-josefsson-yubikey-config.xml, ykpers_lcl.c: Add YCFG
+	draft.  JSON name fixups.
+
+2013-04-22  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: test without json as well
+
+2013-04-22  Klas Lindfors <klas@yubico.com>
+
+	* tests/Makefile.am: only run the json tests for json
+
+2013-04-22  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: as the windows builds work now, don't allow failures
+
+2013-04-22  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4win.mk: libyubikey has moved to github
+
+2013-04-22  Klas Lindfors <klas@yubico.com>
+
+	* build-and-test.sh: have to set CC again for windows builds..
+
+2013-04-22  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: autoremove after remove
+
+2013-04-19  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: make .travis.yml a little more readable
+
+2013-04-19  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: we have to spec whole string to allow failures?
+
+2013-04-19  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_json.c: simple import test
+
+2013-04-19  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore, tests/Makefile.am, tests/test_json.c: start with tests
+	for json stuff
+
+2013-04-19  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: try to declare that windows builds can fail
+
+2013-04-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: check that ykp_export_config() call actually
+	worked
+
+2013-04-19  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Fix notice.
+
+2013-04-19  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers-nojson.c: Add.
+
+2013-04-19  Simon Josefsson <simon@josefsson.org>
+
+	* : commit f473ed548436935ec56fbe6d4fa49037c12bce1d Author: Simon
+	Josefsson <simon@josefsson.org> Date:   Fri Apr 19 15:09:11 2013
+	+0200
+
+2013-04-19  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: more packages for mingw
+
+2013-04-19  Simon Josefsson <simon@josefsson.org>
+
+	* doc: Sync documentation.
+
+2013-04-19  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac, ykpers-json.c: Build with both new and old libjson.
+
+2013-04-19  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml, build-and-test.sh: let travis build win32 and win64
+
+2013-04-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4win.mk: drop travis mingw32 target
+
+2013-04-19  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml, build-and-test.sh: try to fix travis windows build
+
+2013-04-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: only yubiCloud scope for yubico otp
+
+2013-04-19  Klas Lindfors <klas@yubico.com>
+
+	* : commit e61e485c4a221d0b71b9d779cd5170c2a0649134 Author: Klas
+	Lindfors <klas@yubico.com> Date:   Fri Apr 19 11:28:34 2013 +0200
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, ykpers4mac.mk, ykpers4win.mk: switch to github
+	homepage
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c, ykpers-json.h, ykpers.c, ykpers.h, ykpersonalize.c: 
+	change signature of import fuction, cfg first
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: man for -f
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c, ykpers-json.h, ykpers.c: change names of not
+	exported functions
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpers.c, ykpers.h: change json to ycfg
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers_lcl.c: don't support ticketFirst and allowHidTrig for json
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: more import work (complete?)
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c, ykpers.c: restructure export text to be more
+	accurate
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4mac.mk: cleanup mac makefile
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* : commit a983ce7a02969cc9aa5e29dc3a22159c9cc5f55d Author: Klas
+	Lindfors <klas@yubico.com> Date:   Tue Apr 16 14:35:45 2013 +0100
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c, ykpers-json.h, ykpers.c, ykpers.h, ykpersonalize.c: 
+	change signature of import fuction, cfg first
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: man for -f
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c, ykpers-json.h, ykpers.c: change names of not
+	exported functions
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpers.c, ykpers.h: change json to ycfg
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers_lcl.c: don't support ticketFirst and allowHidTrig for json
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: more import work (complete?)
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c, ykpers.c: restructure export text to be more
+	accurate
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4mac.mk: cleanup mac makefile
+
+2013-04-16  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4mac.mk: install_name_tool magic
+
+2013-04-15  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4mac.mk: add build makefile for mac
+
+2013-04-15  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4win.mk: add licenses to the windows binary build
+
+2013-04-15  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: fix test
+
+2013-04-15  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: don't care about data-format for the console
+	print-out
+
+2013-04-15  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: cast to correct data type
+
+2013-04-15  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c, ykpers.c: return amount of data
+
+2013-04-15  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c, ykpers.c, ykpers_lcl.c, ykpers_lcl.h: add MODE_ALL
+	instead of letting 0 mean all
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: more code for importing oath
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c, ykpersonalize.c: start on import code
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore, Makefile.am, ykpers-json.c, ykpers.c, ykpers_lcl.c,
+	ykpers_lcl.h: move ticket import/export definitions ykpers_lcl.c
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c, ykpers_lcl.h: move modes_map to ykpers-json.c
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpers-args.h, ykpersonalize.c: implement both
+	export formats in the cli
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4win.mk: re-enable silent rules
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac, ykpers4win.mk: make building work on windows also prefer json-c over json
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore: ignore ykpers-json artifacts
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: add not implemented legacy function to import
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: move around the legacy export config let the ykp_write_config() call ykp_legacy_export_config(), and call
+	the write function in that place only.
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: only look at mode if p->mode is set
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: don't try to create the json if we don't have a
+	config
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: add scope for fixed output
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c, ykpers.c, ykpers_lcl.h: move out definitions of
+	printabl configs to header and merge for json and legacy
+
+2013-04-12  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: error on import
+
+2013-04-11  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: add support for prefix
+
+2013-04-11  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: cleanup
+
+2013-04-11  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: add code for random/fixed oath seed
+
+2013-04-11  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: OATH_HOTP is an output mode
+
+2013-04-11  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-json.c: don't use _ext() to string function added in 0.10
+
+2013-04-11  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: add libjson0 dependency for travis
+
+2013-04-11  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, configure.ac, libykpers-1.map, ykpers-json.c,
+	ykpers-json.h, ykpers.c, ykpers.h: start building on JSON export
+	functionality
+
+2013-04-10  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, ykpers.c, ykpers_lcl.h: split out some stuff to
+	ykpers_lcl.h
+
+2013-04-10  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: change alot of global declarations to static to limit
+	scope
+
+2013-04-10  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, configure.ac: add dependency on libjson
+
+2013-04-08  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Simple check of man page syntax.
+
+2013-04-08  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Check man page for warnings.
+
+2013-04-08  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.1: More man page fixes.
+
+2013-04-05  Klas Lindfors <klas@yubico.com>
+
+	* build-and-test.sh: set -x in build-and-test for more travis output
+
+2013-04-04  Simon Josefsson <simon@josefsson.org>
+
+	* COPYING, contrib/oath-unlock-reprogram.sh, libykpers-1.map,
+	tests/selftest.c, tests/test_key_generation.c,
+	tests/test_yk_utilities.c, ykchalresp.1, ykchalresp.c,
+	ykcore/Makefile.am, ykcore/ykcore.c, ykcore/ykcore_backend.h,
+	ykcore/ykcore_libusb-1.0.c, ykcore/ykcore_windows.c,
+	ykcore/ykstatus.h, ykinfo.c, ykpbkdf2.c, ykpers-args.c,
+	ykpers-version.c, ykpers-version.h.in, ykpers.c, ykpers.h: Update
+	copyright years.
+
+2013-04-04  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2013-04-04  Simon Josefsson <simon@josefsson.org>
+
+	* tests/test_args_to_config.c: Fix typo.
+
+2013-04-04  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.c: Check return code from fgets to silence warnings.
+
+2013-04-04  Simon Josefsson <simon@josefsson.org>
+
+	* ykinfo.1: Fix markup (lintian hyphen-used-as-minus-sign).
+
+2013-04-04  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.1: Line break long lines (lintian
+	manpage-has-errors-from-man).
+
+2013-04-04  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.1: Fix markup (lintian hyphen-used-as-minus-sign).
+
+2013-03-14  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after release
+
+2013-03-14  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: release 1.12.0
+
+2013-03-14  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: CURRENT got bumped twice, lower to 13
+
+2013-03-14  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.12.0
+
+2013-03-14  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4win.mk: bump libyubikey to 1.10
+
+2013-03-14  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.h: declare ykp_set_extflag_LED_INV()
+
+2013-03-11  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: add 2.4 and 3.1 firmware versions as supported
+
+2013-03-11  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: man
+
+2013-03-11  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: add led-inv argument to cli
+
+2013-03-11  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac, libykpers-1.map, ykpers.c: add code for
+	modifying EXTFLAG_LED_INV and bump library versions accordingly..
+
+2013-03-11  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: updated ykdef.h for 2.4/3.1
+
+2013-02-28  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.1: Public identity size is 16 bytes.
+
+2013-02-18  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: automake 1.11.3 is required for the EXTRA
+	dependencies construction resolves #28
+
+2013-01-31  Klas Lindfors <klas@yubico.com>
+
+	* : commit fd786e36721d380416870934d722c40fff27e7ae Author: Andrew
+	Couch <acouch@bluewolfgroup.com> Date:   Wed Jan 30 11:31:01 2013
+	-0500
+
+2013-01-30  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am: expand the exported-symbols regex to cover
+	ykpers_check_version()
+
+2013-01-29  Matt Stofko <matt@mjslabs.com>
+
+	* tests/test_args_to_config.c: Handle both GNU/WIN32 and BSD getopt
+	reinit This allows all the tests to pass on systems that use the BSD
+	version of getopt which uses optind = 1 and optreset to reinitialize
+	getopt.
+
+2013-01-17  Klas Lindfors <klas@yubico.com>
+
+	* 69-yubikey.rules, 70-yubikey.rules: add YubiKey neo product ids to
+	the udev rules scripts resolves #21
+
+2013-01-14  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions
+
+2013-01-09  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.11.3 (1.11.2 got broken NEWS)
+
+2013-01-09  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump version after release
+
+2013-01-09  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.11.2
+
+2013-01-09  Klas Lindfors <klas@yubico.com>
+
+	* : commit 13c87a31df5e902ad012f7d924ab6db39ab08d66 Author: Klas
+	Lindfors <klas@yubico.com> Date:   Wed Jan 9 14:02:55 2013 +0100
+
+2013-01-09  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: get rid of warning by casting
+
+2013-01-09  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: drop c++ style comments
+
+2013-01-09  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: rework the osx implementation to look at all
+	devices avoids the wacky api of key and value matching
+
+2013-01-07  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: set required automake version to 1.11.2 fixes #22 and #20
+
+2013-01-06  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am: link the binaries correctly with ykpers and
+	libyubikey fixes where the binaries only got built static
+
+2013-01-06  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c, ykcore/ykcore.h, ykcore/ykcore_libusb-1.0.c,
+	ykcore/ykcore_libusb.c, ykcore/ykcore_osx.c,
+	ykcore/ykcore_windows.c: let _ykusb_open_device() error on several
+	keys present if more than one YubiKey is present _ykusb_open_device() will return
+	YK_EMORETHANONE.
+
+2013-01-05  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.11.2
+
+2012-12-26  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_ndef_construction.c, ykpers.c: fix a bug writing
+	invalid data to a YubiKey NEO if an unknown identifier was used (or no identifier) 0x24 would be
+	written instead of 0x00.  add a test for this.
+
+2012-12-21  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after releasing 1.11.1
+
+2012-12-21  Klas Lindfors <klas@yubico.com>
+
+	* doc: update documentation
+
+2012-12-21  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.11.1
+
+2012-12-20  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_windows.c: better strerror() for windows usb issues
+
+2012-12-19  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_libusb-1.0.c, ykcore/ykcore_libusb.c,
+	ykcore/ykcore_windows.c: fix a case where we would fail to recognize
+	a YubiKey if the first device found is from yubico (vid 1050) but not a
+	YubiKey we will fail on that instead of trying later devices.
+
+2012-12-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: document the scan-code mode with an example.
+
+2012-12-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: fixed can be 16 bytes, 32 characters
+
+2012-12-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: try to change some wording and make the manpage
+	better
+
+2012-12-12  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, ykpers4win.mk: add labels for googlecode when
+	uploading releases
+
+2012-12-12  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after release
+
+2012-12-12  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: release 1.11.0
+
+2012-12-12  Simon Josefsson <simon@josefsson.org>
+
+	* build-and-test.sh, ykpers4win.mk: Avoid hard coding VERSION in
+	ykpers4win.
+
+2012-12-12  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump so version.
+
+2012-12-12  Simon Josefsson <simon@josefsson.org>
+
+	* .gitignore: Ignore more.
+
+2012-12-12  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, NEWS, configure.ac, libykpers-1.map,
+	tests/selftest.c, ykpers-version.c, ykpers-version.h.in: Add version
+	information.
+
+2012-12-11  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac, ykpers4win.mk: bump versions after release
+
+2012-12-11  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: release 1.10.0
+
+2012-12-11  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: misstake, that should be \0, not \n
+
+2012-12-11  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, ykcore/ykcore.c: increase WAIT_FOR_WRITE_FLAG as 600ms is
+	not enough for swap in some cases.
+
+2012-12-07  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: more info about new api functions
+
+2012-12-06  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: check for swap_seen
+
+2012-12-05  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: remove the wording about ndef type, works for
+	both 2 and 4 (at least)
+
+2012-12-05  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: update NEWS for new scan_map
+
+2012-12-05  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: update man page for -S with more examples and
+	addition of !
+
+2012-12-05  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h, ykpers-args.c: update SCAN_MAP with !
+
+2012-12-04  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpersonalize.c: use sizeof() on the
+	static string instead of strlen()
+
+2012-12-04  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: only accept sequence 0 as success if no config is
+	valid
+
+2012-12-04  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for 1.10.0
+
+2012-12-04  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: remove duplicate VID/PID mappings
+
+2012-12-04  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: man for -m and -S
+
+2012-12-04  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: do some work to get the mutually exclusive flags
+	make more sense in the code
+
+2012-12-04  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, tests/test_args_to_config.c, ykcore/ykcore.c,
+	ykcore/ykcore.h, ykpers-args.c, ykpers-args.h, ykpers.c,
+	ykpersonalize.c: add -S flag for setting scanmap to the YubiKey NEO
+
+2012-12-04  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: unsigned char for usb_mode
+
+2012-12-04  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: more general way of setting mode bits for usb_mode
+
+2012-12-03  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map: yk_write_device_config(), not
+	yk_set_device_config()
+
+2012-12-03  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: refactor different write commands into a common
+	_yk_write()
+
+2012-12-03  Klas Lindfors <klas@yubico.com>
+
+	* : commit 57768f09ebbad1b900f80af0cf9b33d44af70cb2 Author: Klas
+	Lindfors <klas@yubico.com> Date:   Mon Dec 3 12:12:49 2012 +0100
+
+2012-12-03  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpers-args.h, ykpers.c, ykpersonalize.c: complete
+	commands for setting usb_mode
+
+2012-12-03  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, ykcore/ykcore.c, ykcore/ykcore.h: change around
+	to work with device_config instead of raw mode
+
+2012-12-03  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: autoEject -> autoEjectTime
+
+2012-12-03  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, ykpers.c, ykpers.h: add functions for
+	manipulating the device_config
+
+2012-12-03  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: resetting rc is unnecessary with the change
+	around in open_key
+
+2012-12-03  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: release vendorId even if no YubiKey is found
+
+2012-12-03  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: send a reference to the typeCallback
+
+2012-11-30  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: USB_MODE ended up as DEVICE_CONFIG
+
+2012-11-30  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.h, ykcore/ykcore_lcl.h, ykcore/ykdef.h: definitions
+	for device_config
+
+2012-11-30  Klas Lindfors <klas@yubico.com>
+
+	* : commit 390978b9bcebc8d4aec9fa96aecb6ca8e158dcd2 Author: Klas
+	Lindfors <klas@yubico.com> Date:   Fri Nov 30 14:14:44 2012 +0100
+
+2012-11-30  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c, ykcore/ykcore_backend.h,
+	ykcore/ykcore_libusb-1.0.c, ykcore/ykcore_libusb.c,
+	ykcore/ykcore_osx.c, ykcore/ykcore_stub.c, ykcore/ykcore_windows.c: 
+	rework _ykusb_open_device() in the ykcore backends it now takes an array of product ids to search for, let
+	yk_open_first_key() search for all known keys with a YubiKey
+	interface.
+
+2012-11-29  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: updated ykdef.h for 3.0 (neo)
+
+2012-11-26  Dain Nilsson <dain@yubico.com>
+
+	* libykpers-1.map: Added yk_set_usb_mode to libykpers-1.map
+
+2012-11-23  Dain Nilsson <dain@yubico.com>
+
+	* tests/test_args_to_config.c, ykcore/ykcore.c, ykcore/ykdef.h,
+	ykpers-args.c, ykpers-args.h, ykpers.c, ykpersonalize.c: Added the
+	USB mode option to ykpersonalize, though the actual implementation
+	is still missing.
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore, tests/Makefile.am, tests/test_yk_utilities.c: test
+	yk_check_firmware2() with a couple of versions
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, ykcore/ykcore.c, ykcore/ykcore.h,
+	ykpersonalize.c: add yk_check_firmware2() that takes status instead
+	of key and let yk_check_firmware() call that for testability
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: some tests for new neo ndef
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_ndef_construction.c: add testing of ykp_ndef_as_text()
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: show what ndef will be written to key
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, ykpers.c, ykpers.h: add ykp_ndef_as_text() to get
+	the text back from YK_NDEF
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpersonalize.c: set the ndef_type to
+	0
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: allow -n/-t to be used without slot, default to 1
+	then.
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: reset errnum if we found a key on second attempt
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpersonalize.c: tool support for writing
+	SLOT_NDEF2
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac, libykpers-1.map, ykcore/ykcore.c,
+	ykcore/ykcore.h, ykcore/ykdef.h, ykpers.c, ykpers4win.mk: add
+	support for SLOT_NDEF2
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c, ykcore/ykdef.h, ykpers.c: support for production
+	NEO with new product id and version
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: return error for invalid conf
+
+2012-11-09  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore: ignore new pbkdf2 test
+
+2012-11-08  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac, ykpers4win.mk: bump versions after release
+
+2012-11-08  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: release 1.9.0
+
+2012-11-07  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4win.mk: bump version correctly for ykpers4win
+
+2012-10-31  Simon Josefsson <simon@josefsson.org>
+
+	* contrib/oath-unlock-reprogram.sh: Parametrize the logfile.
+
+2012-10-29  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, ykinfo.1, ykinfo.c: Add ykinfo -a flag.
+
+2012-10-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpbkdf2.c: let loop variable be size_t as we're comparing with
+	size_t
+
+2012-10-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpbkdf2.c: keep const when casting
+
+2012-10-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: the structs where expanded previously, initialize the
+	last for all fields
+
+2012-10-25  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: fix space after - in yml
+
+2012-10-25  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: try to do update before install
+
+2012-10-25  Klas Lindfors <klas@yubico.com>
+
+	* : commit 8ed61075d7eb9a2f056ea51f450cf14a63656bd4 Author: Klas
+	Lindfors <klas@yubico.com> Date:   Thu Oct 25 16:00:12 2012 +0200
+
+2012-10-25  Klas Lindfors <klas@yubico.com>
+
+	* tests/Makefile.am, tests/test_ykpbkdf2.c: add test that checks our
+	implementation of pbkdf2 test vectors from rfc6070 (http://tools.ietf.org/html/rfc6070)
+
+2012-10-25  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, configure.ac, libykpers-1.map, ykpbkdf2.c,
+	ykpbkdf2.h, ykpers.c: change how we expose the prf method for the
+	pbkdf2 export the function in the library and remove the global variable.
+	add ykpbkdf2.h to the distribution
+
+2012-10-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: remove extra include
+
+2012-10-24  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, contrib/oath-unlock-reprogram.sh,
+	contrib/programming.sh: Add example tool to automate programming.
+
+2012-10-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.1: man entry for -z
+
+2012-10-19  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.c: add -z switch for deleting a configuration
+
+2012-10-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: handle deleting configuration better if both slots are configured and one is deleted programming sequence
+	will be counted up as usual. when the last slot is deleted
+	programming sequence will be set to 0. try to handle this.
+
+2012-10-17  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after release
+
+2012-10-17  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: release 1.8.2 very minor release, the udev files weren't included in the
+	distribution
+
+2012-10-17  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, NEWS: add the udev rules files to EXTRA_DIST so
+	they're packed in distribution
+
+2012-10-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: don't use pre-constructed default structs and
+	ykcore-lcl.h use the set functions we provide to set up our defaults instead.
+
+2012-10-17  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: bump version in configure.ac
+
+2012-10-17  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions after release
+
+2012-10-17  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: mention ykinfo in NEWS, set release date for 1.8.1
+
+2012-10-16  Klas Lindfors <klas@yubico.com>
+
+	* ykinfo.1, ykinfo.c: add -p switch for programming sequence
+
+2012-10-15  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.c: use ykds_free() to free YK_STATUS instead of
+	straight free
+
+2012-10-15  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, ykinfo.1: man page for ykinfo
+
+2012-10-15  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am, ykchalresp.c: ykchalresp doesn't need to depend on
+	libykpers
+
+2012-10-15  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore, Makefile.am, ykinfo.c: add new binary ykinfo can be used to get serial, version or touch level from the command
+	line
+
+2012-10-12  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: more NEWS for 1.8.1
+
+2012-10-12  Klas Lindfors <klas@yubico.com>
+
+	* : commit 84bf5a8328846407982034e8e1d45f58382892b1 Author: Klas
+	Lindfors <klas@yubico.com> Date:   Fri Oct 12 14:44:47 2012 +0200
+
+2012-10-12  Maxim Burgerhout <maxim@wzzrd.com>
+
+	* 69-yubikey.rules, Makefile.am, configure.ac: Fix support for
+	setting ACL through udev Needs recent udev (>= 188) that has ID_SECURITY_TOKEN in
+	70-uaccess.rules / 70-udev-acl.rules.  No longer uses the deprecated udev-acl tool for setting ACL's on the
+	/dev/input/event* files created by the Yubikey.
+
+2012-10-12  Maxim Burgerhout <maxim@wzzrd.com>
+
+	* configure.ac: AM_PROG_AR added for the newest automake Needed on Fedora 18, at least. Will generate a warninig on older
+	platforms, like EL6, but will not prevent build.  Fixes these error messages during autoreconf:     linking libtool libraries using a non-POSIX \     /usr/share/automake-1.12/am/ltlibrary.am: archiver requires \     'AM_PROG_AR' in 'configure.ac'
+
+2012-10-12  Maxim Burgerhout <maxim@wzzrd.com>
+
+	* .gitignore: Add build-aux/ar-lib to .gitignore
+
+2012-10-10  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: add better error returns for osx, return the
+	error names, can't find a good strerror() from apple
+
+2012-10-10  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: workaround for a memory leak in
+	IOHIDManagerCopyDevices() leaks 192 bytes/call on os x 10.8.2, by scheduling and unscheduling
+	a run loop it doesn't leak.
+
+2012-10-10  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: don't do yk_release() when failing to open a
+	device
+
+2012-10-10  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: we need to CFRetain(yk) after opening the
+	device and do CFRelease() when closing the device
+
+2012-10-10  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: don't do IOHIDManagerClose() in stop it's used for matching IOHIDManagerOpen() not IOHIDManagerCreate()
+
+2012-10-08  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore: ignore more ykcore backends
+
+2012-10-08  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: make error handling match that of other
+	ykcore implementations
+
+2012-10-08  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: remove extra spaces in ykcore_osx
+
+2012-10-05  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_osx.c: IOHIDManager object have to be disposed of
+	with CFRelease()
+
+2012-09-28  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac, ykpers4win.mk: bump versions post-release
+
+2012-09-28  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac, ykpers4win.mk: bump version to 1.8.0 for
+	release
+
+2012-09-27  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: fix NEWS about ndef_construct return values
+
+2012-09-27  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: correct indentation
+
+2012-09-21  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_libusb-1.0.c: when calling libusb_exit() clear
+	usb_ctx and libusb_inited
+
+2012-09-21  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c, ykcore/ykcore.h: make yk_challenge_response()
+	take challenge as const
+
+2012-09-21  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: mention yk_challenge_response()
+
+2012-09-21  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.h: extern on function yk_write_ndef()
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: NEWS for next release
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.h, ykcore/ykcore_lcl.h, ykcore/ykdef.h: unbreak.
+	remove yk_ndef_st name and map both YKNDEF and YK_NDEF to ndef_st
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml, ykpers4win.mk: try to give CC later
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: and the compiler is -gcc
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: try to set compiler to i586-mingw32msvc
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: add mingw32-runtime
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml, build-and-test.sh, ykpers4win.mk: update to windows
+	building for travis
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: drop apt-get update
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: don't use strnlen
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: try other travis options
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml, build-and-test.sh: use stub backend. try to install
+	wine
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: install libusb-dev for win so we can run configure
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: try to just build the win stuff
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* : commit 8523c6fbec7a30bef5ae68401857e602c6f1f3ff Author: Klas
+	Lindfors <klas@yubico.com> Date:   Thu Sep 20 11:22:21 2012 +0200
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: install fewer packages with variables
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml, build-and-test.sh: create an empty ChangeLog, try
+	apt-get update
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c, ykpers.h: change ykp_free_ndef to return int
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: so mingw-w32 for travis?
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml, build-and-test.sh: travis for windows builds
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* ykpers4win.mk: track version in ykpers4win.mk
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_threaded_calls.c: make the thread test work on windows
+
+2012-09-20  Klas Lindfors <klas@yubico.com>
+
+	* .svnignore: rm .svnignore, we're using git
+
+2012-09-19  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, tests/test_ndef_construction.c, ykcore/ykcore.c,
+	ykcore/ykcore.h, ykcore/ykcore_lcl.h, ykcore/ykdef.h, ykpers.c,
+	ykpers.h, ykpersonalize.c: fix the NFC interfaces to work like the
+	rest of our api
+
+2012-09-19  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_ndef_construction.c, ykpers.c: correct return values, 1
+	for success and 0 for fail
+
+2012-09-19  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c, ykcore/ykcore.h, ykpers.c, ykpers.h: remove
+	ignored const on errno_location functions fixes #11
+
+2012-09-19  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_lcl.h: remove yk_write_key() from ykcore_lcl.h,
+	defined in ykcore.h
+
+2012-09-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: make status unsigned to match other types
+
+2012-09-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: change to size_t to match function returns
+
+2012-09-19  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: cast to const char* instead of char* to not discard
+	const
+
+2012-09-19  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: didn't read properly how the LT_ versioning flags
+	should change
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpers-args.h: let ykpers-args.c include
+	ykpers-args.h and fix function declaraction for report_yk_error()
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.c: strlen returns a size_t
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.c: don't go into error-reporting mode before we can
+	have errors
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac, libykpers-1.map, ykchalresp.c, ykcore/ykcore.c,
+	ykcore/ykcore.h: add function yk_challenge_response used for doing challenge-response with a key. used from ykchalresp.c
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.c: remove unused variables
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: remove inaccurate comment
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: remove unused variable and make sleep ints
+	unsigned
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: add void as function argument to silence warning
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: remove duplicated function declarations
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: remove unused variable
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: return 1 on success
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.c: make local function static
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.c: add void to function declaration
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykchalresp.c: make local functions static
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_libusb-1.0.c: size_t > ssize_t to match return type
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.h: void as argument to be a correct prototype
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_libusb-1.0.c, ykcore/ykcore_libusb.c: use passed-in
+	vendor_id and product_id instead of constants
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_backend.h, ykcore/ykcore_libusb-1.0.c,
+	ykcore/ykcore_libusb.c: add void as function argument to get rid of
+	warnings
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_libusb-1.0.c: make buf const as we assign static
+	strings
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: const on static strings
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: move up declarations before code to avoid warnings
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: function declarations and make functions static
+
+2012-09-18  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: remove apt-get update step, it breaks to often
+
+2012-09-17  Klas Lindfors <klas@yubico.com>
+
+	* tests/Makefile.am, ykcore/Makefile.am: enable warnings for ykcore
+	and tests
+
+2012-09-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: optarg shadows global optarg, change variable name
+
+2012-09-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: add void as argument to silence warning
+
+2012-09-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: braces to remove warnings
+
+2012-09-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: make _get_supported_key_length() static
+
+2012-09-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: break up declaration and use to remove warning
+
+2012-09-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: removes warning about index shadowing global
+
+2012-09-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: remove unused variable
+
+2012-09-17  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: fix a few warnings
+
+2012-09-17  Klas Lindfors <klas@yubico.com>
+
+	* Makefile.am: actually enable the warnings package when requested
+
+2012-09-14  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_libusb-1.0.c: return 0 on error, saving the errno
+
+2012-09-14  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_libusb-1.0.c: add usb context according to libusb documentation (in source code) that is needed if
+	you want to be able to do several calls to libusb_init from the same
+	process, and we might do that.
+
+2012-09-14  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_threaded_calls.c: return NULL
+
+2012-09-14  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_threaded_calls.c: test for error state from yk_init()
+
+2012-09-14  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_libusb-1.0.c: return error when libusb_init fails
+
+2012-09-13  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: build with different backends
+
+2012-09-13  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: install libyubikey-dev before_install
+
+2012-09-13  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: travis-ci integration for yubikey-personalization
+
+2012-08-23  Simon Josefsson <simon@josefsson.org>
+
+	* : Merge pull request #12 from jklontz/master Compile fixes for MSVC 2010
+
+2012-08-23  Klas Lindfors <klas@yubico.com>
+
+	* tests/Makefile.am: remove broken, unnecessary, outcommented line
+	for the thread test
+
+2012-08-23  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c, ykpers.c: fix crash-bug when calling from
+	different threads the 'static int' is global for the program, so tsd_init can be used
+	to check if we should init the thread local storage. Then use
+	YK_TSD_GET to check if we already got an errno for this thread, if
+	not allocate and set it.
+
+2012-08-23  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore, tests/Makefile.am, tests/test_threaded_calls.c: test
+	calling the library from different threads
+
+2012-08-17  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Don't override default dependencies.
+
+2012-08-16  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore_libusb-1.0.c, ykcore/ykcore_libusb.c: do
+	usb_set_configuration(h, 1) before we use the YubiKey Needed for some configurations, at least virtualbox. fixes #14.
+
+2012-08-07  Klas Lindfors <klas@yubico.com>
+
+	* : commit 6bd1531a5c2d16cfac5709eeb98aab03a79d0933 Author: Josh
+	Klontz <jklontz@mitre.org> Date:   Tue Jul 17 17:45:04 2012 -0400
+
+2012-06-18  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: remove init of char to NULL, removes warning.
+
+2012-06-07  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykchalresp.1: get description in section DESCRIPTION, not OPTIONS.
+
+2012-06-07  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore: ignores for windows binary builds
+
+2012-06-07  Klas Lindfors <klas@yubico.com>
+
+	* NEWS, configure.ac: bump versions post-release
+
+2012-06-07  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: release data for 1.7.0
+
+2012-06-07  Klas Lindfors <klas@yubico.com>
+
+	* : commit 7b9ae18c4e64544c1c9768a968216a1cc818b918 Author: Simon
+	Josefsson <simon@josefsson.org> Date:   Thu May 31 09:56:11 2012
+	+0200
+
+2012-05-31  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, ykpers4win.mk: Bump libyubikey to 1.9.
+
+2012-05-31  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, tests/Makefile.am, ykpers4win.mk: Windows: Build fixes
+	related to self checks.
+
+2012-05-31  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump versions.
+
+2012-05-31  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers4win.mk: Drop hack-wine stuff.  Bump yubico-c to 1.8.
+
+2012-05-31  Simon Josefsson <simon@josefsson.org>
+
+	* tests/Makefile.am, ykpers4win.mk: Fix Windows build self-checks.
+
+2012-05-31  Klas Lindfors <klas@yubico.com>
+
+	* m4/ld-version-script.m4: newer ld-version-script.m4 from gnulib,
+	silences warnings
+
+2012-05-28  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpersonalize.c: add ndef args to
+	test_args_to_config, make sure ndef_type is initialized.
+
+2012-05-28  Klas Lindfors <klas@yubico.com>
+
+	* configure.ac: readd LT_CURRENT and friends
+
+2012-05-25  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.1: Document the new options n, t, u and x + new
+	flags.
+
+2012-05-25  Fredrik Thulin <fredrik@yubico.com>
+
+	* : commit da2dd2d904e7758a7d8dbbf65850540a438e70cc Author: Fredrik
+	Thulin <fredrik@yubico.com> Date:   Thu May 24 14:57:54 2012 +0200
+
+2012-05-24  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykcore/ykcore.c, ykcore/ykcore.h: Move declaration of
+	yk_force_key_update to header file.
+
+2012-05-24  Fredrik Thulin <fredrik@yubico.com>
+
+	* NEWS: Prepare version 1.6.4.
+
+2012-05-24  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.1: Document oath-id option.
+
+2012-05-24  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers-args.c: Remove debug output.
+
+2012-05-23  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers-args.c: Implement -ooath-id=xx or -ooath-id for serial
+	number based.  This greatly simplifies programming OATH token identifier, compared
+	to the old method of encoding one manually and setting it using
+	-ofixed=.
+
+2012-05-23  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers-args.c: Re-factor adding _set_fixed().  Code moved to cater for upcoming commit (-ooath-id).
+
+2012-05-23  Fredrik Thulin <fredrik@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.c: Pass YK_KEY to args_to_config().  Upcoming option -ooath-id needs this to read the serial number from
+	the YubiKey we are about to program.
+
+2012-05-23  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers.c: Properly display OATH token ids.  There are config flags that control how the YubiKey will output the
+	'fixed' part for OATH configurations. Reflect that in this programs
+	output.
+
+2012-05-15  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: make sure the ndef_string is initialized to 0
+
+2012-05-10  Klas Lindfors <klas@yubico.com>
+
+	* : commit fc4ac77337913e9540532418f7fa4f1f0d27ac6e Author: Klas
+	Lindfors <klas@yubico.com> Date:   Thu May 10 10:41:01 2012 +0200
+
+2012-05-09  Klas Lindfors <klas@yubico.com>
+
+	* NEWS: news for yubikey-personalization 1.7
+
+2012-05-09  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: oath imf is only available from neo version 2.1.7
+
+2012-04-27  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_ndef_construction.c, ykpers.c, ykpers.h,
+	ykpersonalize.c: change signature of ykp_construct_ndef_text() include language and encoding, follow the ndef specification for
+	encoding text in ndef.
+
+2012-04-27  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_ndef_construction.c, ykpers.c, ykpers.h,
+	ykpersonalize.c: change signature of ykp_construct_ndef_text() include language and encoding, follow the ndef specification for
+	encoding text in ndef.
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* .gitignore: ignore the new ndef test
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: move ykcore_lcl.h include to be next to other
+	yubikey includes
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: add some config checks for neos
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: we changed how the ndef string is
+	passed in
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: we changed configuration_number to
+	command in the sources, change in test
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: add the build version to the struct
+	in the test
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* tests/Makefile.am, tests/test_ndef_construction.c: add basic tests
+	for the ndef construction functions.
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: move modifying of ndef struct until after we've checked
+	the length
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: have to return when hitting the error
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, tests/test_args_to_config.c, ykpers-args.c,
+	ykpers-args.h, ykpers.c, ykpers.h, ykpersonalize.c: support for
+	writing ndef text and uri let there be ykp_construct_ndef_uri() and ykp_construct_ndef_text()
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: don't check for neo after 4, check if it's older than 5
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: the neo has serial_api, not the other serial functions
+
+2012-04-26  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c, ykpersonalize.c: there was no 2.1.9 and there might be a
+	neo with 2.1.9
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: write ndef uri to key
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpersonalize.c: collect ndef uri properly.
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: add version check for neo for serial printing
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map: export ndef functions
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: function for constructing ndef struct from uri
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c, ykpers.c: check version for SLOT_NDEF, copy the
+	data to the ndef pointer
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: function for writing ndef struct to yubikey
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: add checks for neo to the capabilities that matter
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: add neo checks for slot2 and the vcheck_v21_or_greater
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: convert the existing vcheck_ arguments to descriptive
+	capabilities instead, prepare for NEO
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: add build_version to config struct
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers-args.c, ykpers-args.h,
+	ykpersonalize.c: send ndef through to args function, fix definition
+	for args function in header
+
+2012-04-25  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: break in case 'n'
+
+2012-04-11  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: rules for combinations with -n
+
+2012-04-11  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: url -> uri
+
+2012-04-11  Klas Lindfors <klas@yubico.com>
+
+	* : commit 49ddf8cea56a250e88aca0ca7349f37b6e102cce Author: Klas
+	Lindfors <klas@yubico.com> Date:   Wed Apr 11 10:42:52 2012 +0200
+
+2012-04-11  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: args stuff for setting ndef uri
+
+2012-04-11  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: NEO changes for ykdef.h from JE
+
+2012-04-10  Klas Lindfors <klas@yubico.com>
+
+	* tests/test_args_to_config.c: simple tests for parsing of new
+	flags.
+
+2012-04-10  Klas Lindfors <klas@yubico.com>
+
+	* tests/selftest.c, tests/test_args_to_config.c,
+	tests/test_key_generation.c: use ykp_alloc() instead of
+	ykp_create_config(). add -1 to _test_non_config_args
+
+2012-04-10  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: remove comment about deprecation.
+
+2012-04-05  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, ykpers-args.c, ykpers.c, ykpers.h,
+	ykpersonalize.c: rework default flags: the library does not give defaults for any of the configuration
+	flags this is done in the ykpersonalize tool instead. ykp_alloc()
+	and ykp_configure_version() introduced, removed status parameter
+	from ykp_configure_command(). Remove defaulting to slot 1, instead
+	force the user to select a slot.
+
+2012-03-28  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: updated update masks from JE
+
+2012-03-28  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: fix indentation
+
+2012-03-28  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: defaults for updates by default add ALLOW_UPDATE to updates.
+
+2012-03-28  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: update text depending on command to be written to
+	key.
+
+2012-03-28  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: check if update flags are allowed.
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, ykpers-args.c, ykpers.c, ykpers.h: add new
+	extended flags for 2.3 USE_NUMERIC_KEYPAD, FAST_TRIG, ALLOW_UPDATE and DORMANT
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: ykdef.h 2.3 from JE (copied from python-yubico)
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: code for -u (update) parsing
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: recognize SLOT_UPDATE1 and SLOT_UPDATE2
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: only need aes key for SLOT_CONFIG and
+	SLOT_CONFIG2
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: add -x option for swapping configurations
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: return 1 on success
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.h: add declarations of ykp_configure_command and
+	ykp_command
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.h: declare yk_write_command
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map: add exporting of yk_write_command to mapping file
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykpersonalize.c: use yk_write_command instead of yk_write_config
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* libykpers-1.map, ykpers.c: add ykp_command and
+	ykp_configure_command work with commands instead of slots. let the slots functions wrap
+	these.
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykcore.c: new function yk_write_command to support more
+	commands let yk_write_config wrap yk_write_command.
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykpers.c: add vcheck function for 2.3
+
+2012-03-27  Klas Lindfors <klas@yubico.com>
+
+	* ykcore/ykdef.h: add 2.3 commands to ykdef
+
+2012-03-26  Klas Lindfors <klas@yubico.com>
+
+	* ykpers-args.c: merge code for slot 1 and 2
+
+2012-02-21  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykchalresp.1: groff-escape minus-signs
+
+2012-02-19  Clemens Lang <neverpanic@gmail.com>
+
+	* ykcore/ykcore_osx.c: Don't set yk_errno if nothing went wrong This fixes a superfluous warning when using challenge-response
+	authentication with yubico-pam on OS X:         debug: pam_yubico.c:649 (do_challenge_response): USB error:
+	        USB error This warning appeared although no error actually
+	occured.
+
+2012-02-18  Clemens Lang <neverpanic@gmail.com>
+
+	* ykchalresp.c: yubikey.h requires char *, cast to silence warning yubikey.h from yubico-c defines yubikey_hex_*() to have a char * as
+	first parameter, where we use unisgned char[] here. Add a cast to
+	silence the warning this generates.
+
+2012-02-18  Clemens Lang <neverpanic@gmail.com>
+
+	* ykchalresp.c: ykchalresp.c: clang warnings about unsigned casts unsigned char * and char * are used alike where casts would be
+	needed to compile warning-free
+
+2012-02-18  Clemens Lang <neverpanic@gmail.com>
+
+	* ykchalresp.c: ykchalresp.c: Fix clang format warning warning: conversion specifies type 'int' but the argument has type
+	'unsigned long'
+
+2012-02-18  Clemens Lang <neverpanic@gmail.com>
+
+	* ykcore/ykcore.c: Suggest parantheses around assgnmnt used as truth
+	value
+
+2012-02-18  Clemens Lang <neverpanic@gmail.com>
+
+	* ykcore/ykcore.c: Silence warning about implicit cast adding
+	unsigned yk_wait_for_key_status expects an unisgned char*, but char* given.
+
+2012-02-18  Clemens Lang <neverpanic@gmail.com>
+
+	* ykcore/ykcore.c: Add function declaration to silence warning yk_force_key_update was used without being declared
+
+2012-01-23  Simon Josefsson <simon@josefsson.org>
+
+	* doc: Get latest docs.
+
+2012-01-23  Simon Josefsson <simon@josefsson.org>
+
+	* COPYING, Makefile.am, NEWS, configure.ac, libykpers-1.map,
+	tests/Makefile.am, tests/selftest.c, tests/test_args_to_config.c,
+	tests/test_key_generation.c, ykchalresp.1, ykchalresp.c,
+	ykcore/Makefile.am, ykcore/ykcore.c, ykcore/ykcore.h,
+	ykcore/ykcore_backend.h, ykcore/ykcore_lcl.h,
+	ykcore/ykcore_libusb-1.0.c, ykcore/ykcore_libusb.c,
+	ykcore/ykcore_osx.c, ykcore/ykcore_stub.c, ykcore/ykcore_windows.c,
+	ykcore/ykstatus.c, ykcore/ykstatus.h, ykcore/yktsd.h, ykpbkdf2.c,
+	ykpbkdf2.h, ykpers-args.c, ykpers-args.h, ykpers.c, ykpers.h,
+	ykpers4win.mk, ykpersonalize.1, ykpersonalize.c: Bump version.  Use
+	silent rules.  Bump copyright years.
+
+2011-12-15  Fredrik Thulin <fredrik@yubico.com>
+
+	* NEWS: Prepare version 1.6.3.
+
+2011-12-15  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykchalresp.1, ykpersonalize.1: s/Yubikey/YubiKey/
+
+2011-12-15  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers-args.c: Sort oath-imf in --help message.
+
+2011-12-15  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.1: Document oath-imf, serial-{btn,usb,api}-visible.
+
+2011-12-12  Fredrik Thulin <fredrik@yubico.com>
+
+	* tests/test_args_to_config.c: Fix CRC in test cases on big endian
+	systems.  Noticed failure in Debian build of 1.6.2 on mips.
+
+2011-11-28  Fredrik Thulin <fredrik@yubico.com>
+
+	* NEWS, configure.ac: Prepare version 1.6.2.
+
+2011-11-24  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore.c, ykpers.c: Check calloc return value when creating
+	errno varibles.
+
+2011-11-10  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, ykchalresp.c: Fix firmware version check.
+
+2011-11-10  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, ykcore/ykcore.h, ykcore/ykstatus.h, ykpers.h: Use extern "C"
+	keywords.
+
+2011-11-03  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykcore/ykcore.c: Define YK_DEBUG to get hex dumps of USB
+	read/writes.
+
+2011-10-31  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykchalresp.c, ykpers-args.c: Fix 'char' not always defaulting to
+	sign.  "Serge E. Hallyn" <serge.hallyn@canonical.com> reports he has an ARM
+	computer where 'char' defaults to 'unsigned char'. The correct
+	return type of getopt() according to getopt(3) is 'int' though.
+
+2011-10-05  Simon Josefsson <simon@josefsson.org>
+
+	* doc: Update.
+
+2011-09-21  Fredrik Thulin <fredrik@yubico.com>
+
+	* : commit a0a40a5eae4b610964052673e7371f1a8f3a1b8c Merge: d7d0c05
+	719a99c Author: Fredrik Thulin <fredrik@yubico.com> Date:   Fri Sep
+	16 14:10:00 2011 +0200
+
+2011-09-16  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers.c: Fix length in some calls to writer().  No real change, the correct length was used by coincidence.
+
+2011-09-12  Doug Huff <mith@jrbobdobbs.org>
+
+	* ykpers.h: Fix -Wall error.
+
+2011-09-12  Doug Huff <mith@jrbobdobbs.org>
+
+	* .gitignore, ykcore/ykcore_libusb.c: This fixes building on OpenBSD
+	and properly adds ykcore_libusb output to gitignore.
+
+2011-08-15  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Fix typo in NEWS.
+
+2011-08-15  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.6.1.
+
+2011-08-15  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac, tests/Makefile.am: Fix test_args_to_config
+	crash on some platform.
+
+2011-08-15  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Bump version.
+
+2011-07-20  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, ykpers4win.mk: Update for new google account.
+
+2011-07-20  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers.c, ykpers.h: Fix constness.
+
+2011-07-20  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.6.0.
+
+2011-07-20  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac, libykpers-1.map, ykpers.c: Add NEWS entry.
+	Bump version.  Fixed shared library version.  Fix code style.
+
+2011-07-20  Frank Cusack <frank@google.com>
+
+	* libykpers-1.map, ykpers-args.c, ykpers.c, ykpers.h: Add flag and
+	API for OATH initial moving factor.  Signed-off-by: Simon Josefsson <simon@josefsson.org>
+
+2011-07-20  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac, ykcore/ykcore.c: Accept firmware version 2.3.x
+	too.
+
+2011-06-07  Fredrik Thulin <fredrik@yubico.com>
+
+	* tests/test_args_to_config.c: Try to fix test case problems on
+	armel CPU.  Reported in https://bugs.launchpad.net/bugs/791249.
+
+2011-05-10  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.5.2.
+
+2011-05-10  Simon Josefsson <simon@josefsson.org>
+
+	* doc: Use latest docs.
+
+2011-05-10  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add NEWS entries.
+
+2011-05-10  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, NEWS, ykpers4win.mk: Fix license and dist
+	ykpers4win.mk.
+
+2011-04-20  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Fix typo and re-indent.
+
+2011-04-20  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Print udev rules directory at the end of ./configure
+	run.
+
+2011-04-14  Tollef Fog Heen <tfheen@err.no>
+
+	* 70-yubikey.rules, Makefile.am, configure.ac: Add udev rules to
+	grant the console user access to the yubikey device node
+
+2011-04-14  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore_windows.c: Drop hidpi.h too, we only need user space
+	stuff in hidsdi.h.
+
+2011-04-14  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers4win.mk: Fix upload rules.
+
+2011-04-14  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore_windows.c: Assume a fixed MinGW-w64 environment,
+	drop work arounds for missing prototypes.
+
+2011-04-13  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykchalresp.c: Fix incorrect length used with 'yubikey_hex_decode'.  Resulted in coredump for challenges of 128 chars (64 bytes).
+
+2011-04-12  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers-args.c: Since slot choosing resets options, demand it comes
+	first.
+
+2011-04-12  Fredrik Thulin <fredrik@yubico.com>
+
+	* : commit c3aa9dedd396f9b639b88130292e915e2683d6ba Author: Fredrik
+	Thulin <fredrik@yubico.com> Date:   Tue Apr 12 17:06:03 2011 +0200
+
+2011-04-12  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, ykpers4win.mk: Move all Windows targets to
+	ykpers4win.mk.
+
+2011-04-12  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers4win.mk: Force libtool to install DLL even though it doesn't
+	know libuuid etc.
+
+2011-04-11  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump versions.
+
+2011-04-11  Simon Josefsson <simon@josefsson.org>
+
+	* doc: Use latest documentation.
+
+2011-04-11  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix pgp key example.
+
+2011-04-11  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.5.1.
+
+2011-04-11  Simon Josefsson <simon@josefsson.org>
+
+	* .gitignore: Ignore more.
+
+2011-04-11  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump versions to reflect added header and functions.
+
+2011-04-11  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, NEWS, tests/Makefile.am, ykpers-args.c,
+	ykpers-args.h, ykpersonalize.c: Fixed a build error in self tests
+	when '-z muldefs' is not supported.
+
+2011-04-11  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers4win.mk: Re-enable make check now that it works.
+
+2011-04-11  Fredrik Thulin <fredrik@yubico.com>
+
+	* NEWS: List bugfixes for 1.5.1.
+
+2011-04-11  Simon Josefsson <simon@josefsson.org>
+
+	* .gitignore: Fix .gitignore.
+
+2011-04-11  Simon Josefsson <simon@josefsson.org>
+
+	* .gitignore, configure.ac, m4/valgrind-tests.m4, tests/Makefile.am: 
+	Use valgrind for self checks.
+
+2011-04-11  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Add some news entries for 1.5.1.
+
+2011-04-11  Simon Josefsson <simon@josefsson.org>
+
+	* : Merge remote branch 'remotes/origin/fix/selfcheck_crash'
+
+2011-04-10  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers4win.mk: Use native Windows backend by assuming 1.5.1 and
+	drop libusb.
+
+2011-04-10  Simon Josefsson <simon@josefsson.org>
+
+	* tests/test_args_to_config.c: Fix last commit.
+
+2011-04-10  Simon Josefsson <simon@josefsson.org>
+
+	* tests/Makefile.am, tests/test_args_to_config.c: Fix crash in self
+	test.  Fix expected error codes.
+
+2011-04-09  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac, ykcore/Makefile.am, ykcore/ykcore_win32.c,
+	ykcore/ykcore_windows.c: Add native Windows backend.
+
+2011-04-09  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore_stub.c: Cleanup stub.
+
+2011-04-07  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykcore/ykcore.c: Slot 2 configuration was broken with
+	libusb-win32.  Reading status reports with slot 2 did not work with libusb-win32
+	(1.0.8) for some reason, while working just fine on Linux and Mac OS
+	X.
+
+2011-04-02  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers.c: fixed= is not n/a for OATH-HOTP.
+
+2011-03-23  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers.h: Add some missing prototypes.  u# Please enter the commit
+	message for your changes. Lines starting
+
+2011-03-12  Tollef Fog Heen <tfheen@err.no>
+
+	* Makefile.am: Distribute ykdef.h too
+
+2010-12-31  Tollef Fog Heen <tfheen@err.no>
+
+	* ykpersonalize.1: Document modhex
+
+2011-01-26  Tollef Fog Heen <tfheen@err.no>
+
+	* ykcore/ykcore.h: Fix Swedishism
+
+2011-03-10  Fredrik Thulin <fredrik@yubico.com>
+
+	* Makefile.am: Add new man-page ykchalresp.1
+
+2011-03-09  Fredrik Thulin <fredrik@yubico.com>
+
+	* NEWS, configure.ac: Prepare for release 1.5.0.
+
+2011-03-09  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykchalresp.1, ykchalresp.c, ykpers.c: whitespace
+
+2011-03-09  Fredrik Thulin <fredrik@yubico.com>
+
+	* tests/test_args_to_config.c: Use new helper function
+	_parse_args_rc.
+
+2011-03-09  Fredrik Thulin <fredrik@yubico.com>
+
+	* tests/test_args_to_config.c, ykpersonalize.c: Ban -ouid= with
+	-ochal-resp and -ooath-hotp.  Challenge response and OATH-HOTP store part of the HMAC key in the 6
+	bytes for 'uid', so specifying -ouid= with these modes is just an
+	easy way to end up with another HMAC key being programmed than you
+	think.
+
+2011-03-09  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.1: Clarifications.
+
+2011-03-09  Fredrik Thulin <fredrik@yubico.com>
+
+	* : commit 78d5dd2cd25ecbbc86854b01062bab3c5db777d2 Author: Fredrik
+	Thulin <fredrik@yubico.com> Date:   Tue Mar 8 20:35:49 2011 +0100
+
+2011-03-08  Fredrik Thulin <fredrik@yubico.com>
+
+	* libykpers-1.map, ykcore/ykcore.c, ykcore/ykcore.h: Add new
+	libykpers functions.
+
+2011-03-08  Fredrik Thulin <fredrik@yubico.com>
+
+	* Makefile.am: Fix 'make check' before 'make'.
+
+2011-03-08  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykchalresp.1, ykpersonalize.1: Change product link.
+
+2011-03-08  Fredrik Thulin <fredrik@yubico.com>
+
+	* : commit d6a74bd8f8479e03bd04ed61c7d2ed9085a38d03 Author: Fredrik
+	Thulin <fredrik@yubico.com> Date:   Tue Mar 8 09:59:46 2011 +0100
+
+2011-03-08  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.1: Correct version required for C/R configuration
+	flags.
+
+2011-03-08  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.c: Revert "Remove redundant '-h' check." This reverts commit 6a07096ae503b6f548149735c8cb0a2112dcbe53.
+
+2011-03-07  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykcore/ykcore.c, ykpersonalize.c: Add ability to read serial
+	number.
+
+2011-03-07  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers.c: 'fixed' is n/a for OATH/CHAL-RESP.
+
+2011-03-07  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.c: Clarify type of key in error message.
+
+2011-03-07  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.1: New URL for issue tracker.
+
+2011-03-07  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykchalresp.1: init
+
+2011-03-07  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykcore/ykcore.c: Wait for configuration writing to finish.  After last write, we must wait for the key to turn off
+	SLOT_WRITE_FLAG before fetching status to verify write operation.
+
+2011-03-06  Fredrik Thulin <fredrik@yubico.com>
+
+	* configure.ac: Use AC_CHECK_LIB to check for FreeBSD libusb.  Can't use AC_LIB_HAVE_LINKFLAGS twice since the result is cached.
+
+2011-03-06  Fredrik Thulin <fredrik@yubico.com>
+
+	* configure.ac: Fix FreeBSD libusb detection.
+
+2011-03-01  Fredrik Thulin <fredrik@yubico.com>
+
+	* configure.ac: Try to fix libusb detection on FreeBSD 8.  FreeBSD 8 has an implementation of the libusb-1.0 API in -lusb, try
+	to handle it.
+
+2011-02-16  Fredrik Thulin <fredrik@yubico.com>
+
+	* .gitignore: Don't track generated ChangeLog.
+
+2011-02-08  Simon Josefsson <simon@josefsson.org>
+
+	* doc: Update.
+
+2011-02-05  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykcore/ykcore.h: Fix YK_ENOMEM and YK_ENOSTATUS both being 0x07.
+
+2011-02-05  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.c: Remove redundant '-h' check.
+
+2011-02-05  Fredrik Thulin <fredrik@yubico.com>
+
+	* Makefile.am, NEWS, configure.ac, libykpers-1.map, ykchalresp.c,
+	ykcore/ykcore.c, ykcore/ykcore.h: Add challenge-response tool
+	(ykchalresp).  This required implementing multi-feature-report reads in ykcore.c.  It is kind of wrong to have these functions in libykpers, but that's
+	where they are at the moment. We might split some part of libykpers
+	out into a new library before releasing anything official. This is
+	to be considered work in progress.
+
+2011-01-31  Fredrik Thulin <fredrik@yubico.com>
+
+	* NEWS, configure.ac: Document 160 bit key fix, and increase
+	LT_REVISION since it modified libykpers code.
+
+2011-01-31  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.c: Minor cleanups.
+
+2011-01-31  Fredrik Thulin <fredrik@yubico.com>
+
+	* tests/Makefile.am, tests/test_key_generation.c, ykpers.c: Make
+	ykp_AES_key_from_passphrase() handle 160 bit keys too.
+
+2011-01-31  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers.c: ykp_write_config: Some modes now store four bytes key in
+	uid.  OATH-HOTP and HMAC challenge response have 20 bytes key, but the key
+	field in the configuration is only 16 bytes. They therefor store
+	four more bytes in the uid field. The pretty-printer is now aware of
+	this, and will say "uid: n/a" when there is actually key data in
+	there, and show the complete 20 bytes key as "key:".
+
+2011-01-20  Fredrik Thulin <fredrik@yubico.com>
+
+	* README: Add info about how to populate the doc/ directory after
+	the move to Git.
+
+2011-01-19  Fredrik Thulin <fredrik@yubico.com>
+
+	* Makefile.am: release: One more fix for build dir != src dir.  Do 'git push' before tagging to find any problems before tagging.
+
+2011-01-19  Fredrik Thulin <fredrik@yubico.com>
+
+	* Makefile.am: release: Make work with build dir != src dir.
+
+2011-01-18  Fredrik Thulin <fredrik@yubico.com>
+
+	* NEWS, configure.ac: Updates for new release 1.4.1.
+
+2011-01-18  Fredrik Thulin <fredrik@yubico.com>
+
+	* : commit 04444b59cc14c16d3d5f25be56ab59192f331eae Author: Fredrik
+	Thulin <fredrik@yubico.com> Date:   Tue Jan 18 22:09:06 2011 +0100
+
+2011-01-17  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers4win.mk: Drop make check until we've fixed -z muldefs.
+
+2011-01-17  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers4win.mk: Add all rule.
+
+2011-01-17  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers4win.mk: Update for 1.4.0.
+
+2011-01-17  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Update release target.
+
+2011-01-17  Simon Josefsson <simon@josefsson.org>
+
+	* doc: Update doc/.
+
+2011-01-17  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix ChangeLog generation.
+
+2011-01-17  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix check-doc-dist rule.
+
+2011-01-17  Fredrik Thulin <fredrik@yubico.com>
+
+	* : commit cb13e47299a76bf98f2d6e5fd46c209ff7941cd7 Author: Fredrik
+	Thulin <fredrik@yubico.com> Date:   Mon Jan 17 16:32:02 2011 +0100
+
+2011-01-17  Simon Josefsson <simon@josefsson.org>
+
+	* doc: Update doc/.
+
+2011-01-17  Fredrik Thulin <fredrik@yubico.com>
+
+	* configure.ac: Update version numbers for next release.
+
+2011-01-17  Fredrik Thulin <fredrik@yubico.com>
+
+	* tests/test_args_to_config.c, ykpers.c: Reject -a key with upper
+	case hex.  yubikey_hex_decode only handles lowercase hex, so use yubikey_hex_p
+	to check that input string is valid instead of local version which
+	also allowed upper case.
+
+2011-01-17  Fredrik Thulin <fredrik@yubico.com>
+
+	* tests/test_args_to_config.c: whitespace
+
+2011-01-17  Fredrik Thulin <fredrik@yubico.com>
+
+	* libykpers-1.map, ykpers.c, ykpersonalize.1, ykpersonalize.c: 160
+	bit keys are HMAC keys.
+
+2011-01-17  Fredrik Thulin <fredrik@yubico.com>
+
+	* libykpers-1.map: Update version to 1.4.
+
+2011-01-17  Simon Josefsson <simon@josefsson.org>
+
+	* .gitmodules, doc: Add doc/ submodule.
+
+2011-01-17  Fredrik Thulin <fredrik@yubico.com>
+
+	* tests/test_args_to_config.c: Add test case for option after mode
+	selection.
+
+2011-01-17  Fredrik Thulin <fredrik@yubico.com>
+
+	* tests/test_args_to_config.c, ykpersonalize.c: Only allow choosing
+	slot once.  Choosing slot resets cfgFlags etc. which violates the principle of
+	least astonishments if done more than once (think setting a bunch of
+	flags, and then setting slot).
+
+2011-01-17  Fredrik Thulin <fredrik@yubico.com>
+
+	* tests/test_args_to_config.c: Shorter test code.  Do like in the python checks and always just check returned buffer
+	against expected array of bytes.
+
+2011-01-17  Fredrik Thulin <fredrik@yubico.com>
+
+	* libykpers-1.map, tests/test_args_to_config.c, ykpers.c,
+	ykpersonalize.c: Add support for the extended flags in Yubikey 2.2.
+
+2011-01-17  Fredrik Thulin <fredrik@yubico.com>
+
+	* libykpers-1.map, ykpers.c, ykpers.h, ykpersonalize.1,
+	ykpersonalize.c: Add support for the challenge-response mode in
+	Yubikey version 2.2.
+
+2011-01-14  Fredrik Thulin <fredrik@yubico.com>
+
+	* libykpers-1.map, tests/test_args_to_config.c, ykpers.c,
+	ykpersonalize.1, ykpersonalize.c: Add support for 40 bytes (160
+	bits) -a.  This is for OATH and HMAC challenge-response, introduced in Yubikey
+	2.1 and 2.2.
+
+2011-01-14  Fredrik Thulin <fredrik@yubico.com>
+
+	* Makefile.am: Rebuild libykpers-1 when libykpers-1.map is updated.
+
+2011-01-14  Fredrik Thulin <fredrik@yubico.com>
+
+	* : commit 23d15fe161cc04dfd159714d22330002f20b0ea7 Author: Fredrik
+	Thulin <fredrik@yubico.com> Date:   Fri Jan 14 10:57:14 2011 +0100
+
+2011-01-14  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.c: Mend infname/outfname argument parsing.  Bug introduced in second-last commit, c9db06dc.
+
+2011-01-13  Fredrik Thulin <fredrik@yubico.com>
+
+	* tests/Makefile.am, tests/test_args_to_config.c: Add test cases for
+	ykpersonalize argument parsing.
+
+2011-01-13  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.c: Make argument parsing testable.
+
+2011-01-13  Fredrik Thulin <fredrik@yubico.com>
+
+	* Makefile.am, configure.ac, tests/Makefile.am, selftest.c =>
+	tests/selftest.c: Create proper tests/ subdir.
+
+2011-01-12  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykcore/ykcore.c, ykcore/ykcore.h, ykcore/ykcore_lcl.h: 
+	yk_write_to_key: use YK_FRAME struct from new ykdef.h.
+
+2011-01-12  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykcore/ykdef.h: Version 2.2.0 from JE.
+
+2011-01-11  Fredrik Thulin <fredrik@yubico.com>
+
+	* : commit 311d900179b706a1f7e3e3a3498d9a15e7edb5e1 Merge: ffdff27
+	1a0a977 Author: Fredrik Thulin <fredrik@yubico.com> Date:   Tue Jan
+	11 15:40:13 2011 +0100
+
+2010-12-30  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykcore/ykcore_libusb.c: _ykusb_open_device: Detach kernel HID
+	driver.  This avoids the   USB error: could not claim interface 0: Device or resource busy when linking with libusb-0.1 - at least on Ubuntu 10.04.
+
+2010-12-27  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers.c: ykp_write_config: Config flags depend on context.  Some config flags share value (e.g. STRONG_PW2 and
+	OATH_FIXED_MODHEX2 - both 0x40). With this patch, we show
+	OATH_FIXED_MODHEX2 if tktFlag OATH_HOTP is set, and STRONG_PW2
+	otherwise (if cfgFlag matches 0x40).
+
+2010-12-26  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpers.c: ykp_write_config: Only output flags if all bits match.  Do not output a false positive for a config/ticket flag if only some
+	bits match.  Without this patch, a configuration with the single cfgflag
+	STRONG_PW2 was shown as   STRONG_PW2|OATH_FIXED_MODHEX2|OATH_FIXED_MODHEX since there are some bits matching STRONG_PW2 (0x40) in
+	OATH_FIXED_MODHEX (0x50). With this patch, single cfgflag STRONG_PW2
+	is shown as   STRONG_PW2|OATH_FIXED_MODHEX2 OATH_FIXED_MODHEX2 is also shown as it shares the value of 0x40, and
+	the outputting is not context aware (yet).
+
+2010-12-25  Fredrik Thulin <fredrik@yubico.com>
+
+	* .gitignore: init
+
+2010-12-25  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.c: Amend last commit.  Missing some {}.
+
+2010-12-21  Fredrik Thulin <fredrik@yubico.com>
+
+	* ykpersonalize.c: Check return value of ykp_set_(cfg|tkt)flag.  Wrong Yubikey version errors were concealed (and flags just dropped)
+	: $ ./ykpersonalize -ooath-hotp8 -s- Firmware version 1.3.2 Touch
+	level 7104 Program sequence 1 ...  ticket_flags: APPEND_CR
+	config_flags: $ With this patch : $ ./ykpersonalize -ooath-hotp8 -s- Firmware version 1.3.2 Touch
+	level 7440 Program sequence 4 Yubikey personalization error: option
+	not available for this Yubikey version $
+
+2010-11-25  Simon Josefsson <simon@yubico.com>
+
+	* Makefile.am: Support 64-bit Windows in upload target.
+
+2010-11-25  Simon Josefsson <simon@yubico.com>
+
+	* ykpers4win.mk: Support 64-bit.
+
+2010-11-25  Simon Josefsson <simon@yubico.com>
+
+	* Makefile.am: Add upload target.
+
+2010-11-25  Simon Josefsson <simon@yubico.com>
+
+	* ykpers4win.mk: Fix.
+
+2010-11-25  Simon Josefsson <simon@yubico.com>
+
+	* ykpers4win.mk: Add.
+
+2010-11-25  Simon Josefsson <simon@yubico.com>
+
+	* Makefile.am: Handle svn2cl failures.
+
+2010-11-25  Simon Josefsson <simon@yubico.com>
+
+	* Makefile.am: Add docs.
+
+2010-11-25  Simon Josefsson <simon@yubico.com>
+
+	* NEWS: Version 1.3.5.
+
+2010-11-25  Simon Josefsson <simon@yubico.com>
+
+	* NEWS: Add.
+
+2010-11-25  Simon Josefsson <simon@yubico.com>
+
+	* NEWS: Add.
+
+2010-11-25  Simon Josefsson <simon@yubico.com>
+
+	* ykcore/yktsd.h: Fix compilation under Windows.
+
+2010-11-11  Simon Josefsson <simon@yubico.com>
+
+	* .svnignore: Add.
+
+2010-09-10  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump versions.
+
+2010-09-10  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.3.4.
+
+2010-09-10  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Make a copy of released archive.
+
+2010-09-10  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, ykcore/ykcore_osx.c: Fix crash on Mac OS X.  Reported by rosmiitto in Issue #6:
+
+	<http://code.google.com/p/yubikey-personalization/issues/detail?id=6>.
+
+2010-09-10  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, ykpers.c: Fix bug that prevented salting during AES key
+	generation from passwords from working.  Reported by Ben.
+
+2010-09-10  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.c: Fix typo in last commit.
+
+2010-09-10  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.c: Clarify that salt only applies to key generation
+	from password.
+
+2010-09-10  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.1: Clarify that salt only applies to key generation
+	from password.
+
+2010-06-14  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, NEWS, contrib/README, contrib/programming.sh: Add
+	contrib/ sub-directory and contrib/programming.sh from David
+	Dindorp.
+
+2010-05-20  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump version.
+
+2010-05-20  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.3.3.
+
+2010-05-20  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix release target.
+
+2010-05-20  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, ykcore/ykcore.c: Don't warn about upcoming YubiKey firmware
+	2.2.x, it is compatible.
+
+2010-03-12  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump version.
+
+2010-03-12  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.3.2.
+
+2010-03-12  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump version.
+
+2010-03-12  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore.c: I found a really old yubikey 0.9.9 and it worked
+	fine.  Silencing warning.
+
+2010-03-12  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.c: Fix output for unsupported firmware.
+
+2010-02-02  Tollef Fog Heen <tfheen@gmail.com>
+
+	* ykpers.c: Fix typo in ticket_flags_map s/PROTECT_OATH_HOTP/OATH_HOTP/
+
+2010-01-30  Tollef Fog Heen <tfheen@gmail.com>
+
+	* Makefile.am, NEWS, configure.ac: Release 1.3.1
+
+2010-01-30  Tollef Fog Heen <tfheen@gmail.com>
+
+	* Makefile.am: Revert r225, this breaks the build in some cases
+
+2010-01-30  Tollef Fog Heen <tfheen@gmail.com>
+
+	* ykcore/Makefile.am: Distribute stub .c files too
+
+2010-01-30  Tollef Fog Heen <tfheen@gmail.com>
+
+	* NEWS, configure.ac: Bump version number, document changes in 1.3
+
+2010-01-30  Tollef Fog Heen <tfheen@gmail.com>
+
+	* ykpersonalize.1: Document OATH-HOTP a little bit
+
+2010-01-30  Tollef Fog Heen <tfheen@gmail.com>
+
+	* ykpersonalize.1: Update the manual page for OATH-HOTP Also rewrite some descriptions to make it easier to understand what
+	the different flags does.
+
+2010-01-30  Tollef Fog Heen <tfheen@gmail.com>
+
+	* libykpers-1.map, ykcore/ykdef.h, ykpers.c, ykpers.h,
+	ykpersonalize.c: Add OATH-HOTP support In addition, rewrite help output to make it more readable and
+	ticket- and configuration flag parsing to make it easier to read.
+
+2010-01-30  Tollef Fog Heen <tfheen@gmail.com>
+
+	* Makefile.am: Make sure to rebuild library if map file changes
+
+2010-01-29  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Dist doc/Compatibility.wiki.
+
+2010-01-28  Tollef Fog Heen <tfheen@gmail.com>
+
+	* ykpersonalize.c: Add reference to compatibility wiki page
+
+2010-01-28  Tollef Fog Heen <tfheen@gmail.com>
+
+	* configure.ac, libykpers-1.map, ykcore/ykcore.c, ykcore/ykcore.h,
+	ykpersonalize.c: Stop bailing out on unknown firmwares Previously, we would bail out if we saw an unsupported firmware.
+	Stop doing that and instead write out a warning message saying not
+	all features might be supported.
+
+2010-01-22  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.2.
+
+2010-01-22  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump version.
+
+2010-01-22  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore.c: Support firmware version 2.1 too.
+
+2009-10-03  Tollef Fog Heen <tfheen@gmail.com>
+
+	* NEWS: Update NEWS for 1.1
+
+2009-10-03  Tollef Fog Heen <tfheen@gmail.com>
+
+	* README: Revert last commit, I was confused
+
+2009-10-03  Tollef Fog Heen <tfheen@gmail.com>
+
+	* README: Change reference to the documentation to something that
+	most people are likely to see/find
+
+2009-09-19  Tollef Fog Heen <tfheen@gmail.com>
+
+	* NEWS: Fix typo
+
+2009-09-18  Richard Levitte <levitte@lp.se>
+
+	* NEWS: Document last changes
+
+2009-09-18  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Better to handle -h after the core is initialised
+
+2009-09-18  Richard Levitte <levitte@lp.se>
+
+	* ykcore/ykcore_libusb-1.0.c: Make sure to handle cases when the
+	backend is stopped before being initialised
+
+2009-09-18  Richard Levitte <levitte@lp.se>
+
+	* NEWS, configure.ac: Increment version to 1.1
+
+2009-09-18  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: The return code from hex_modhex_decode() was
+	incorrectly treated.  new_access_code was improperly set.
+
+2009-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.0.
+
+2009-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump version.
+
+2009-09-17  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 0.999.
+
+2009-09-14  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump versions.
+
+2009-09-13  Richard Levitte <levitte@lp.se>
+
+	* ykcore/ykcore_libusb-1.0.c: Fix signedness warnings.  Remove
+	unused variable.
+
+2009-09-13  Richard Levitte <levitte@lp.se>
+
+	* ykcore/ykcore.c: Include unistd.h to get the declaration of
+	usleep().  Make sure yk_init() and yk_release() return a status
+	code.  Make sure yk_release() calls _ykusb_stop() rather than
+	_tkusb_start()!!! Fix other gcc warnings.
+
+2009-09-13  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c: Include ctype.h to get declaration of tolower.h and
+	friends.  Fix gcc warnings.
+
+2009-09-13  Richard Levitte <levitte@lp.se>
+
+	* ykpbkdf2.c: Fixed gcc warnings.
+
+2009-09-13  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Added include of yubikey.h to get the declaration
+	of yubikey_modehex_decode and yubikey_hex_decode.  Made
+	hex_modhex_decode check the argument so it's valid.  Changed binary
+	strings from 'char' to 'unsigned char'.
+
+2009-09-13  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.c: Fix warnings.  Reported by Patrick Neave
+	<p.neave@gmail.com>.
+
+2009-09-12  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 0.99.
+
+2009-09-12  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, NEWS, configure.ac: Fix build error related to
+	_ykp_errno_location on non-Linux.
+
+2009-09-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 0.98.
+
+2009-09-08  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Sanity check NEWS before release.
+
+2009-09-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2009-09-08  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump versions.
+
+2009-09-08  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.c: Exit with non-zero exit code on no yubikey
+	present errors.  Reported by Greg Woods.
+
+2009-09-05  Tollef Fog Heen <tfheen@gmail.com>
+
+	* ykpersonalize.1: Update man page Make the man page up to date with the help output from ykpersonalize
+
+2009-09-02  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.1: Correct documentation
+
+2009-09-01  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore.c: Found another old key, confirmed working.
+
+2009-08-31  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c: Fix constness
+
+2009-08-31  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Check for libyubikey v1.5+.
+
+2009-08-31  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2009-08-31  Simon Josefsson <simon@josefsson.org>
+
+	* m4/ld-version-script.m4: Add.
+
+2009-08-31  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, NEWS, configure.ac, libykpers-1.map: Use linker
+	version script.
+
+2009-08-28  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Include the configuration number to be written to
+
+2009-08-27  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2009-08-27  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.1: Add.
+
+2009-08-27  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump versions.
+
+2009-08-27  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2009-08-27  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.c: Make sure -h works even without yubikey.
+
+2009-08-27  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 0.96.
+
+2009-08-27  Simon Josefsson <simon@josefsson.org>
+
+	* selftest.c: Fix error.
+
+2009-08-27  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, NEWS, configure.ac, ykpers-1.pc.in: Add pkg-config
+	script and document versioning.
+
+2009-08-27  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, configure.ac: Improve versioning.
+
+2009-08-27  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.1: Add -1 and -2.
+
+2009-08-27  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump ABI.
+
+2009-08-26  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c: Make sure the 'fixed' prefix is in modhex by default,
+	the rest in hex.
+
+2009-08-26  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Leave all controls of the input number to
+	hex_modhex_decode().  Make sure the 'fixed' prefix is in modhex by
+	default, the rest in hex.
+
+2009-08-25  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: The command line arguments are with dashes, not
+	underscores...
+
+2009-08-25  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Another copy and paste error, giving wrong
+	numbers when reading pure hex
+
+2009-08-25  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Correct various typos
+
+2009-08-25  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c: Make sure the printout function shows the new flags,
+	depending on configuration version
+
+2009-08-25  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c: Really enable all the Yubikey II flags
+
+2009-08-25  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Enable all the Yubikey II flags
+
+2009-08-24  Richard Levitte <levitte@lp.se>
+
+	* NEWS, configure.ac: Document and bump the library versions.  NOTE:
+	the new code it yet untested\!  Proceed with care\!
+
+2009-08-24  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Add the possibility to program first and second
+	configuration slots
+
+2009-08-24  Richard Levitte <levitte@lp.se>
+
+	* ykcore/ykcore.c, ykcore/ykcore.h: Make it possible to write to
+	more than one configuration slot
+
+2009-08-24  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c, ykpers.h: Make it possible to have different default
+	configurations for different slots
+
+2009-08-24  Richard Levitte <levitte@lp.se>
+
+	* NEWS, ykpersonalize.c: Make all input numbers hexadecimal by
+	default.  It's still possible to give modhex ones by prefixing them
+	with 'm:'
+
+2009-08-24  Richard Levitte <levitte@lp.se>
+
+	* NEWS, configure.ac: Update with version info for 0.95
+
+2009-08-17  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.1: Update the man page with the access code syntax
+
+2009-08-17  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Clarify that -c doesn't set the access code
+
+2009-08-17  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Generalize release target.
+
+2009-08-17  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Access code handling seems to work.  If the
+	access code is wrong, it will only output a write error when you try
+	to configure, should it do something more intelligent? Please try
+	this out, but USE WITH CAUTION...  Try with a spare key.
+
+2009-08-14  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore.c: I found some really old yubikeys, support them
+	too.
+
+2009-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Dist ykpersonalize.1.
+
+2009-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 0.94.
+
+2009-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.c: Upper case param fields to reduce confusion.
+	Reported by Peter Hultqvist <peter.h@nsf.scout.se>.
+
+2009-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, NEWS, ykpersonalize.1: Add man page for
+	ykpersonalize.  Patch from Tollef Fog Heen <tfheen@err.no>.
+
+2009-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.c: Fix typo.  From Tollef Fog Heen <tfheen@err.no>.
+
+2009-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2009-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump versions.
+
+2009-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore_libusb-1.0.c: Better error handling for libusb-1.0
+	backend.  Patch from Tollef Fog Heen <tfheen@err.no>.
+
+2009-08-07  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 0.93.
+
+2009-08-07  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Cleanup and provide summary of configured options.
+
+2009-08-07  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Auto-detect libusb-1.0 if present, but fall back to
+	libusb if not.  Patch from Tollef Fog Heen <tfheen@err.no>.
+
+2009-08-04  Simon Josefsson <simon@josefsson.org>
+
+	* m4/pkg.m4: Add.
+
+2009-08-04  Simon Josefsson <simon@josefsson.org>
+
+	* AUTHORS, NEWS, configure.ac, ykcore/Makefile.am,
+	ykcore/ykcore_libusb-1.0.c: Add libusb-1.0 support from Tollef Fog
+	Heen.
+
+2009-08-04  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore_libusb.c: Make _ykusb_read return number of read
+	bytes rather than 1.  Reported by Tollef Fog Heen <tfheen@err.no>.
+
+2009-07-01  Richard Levitte <levitte@lp.se>
+
+	* ykcore/ykdef.h: Updated definitions header
+
+2009-06-30  Richard Levitte <levitte@lp.se>
+
+	* ykpers.h: Declare the functions to set the Yubikey II flags
+
+2009-06-30  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Add options for Yubikey II setting.  Disable them
+	for now however, since we don't have the values yet
+
+2009-06-30  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Add handling of access code.  Disable it for now
+	however, something seems to be fishy
+
+2009-06-30  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c, ykpers.h: Add a function to fetch the core configuration
+	from the ykpers configuration
+
+2009-06-29  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Print the firmware version early.  Wrong
+	configuration structure type.
+
+2009-06-29  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Make the command line program use the new
+	interface.  UNTESTED\!
+
+2009-06-29  Richard Levitte <levitte@lp.se>
+
+	* configure.ac, ykpers.c, ykpers.h: Change the configuration
+	structure to be internal for ykpers, with a field being the ykcore
+	configuration structure.  This is to include yubikey version
+	information and being able to set options according to that...
+	Increase the library age accordingly
+
+2009-06-29  Richard Levitte <levitte@lp.se>
+
+	* ykcore/ykdef.h: Add preliminary new configuration flags for
+	Yubikey 2.0
+
+2009-06-16  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore.c: Support firmware v2.0.
+
+2009-05-29  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2009-05-29  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.c: It is -aFOO not -a=FOO.
+
+2009-05-29  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Use yubico.com pgp key to sign releases.
+
+2009-05-25  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump versions.
+
+2009-05-25  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/Makefile.am: Dist yktsd.h.
+
+2009-05-25  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 0.92.
+
+2009-05-21  Richard Levitte <levitte@lp.se>
+
+	* m4/acx_pthread.m4: Add the acx_pthread.m4 macro package for those
+	who don't have it
+
+2009-05-08  Simon Josefsson <simon@josefsson.org>
+
+	* selftest.c: Make it work again.
+
+2009-05-08  Simon Josefsson <simon@josefsson.org>
+
+	* AUTHORS: Add.
+
+2009-05-08  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, README: Fix README issue.
+
+2009-05-08  Simon Josefsson <simon@josefsson.org>
+
+	* notes/make-release.txt: Remove notes/, replaced with wiki page.
+
+2009-05-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump versions.  Add to NEWS.
+
+2009-05-08  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Set LDFLAGS properly for Mac OS X.  Not clear
+	whether it is the Right Thing.  Patch from Christer.
+
+2009-05-08  Simon Josefsson <simon@josefsson.org>
+
+	* ykpersonalize.c: Fix -a docstring.  Reported by Aaron Mitti.
+
+2009-05-08  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: EXTRA_DIST magic to get all wiki files.
+
+2009-05-08  Simon Josefsson <simon@josefsson.org>
+
+	* : Add doc wiki link.
+
+2009-05-08  Simon Josefsson <simon@josefsson.org>
+
+	* : Drop.
+
+2009-05-07  Richard Levitte <levitte@lp.se>
+
+	* configure.ac, ykcore/ykcore.c, ykcore/yktsd.h, ykpers.c: Make the
+	errno location functions thread safe.  Add yktsd.h, which is a
+	heavily pruned copy of Levitte Programming's LPlib file LPthread.h
+
+2009-05-07  Richard Levitte <levitte@lp.se>
+
+	* Makefile.am, ykpers.c, ykpers.h, ykpersonalize.c: Adapt to the
+	changes in ykcore.
+
+2009-05-07  Richard Levitte <levitte@lp.se>
+
+	* ykcore/Makefile.am, ykcore/ykcore.c, ykcore/ykcore.h,
+	ykcore/ykcore_lcl.h, ykcore/ykstatus.c, ykcore/ykstatus.h: Move all
+	internal functions to the new header file ykcore_lcl.h.  Rename
+	structures in ykcore.h so they are in the namespace.  Add a hack in
+	ykcore_lcl.h to map ykcore.h structure names to ykdef.h ones.  Have
+	ykcore_lcl.h include ykcore.h and ykdef.h, so we get the order
+	right.  Change relevant .c files accordingly.
+
+2009-05-07  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 0.91.
+
+2009-05-07  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore_osx.c: Fix include's.
+
+2009-05-07  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Fix typo.
+
+2009-05-07  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore.c: Fix typo.
+
+2009-05-07  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2009-05-07  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore_osx.c: Add Mac OS X implementation.  From Christer
+	Kaivo-oja <christer.kaivooja@gmail.com>.
+
+2009-05-07  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, ykcore/Makefile.am: Link to libusb properly, based on
+	patch by Christer Kaivo-oja <christer.kaivooja@gmail.com>.
+
+2009-05-07  Simon Josefsson <simon@josefsson.org>
+
+	* ykcore/ykcore.c: Support more firmwares.
+
+2009-05-07  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump libtool library revision.
+
+2009-05-07  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump version.
+
+2009-05-07  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac, ykcore/Makefile.am, ykcore/ykcore.c,
+	ykcore/ykcore_libusb.c: Implement autoconf based backend chosing.
+
+2009-05-05  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 0.9.
+
+2009-05-05  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Do a 0.9 before we make 1.0.
+
+2009-05-05  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Do a 0.9 before we make 1.0.
+
+2009-05-05  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, README: Fix instructions.
+
+2009-05-05  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, README, configure.ac, ykcore/Makefile.am,
+	ykcore/ykcore.c, ykcore/ykcore.h, ykcore/ykcore_backend.h,
+	ykcore/ykcore_libusb.c, ykcore/ykcore_osx.c, ykcore/ykcore_stub.c,
+	ykcore/ykcore_win32.c, ykcore/ykdef.h, ykcore/ykstatus.c,
+	ykcore/ykstatus.h: Fix make distcheck by pulling in ykcore stuff.
+
+2009-05-05  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Fix AC_INIT.
+
+2009-04-30  Simon Josefsson <simon@josefsson.org>
+
+	* selftest.c, ykpers.c, ykpers.h, ykpersonalize.c: Fix namespace of
+	ykpers.h.
+
+2009-04-30  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers.c, ykpers.h, ykpersonalize.c: Fix fixed/uid parameters.
+	Use modhex for "fixed", add "hexfixed" for hex fixed values.  Use
+	hex for "uid".
+
+2009-04-30  Simon Josefsson <simon@josefsson.org>
+
+	* ykpers.c: Use hex decoding from libyubikey.
+
+2009-04-30  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, ykpers.c: Use modhex from libyubikey.
+
+2009-04-30  Simon Josefsson <simon@josefsson.org>
+
+	* build-aux/config.rpath, configure.ac, m4/lib-ld.m4,
+	m4/lib-link.m4, m4/lib-prefix.m4: Link to yubico-c.
+
+2009-04-30  Simon Josefsson <simon@josefsson.org>
+
+	* AUTHORS, NEWS, ykpers.c, ykpers.h, ykpersonalize.c: Added
+	ykp_AES_key_from_hex and ykpersonalize -a parameter.  From Lester
+	Hightower, 10East" <lester.hightower@gmail.com>.
+
+2009-03-25  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, configure.ac: Work with libtool 2.2.x.
+
+2009-03-11  Richard Levitte <levitte@lp.se>
+
+	* README: Add dependencies in README
+
+2009-03-11  Richard Levitte <levitte@lp.se>
+
+	* Makefile.am: Forgot to change ./yubikey-core/libykcore.a to
+	./yubikey-core/libykcore.la in one place
+
+2009-03-10  Simon Josefsson <simon@josefsson.org>
+
+	* selftest.c: Add.
+
+2009-03-10  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix portability of self tests.
+
+2009-03-09  Richard Levitte <levitte@lp.se>
+
+	* configure.ac: Release 1.0
+
+2009-03-09  Richard Levitte <levitte@lp.se>
+
+	* Makefile.am: Now that yubico-core uses libtool, a small adaptation
+	is needed.
+
+2009-03-09  Richard Levitte <levitte@lp.se>
+
+	* notes/make-release.txt: Use the same releasing notes as for
+	yubico-core here
+
+2009-03-09  Richard Levitte <levitte@lp.se>
+
+	* configure.ac: Check that yubikey-core/ykcore.h declares
+	yk_usb_strerror
+
+2009-03-09  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Use the new yk_usb_strerror() from yubikey-core
+
+2008-10-17  Richard Levitte <levitte@lp.se>
+
+	* configure.ac: Test release 0.9, to become 1.0...
+
+2008-10-17  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Add command line options for all the flags and
+	other configuration fields
+
+2008-10-17  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c: Define the functions that set the character fields
+
+2008-10-16  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c, ykpers.h: Add functions to set more fields in the
+	configuration structure.  Implement the simple ones for now
+
+2008-10-08  Richard Levitte <levitte@lp.se>
+
+	* configure.ac: Allow for a different location for a proper libusb
+	implementation
+
+2008-10-08  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c: Don't forget to make sure time_t gets properly declared,
+	and actually get the time as well
+
+2008-10-07  Simon Josefsson <simon@josefsson.org>
+
+	* README: Mention autoreconf.
+
+2008-10-05  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Only try to close the key if we got one...
+
+2008-10-05  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Better error checking and reporting
+
+2008-10-05  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Only write verbose messages when then verbose
+	flag is true
+
+2008-10-04  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Rewrite, using better error checking and
+	reporting
+
+2008-10-04  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c, ykpers.h: Implement error handling in the personlization
+	library
+
+2008-10-04  Richard Levitte <levitte@lp.se>
+
+	* Makefile.am: Have the applications link with ykcore
+
+2008-10-01  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Use AM_CPPFLAGS to avoid per-target flags, to avoid
+	AM_PROG_CC_C_O.
+
+2008-10-01  Richard Levitte <levitte@lp.se>
+
+	* ykpersonalize.c: Add a first draft of a command line tool.  It
+	doesn't take any options yet (except for an optional salt), and it
+	doesn't actually talk to the Yubikey yet.
+
+2008-10-01  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c, ykpers.h: Let ykp_AES_key_from_passphrase() take an
+	optional salt as well
+
+2008-10-01  Richard Levitte <levitte@lp.se>
+
+	* Makefile.am: Adapt the Makefile for the latest changes
+
+2008-10-01  Richard Levitte <levitte@lp.se>
+
+	* ykpers.c: Personalization code that I've been tampering with for a
+	while
+
+2008-10-01  Richard Levitte <levitte@lp.se>
+
+	* ykpers.h: Add functionality to create and destroy configurations.
+	The readers and writers need to get the userdata to be able to pass
+	it on.
+
+2008-09-29  Richard Levitte <levitte@lp.se>
+
+	* ykpers.h: Remove function to generate random AES keys.  Too
+	insecure.
+
+2008-09-29  Richard Levitte <levitte@lp.se>
+
+	* ykpers.h: First draft of personalization functionality
+
+2008-09-29  Richard Levitte <levitte@lp.se>
+
+	* ykpbkdf2.c, ykpbkdf2.h: Add an implementation of PBKDF2
+
+2008-09-29  Richard Levitte <levitte@lp.se>
+
+	* rfc4634/hmac.c, rfc4634/sha-private.h, rfc4634/sha.h,
+	rfc4634/sha1.c, rfc4634/sha224-256.c, rfc4634/sha384-512.c,
+	rfc4634/usha.c: Add SHA and HMAC functions extracted from RFC 4634
+
+2008-09-25  Richard Levitte <levitte@lp.se>
+
+	* Makefile.am, configure.ac: Handle the presence of yubikey-core,
+	and make sure it gets configured as well
+
+2008-09-22  Richard Levitte <levitte@lp.se>
+
+	* common/aes128.c, common/aes128.h, common/ykutil.c,
+	common/ykutil.h, common/yubikey.c, common/yubikey.h: We don't need
+	the common directory any more
+
+2008-09-22  Richard Levitte <levitte@lp.se>
+
+	* common/ykdef.h: Move common/ykdef.h to yubikey-core
+
+2008-09-22  Richard Levitte <levitte@lp.se>
+
+	* docs/0README, docs/quirks-and-workarounds.txt: Remove documents
+	that were added to yubikey-core
+
+2008-09-18  Richard Levitte <levitte@lp.se>
+
+	* common/yubikey.c, common/yubikey.h: Make the yubikey module
+	consistent
+
+2008-09-18  Richard Levitte <levitte@lp.se>
+
+	* Makefile.am: AES modules added, reflect that
+
+2008-09-18  Richard Levitte <levitte@lp.se>
+
+	* configure.ac: Don't need that external library right now
+
+2008-09-18  Richard Levitte <levitte@lp.se>
+
+	* common/aes128.c, common/aes128.h: Added needed modules for AES
+
+2008-09-18  Richard Levitte <levitte@lp.se>
+
+	* Makefile.am: libykpers, not libyubikey.  ykpersonalize, not
+	modhex.  Make sure to defined noinstallable headers properly as well
+	as the header to be installed
+
+2008-09-18  Richard Levitte <levitte@lp.se>
+
+	* AUTHORS, NEWS, README: autoreconf demands certain files
+
+2008-09-18  Richard Levitte <levitte@lp.se>
+
+	* common/ykdef.h, common/ykutil.c, common/ykutil.h,
+	common/yubikey.c, common/yubikey.h: Added common routines (shouldn't
+	they be in a separate package, say yubico-c?)
+
+2008-09-18  Richard Levitte <levitte@lp.se>
+
+	* docs/0README, docs/quirks-and-workarounds.txt: Add some internal
+	and useful documentation
+
+2008-09-18  Richard Levitte <levitte@lp.se>
+
+	* Define the main structure and license
+

@@ -1,0 +1,4661 @@
+commit 41c702f5d3581325b646ef6249f1f641b0427ae0
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-06 11:59:50 +0900
+
+    Prepare for 0.2.0 release
+
+M	CMakeLists.txt
+M	configure.ac
+
+commit 5a0760ee837850b7bd2e1b75d3582a273f11840d
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-06 11:58:44 +0900
+
+    Load both builtin and external keyboards
+    
+    Previously, external keyboards replaced builtin ones, which caused
+    problems when external files were missing. Now both are loaded to
+    ensure better fallback.
+    Note: This results in duplicate entries for identical layouts.
+
+M	hangul/hangulkeyboard.c
+
+commit 397c56c8a86a37b2c493ab151d9599d508ae1705
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-05 23:17:08 +0900
+
+    Use top_srcdir in ChangeLog generation rule
+    
+    Required to support out-of-source builds.
+
+M	Makefile.am
+
+commit d52c7baca1b2ca0a530233e79ca2d070329ea47d
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-05 21:15:04 +0900
+
+    gitignore: Add po/insert-header.sed
+    
+    gettext 0.23.1 appears to generate insert-header.sed.
+
+M	.gitignore
+
+commit 41fb78bba2dfa43463cb5409d7d8b5762a5b2ed6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-05 21:03:02 +0900
+
+    Update ko.po
+    
+    No translation updates. Updated for consistency.
+
+M	po/ko.po
+
+commit 0f9cb3fcb2e31e614c251a686b6c019041d75764
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-05 21:01:46 +0900
+
+    autotools: Include CMake files in source tarball
+    
+    Including CMake files in the tarball improves convenience for users
+    who prefer CMake-based builds.
+
+M	Makefile.am
+
+commit e2ccee6c9838933c99ec17802cf016524cf15776
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-04 15:03:34 +0900
+
+    Exclude hangul_ic_xxx keyboard-related functions from deprecation
+    
+    The keyboard-related API is still under development,
+    so these functions will not be marked as deprecated until
+    the API is stabilized.
+
+M	hangul/hangul.h
+
+commit 53bf828b035e4a0c7f7bfdc424547f11e99e47e3
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-03 11:07:55 +0900
+
+    Add hangul_ic_switch_keyboard_table()
+    
+    Add functionality to switch the mapping table of a HangulKeyboard.
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+
+commit 899ec0fe5363e0bae462d6d5a330ce50f4b49846
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-03 10:46:14 +0900
+
+    hangul_keyboard_get_mapping -> hangul_keyboard_map_to_char
+
+M	hangul/hangulinputcontext.c
+M	hangul/hangulinternals.h
+M	hangul/hangulkeyboard.c
+
+commit 611a4891973749dd4c6f9d2d051b653ccda6a692
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-03 10:25:35 +0900
+
+    hangul_init: Add user_defined_keyboard_path argument
+    
+    Specifying the keyboard file path directly through hangul_init()
+    is more convenient for library users.
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	hangul/hangulinternals.h
+M	hangul/hangulkeyboard.c
+M	test/hangul.c
+M	test/test.c
+
+commit 336608bf684cf2ed200fc60dc042d934fc0b27da
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-02 21:35:14 +0900
+
+    Set default value of --enable-external-keyboards to 'no'
+    
+    The external keyboards option is not fully implemented yet,
+    so it is preferable for general users to avoid using it.
+    Set the default to 'no'.
+
+M	CMakeLists.txt
+M	configure.ac
+M	data/Makefile.am
+M	hangul/hangul.h
+M	hangul/hangulkeyboard.c
+M	test/hangul.c
+M	tools/hangul.c
+
+commit e27cd77d792d3b3ac20e41dc9ac6ca28e61b637b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-02 21:08:55 +0900
+
+    keyboard: Align sed commands consistently
+
+M	data/keyboards/CMakeLists.txt
+M	data/keyboards/Makefile.am
+
+commit 463af2832ef84caa1f6641baad4eb11f73a3ca26
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-02 21:06:22 +0900
+
+    cmake: Fix indentation handling in keyboard XML translation rule
+    
+    add_custom_command do not handle multiple spaces correctly.
+    Use a CMake variable to preserve proper indentation.
+
+M	data/keyboards/CMakeLists.txt
+
+commit 25032867a3e3b46e6ecda90fba73e512c906fa0a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-02 12:30:14 +0900
+
+    Set CMake minimum required version to 3.5
+    
+    CMake 3.28.3 emits the following warning:
+    ```
+      Compatibility with CMake < 3.5 will be removed from a future version of
+      CMake.
+    ```
+    Set the minimum required version to 3.5 to ensure forward compatibility.
+
+M	CMakeLists.txt
+M	data/hanja/CMakeLists.txt
+M	data/keyboards/CMakeLists.txt
+M	hangul/CMakeLists.txt
+M	po/CMakeLists.txt
+M	test/CMakeLists.txt
+M	tools/CMakeLists.txt
+
+commit 8dce4c12ce1a91f3abf7e587c32c5abd7a7db576
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2025-05-02 12:09:20 +0900
+
+    Update autoconf to 2.71
+    
+    This commit updates autoconf-related macros using 'autoupdate'.
+    In addition, gettext has been upgraded to version 0.23.1.
+    
+    The autoconf update appears to be required to address issue #83.
+    
+    https://github.com/libhangul/libhangul/issues/83
+
+M	configure.ac
+
+commit 154a5e0f13aebc80a465336642a406d6ddfc06cf
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2023-03-14 02:52:54 +0900
+
+    bindings: update ruby binding
+
+M	bindings/ruby/extconf.rb
+M	bindings/ruby/hangul.c
+M	bindings/ruby/test-hangul.rb
+
+commit ad760a7d3b16384031f60aa5a31e8e153b2273e3
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2023-03-04 00:39:55 +0900
+
+    support python3 binding
+
+M	bindings/python/pyhangul.c
+M	bindings/python/setup.py
+M	bindings/python/test_pyhangul.py
+
+commit eb2189dada182848d05466abbae885c3bd4fdba0
+Merge: 3db276b 011d988
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2023-03-12 11:05:23 +0900
+
+    Merge branch 'win32-glob' of https://github.com/wkpark/libhangul
+    
+    win32: ENABLE_EXTERNAL_KEYBOARDS 지원 #73
+    
+    https://github.com/libhangul/libhangul/pull/73
+    
+    * 'win32-glob' of https://github.com/wkpark/libhangul:
+      win32: add the -p:ExternalKeyboard property option.
+      win32: fix for win32.
+      win32: fix hangul_keyboard_get_default_keyboard_path()
+      win32: use Find*File() for win32
+      cmake: check glob.h and add config.h.cmake.in
+
+commit 011d98801d705347446f49ba8acad512ea705061
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2023-02-27 14:12:53 +0900
+
+    win32: add the -p:ExternalKeyboard property option.
+
+M	libhangul.vcxproj
+
+commit 30c0382d2067c3bfb1895ed0d8f52859d5df62cb
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2023-02-27 02:39:18 +0900
+
+    win32: fix for win32.
+
+M	hangul/hangulkeyboard.c
+
+commit 796cf6a7b4d2b9fc465ddabc50b75b9abe526415
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2023-02-27 00:41:42 +0900
+
+    win32: fix hangul_keyboard_get_default_keyboard_path()
+
+M	hangul/hangulkeyboard.c
+
+commit bad12bde8ac496a6736f611ae03c50839b253003
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2023-02-27 00:39:32 +0900
+
+    win32: use Find*File() for win32
+
+M	hangul/hangulkeyboard.c
+
+commit 7c2fb9216e72302134115c1483d4c3d2b1edd3a1
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2023-02-27 00:30:55 +0900
+
+    cmake: check glob.h and add config.h.cmake.in
+
+M	CMakeLists.txt
+A	config.h.cmake.in
+M	configure.ac
+M	hangul/CMakeLists.txt
+
+commit 3db276b40c0b82f26d4d013d70d380d8baf173e0
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2023-02-26 21:58:07 +0900
+
+    hanja: 견출지:見出紙 추가
+
+M	data/hanja/hanja.txt
+
+commit e4a8d910a3133f653f326990925a0ba9155214f5
+Merge: a3d8eb6 c33ba4c
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2023-02-26 22:05:19 +0900
+
+    Merge branch 'win32' of https://github.com/wkpark/libhangul into win32
+    
+    Win32 환경 지원
+    
+    https://github.com/libhangul/libhangul/pull/72
+    
+    * 'win32' of https://github.com/wkpark/libhangul:
+      do not define the default hanja dictionary for win32 case.
+      win32: support DynamicLibrary
+      add win32 vcxproj file
+      WIN32 build fixes
+
+commit c33ba4ca3de49f636a173f2f73f33633a26b4ce6
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2023-02-12 00:57:45 +0900
+
+    do not define the default hanja dictionary for win32 case.
+
+M	hangul/hanja.c
+
+commit 3cc5d20e4907de66cc38d368da5c91ba7c77329b
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2023-02-11 14:36:06 +0900
+
+    win32: support DynamicLibrary
+
+M	libhangul.vcxproj
+A	win32/libhangul.rc
+
+commit bc10ca455bce26fda3e8b6200e5d98d5f28eef3f
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2023-02-11 13:40:04 +0900
+
+    add win32 vcxproj file
+
+A	libhangul.vcxproj
+
+commit 2eee4916eede1eff6fbe6bf33d150c0e28551593
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2023-02-11 13:23:51 +0900
+
+    WIN32 build fixes
+
+M	hangul/hangulinputcontext.c
+M	hangul/hangulkeyboard.c
+M	hangul/hanja.c
+M	test/hangul.c
+M	test/test.c
+
+commit a3d8eb6167cb92fe9d192402bb9b8dbe20ff7e26
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2022-09-12 12:30:47 +0900
+
+    hanja: 용화(宂話) 변경, 치매(癡呆) 추가
+    
+    �수정과정에서 발견한 부분을 추가 수정한다.
+    
+    용화   표준국어대사전에서는 용화를 冗話가 아닌 宂話로 쓰고 있다.
+    치매   목록에 없어 癡呆로 추가한다.
+
+M	data/hanja/hanja.txt
+
+commit f65527d0b80b37f25ed96d86292bb25979c2921e
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2022-09-12 11:36:35 +0900
+
+    hanja: �로 되어 있는 단어를 한자로 찾아 바꾼다
+    
+    표준국어대사전을 참조하여 �로 되어 있는 부분의 원래 글자를 찾아
+    바꾼다. 이 글자들은 원본 데이터인 '6개사전표제어목록'에서 부터
+    �으로 되어 있는 것 같다(아니면 mdb 파일을 변환하는 과정에서
+    코드 변환에 실패했을 가능성도 있다). 표준국어대사전에서 확인할
+    수 없는 단어들은 인터넷을 검색해서 나오는 단어를 사용했다.
+    
+    또 6개사전표제어목록에서 --하다의 어근 형태로 작성된 부분들이
+    반복되어 추가된 경우가 있어 이런 경우에는 제거한다.
+    
+    벽온단   �瘟丹이 표준국어대사전에서는 辟瘟團으로 되어있으나
+             한의학관련 문서들은 丹을 사용하고 있으므로 일단 辟자만
+             변경한다. 추후 확인과정을 거쳐 수정할 필요가 있다.
+    연희     �喜는 표준국어대사전에서는 찾을 수 없으나
+             일본 연호인 것 같아 延喜로 추가한다.
+    사벽     邪壁은 표준국어대사전에서는 邪辟으로 되어 있다.
+    음량     陰�에 맞는 다른 단어는 찾을 수 있는 것이 없어 제거한다.
+    처량     凄�에 맞는 다른 단어는 찾을 수 있는 것이 없어 제거한다.
+    초통     �筒으로 찾을 수 있는 단어가 없어 제거한다.
+             아마 총통銃筒의 잘못이 아닐까 싶다.
+    초피     표준국어대사전에서는 한자가 아닌 것으로 되어 있으나
+             椒皮로 표기하는 경우가 확인되어 수록한다.
+             한편 표준국어대사전에서도 왕초피나무는 王椒皮나무로 적고 있다.
+    충담     �澹은 沖澹의 중복인 것 같아 제거한다.
+    충벽     ��은 한국학중앙연구회 옛 편지 낱말사전에서 沖辟이 확인되어
+             입력 편리성을 고려해 일단은 추가해 놓는다.
+             http://waks.aks.ac.kr/rsh/dir/rview.aspx?rshID=AKS-2007-HZ-2001&callType=dir&dirRsh=&dataID=AKS-2007-HZ-2001_DIC@FND_DIC_YPJ_PNMS_6413
+    충충     沖�은 沖沖으로 이미 있고 표준국어대사전에서는 忡忡이 확인되어
+             이를 추가한다.
+    충파     �破는 沖破의 중복인 것 같아 제거한다.
+    태재급급 殆哉岌岌으로 확인되어 胎를 殆로 바꾼다.
+    포세     �稅는 逋稅의 중복인 것 같아 제거한다.
+    해초목   海鞘目으로 한다. 표준국어대사전에서는 확인되지 않으나
+             고려대한국어대사전(다음 사전 서비스 참고)에서 확인된다.
+
+M	data/hanja/hanja.txt
+
+commit 75dfb8e3a1535ac54a6c8a8068eac5d403416501
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2022-09-10 22:35:34 +0900
+
+    hanja: 일본 지명을 한자로 바꿈
+    
+    일본 지명이 한자로 되어 있지 않아 사용이 불편하다.
+    일본 발음으로 한자로 입력가능하게 하면 일본 지명의 한자음을
+    몰라도 변환이 가능해지므로 편리하다.
+    
+    한자는 일본과 통용되게 하기 위해서 일본식 한자를 사용한다.
+    그러나 縣의 경우 県을 사용하는 것이 좋을지 확신이 없어
+    縣을 그대로 붙여 둔다. 県이 활용도가 높다면 바꾸는 것을
+    고려해도 좋을 것이다.
+
+M	data/hanja/hanja.txt
+
+commit d2c3f7cf70cd69a214f48318f540e7f5744a5725
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2022-09-10 15:10:04 +0900
+
+    hanja: 관능, 금종, 금주, 금지 한자로 작성
+    
+    한자어 단어중 한자로 작성이 덜되어 있는 단어들을 한자로
+    바꿔 준다.
+
+M	data/hanja/hanja.txt
+
+commit 74f3cd0c6885f8cf31b8f9723d5a3899f2cd71b8
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2022-09-10 14:31:35 +0900
+
+    hanja: 碍 -> 礙
+    
+    국립국어원 표준국어대사전에서는 장애를 障礙로 표기하고 있다.
+    이에 맞게 속자인 碍보다 礙를 우선하기로 한다.
+    따라서 개별 글자 입력에서도 碍와 礙의 순서를 바꾸어
+    礙가 먼저 나오도록 변경한다.
+    
+    * 無碍智 경우는 고유명사이고 표준국어대사전에서도 碍를 사용하고 있으므로
+    그대로 유지한다.
+    * '무애'의 경우 無礙, 無㝵 표기가 가능하므로 2개다 추가한다.
+    * '무광애', '무광애불'은 표준국어대사전에 따라 㝵를 사용한다.
+
+M	data/hanja/hanja.txt
+
+commit 5cd5d7c06d13ec71a405107063c702f1beabf8d1
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2022-09-10 13:50:57 +0900
+
+    hanja: 隣보다 鄰을 우선
+    
+    국립국어원 표준국어대사전에서는 鄰을 사용하고 있다.
+    이에 맞추어 隣대신 鄰을 우선 사용하도록 순서를 조정한다.
+    
+    그리고 隣을 사용한 곳을 鄰으로 바꾼다.
+    결린(절린)은 한자어로 보지 않는 것 같아서 삭제한다.
+    
+    지명인 선린동, 인제동은 일종의 고유명사임을 고려하여 隣을 사용하려
+    했으나 규칙의 단순성을 위해서 鄰으로 통일한다.
+
+M	data/hanja/hanja.txt
+
+commit d5cadaaf33ea99188f795620b3205b75e2fc11b6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2022-09-09 13:06:55 +0900
+
+    hanja: 주자가례: 走子珂禮 -> 朱子家禮
+    
+    주자가례에 走子珂禮라는 한자어는 확인되는 곳이 없다.
+    아마 朱子家禮를 잘못 입력한 듯 하다.
+    
+    원본 데이터인 "6개사전표제어목록.zip" 파일을 확인해보면
+    거기에 이미 走子珂禮으로 되어 있는 것으로 보아 처음부터
+    잘못된 데이터가 들어간 것 같다.
+
+M	data/hanja/hanja.txt
+
+commit 576469d6ce1363032af80f25375d8bac7f0abc04
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2022-08-20 14:32:22 +0900
+
+    keyboard: Always specify SUFFIX on sed -i option
+    
+    On macOS, `sed -i` without SUFFIX option reports an error:
+    ```
+    sed: -e: No such file or directory
+    ```
+    
+    hangul-keyboard-*.name.xml.tmp are intermediate files.
+    They should be cleaned.
+    
+    BYPRODUCTS option is simpler to use than ADDITIONAL_MAKE_CLEAN_FILES.
+    It is available from 3.2.
+    
+    https://github.com/libhangul/libhangul/issues/63
+
+M	data/keyboards/CMakeLists.txt
+M	data/keyboards/Makefile.am
+
+commit 313b888f1df00f8e476c3ba25a8ce619baaefc91
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-12-19 16:03:42 +0900
+
+    hanja: Fix dereference of NULL
+    
+    Static Analysis에서 발견된 "dereference of NULL" 문제를 수정한다.
+    HanjaList 메모리 할당에 실패한 경우에 대한 처리가 되지 않고 있었다.
+    list 할당에 실패한 경우 Hanja 아이템을 추가하지 않게 한다.
+    
+    https://github.com/libhangul/libhangul/issues/53
+
+M	hangul/hanja.c
+
+commit 4f55605d415bef9d35c105aa6b58b10b4bccffd4
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-12-20 09:31:45 +0900
+
+    test: fail_unless -> ck_assert
+    
+    fail_unless macro from libcheck is deprecated.
+    Use new ck_assert macro.
+    
+    The following warnings are reported with libcheck-0.15.2:
+    ```
+    libhangul/test/test.c:450:17: warning: too many arguments for format [-Wformat-extra-args]
+      450 |                 "error: next syllable: L L V V T T");
+          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ...
+    ```
+    
+    Maybe, the commit below causes the warning:
+    https://github.com/libcheck/check/commit/82540c5428d3818b64d6a8aefb601e722520651f
+
+M	test/test.c
+
+commit 6f06c7652d11cac4340360484e82174f7ce36cb5
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-12-23 09:29:29 +0900
+
+    hanja: 유탄발사기 추가, 유탁제 업데이트
+    
+    유탄발사기, 발사기 추가
+    발사기는 發射幾, 發射器로 표현이 가능하므로 두가지 모두 추가한다.
+    
+    유탁제(乳濁) 한자 빠진 것 추가
+
+M	data/hanja/hanja.txt
+
+commit 8255f32704a03ca131df2b7d139bf62cf2d4e9e4
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-10-23 14:08:17 +0900
+
+    cmake: Add ENABLE_UNIT_TEST option
+    
+    check library가 없이 테스크 코드를 빌드하기 위한 옵션을
+    추가한다.
+
+M	CMakeLists.txt
+M	test/CMakeLists.txt
+
+commit 07ba837b828f96bc5342ad22d4e3c05a726dd099
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-10-23 14:17:32 +0900
+
+    Add AM_MAINTAINER_MODE macro
+    
+    autotools가 자동으로 재실행되는 것이 불편한 경우가 있으므로
+    사용자가 선택할 수 있도록 AM_MAINTAINER_MODE 매크로를 추가한다.
+
+M	configure.ac
+
+commit 8de22bfb0bc1d80e0da3aebbfc59c57e3425a1a6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-09-22 17:16:37 +0900
+
+    hanja: 탐험선, 탐험대원 추가
+
+M	data/hanja/hanja.txt
+
+commit 8118b22db520da8c2748face38e08bafe631fe94
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-09-22 17:13:54 +0900
+
+    test: Add TEST_HANJA_TXT definition to hanja test
+    
+    시스템 디렉토리가 아닌 소스 디렉토리의 hanja.txt 파일을
+    테스트하기 위해서 TEST_HANJA_TXT를 사용한다.
+
+M	test/CMakeLists.txt
+M	test/Makefile.am
+M	test/hanja.c
+
+commit 49cd5a2694ee70fcaac95fec8d4ad592047f9c07
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-10-12 16:15:14 +0900
+
+    cmake: Add BUILD_SHARED_LIBS option
+    
+    사용자가 Shared와 Static 빌드를 선택할 수 있게
+    BUILD_SHARED_LIBS 옵션을 추가한다.
+    
+    ENABLE_EXTERNAL_KEYBOARDS 옵션이 ON 일때에만
+    expat을 찾아도 되므로 조건 처리한다.
+    
+    추가로 find_package()를 사용한다. 패키지를 찾을 때에는
+    include()보다 나을 것 같다.
+
+M	CMakeLists.txt
+M	data/keyboards/CMakeLists.txt
+M	hangul/CMakeLists.txt
+M	po/CMakeLists.txt
+M	test/CMakeLists.txt
+
+commit dab127b85d1b4c88a1a729b1cd6f9000ab25eb77
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-09-28 22:30:52 +0900
+
+    cmake: Add hangul-config.cmake.in
+    
+    실수로 파일을 add하지 않았다. 추가한다.
+    추가로 cmake 디렉토리 이름을 하드코딩하지 않고 CMAKE_PROJECT_NAME 변수를
+    사용하도록 변경한다.
+    
+    https://github.com/libhangul/libhangul/issues/56
+
+M	CMakeLists.txt
+A	hangul-config.cmake.in
+
+commit b6f983765b6c192b50d3dc05c3c7863ca446b259
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-09-22 17:36:46 +0900
+
+    cmake: Add tools subdirectory
+    
+    hangul 빌드를 위한 CMake 스크립트를 추가한다.
+
+M	CMakeLists.txt
+A	tools/CMakeLists.txt
+
+commit 7b2c1543196d98d32ba3a094687f059da70f3f45
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-08-01 19:56:17 +0900
+
+    Add CMake build files
+    
+    CMake로도 빌드할 수 있으면 좀더 편리하다.
+
+A	CMakeLists.txt
+A	data/hanja/CMakeLists.txt
+A	data/keyboards/CMakeLists.txt
+A	hangul/CMakeLists.txt
+A	po/CMakeLists.txt
+A	test/CMakeLists.txt
+
+commit 4c1efe85ab9ddb5f6ea3e69bdf24e9373d5c402a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-09-19 10:48:44 +0900
+
+    Add LIBHANGUL_KEYBOARD_PATH environment variable feature
+    
+    LIBHANGUL_KEYBOARD_PATH 환경 변수를 설정하면 그 위치의
+    키보드 파일을 로딩하게 한다.
+    
+    테스트할 때에는 시스템에 설치된 키보드 파일이 아니라
+    빌드 디렉토리의 키보드 파일을 사용해야 의미가 있다.
+    빌드 디렉토리의 키보드을 로딩할 수 있는 기능을 제공하기위해서
+    LIBHANGUL_KEYBOARD_PATH 환경 변수를 도입한다.
+    
+    소스 디렉토리에는 키보드 파일 템플릿만 있다. 완성된 키보드 파일은
+    빌드 디렉토리에 생성되므로 빌드 디렉토리에서 키보드 파일을 로딩해야 한다.
+    그러나 거기에는 combination 파일이 없으므로 제대로된 테스트를
+    위해서는 combination 파일도 복사해주는 룰이 필요하다.
+    AC_CONFIG_LINKS()를 사용하여 소스만 고치고도 테스트 가능하게 한다.
+
+M	configure.ac
+M	hangul/hangulkeyboard.c
+M	test/Makefile.am
+M	test/hangul.c
+M	test/test.c
+
+commit cf218777a2019753462084a5ceec7ca0457b9f65
+Author: Changwoo Ryu <cwryu@debian.org>
+Date:   2019-08-10 22:13:15 +0900
+
+    intltool to gettext migration
+    
+    https://wiki.gnome.org/Initiatives/GnomeGoals/GettextMigration
+
+M	autogen.sh
+M	configure.ac
+M	data/keyboards/Makefile.am
+M	data/keyboards/hangul-keyboard-2.xml.template
+M	data/keyboards/hangul-keyboard-2y.xml.template
+M	data/keyboards/hangul-keyboard-32.xml.template
+M	data/keyboards/hangul-keyboard-39.xml.template
+M	data/keyboards/hangul-keyboard-3f.xml.template
+M	data/keyboards/hangul-keyboard-3s.xml.template
+M	data/keyboards/hangul-keyboard-3y.xml.template
+M	data/keyboards/hangul-keyboard-ahn.xml.template
+M	data/keyboards/hangul-keyboard-ro.xml.template
+A	data/keyboards/its/hangul-keyboard.its
+A	data/keyboards/its/hangul-keyboard.loc
+
+commit 5d1c7a77e6153227701fc906d3611b15e5b390ee
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2021-04-04 11:24:51 +0900
+
+    Remove compiler warnings with -Wpedantic (#44)
+    
+    pedantic 옵션을 추가했을 때 발생하는 워닝을 제거한다.
+    다른 워닝이 발생하는 곳도 같이 수정한다.
+    
+    https://github.com/libhangul/libhangul/issues/44
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	test/hangul.c
+
+commit 2ddc547f014afdc25b73a2f26f28b70728d79105
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2020-02-29 20:36:47 +0900
+
+    建設社 추가, 강강수월래에 설명 추가
+    
+    한자 중 틀린 것에 설명이 없으면 맞는 표현으로
+    오해할 것 같아서 설명을 추가한다.
+
+M	data/hanja/hanja.txt
+
+commit 2c9ddb333d57c274de2b4e7fd18f78d5bbf96c7d
+Merge: e062026 06f56ae
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2020-02-16 22:15:55 +0900
+
+    Merge branch 'dhsung_modhanja_20191026' of https://github.com/studioego/libhangul
+    
+    https://github.com/libhangul/libhangul/pull/40
+
+commit 06f56aec9d849e3505458304f085af7b0f82fc45
+Author: DaeHyun Sung <sungdh86@gmail.com>
+Date:   2019-10-26 14:15:43 +0900
+
+    fixed Hanja list, Hangul range from ㄱ to 곶
+    
+    한자 목록 중 `ㄱ`에서 `곶`까지의 범위의 한자어 수정
+    
+    Reference.
+    
+    * 네이버 국어사전 https://ko.dict.naver.com
+    * 다음 국어사전 https://dic.daum.net/index.do?dic=kor
+    * 표준국어대사전 http://stdict.korean.go.kr
+    
+    issue#39 한자(漢字) 목록 중 ㄱ-곶까지의 내용 수정
+    https://github.com/libhangul/libhangul/issues/39
+
+M	data/hanja/hanja.txt
+
+commit e0620262d604ffb1b912d1e57ceb9c534693b798
+Author: DaeHyun Sung <sungdh86@gmail.com>
+Date:   2019-10-03 02:18:59 +0900
+
+    Fix Korean Hanja sounds and characters
+    
+    1. 간략화한 국(国)은 공식으로 사용하지 않아 변경.
+    
+    `구세주국:救世主国:엘살바도르` -> `구세주국:救世主國:엘살바도르`
+    
+    2. `라오스`에 대한 한자 명칭 변경
+    
+    `나우:老撾:라오스`->`노과:老撾:라오스`
+    
+    `노과:羅宇:라오스`->`나우:羅宇:라오스`
+    
+    3. `乓`의 음 변경
+    `퐁`->`팡`
+    
+    https://github.com/libhangul/libhangul/issues/36
+
+M	data/hanja/hanja.txt
+
+commit 42f764082508467e4fdcf453cff06a2c04580969
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2018-06-06 21:01:53 +0900
+
+    doc: keyboard 문서 생성할때 매핑 안된 글자 처리 추가
+    
+    이전 fb9fc71 수정에서 두벌식 자판의 영문을 더이상 매핑하지 않도록
+    수정했는데, 이것으로 자판 문서가 제대로 생성되지 않는 문제가 발생했다.
+    매핑되지 않은 글자는 회색으로 표현되도록 한다.
+    
+    https://github.com/libhangul/libhangul/issues/27
+
+M	doc/gen_hangulkeyboards.py
+
+commit 5a06be7d1c49fc3e99b2f0417b10591dfd1ff564
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2018-06-06 18:42:04 +0900
+
+    User custom 자판 등록 기능 제공
+    
+    hangul_keyboard_list에 사용자가 생성한 HangulKeyboard를
+    등록할 수 있는 api를 추가한다.
+    
+    관련하여 unit test 코드도 추가함.
+    
+    https://github.com/libhangul/libhangul/pull/21
+    https://github.com/libhangul/libhangul/issues/28
+
+M	hangul/hangul.h
+M	hangul/hangulkeyboard.c
+M	test/test.c
+
+commit fb9fc716d75d79f5ef3142e93220e6cd446aa24c
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2018-06-06 16:58:43 +0900
+
+    두벌식 자판에서 한글이 아닌 것은 원 자판의 글자를 사용
+    
+    기존 방식에서는 사용자 자판이 qwerty 자판이 아닌 경우에도
+    한글 상태에서는 qwerty 자판으로 동작하게 된다.
+    사용자가 qwerty 자판이 아닌 것을 사용할때에는 불편할 수 있으므로
+    한글에 대해서만 처리하고 나머지 키는 그대로 포워딩할 수
+    있도록 하는 것이다.
+    
+    이렇게 하면 반대로 사용자가 한글 자판 상태에서 qwerty 기호나 숫자를
+    입력하고자할때에는 사용할 수가 없게 된다.
+    또 글자를 commit하는 방식이 아니라 키이벤트를 포워딩하는 방식으로
+    처리하게 되므로 최근 ibus에서 발생한 space 순서가 바뀌는 문제
+    같은 것들이 영문자에 대해서 모두 발생할 위험성이 커질 수 있다.
+    참고: https://github.com/libhangul/ibus-hangul/issues/42
+    
+    세벌식 자판의 경우는 좀더 생각해볼 시간을 가지기 위해서
+    일단 적용을 보류하고 두벌식에만 먼저 적용한다.
+    
+    https://github.com/libhangul/libhangul/issues/27
+    https://github.com/libhangul/ibus-hangul/issues/15
+
+M	data/keyboards/hangul-keyboard-2.xml.template
+M	data/keyboards/hangul-keyboard-2y.xml.template
+M	hangul/hangulkeyboard.h
+
+commit 20983f0c8de0798b2443f137152a83233e4154a8
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2018-06-06 16:51:23 +0900
+
+    Add copyright notice to hangulkeyboard.h
+
+M	hangul/hangulkeyboard.h
+
+commit 08b34532dfc2681575329df8042e20a4c3360bd1
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2018-06-06 14:17:15 +0900
+
+    doc: builddir과 srcdir이 다른 경우에도 빌드되게 함
+    
+    Makefile을 자동으로 업데이트하고 빌드되게 하려면
+    Makefile.am으로 처리하는 편이 편리한 것 같다.
+
+M	Makefile.am
+M	configure.ac
+M	doc/Doxyfile.in
+D	doc/Makefile
+A	doc/Makefile.am
+M	doc/gen_hangulkeyboards.py
+
+commit 1b70b5cef901166f01d3a411191d0a493463dd67
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2018-06-06 11:16:25 +0900
+
+    Ownership transfer to libhangul organization
+    
+    This make the url look more official.
+
+M	README
+M	configure.ac
+M	doc/mainpage.dox
+M	po/Makevars
+
+commit 17577aedf1a123534f2d29df239f4250d71579b5
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2018-06-05 19:13:56 +0900
+
+    hangul_combination_set_data()에서 size_t overflow 문제 수정
+    
+    대부분의 경우 ULONG_MAX는 SIZE_MAX와 같은 값을 가지겠지만,
+    size_t 타입에 맞는 최대값을 사용하는 편이 안전할 것이다.
+    
+    https://github.com/choehwanjin/libhangul/issues/17
+
+M	hangul/hangulkeyboard.c
+
+commit a4c5f1e052650c7839a9667a5431ae437b217e03
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2018-06-05 14:00:40 +0900
+
+    PATH_MAX 사용 코드 제거
+    
+    hurd에서는 PATH_MAX가 없는 것 같다.
+    https://buildd.debian.org/status/fetch.php?pkg=libhangul&arch=hurd-i386&ver=0.1.0%2Bgit20170815-1&stamp=1511811053&raw=0
+    
+    관련 코드는 정확한 PATH_MAX값이 필요한 것이 아니므로
+    PATH_MAX를 사용하지 않도록 수정하는 편이 좋을 것 같다.
+    파일 이름에 사용할 버퍼에 필요한 스트링 길이를 계산하고
+    메모리를 할당하여 처리한다.
+    
+    https://github.com/choehwanjin/libhangul/issues/24
+
+M	hangul/hangulkeyboard.c
+
+commit 4277b88571fed21ea022321934c5b1de7285adf8
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2018-06-05 13:39:39 +0900
+
+    순아래 종성 연타 입력 테스트 추가
+    
+    ㅎㅐㅅㅅ입력 테스트 추가
+    
+    https://github.com/choehwanjin/ibus-hangul/issues/58
+
+M	test/test.c
+
+commit e97db746cc84f9338eb60b0aa60c3b22a0aea04a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2018-06-05 12:29:02 +0900
+
+    키보드 파일을 로딩시 재귀호출 테스트 코드 추가
+    
+    키보드 파일이 자기자신을 include한 경우에대한 테스트 코드 추가한다.
+    관련 api hangul_keyboard_new_from_file()도 추가하고
+    샘플 키보드 파일 recursive.xml을 추가한다.
+
+M	hangul/hangul.h
+M	hangul/hangulkeyboard.c
+M	test/Makefile.am
+A	test/recursive.xml
+M	test/test.c
+
+commit 2222deef90efd70dbe4800317211f3c18d403923
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2018-06-02 20:18:57 +0900
+
+    키보드 파일 로딩시 재귀 호출 처리
+    
+    자기 자신을 include할 경우에 대한 처리가 필요하다.
+    include depth를 64개까지만 처리하도록 제한을 두어 해결한다.
+
+M	hangul/hangulkeyboard.c
+
+commit 35c3edc41e445d8ced177b9caaf73e3bce9fbfdc
+Merge: 8c1a3d9 0eae663
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2017-08-15 16:16:05 +0900
+
+    Merge branch 'studioego-work'
+    
+    대법원 인명용 한자 추가
+    
+    https://github.com/choehwanjin/libhangul/pull/19
+
+commit 0eae6638785cd09606896dc81d9862eb04c6b8fe
+Author: DaeHyun Sung <sungdh86@gmail.com>
+Date:   2017-08-13 13:46:14 +0900
+
+    대법원 인명용한자표( http://help.scourt.go.kr/nm/img/hanja/hanja_2015.pdf )에
+    포함되었으나, libhangul에 누락된 158자 추가.
+    대법원 인명용한자표의 내용을 텍스트로 변환한 Koichi Yasuoka (安岡孝一)씨의 작업물
+    韓国の人名用漢字表のテキスト版(https://srad.jp/~yasuoka/journal/589283/)을  기반으로
+    작업하였습니다.
+    참고:
+    京都大学人文科学研究所附属 東アジア人文情報学研究センター[교토대학 인문과학연구소 부속 동아시아 인문정보학연구센터]
+    特集 韓国の人名用漢字と漢字コート
+    ゙[특집 한국의 인명용한자와 한자코드]
+    (安岡孝一・安岡素子編)
+    http://kanji.zinbun.kyoto-u.ac.jp/~yasuoka/publications/diccs2016.pdf
+    Unicode 11의 Unihan database에 들어갈 한국어 한자 속성 내용
+    http://appsrv.cse.cuhk.edu.hk/~irg/irg/irg48/IRGN2200_UnihanDB_CN_JP_KR.pdf
+
+M	data/hanja/hanja.txt
+
+commit 8c1a3d95d879309a0754d1de861b4f82f80af4e3
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-03-29 13:46:44 +0900
+
+    ENABLE_NLS 처리 추가
+    
+    intltool은 ENABLE_NLS를 정의하지 않는 것 같다.
+    대신 USE_NLS를 설정하므로 이 값으로 ENABLE_NLS 처리를 한다.
+
+M	configure.ac
+M	hangul/hangulkeyboard.c
+M	tools/hangul.c
+
+commit 48b19bdc1d0646fd9831326e97653da190cba203
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-03-28 12:40:16 +0900
+
+    configure 옵션 추가: --disable-external-keyboards
+    
+    External keyboards 로딩 기능 사용 여부를 configure에서 설정할 수
+    있게 한다. libhangul을 외부 파일 없이 binary만 가지고 사용하고자 할때
+    이 옵션을 사용하면 좋을 것이다.
+
+M	configure.ac
+M	hangul/hangulkeyboard.c
+
+commit 0a0278d898514a35b801fb8ef77de2df8e02df58
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-03-27 19:44:55 +0900
+
+    문서 업데이트: 빌드 방법 수정
+    
+    git에서 빌드할 때와 source tarball에서 빌드할때 명령은 달라야 한다.
+
+M	README
+
+commit 2460b7ceac9a0e14ca56df7545ca8378d1464913
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-03-27 19:43:21 +0900
+
+    @LIBINTL@ 제거
+    
+    intltool은 @LIBINTL@ 변수를 제공하지 않는 것 같다.
+    xml을 번역하기 위해서는 intltool을 사용할 수 밖에 없으니
+    이 문제를 해결할 방법을 찾아봐야 할 것 같다.
+    
+    @LIBINTL@은 *bsd에서 빌드 오류가 발생하여 추가한 것이다.
+
+M	libhangul.pc.in
+
+commit b7879db70ac89b577eab890aeb0a531ef60e4acb
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-03-06 11:07:21 +0900
+
+    hangul_init 함수의 중복 호출 문제 처리
+
+M	hangul/hangulkeyboard.c
+
+commit 275ce261cfb01207fed25b44600e763a5ece6982
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-03-05 19:58:37 +0900
+
+    문서 업데이트
+
+M	doc/Doxyfile.in
+M	doc/gen_hangulkeyboards.py
+M	hangul/hangulinputcontext.c
+M	hangul/hangulkeyboard.c
+
+commit 1c296c4d8874a67326e6b87e92516be2cc56b113
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-03-04 20:50:54 +0900
+
+    프로젝트 주소 업데이트
+
+M	README
+M	configure.ac
+M	doc/mainpage.dox
+M	po/Makevars
+
+commit ecc2d7e2cb7e4307312fde2535a911bbf10d1623
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-03-04 20:24:20 +0900
+
+    tools의 hangul도 hangul ic에 추가된 option 기능을 사용하여 구현
+    
+    strict order 옵션은 HANGUL_IC_OPTION_AUTO_REORDER을 사용하여
+    구현하면 된다.
+
+M	tools/hangul.c
+
+commit acf25460c6ec11259ce5044c1005a4d620c9ae4c
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-03-04 18:10:29 +0900
+
+    xml로 작성된 외부의 한글 자판을 로딩하는 기능 구현
+    
+    한글 자판 파일의 확장성을 고려하여 자판 파일은
+    xml로 구성하도록 한다. xml 파서는 expat을 사용한다.
+    xml 번역을 위해서 intltool을 사용하고 autopoint대신 intltool로
+    gettext을 초기화 한다.
+    
+    한글 자판 관리는 HangulKeyboardList를 통해서 한다.
+    한글 자판을 로딩하고 언로딩하기 위해서 hangul_init()/hangul_fini()와
+    같은 함수를 추가로 도입한다.
+    
+    HangulKeyboard는 HangulCombination과 세트로 관리하는 편이
+    합리적인 것 같다.
+
+M	.gitignore
+M	autogen.sh
+M	configure.ac
+M	data/Makefile.am
+A	data/keyboards/Makefile.am
+A	data/keyboards/hangul-combination-default.xml
+A	data/keyboards/hangul-combination-full.xml
+A	data/keyboards/hangul-keyboard-2.xml.template
+A	data/keyboards/hangul-keyboard-2y.xml.template
+A	data/keyboards/hangul-keyboard-32.xml.template
+A	data/keyboards/hangul-keyboard-39.xml.template
+A	data/keyboards/hangul-keyboard-3f.xml.template
+A	data/keyboards/hangul-keyboard-3s.xml.template
+A	data/keyboards/hangul-keyboard-3y.xml.template
+A	data/keyboards/hangul-keyboard-ahn.xml.template
+A	data/keyboards/hangul-keyboard-ro.xml.template
+M	hangul/Makefile.am
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	hangul/hangulinternals.h
+A	hangul/hangulkeyboard.c
+M	po/POTFILES.in
+M	test/hangul.c
+M	test/test.c
+M	tools/hangul.c
+
+commit bf4981327a5d5985b573a2e594c31b455ec59ba6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-02-24 15:16:35 +0900
+
+    hangul ic: HANGUL_IC_OPTION_NON_CHOSEONG_COMBI 옵션 추가
+    
+    첫음절에 유니코드 초성에 없는 글자도 조합하는 기능을 설정할 수 있게
+    한다. libhangul에서는 ㄳ이나 ㄺ등 초성에 없는 글자를 첫음절에서
+    조합하는 기능을 제공하지 않았다. 그러나 MS IME와 호환성을 높이기
+    위해서 이 기능을 추가하였으므로, 이 기능을 켜고 끌 수 있도록 옵션으로
+    처리한다.
+    
+    관련 유닛테스트 코드도 추가한다.
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	test/test.c
+
+commit 1b438ae53333c7186544ecd79add5ea175a63d8d
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-02-23 18:39:29 +0900
+
+    hangul ic: HANGUL_IC_OPTION_COMBI_ON_DOUBLE_STROKE 옵션 추가
+    
+    두벌식에서 자음을 연속 입력해서 된소리로 조합해주는 기능을 설정으로
+    조정할 수 있게 한다. (예를 들어 ㄱ+ㄱ을 ㄲ으로 변환해 주는 기능)
+    이에 따라서 관련 유닛 테스트 코드를 변경하고 이 옵션을 테스트할
+    코드를 추가한다.
+    기본값은 MS IME 호환을 위해서 false로 설정한다.
+    
+    세벌식의 경우에는 이 기능이 자판의 기본적인 동작 방식이므로 이
+    옵션으로 조정되지 않는다.
+    
+    두벌식 옛한글 자판의 경우에는 현대 한글 자모의 경우만 조합이 제한되고
+    옛한글 자모들은 그대로 조합된다.
+    
+    구현에 필요한 hangul_is_jamo_conjoinable 함수도 추가.
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+M	test/test.c
+
+commit 3cc99981949155e27e6e0db8a26a4c48a79d5e4f
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-02-21 21:34:28 +0900
+
+    input context 입력 옵션 설정 기능 추가: auto reorder
+    
+    hangul_ic_set_option 함수를 통해서 입력 옵션 설정이 가능하다.
+    처음에는 filter 함수를 이용해서 라이브러리 외부에서 좀더 유연하게
+    조종할 수 있도록 하려 했었는데, 옵션을 만드는 쪽이 구현과 사용이 더
+    쉬울 것 같아서 옵션으로 추가한다.
+    
+    첫번째 구현으로 auto reorder 옵션을 추가하고, 관련 테스트 코드도
+    추가한다. 기본값은 MS IME 호환을 위해서 false로 설정한다.
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	test/test.c
+
+commit 5735a1a6e3892a42e1a15475d395493c890b2995
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-02-21 09:31:08 +0900
+
+    backspace 테스트 케이스 추가: 두벌식
+
+M	test/test.c
+
+commit 4376c03ef2ea303b77e893c158f167128ef3295f
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-02-20 20:37:58 +0900
+
+    hangul_ic_process함수에서 backspace 처리도 가능하게 함
+    
+    ascii 코드를 직접 처리하는 경우 backspace를 예외 처리하기 보다는
+    hangul_ic_process함수에서 '\b' 코드로 처리하게 하면 여러 테스트
+    코드들이 훨씬 간결해질 수 있다.
+
+M	hangul/hangulinputcontext.c
+
+commit d639086a61acbe0e067c45194d6d96275f953f04
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2016-02-20 20:34:57 +0900
+
+    MS IME 호환 기능 추가: ㄳ 입력 기능 추가
+    
+    원래 이 글자들은 유니코드 초성에 없는 글자들이라서 입력 기능을
+    제공하지 않았지만, MS IME 호환 기능을 요구하는 경우가 많아서
+    libhangul 수준에서 제공하기로 결정한다.
+    그래서 ㄳ은 초성이 결합하여 종성이 되도록 combination table을
+    만든다.
+
+M	hangul/hangulinputcontext.c
+M	hangul/hangulkeyboard.h
+M	test/test.c
+
+commit 78e9d8926262db423b4cf9181e1c2cb06a120a9b
+Author: Jihoon Kim <jihoon48.kim@samsung.com>
+Date:   2015-01-08 15:32:44 +0900
+
+    Fix incorrect sizeof expression
+    
+    sizeof of pointer variable returns 4 bytes.
+    
+    Change-Id: Iaf4444ceabff8ccc9a1f2f397e13bbf01b5feb04
+
+M	hangul/hangulinputcontext.c
+
+commit eeba676cd8781b47c0a52a0e76bc7262ca5e7e75
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2015-02-23 23:57:06 +0900
+
+    hanja_list_new()에서 발생할 가능성이 있는 memory leak 수정
+    
+    strdup이 실패할 경우와 malloc이 실패할 경우에 대한 처리를 강화한다.
+
+M	hangul/hanja.c
+
+commit 3b8e5572263d3489528e65b204e6bcb75426e043
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2014-09-28 23:29:12 +0900
+
+    MS IME에서 제공하는 심볼 변환 테이블 추가
+    
+    이 mssymbol.txt파일은 ibus-hangul의 것을 사용했다.
+    
+    https://github.com/choehwanjin/libhangul/pull/4
+
+M	data/hanja/Makefile.am
+A	data/hanja/mssymbol.txt
+
+commit f7d88939f8ca0c9f8db93701a63e4e0edc775190
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2014-09-10 18:09:44 +0900
+
+    ISSUE.9 잘못된 한자어 수정(車裂形 -> 車裂刑, 家門形 -> 家門刑)
+    
+    https://code.google.com/p/libhangul/issues/detail?id=9
+
+M	data/hanja/hanja.txt
+
+commit baa520cd493064ca77bb45818dfa5f2db3824cb2
+Author: Jihoon Kim <jihoon48.kim@samsung.com>
+Date:   2014-03-13 15:22:30 +0900
+
+    fix typo in doxygen
+    
+    설멍 -> 설명
+    해댱 -> 해당
+    
+    Signed-off-by: Jihoon Kim <jihoon48.kim@samsung.com>
+
+M	hangul/hangulinputcontext.c
+
+commit 55b7084e954e8b43802c1d385f38b8eaac475dbf
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2013-11-03 18:24:45 +0900
+
+    hangul_jamo_to_cjamo에 대한 unit test case 추가
+
+M	test/test.c
+
+commit 3e59c64a985a1355d116319d69973b29d0d8ec66
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2013-11-03 18:05:53 +0900
+
+    hangul_jamo_to_cjamo 테이블에 빠진 곳 추가
+    
+    0xd7c7 ~ 0xd7ca까지 값이 빠져 있었음
+    
+    patch from: 김지훈 <jihoon48.kim@samsung.com>
+
+M	hangul/hangulctype.c
+
+commit cf6a79b048eb1b077dcd5a1d924dad6ac2ad2a69
+Author: Carbo Kuo <carbokuo@google.com>
+Date:   2013-06-09 14:44:19 +0800
+
+    Fix some build warnings.
+
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+
+commit 5485cf4ff5d5fc2171806029fbeef35dd2bcf688
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2012-04-16 22:47:57 +0900
+
+    pkg-config를 사용해 컴파일하는 방법에 대한 설명 추가
+
+M	doc/mainpage.dox
+
+commit eba18091c03b1af2ea4bda01bffa4f4a95943121
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2012-03-28 23:27:38 +0900
+
+    Update documents
+    
+    중복된 "두벌식 옛글" 항목 제거
+    
+    http://code.google.com/p/libhangul/issues/detail?id=1
+
+M	doc/gen_hangulkeyboards.py
+M	doc/mainpage.dox
+
+commit c2ec243cd578f1836fd384b9bb9ab7f326ae2ca7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2012-01-08 21:12:52 +0900
+
+    暎畵는 잘못된 한자어이므로 삭제
+
+M	data/hanja/hanja.txt
+
+commit 0ebe1f93d9e287282accea9291e02b1f54ccdaab
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-12-17 16:42:17 +0900
+
+    doxygen 생성 룰 개선
+    
+    Doxyfile.in과 gen_hangulkeyboards.py 변경에 따라서 관련 파일이
+    자동으로 생성되도록 룰을 추가한다.
+
+M	doc/Doxyfile.in
+M	doc/Makefile
+
+commit fd7a0837e97f3e5f2f84ba8960797e803e756492
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-12-17 16:34:19 +0900
+
+    ignore list 추가
+
+A	.gitignore
+
+commit 6ea053744d93dd24b4372e2edc59c4210040b132
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-12-17 16:31:11 +0900
+
+    Doxygen 문서 업데이트
+    
+    libhangul이 지원하는 자판에 대한 문서 추가
+    ref 태그에 띠어 쓰기가 없는 오류 수정
+    mainpage도 나머지 문서와 어투를 맞춤
+
+M	doc/Makefile
+A	doc/gen_hangulkeyboards.py
+M	doc/mainpage.dox
+M	hangul/hangulinputcontext.c
+M	hangul/hanja.c
+
+commit 05d4c4fd834d4ae33d660b5e7aa8e404a7580e3a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-11-23 21:52:45 +0900
+
+    Doxygen에서 파일 이름에 fullpath를 사용하지 않음
+
+M	doc/Doxyfile.in
+
+commit c0a323eb87662da15cafbc5ca8faea88249457d6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-11-12 13:14:34 +0900
+
+    내부 구현에서만 사용할 함수는 hangulinternals.h로 옮김
+    
+    hangul_choseong_to_jongseong(), hangul_jongseong_to_choseong(),
+    hangul_jongseong_decompose() 함수들은 두벌식 자판을 구현할때
+    사용하는 함수들로 일반적인 목적으로 사용하기에 적당하지 않다.
+    내부에서만 사용하는 함수로 옮기는 것이 적절하겠다.
+
+M	hangul/hangul.h
+M	hangul/hangulinternals.h
+
+commit 923d4ba82900e33c069c8838b89b681be04384ac
+Author: Jeong YunWon <jeong@youknowone.org>
+Date:   2011-11-09 02:35:41 +0900
+
+    hangul_jongseong_{dicompose -> decompose}
+    
+    잘못 이름지은 함수 hangul_jongseong_dicompose 를 hangul_jongseong_decompose 로 바꿈
+    hangul_jongseong_dicompose 심볼이 같은 기능을 하도록 보존
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+
+commit d9ba16599b7e3837b47879394129e2265075a9ed
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-11-03 23:26:14 +0900
+
+    make dist 할때 자동으로 ChangeLog를 갱신하는 룰 추가
+    
+    소스 레포지토리를 git으로 바꿨기 때문에 ChangeLog를 생성하는
+    룰을 git 명령으로 바꿨다. 그리고 릴리스 할때 ChangeLog 갱신 작업을
+    빠트리지 않도록 하기 위해서 make dist할때 자동으로 생성되게
+    dist-hook에 룰을 추가했다.
+
+M	Makefile.am
+
+commit 02ab33f1b8504fba4249d2fccad10997a9065d3b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-11-03 23:23:21 +0900
+
+    프로젝트 주소를 http://code.google.com/p/libhangul/ 로 바꿈
+    
+    프로젝트 호스팅 사이트를 http://kldp.net/ 에서
+    http://code.google.com/로 바꿨다.
+    그에 맞게 관련 주소를 변경한다.
+
+M	README
+M	configure.ac
+M	doc/mainpage.dox
+M	po/Makevars
+
+commit 9fe2d4e8c225b1797d2c5bb78ccfdc703af7b886
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-10-17 00:03:13 +0900
+
+    잘못 관리한 library version을 바로 잡음
+    
+    지금은 1.0.0 이 되어야 한다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@271 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit 56548727628f280f8a4e51f3037ee9385d8c312f
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-10-16 20:53:51 +0900
+
+    release 0.1.0
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@270 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit 9d7944bdcdafb9188efc2e81b401a495b77e40b7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-10-16 20:53:22 +0900
+
+    Update documents
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@269 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	NEWS
+
+commit 2caa6697adae52ea162f9d77cd5be309a78d4dcc
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-10-16 20:50:58 +0900
+
+    update po files
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@268 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	po/ko.po
+
+commit 6ec42b91a291b10ab3a62a18e1dc7b79c4aef88c
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-09-07 23:43:20 +0900
+
+    deprecated 함수 제거
+    
+    다음 릴리스에서는 library version을 올릴 것이다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@267 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+
+commit 4a1831405686abe590343fdffd265f7114ee3654
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-09-03 15:48:24 +0900
+
+    gettext 호환 version을 0.18로 업데이트
+    
+    이하 버전에서는 MKINSTALLDIR 관련 에러가 난다.
+    0.18 이하를 사용하는 사람이 별로 없길 바란다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@266 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit dabd63b8de364fdf30acff5e4a3358709c20660c
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-08-28 23:05:03 +0900
+
+    test 코드에서 속편하게 wchar_t로 비교
+    
+    wchar_t 내용이 UCS-4라고 가정해서는 안되지만, GCC를 사용하는 경우에
+    한해서 사용이 쉬우므로 이렇게 수정한다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@265 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/Makefile.am
+M	test/test.c
+
+commit c2c8b0a05f2d82af5b04a7f37c2bad4cac2dee4b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-08-28 22:15:44 +0900
+
+    hangul_ic_is_transliteration() 함수 추가
+    
+    이 함수는 hangul_ic_process()에 키코드를 넘기기 전에
+    normalize 과정에 필요한지 판단해주는 함수다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@264 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+
+commit 72e25b18a3975a7673ec6b2371f7989d6707b808
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-08-16 17:22:49 +0900
+
+    Combination table을 IC에서 Keyboard로 옮김
+    
+    Combination table은 keyboard에 종속적인 정보이므로 HangulKeyboard에서
+    참조하는 것이 바람직하다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@263 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit 6c4265504571dd3176f6a3a62f94658e4a94d61a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-07-18 23:30:24 +0900
+
+    AM_ICONV 매크로 사용
+    
+    freebsd에서 컴파일 오류가 발생하는 것을 막기 위한 것
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@262 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+M	test/Makefile.am
+M	test/hangul.c
+M	tools/Makefile.am
+M	tools/hangul.c
+
+commit 5ab14fa01d32432b8d7ce68789898d3380dd3ed8
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-07-18 00:34:11 +0900
+
+    Use variable LIBINTL
+    
+    To compile with GNU gettext, we need libintl on freebsd.
+    So it is safer to specify the variable LIBINTL which is set by AM_GNU_GETTEXT.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@261 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	libhangul.pc.in
+M	test/Makefile.am
+M	tools/Makefile.am
+
+commit 66719de3a9d5a94bd2a836b8fd3e7423dbb49f53
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-03-11 00:02:11 +0900
+
+    두벌식 테스트 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@260 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/test.c
+
+commit af02a9491b0023c23948e5ba5c6f42b7d204fea3
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-03-11 00:01:20 +0900
+
+    gettext 관련 파일을 업데이트하기 위해서 autopoint를 사용함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@259 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	autogen.sh
+M	configure.ac
+
+commit 89b48613b0081e4979dea70372beeaa386b1d6ac
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-01-02 23:57:43 +0900
+
+    release 0.0.12
+    
+    문서 업데이트
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@257 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	NEWS
+M	README
+
+commit 689d4381f9e85f43b6e474602a7ff5db154885fa
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-01-02 23:25:18 +0900
+
+    copyright 문구 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@256 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	tools/hangul.c
+
+commit 7f7f17a494163e0d50a907e9e672a18f62a4afd9
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-01-02 23:00:51 +0900
+
+    번역 업데이트
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@255 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	po/ko.po
+
+commit c8c5d03ff4e719515c89765a158eab4a773c4ee7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-01-02 22:36:45 +0900
+
+    메시지 업데이트
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@254 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	tools/hangul.c
+
+commit c1c6823ba2d62120caad927180bdbef7a528874b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2011-01-02 16:51:10 +0900
+
+    0.0.12 릴리스 준비
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@253 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit 36dea55f9c1cd6498e9ff3bda8ce9076a0ff5942
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-29 23:30:34 +0900
+
+    hangul_ic_get_keyboard_name()의 리턴값을 로캘에 관계없이 UTF-8로 함
+    
+    hangul_ic_get_keyboard_name() 함수의 리턴값을 사용하는 곳의 대부분이
+    UTF-8인 경우에 더 사용하기 편리하다. nabi, ibus, scim, imhangul 등의 경우
+    결국 스트링을 UTF-8로 변환해야 하므로 여기에서 UTF-8을 리턴하면 코딩이
+    더 편리해진다. 단 tools/hangul.c 에서는 locale에 따른 변환을 해주어야
+    하므로 약간 더 불편해지기는 하지만, 나머지에서 수정할 내용이 줄어들므로
+    이 편이 더 낫다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@252 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+M	hangul/hangulinputcontext.c
+M	tools/hangul.c
+
+commit 1a24fd5cffa003676507173d7e6f01be715ab4bb
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-29 22:38:28 +0900
+
+    gettext 적용
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@251 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	tools/Makefile.am
+M	tools/hangul.c
+
+commit ef97f53ccc98bf56009f289e268162046330f955
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-29 16:54:27 +0900
+
+    세벌식 두벌 자판은 별로 중요하지 않은 자판이므로 순서를 아래로 낮춤
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@250 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit 755b8532c79f373a1a57ec58493773fda236362b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-29 00:51:48 +0900
+
+    자판 이름 시작 글자를 대문자로 바꿈
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@249 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit 9a4313656e54759ce0a4516144f108c99826296e
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-28 16:03:44 +0900
+
+    #315248 안마태 자판 추가
+    
+    안마태 자판에서 임의로 추가된 기호 부분을 제거하고, 대신 shift 상태에서도
+    shift가 아닐때 글자가 나오도록 수정한다.
+    이전에 빠트렸던, OP의 [] 문자를 추가한다.
+    자모의 이름이 Unicode와 맞지 않는 부분을 unicode 이름으로 바꾼다.
+    안마태 자판에서 shift 상태에 배당되어 있지 않은 곳에 어떤 문자를 할당할지는
+    좀더 토론을 거친후에 처리하는 편이 좋을 것이다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@248 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulkeyboard.h
+
+commit 9643fcb60d1291a079a4ff529da09556abc6030a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-26 22:58:09 +0900
+
+    자동 순서 교정 기능을 끄는 옵션 --strict-order 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@247 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	tools/hangul.c
+
+commit 6f10050dff187192a042256fe9be016f678693d6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-26 21:59:54 +0900
+
+    테스트 디렉토리를 기본으로 빌드하지 않도록 바꿈
+    
+    별로 중요하지 않은 내용때문에 빌드 오류가 나는 문제로 수정이 필요한
+    경우를 피하기 위한 것이다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@246 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+
+commit e2259d4f98c310661165b4e7748546a5cbbaae2f
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-26 21:54:23 +0900
+
+    헤더 참조 경로를 상대 경로로 바꿈
+    
+    configure 디렉토리가 소스 디렉토리와 다른 경우에 에러가 발생한다.
+    make distcheck를 하면 에러난다. $(top_srcdir)을 써도 되는데,
+    그냥 쉽게 상대 경로로 참조하도록 수정한다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@245 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	tools/Makefile.am
+M	tools/hangul.c
+
+commit cb8c652a9eef94134c11474396a92335174a8b95
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-26 14:43:53 +0900
+
+    세벌식 옛글 자판의 배열을 아래한글과 동일하게 바꿈
+    
+    옛글 자판에 대해서는 공인된 기준이 없는 만큼 사용자가 많을 것이라 예상되는
+    아래한글의 세벌식 자판과 같은 자판을 지원하는 것이 사용자에게 편리할 것이라
+    생각한다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@244 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulkeyboard.h
+
+commit a503d218bc595c2b09ab72776b82ba7e8a259995
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-26 14:41:46 +0900
+
+    두벌식과 두벌식 옛글 자판에 대한 테스트 케이스 추가
+    
+    계속 추가할 예정
+    디버깅할때 편리하기 위해서 NOFORK 모드를 사용
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@243 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/test.c
+
+commit a4f04ac118195b72138761019ed9b812776bb714
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-25 23:17:20 +0900
+
+    두벌식에서 초성이 옛글에서만 사용되는 종성으로 변환되는 경우 처리
+    
+    ㅃㅉㄸ은 옛글 자모 글자인데, 이번에 두벌식 옛글자판을 구현하면서
+    hangul_choseong_to_jongseong() 함수로 초성에서 종성으로 변환이 가능해진
+    자모 글자다. 그런데 저 글자는 현대 한글에서는 유효하지 않은 종성이므로
+    현대 한글 자판에서는 위 초성들이 종성으로 변환되어서는 안된다.
+    그래서 combination_table을 비교하여 conjoinable 자모인지 아닌지에
+    따라서 종성 변환을 할 것인지 말 것인지 처리한다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@242 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit f20d0892a471f4661c71b160050b32668151c94c
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-25 16:33:04 +0900
+
+    hangul_combination_combine() 함수의 버그 수정
+    
+    hangul_combination_combine() 함수의 비교함수에서 두 key 값을 단순히
+    뺄셈연산하여 리턴하게 되면 두수의 크기차 signed int를 넘어서는 경우에
+    음수로 연산될 수 있어서 위험하다. 부등호를 이용하여 비교연산으로 처리한다.
+    Unicode 5.2에서 추가된 자모들중 U+A960, U+D7B0 영역의 문자들을 조합하지
+    못하는 문제 수정
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@241 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit c2a5e330a4e809d1c89c03d847eb23dc1154f610
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-25 15:21:40 +0900
+
+    아래한글과 같은 아래아 조합규칙 추가
+    
+    아래한글에서는 ㅏ+ㅏ를 아래아로 조합하는 규칙이 있다.
+    옛한글 입력 편의성을 위해서 아래한글과 같이 ㅏ+ㅏ를 아래아로 변환하는
+    규칙을 추가한다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@240 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulkeyboard.h
+
+commit d3d61b843c76ec482d238a890a550d36424db50d
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-25 14:36:13 +0900
+
+    옛한글 조합테이블에 빠진 부분 추가
+    
+    모음 U+116A, U+116B, U+1170, U+118B, U+D7B6를 조합하는 룰이 빠져있어서
+    새로 추가한다. 아마도 스크립트로 생성시에 제대로 처리되지 못한 부분이
+    있었던 것 같다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@239 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulkeyboard.h
+
+commit 3e6acad2828bb336dd2465c675ffddba58ec7701
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-25 14:11:01 +0900
+
+    옛이응이 이응으로 처리되는 부분 수정
+    
+    http://www.unicode.org/Public/UNIDATA/NamesList.txt 파일의 내용을
+    이용해서 자모 조합 테이블을 생성한 결과에 문제가 있다.
+    위 파일에서는 U+11EC - U+11EF 부분의 이름을 옛이응으로 하지 않고
+    이응으로 되어 있다. 그래서 이 파일로 부터 생성한 조합테이블에서는
+    이응 + 이응이 U+11EE가 나오는 문제가 있다.
+    그래서 이 부분은 손으로 직접 수정했다.
+    Unicode 5.2에서 정의된 내용에 따르면 U+11EC - U+11EF 부분은 옛이응으로
+    처리하는 것이 맞다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@238 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulctype.c
+M	hangul/hangulkeyboard.h
+
+commit 7378687555c5b7bfba1147016c2db55ca0a459e8
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-25 13:40:12 +0900
+
+    hangul_is_jongseong() 함수 버그 수정
+    
+    236에서 잘못 고친 부분 수정
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@237 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulctype.c
+
+commit 8aa825d38e45a5083b97f7cd40cdebe3593f924e
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-25 13:24:52 +0900
+
+    Unicode 5.2에서 확장된 한글 자모 영역을 제대로 확인하지 못하는 문제 수정
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@236 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulctype.c
+
+commit e2e71952e1fb177b02a4ba2df3c19df9228d1d59
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-25 12:37:02 +0900
+
+    한글 두벌식 옛글 자판 초기 구현
+    
+    자판의 배열을 아래한글의 두벌식 옛글자판과 동일하게 맞추었다.
+    초성과 종성을 뒤바꾸는 코드에서 UNICODE 5.2 버전의 옛한글을 지원하도록
+    하였다. 기존 두벌식에서 사용하던 hangul_jongseong_dicompose() 함수로는
+    옛한글 처리를 할 수가 없으므로 새로이 hangul_jongseong_get_diff() 함수를
+    구현하고, 이 함수를 이용하여 구현을 변경하였다.
+    그러나 아직 버그가 있으므로 차츰 수정해 나가도록 한다.
+    또한 옛한글을 지원하는 과정에서 현대 한글 두벌식 자판에도 영향을 미쳤으므로
+    이 역시 차츰 수정해 나가도록 한다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@235 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+M	hangul/hangulinternals.h
+M	hangul/hangulkeyboard.h
+
+commit 582e2d306cbd8fb501a4f728e400bc75fb6574b1
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-24 23:37:42 +0900
+
+    hangul-gettext.h 소스 리스트에 추가
+    
+    이 파일이 빠지면 make dist에서 에러남
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@234 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/Makefile.am
+
+commit c9a9473e8ba5df76670237572e2150e404f05640
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-19 13:53:20 +0900
+
+    완성 음절로 표현이 불가능한 경우 한글 자모로 표현
+    
+    지금까지는 완성 음절로 표현이 불가능한 중성 + 종성 같은 음절의 경우
+    호환자모 중성과 종성을 나열하여 표현하였는데, 이제는 한글 자모 영역의
+    글자를 사용하여 초성채움 + 중성 + 종성으로 표현한다.
+    이렇게 기능을 수정하면, 옛한글 자판의 경우도 hangul_buffer_get_string()
+    함수를 그대로 사용할 수 있으므로 자판 관리가 좀더 편리해지는 측면이 있다.
+    그러나 단점으로 세벌식에서 모아치기 기능을 활용하는 중에 한글 자모로 표현한
+    글자가 나타날 수 있는데, 이때에 이 글자를 제대로 렌더링 하지 못할 가능성이
+    있다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@233 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+M	test/test.c
+
+commit 759613591ae49b4371f604b69814ec84f63516a1
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-12 20:45:52 +0900
+
+    hangul_ic_select_keyboard() 함수에서 지정된 키보드를 못찾은 경우
+    한글 자판이 설정되지 않는 문제 수정
+    
+    자판 찾기에 실패한 경우 기본자판으로 두벌식 자판을 설정함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@232 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit 79dbbac2e509a67a68a0db161f875c9ddef1a5d7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-12 20:36:58 +0900
+
+    autotools 관련 파일을 링크보다는 복사하도록 함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@231 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	autogen.sh
+
+commit b6fa8096318969c2917dccef7a9462f52f92ed66
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-12 20:01:02 +0900
+
+    m4/ChangeLog가 없어서 make dist 에서 오류 발생함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@230 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+
+commit 4ed9ac1e5fc44f20b23322b9b53be9d988adda2a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-12 19:52:23 +0900
+
+    gettext 적용
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@229 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+M	autogen.sh
+M	configure.ac
+M	hangul/Makefile.am
+A	hangul/hangul-gettext.h
+M	hangul/hangulinputcontext.c
+A	po/LINGUAS
+A	po/Makevars
+A	po/POTFILES.in
+A	po/ko.po
+
+commit 2646bda3a5584b283190f22f32cf7ff669c925e8
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-12-12 19:08:30 +0900
+
+    한글 자판을 영문 상태로 친 스트링을 한글로 변환해주는 프로그램 구현
+    
+    예를 들어
+     hangul -i dkssudgktpdy 를 실행하면 "안녕하세요"를 출력,
+     echo dkssudgktpdy | hangul  을 실행하면 "안녕하세요"를 출력한다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@228 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	tools/Makefile.am
+A	tools/hangul.c
+
+commit e87ec32568f7d9194bb8ce00abf9e820a08a07c0
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-11-14 20:35:48 +0900
+
+    한글 키보드의 리스트와 이름을 가져오는 인터페이스 구현
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@227 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	hangul/hangulkeyboard.h
+M	test/test.c
+
+commit beb8f19bdc7cd031a4caa127e53077a0b02822eb
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-07-17 23:47:24 +0900
+
+    release 0.0.11
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@225 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit 74caae290f18ce408258d88c0e8d7c59c46da6ee
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-07-17 23:42:41 +0900
+
+    update document
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@224 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	NEWS
+
+commit db1d0018f7dec1b46f286594df8cc46845d2c771
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-07-17 01:08:47 +0900
+
+    옛한글 조합 테이블의 주석을 나머지와 테이블과 같은 형식으로 변경함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@223 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulkeyboard.h
+
+commit 6f18209498ed0284977408207b382e58fbf8ca4a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-07-17 00:50:29 +0900
+
+    유니코드 5.1에 따라 새로 추가된 옛한글 자모에 대한 조합 규칙 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@222 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulkeyboard.h
+
+commit df86a096abfcad9bdf99c108822f2df721021ad1
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-04-26 22:49:45 +0900
+
+    안마태 자판 구현 추가 #315248
+     * Homin Lee님의 패치를 약간 수정하여 적용함
+       일부 대분자에 임의로 할당된 기호 글자들 제거
+       주석 포맷이 틀린곳 수정
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@221 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+M	hangul/hangulkeyboard.h
+
+commit 35f3b865311752b6d6dc309c80f94f414b6afbc3
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-04-04 19:55:37 +0900
+
+    버그수정: #315256 한글 종성 입력시 글꼴 랜더링 문제
+     * 세벌식 자판에서 종성만 입력하는 경우 U+1100 자모로 출력하는 문제임
+       r201에서 hangul_jamo_to_cjamo() 함수의 테이블을 하나로 합치면서
+       잘못하여 데이터를 손실하여 발생한 문제
+       빠진 종성들을 compatibility jamo로 변환할 수 있도록 함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@220 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulctype.c
+
+commit b0876043a8c3a5ff024318775528fa536759879b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-03-12 21:08:03 +0900
+
+    버그수정: #315200 KS X 1002 한자를 좀 더 앞쪽으로
+     * 한자의 빈도에 따른 우선 순위를 조정하여 KS X 1002 에서 지정한 한자를 좀더
+       앞쪽으로 배치되게 수정함
+     * 작업을 해주신 박원규님에게 감사드립니다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@219 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/freq-hanja.txt
+M	data/hanja/hanja.txt
+
+commit 24a11ca0b987b585b8ddfe6f22342e9cb3927912
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-03-10 00:17:53 +0900
+
+    버그수정: #315197 중복된 한자 단어
+     * 반복되어 들어 있는 단어 제거
+       아마도 변환 과정에서 오류가 있었던 것 같다.
+       아니면 호환한자 관련한 문제가 있었던 것인지도 모르겠다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@218 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 26786944796a8098119c6299f4fe17250d946435
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2010-03-10 00:11:40 +0900
+
+    버그수정: #315196 포주:庖廚:푸주의 원말
+     텍스트 변환에서 발생한 것으로 보이는 오류 수정
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@217 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit a25500f9f0f54cd59641f7056100b78f482e918b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-12-06 16:44:22 +0900
+
+    잘못된 글자 수정: 반대:胖大
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@216 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 8e1cb0e0694930bf28fa2006e0deada50fd2c3fc
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-11-07 22:31:44 +0900
+
+    한자어중 한자로 표기 되지 않은 것 한자로 바꿈
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@215 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 78093d81df35cd1fc5719154c6d0021a5e0cfbe0
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-11-07 21:35:31 +0900
+
+    거칠부의 한자는 삼국사기의 기록에 따라 居柒夫로 한다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@214 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit a24ae53b284022a4bab6257cf282a22931fa1674
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-31 14:32:09 +0900
+
+    release 0.0.10
+     * update library revision
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@212 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit e970e5d83e95fd287b6ca4ae7a1f4c9799a04bc4
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-31 14:29:52 +0900
+
+    문서 갱신
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@211 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	NEWS
+M	README
+
+commit c16cc1a5d7a98a09795c92dff87f2170bd2a1343
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-31 14:28:53 +0900
+
+    카피라이트 연도 갱신
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@210 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+M	hangul/hanja.c
+
+commit 13d0907f60b91b3e4c1d1c511ac93001f6cd15f2
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-31 14:12:54 +0900
+
+    기본 생성 문서를 영문대신 한국어로 생성하도록 바꿈
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@209 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	doc/Doxyfile.in
+
+commit 1a1d0cde69995bd5986e15a8efc8ddbcf482fca4
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-31 14:12:35 +0900
+
+    document를 kldp.net에 업로드하는 룰 추가
+    기타 사용할 타겟 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@208 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	doc/Makefile
+
+commit 496636801b241017f0996b7258c914832d2ac089
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-31 14:00:56 +0900
+
+    문서 업데이트:
+     * mainpage는 web page의 표지로 사용하므로 경어체로 다시 씀
+     * 몇가지 항목 더 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@207 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	doc/mainpage.dox
+
+commit 991409ab7cb3d4390d5a79699f7c3cd4fefe990b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-29 23:22:15 +0900
+
+    문서화
+     * doxygen 관련 파일은 doc 디렉토리로 옮김
+     * doc 디렉토리에 따로 Makefile을 두어 관리함
+     * Doxyfile에 버젼 정보가 configure 스크립드로 자동 갱신할 수 있도록 수정
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@206 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+M	configure.ac
+R099	Doxyfile	doc/Doxyfile.in
+A	doc/Makefile
+A	doc/mainpage.dox
+
+commit e10b4225b5954dcb5af74b4338fd79023745abdb
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-29 23:11:42 +0900
+
+    libhangul의 API 문서 작성
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@205 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+M	hangul/hanja.c
+
+commit 23e35eda8d44c9adce9d8da705a2667df62d73bf
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-20 22:06:55 +0900
+
+    hangul_ic_dvorak_to_qwerty()는 더 이상 제공하지 않는다:
+     * dvorak을 qwerty로 매핑하는 것은 한글의 영역이 아니므로
+       각 입력기에서 구현하는 것으로 한다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@204 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+
+commit 99e93204ecd2bb3ab1f3902bf25bceb999d5ea52
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-18 23:24:45 +0900
+
+    hangul_jamo_to_cjamo() 함수를 conjoinable jamo만 아니라
+    모든 자모 영역(Unicode 5.2에서 추가된 것 포함)에 대해서 작동하도록 확장함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@203 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulctype.c
+
+commit 94ee75dd9b15d4dffbe1e63274c1e26189865fa7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-18 23:21:21 +0900
+
+    deprecate된 함수를 사용하지 않음
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@202 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	test/hangul.c
+
+commit bcdfb83212580a0ccad8c5867653a0774c9e0aa7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-17 22:42:45 +0900
+
+    Unicode 5.2 지원
+     * 확장된 자모 영역을 적용하여 ctype 관련 함수를 업데이트함
+       0x1100의 추가된 영역과 Jamo Extended A, Jamo Extended B 추가
+       코드값이 자모, 초중성 코드인지 확인하는 함수들의 구현을
+       수정하여 Unicode 5.2에서 추가된 영역도 인식하도록 함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@201 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulctype.c
+
+commit eb36c6692a974004d911325b8d744465caee6974
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-17 21:35:26 +0900
+
+    jaso 대신 jamo를 사용한다.
+    따라서 jaso를 사용한 함수는 앞으로 지원하지 않는다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@200 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+
+commit 142033a9d272553823b5048f8f645447f131a1a2
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-10-16 22:41:41 +0900
+
+    로마자 구현
+     * 로마자 입력 방식 구현
+     * 로마자 입력 방식 테스트 코드 구현
+     * backspace에서 stack이 바닥나면 초중성 코드를 모두 지운다.
+       로마자 입력방식에서 임의로 추가된 중성 코드가 backspace 입력될때
+       같이 지워지기 위한 구현
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@199 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	hangul/hangulkeyboard.h
+M	test/test.c
+
+commit 0b0c04f9878fc836725efd2d049292b3e5bb8054
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2009-09-03 23:15:53 +0900
+
+    불필요한 함수 선언 제거
+    참고: http://lists.kldp.net/pipermail/hangul-hackers/2009-September/000392.html
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@198 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+
+commit c35fb187594b34f054894133b40de95de6f8ddd5
+Author: JoonCheol Park <jooncheol@gmail.com>
+Date:   2009-09-03 21:47:26 +0900
+
+    add swig interface for python and test codes
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@197 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+A	bindings/python_swig/Makefile
+A	bindings/python_swig/hangul.i
+A	bindings/python_swig/test_hangul.py
+A	bindings/python_swig/test_hanja.py
+A	bindings/python_swig/valgrind-test.sh
+
+commit c46cd8e5a3a74f4f00aa866edceb3ff33686e0ed
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-12-22 23:38:20 +0900
+
+    hanja.bin 파일을 사용하던 룰을 hanja.txt로 변경하면서 발생한 실수 수정
+    버그: #195
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@196 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/Makefile.am
+
+commit 7cf2afbc0868657b17d648e8e32c030523b563b4
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-12-22 23:33:22 +0900
+
+    hanja.txt 설치 디렉토리를 $(datadir)로 바꿈
+    hanja.bin 파일 설치 룰을 수정하는 과정에서 발생한 실수
+    버그: #305209
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@195 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/Makefile.am
+
+commit 7ca44a9183f77c5296e1e8e2890ec83301432ede
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-12-20 23:13:39 +0900
+
+    release 0.0.9
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@193 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit d214b0b44167c1b8d5b23ca3572199677485aa27
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-12-20 23:07:44 +0900
+
+    문서 업데이트
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@192 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	NEWS
+
+commit ad42abd3860324ee9223679da165c259a66192f2
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-12-20 23:03:27 +0900
+
+    한자 데이터 파일 패키징 룰 수정:
+     * 예전 hanja.bin 파일 관련 부분 제거
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@191 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/Makefile.am
+
+commit 76a37cd2463ea085f55bab9777fe6201bddb49b1
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-12-20 20:56:45 +0900
+
+    unit test 코드 적용:
+     * check 라이브러리를 이용하여 구현
+     * check 라이브러리가 없어도 libhangul을 빌드하는 데는 문제 없게 설정
+     * 시범삼아 syllable iterator 코드의 테스트 코드 작성
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@190 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+M	test/Makefile.am
+A	test/test.c
+
+commit fa3b58f093b444d9f0fef7afa7934a41ae95a7cd
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-12-20 20:53:05 +0900
+
+    자모 스트링을 음절 단위로 iterate하는 함수 구현:
+     * hangul_syllable_iterator_prev()
+     * hangul_syllable_iterator_next()
+     * 음절을 구분하는 단위에 방점이나 combining char도 포함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@189 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+
+commit a75baba1e8e86aa5148c87fde2391dbde1a5a4b3
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-11-11 22:47:54 +0900
+
+    한자 데이터를 관리하는 HanjaTable의 작동 방식을 개선:
+     * 기존에 한자 데이터를 binary로 변환하여 로딩하던 코드를 제거
+     * text 파일에 대한 index만 가지고 있으면서 요청시에 매번 파일을
+       읽어서 데이터를 리턴하는 방식으로 구현함
+     * 예전 방식은 메모리를 많이 차지하여 사용하지 않음
+     * 파일에서 매번 읽는 방식도 그리 속도가 나쁘지 않으므로 사용하기로 하였음
+     * hanja.txt 를 바이너리 포맷으로 변환하던 툴 제거
+     * hanja.bin 대신 hanja.txt 파일을 설치
+     * 참조: http://lists.kldp.net/pipermail/hangul-hackers/2008-November/000385.html
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@188 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+M	configure.ac
+M	data/hanja/Makefile.am
+M	hangul/Makefile.am
+M	hangul/hanja.c
+
+commit d2333867c8d89a6336dbd7d7f2ef3df297cca7d6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-11-06 23:44:48 +0900
+
+    hangul_ic_backspace() 에서도 preedit_string과 commit_string을 초기화 함:
+     libhangul의 사용자가 hangul_ic_backspace() 함수를 콜한 후에 preedit string과
+     commit string이 유효한지 확인하여 처리하도록 코딩할 수 있다.
+     그리고 모든 키 처리 함수를 호출한후 preedit string과 commit string을
+     확인할수 있도록 하기 위해서는 위 과정이 필요하다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@187 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit e4aef0bebe92f13b9fdd27567e032b6026691d3e
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2008-05-10 06:46:48 +0900
+
+    test for svn check
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@186 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit d9f90d76106d2bc29a722eafb07a0c3b156d6975
+Author: Won-Kyu Park <wkpark@gmail.com>
+Date:   2008-05-06 19:55:22 +0900
+
+    small fix
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@185 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hanja.c
+
+commit 737c95736f8265a814e13393531880207391965a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-05-06 00:05:11 +0900
+
+    which 로 libtoolize 인지 glibtoolize인지 확인함
+    참고: #304873
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@184 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	autogen.sh
+
+commit 8687d1983e320a1d5c0566e102c2efc261672d0a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-05-05 01:46:32 +0900
+
+    hanja.txt 파일을 더이상 install 하지 않음
+    참조: #304842
+     http://kldp.net/tracker/index.php?func=detail&aid=304842&group_id=362&atid=350420
+     http://lists.kldp.net/pipermail/hangul-hackers/2008-April/000335.html
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@183 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/Makefile.am
+
+commit 9ca3ecac7048495c4312aace6204ff7f92611ec7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-05-04 23:28:05 +0900
+
+    hanja_table_match_exact() 구현
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@182 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hanja.c
+
+commit 31beaab347a0054776bb497f8d5bc5c437465e90
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-05-03 17:09:13 +0900
+
+    hangul_syllable_len(), hangul_jamos_to_syllables()에서
+    마지막 글자가 0으로 끝나지 않을 경우 제대로 변환되지 않는 문제 수정
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@181 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulctype.c
+
+commit 7d4686cd9b8faf15a525b84aad0441d0318c5b30
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-05-03 14:05:59 +0900
+
+    ChangeLog가 없을 경우 처리
+    libtoolize가 없는 경우 glibtoolize를 사용하도록 처리
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@180 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	autogen.sh
+
+commit 5beb50cf125b4f19fa4a37131e4882c69ff05e1e
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-04-22 10:08:01 +0900
+
+    hanja_list_get_nth_key() 선언 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@179 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+
+commit 461c9bc98cb23090afd3f73c4fe65ff7f2607d67
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-04-20 16:22:53 +0900
+
+    release 0.0.8
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@177 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit e27443bbbe5a76398fa53a16c4f7d49e91fe67ac
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-04-20 16:05:58 +0900
+
+    test 디렉토리 다시 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@176 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+
+commit 23edd81f6718e30ea44513cf05f54928325cf47c
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-04-20 16:01:14 +0900
+
+    update document
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@175 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	NEWS
+M	README
+
+commit 6518d32930d2600bc3abc8eb91c5302e8b78bd76
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-04-20 16:00:22 +0900
+
+    do not build test directory
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@174 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+
+commit ecd9b93de5110cfb194ae82fd6a9757045170b5c
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-04-20 15:48:59 +0900
+
+    hangul input context 개선:
+     * hangul_ic_select_keyboard() 함수에서 output mode 초기화 함
+     * HangulInputContext::use_jamo_mode_only 값에 따라서
+       output mode 설정 기능이 동작하도록 함
+     * 세벌식 옛글 자판을 선택했다가 현대글자판으로 바꾸면 jamo output 모드 설정이
+       남아있던 문제 수정
+     * libhangul 버그: #304765
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@173 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit 2246defa251eda370b7603f9f0f76906d2131d6c
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-04-20 15:09:08 +0900
+
+    자모 -> 음절 변환을 위한 함수 추가:
+     * hangul_syllable_len(): 한 음절의 길이를 측정
+     * hangul_jamos_to_syllables(): 자모형을 음절형으로 변환
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@172 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+
+commit 1965fc31713aaf39da2949731f2cc0b5462eaa17
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-03-11 20:17:15 +0900
+
+    hanja.bin 빌드 룰 개선 (clean 처리)
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@171 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/Makefile.am
+
+commit a74252bf7b0382b22eb027ea6d4c838eaa8af8eb
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-03-11 16:17:58 +0900
+
+    malloc/realloc 하기 전에 크기 확인 코드 개선
+    hanja_table_match_prefix()에서 strdup()의 리턴값 확인
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@170 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hanja.c
+
+commit 860832375b7cc69d1551c2764cba1e8e45b89996
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-03-11 11:53:26 +0900
+
+    한자 사전 바이너리 파일의 위치를 $(libdir)/libhangul/hanja/로 옮김
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@169 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/Makefile.am
+M	hangul/Makefile.am
+
+commit 4a4f9eeaa1f636ffe37da040d1790e939b0ed208
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-03-11 11:52:11 +0900
+
+    중복된 내용 삭제: 동:中洞:지명
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@168 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 55657b8f28d98b21f6f3f459f0d0d4aa1b4d7943
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-24 11:46:04 +0900
+
+    ignore list 업데이트
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@167 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+commit 2f6d926f5210dfb35a33575842db24af13d9fe1a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-24 11:44:55 +0900
+
+    merge.py에서 사용하는 compatibility hanja 관련 테이터 파일 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@166 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+A	data/hanja/compat-table.txt
+
+commit a6c4a189e2a46362d480897bc337819c91e72fb7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-24 11:12:01 +0900
+
+    bindings 디렉토리를 tarball 패키지에 포함하지 않음
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@165 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+M	configure.ac
+
+commit 20760fa619dad1b0a5f4d3d31b340c7598f65566
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-24 11:02:39 +0900
+
+    HanjaList와 PtrVector의 크기의 한계값을 SIZE_MAX를 사용하여 체크
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@164 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hanja.c
+
+commit 7624d78733d9f1344a4c3f093d597fed95d2340a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-24 10:52:22 +0900
+
+    HanjaList, PtrVector는 UINT_MAX를 넘지 않는 범위에서 사용하도록 한다.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@163 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hanja.c
+
+commit 6eaad37ac121619b1a91a6dd5596ce01abe9efe2
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-24 10:43:55 +0900
+
+    mmap system call이 없는 시스템을 위한 코드 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@162 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hanja.c
+
+commit 5b2528e7cb4c56951520d8d0d10b2e205b23cb22
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-24 02:45:53 +0900
+
+    디버깅 메시지 출력 루틴 제거
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@161 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hanja.c
+
+commit 084fd82f8d8c630dd9e88649efae6d415f669ef8
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-24 02:45:13 +0900
+
+    한자 검색 루틴에서 null 포인터 확인:
+     * hanja_table_match_prefix(), hanja_table_match_suffix()에서 table이
+       null이면 검색하지 않음
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@160 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hanja.c
+
+commit e5b60181cdb8a1966fcb081667314c3ce5a2b9d9
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-24 02:30:34 +0900
+
+    테스트 코드 수정:
+     * hanja.c에서 검색 결과 출력 포맷 수정
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@159 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/hanja.c
+
+commit 234795cf54ad7ab9376d204720e4f9ab3a851e99
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-24 02:29:23 +0900
+
+    한자 사전 파일을 바이너리 형태로 사용하는 기능 구현:
+     * 내부적으로 mmap을 이용하여 로딩, 메모리 사용량을 줄임
+     * txt 버젼은 vector로 구현, 더이상 slist를 사용하지 않음
+     * hanja.txt파일을 hanja.bin 형태로 변환하여 사용함
+     * 파일 포맷 변환을 위한 API, hanja_table_txt_to_bin() 추가
+     * tools 디렉토리 추가
+     * 파일 포맷 변환을 위해 hanjac라는 도구를 제공
+     * 기본 한자 사전 파일을 hanja.txt에서 hanja.bin으로 변경
+    
+    새로운 api 추가
+     * hanja_list_get_nth_key()
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@158 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+M	configure.ac
+M	data/hanja/Makefile.am
+M	hangul/Makefile.am
+M	hangul/hangul.h
+M	hangul/hanja.c
+A	tools/Makefile.am
+A	tools/hanjac.c
+
+commit ebb1debbbac572af8e0655b2071185e138ead403
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-24 01:59:17 +0900
+
+    인코딩에 문제가 생겨 잘못 입력된 한자어를 바로잡음:
+     * 국어사전을 참고하여 올라 있는 단어는 찾아 바로잡음
+     * 사전에 올라있지 않은 단어는 삭제함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@157 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 9001f0e5f02a33fa7f5f6755da5ad2975175ca5b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-06 01:00:21 +0900
+
+    세벌식 옛글 처리 수정 (#304728)
+     * 옛글 자판에서는 자모(첫가끝)로 출력
+     * hangul_ic_flush() 함수에서도 output mode에 따른 처리
+     * 나비버그 #304727 참고:
+       http://kldp.net/tracker/?func=detail&atid=100275&aid=304727&group_id=275
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@156 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit a60c0fae26f6715df90fdba998046f03e823978d
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-02-02 16:06:06 +0900
+
+    libhangul내부적으로 사용할 hangulinternals.h 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@155 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+A	hangul/hangulinternals.h
+
+commit 64561883216380c6b3e44d1fcff3ea40407efc61
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-31 23:43:19 +0900
+
+    release 0.0.7
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@153 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit 6f44b5bcefea1721e0f879ce40d220b3be48f9c0
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-31 23:20:40 +0900
+
+    update documents
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@152 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+D	ChangeLog
+M	NEWS
+
+commit 9c41cac5b926bb448b6cfd23c283c7e1143d00aa
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-31 22:38:22 +0900
+
+    컴파일러 워닝 방지
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@151 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+
+commit 87cf2a1cdb1ea5a1e0468b572037744026b4715c
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-31 22:23:21 +0900
+
+    python binding update:
+     * MinGW include, lib path 업데이트 (#304663)
+     * pyhangul.c 새로운 api에 맞게 수정 (#304665)
+     * test 코드도 새로운 api에 맞게 수정 (#304667)
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@150 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	bindings/python/pyhangul.c
+M	bindings/python/setup.py
+M	bindings/python/test_pyhangul.py
+
+commit 09c45f38dce45e6922c74fcdb2a977608fa971d4
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-30 00:19:13 +0900
+
+    CJK compatibility 한자 처리를 위한 함수 추가:
+     * hanja_compatibility_form()
+     * hanja_unified_form() 구현
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@149 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/Makefile.am
+M	hangul/hangulinputcontext.c
+M	hangul/hanja.c
+A	hangul/hanjacompatible.h
+
+commit 86d809f2328dd5ce29df93070a5cdb8709b94a05
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-29 23:57:13 +0900
+
+    한자 사전 업데이트:
+     * 한자 국명 추가: 한자국명_masoris_20080129.txt.tar.gz
+     * 참조: http://lists.kldp.net/pipermail/hangul-hackers/2008-January/000288.html
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@148 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit ae1d844c44371520058d712fe581a1c762e79c3b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-29 23:47:37 +0900
+
+    한자 설명 갱신:
+     * r143에서 머지한 커멘트 데이터를 기존의 '하늘 천' 형식에 맞게 수정함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@147 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 4fba4ca3598f77114bbe0ae4b42708d0270191c0
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-28 23:50:29 +0900
+
+    한자 단어 업데이트:
+     * 대한민국 전국 지명 목록.txt 데이터 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@146 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 33989392e2d55d900919a63e0fcf4f40764bfd70
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-28 23:45:34 +0900
+
+    중복 체크 루틴의 버그 수정:
+     * merge.py 새로운 comment인 경우 처리
+     * hanja.txt의 중복 제거
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@145 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+M	data/hanja/merge.py
+
+commit 30d3d6fb08c1003c56e0d73598fc679eb16e6d3d
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-28 23:38:08 +0900
+
+    한자 업데이트 중 실수 되돌림:
+     * merge.py의 중복 처리 코드 개선
+     * hanja.txt에 중복하여 들어간 한자 제거
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@144 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+M	data/hanja/merge.py
+
+commit b1daba3da3f8789836929bff4e0330bf69920382
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-28 23:17:29 +0900
+
+    한자 데이터 추가:
+     * hanjanatjja.txt 추가, 중복 제거, 주석 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@143 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 99d4a18091652be9c392a646b61f2c01e3e0d05e
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-28 23:15:48 +0900
+
+    comment를 merge하는 루틴 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@142 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/merge.py
+
+commit cb056584c55f292642465b9e0a39cbde07759ec9
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-28 22:20:06 +0900
+
+    한자 우선 순위 파일 업데이트:
+     * freq-hanja_masoris_20080127.txt.tar.gz 파일의 우선순위를 적용함
+     * 위 우선 순위 파일에 따라 hanja.txt를 재정렬
+     * 참조: http://lists.kldp.net/pipermail/hangul-hackers/2008-January/000283.html
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@141 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/freq-hanja.txt
+M	data/hanja/hanja.txt
+
+commit 817d1c5da1417d23fbb0319ea498e05f6b2a5fc9
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-27 03:50:27 +0900
+
+    한자 우선 순위 적용:
+     * freq_hanja_masoris_20080121.tar.gz 파일의 우선 순위 데이터를 적용함
+     * Kim Song-yil<masoris@gmail.com>님에게 감사드립니다.
+     * 참조: http://lists.kldp.net/pipermail/hangul-hackers/2008-January/000276.html
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@140 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/freq-hanja.txt
+M	data/hanja/freq-hanjaeo.txt
+M	data/hanja/hanja.txt
+
+commit dcf444df422cdd4cf7a7da85a7217cb7972d5317
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-27 03:09:55 +0900
+
+    CJK unified 한자 사용:
+     * hanja.txt 파일의 compatibility 한자를 모두 unified hanja로 바꿈
+       앞으로는 hanja.txt는 모두 unified hanja로만 작성할 것임
+     * merge.py에서 compatibility 한자를 찾아내어 unified로 바꾸는 코드를 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@139 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+M	data/hanja/merge.py
+
+commit bb01da99ac7ea12eea5e3fc8c649e9910b62b8d6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-20 22:47:42 +0900
+
+    137에서 추가한 merge.py로 한자 낱자와 단어의 우선 순위에 따라 정렬함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@138 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 146804e224938c13af630d38ea699729a641807f
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-20 22:37:01 +0900
+
+    한자어 빈도 계산을 위한 데이터와 merge.py 스크립트 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@137 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+A	data/hanja/freq-hanja.txt
+A	data/hanja/freq-hanjaeo.txt
+A	data/hanja/merge.py
+
+commit 7798d20446f066bb3ab26b3d378082447acde1b4
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2008-01-06 10:54:03 +0900
+
+    서울大工員 -> 서울大公園
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@136 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 6752d8484871d57e37b87b4e1bb95ba5952855ef
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-09-01 12:18:11 +0900
+
+    memory 관리 개선:
+     * malloc에서 NULL 리턴하는 경우 처리 추가
+     * malloc에 전달되는 크기가 ULONG_MAX를 넘는 경우 처리
+     * 불필요한 int arugment를 unsigned int로 바꿈
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@135 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	hangul/hanja.c
+
+commit 603f1c049601b08f2395f93a3e8a81ff24f9db23
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-07-11 23:36:13 +0900
+
+    AC_C_BIGENDIAN 사용
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@132 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+M	test/hangul.c
+
+commit 2fb39b2a0bdbcf779bd51ce0b71a7e2de94a05dd
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-07-10 22:14:57 +0900
+
+    update document
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@131 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	ChangeLog
+
+commit 781dfca181c51b245c2e935bfe4b7918336742ae
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-07-10 22:13:56 +0900
+
+    0.0.6 release
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@130 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	NEWS
+M	configure.ac
+
+commit 97ff563746dfcf865f5a3431160b24fa5d88d9fd
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-07-10 22:12:03 +0900
+
+    include string.h, 워닝 제거
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@129 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/hanja.c
+
+commit 8f64c136c91ea465640725f450aefc65d16e07ab
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-07-08 22:22:26 +0900
+
+    0.0.5 준비
+     * 문서 업데이트
+     * configure.ac의 버젼 변경
+     * libhangul.pc.in에서 datadir 설정 제거
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@128 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	ChangeLog
+M	NEWS
+M	configure.ac
+M	libhangul.pc.in
+
+commit 5734557afad4ec545852a0f861a5783756210ead
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-07-08 22:21:05 +0900
+
+    hanja 테스트 코드 변경
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@127 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/hanja.c
+
+commit a07c2ed843a06748f6375bc87b4b116200fdc8be
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-07-08 21:44:29 +0900
+
+    오류 수정
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@126 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 75bd4b8129ad0ae9222cd3b9db960d37bed91f23
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-07-08 20:46:51 +0900
+
+    단어 정보 오류 수정
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@125 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit f7cd5e7a26892472505c3fed98b61719a3c4f027
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-07-07 17:19:12 +0900
+
+    한자 단어 오류 수정
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@124 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 075902e0731ab3aec5ded75ae4cf7104e0f20266
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-06-24 21:54:35 +0900
+
+    * 국립국어원의 국어사전 표제어 목록에서 추출한 한자 추가
+     - http://kldp.org/node/83356 참고
+     - http://kldp.org/files/hanja_nikl.zip
+     - hanja_type2_1_complete.txt 추가
+    
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@123 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 933c1a69b0abc1dcf44662c226b17fc65b7ca8d5
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-06-24 21:03:10 +0900
+
+    * 국립국어원의 국어사전 표제어 목록에서 추출한 한자 추가
+     - http://kldp.org/node/83356 참고
+     - http://kldp.org/files/hanja_nikl.zip
+     - hanja_type3_1_1_complete.txt 추가
+    
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@122 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 9098093e85a7e8fd2abe3275e868d695818bbab6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-06-24 20:59:26 +0900
+
+    * 국립국어원의 국어사전 표제어 목록에서 추출한 한자 추가
+     - http://kldp.org/node/83356 참고
+     - http://kldp.org/files/hanja_nikl.zip
+     - hanja_type1_complete.txt merge
+    
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@121 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 43ec6f1e0e6b3c9a2b802bee7f4026abb1a5547f
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-05-28 22:25:15 +0900
+
+    callback function 등록하는 api 수정
+     * hangul_ic_connect_callback() 사용
+     * callback function type 제거
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@120 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+
+commit f695df3f61a1cde2854119e22cb5ac3f6b911753
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-03-21 22:22:02 +0900
+
+    configure에 몇가지 check 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@119 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit 99d17ea6ac2bd0ceff4b8810a0fc934dd41aee92
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-03-08 22:41:38 +0900
+
+    callback function pointer 초기화 루틴 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@118 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit f50ccf1e6752bced2efbbd2a1623e05660218716
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-03-04 22:28:14 +0900
+
+    * filter api 변경
+     - hangul_ic_connect_translate() 추가:
+       ascii 코드에서 한글코드로 변환할때 불리는 callback 등록 함수
+     - hangul_ic_connect_transition() 추가:
+       입력된 글자에 따라서 상태 전이(transition)이 발생할때 불리는 callback 등록
+       함수
+     - hangul_ic_set_filter()를 앞으로 사용하지 않음, 삭제될 예정
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@117 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+
+commit a1ee78850a124b915d9fdf53795894ed838de6f6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-01-20 14:50:53 +0900
+
+    HangulICFilter의 argument 순서를 바꿈
+     * bool (*HangulICFilter)(HangulInputContext* hic,
+                              ucschar c,
+                              const ucschar* preedit,
+                              void* data);
+       - hic: 이 ic의 포인터
+       - c: 새로 입력된 글자
+       - preedit:  c가 입력됐을 경우 만들어질 preedit string
+       - data: filter를 등록할때 지정한 user data pointer
+    
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@116 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+
+commit 8558da750cb2b2aaabd684e95fae96bb53cd234d
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-01-14 21:29:54 +0900
+
+    hangul_syllable_to_jaso() 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@115 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+
+commit 91c19b4007909b3738d2f477df7d7bbb897b49b7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-01-14 21:14:07 +0900
+
+    HangulInputContext의 상태를 알 수 있는 함수 추가:
+     * hangul_buffer_has_choseong(), hangul_buffer_has_jungseong(),
+       hangul_buffer_has_jongseong() 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@114 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+
+commit 440c780a6890182bd6172307edb60ad1ff2aaa3e
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-01-06 15:35:09 +0900
+
+     * update documents
+     * update the rule to generate ChangeLog
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@110 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	ChangeLog
+M	Makefile.am
+M	NEWS
+
+commit 1cd9521c3e55af0d0636ad0e25134920e27405b6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-01-06 15:14:45 +0900
+
+    hangulconfig.h:
+     * hangulconfig.h를 자동 생성하는 룰 제거
+     * stdboo.h를 직접 include
+    
+    hangul.h:
+     * _HANGUL_H_ 대신 libhangul_hangul_h 로 헤더 중복 include 체크
+    
+    version:
+     * 0.0.4 준비 작업
+    
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@109 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+M	configure.ac
+M	hangul/hangul.h
+
+commit 53dcef4aba4eb10dd1b057142074079ed0191a5f
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-01-05 01:18:15 +0900
+
+    DISTCLEANFILES에 hangulconf.h 추가(make distcheck에서 발생하는 오류 처리)
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@108 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+
+commit a43b7a24fa628f153c19c687007879afebf9bbe2
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-01-04 22:54:59 +0900
+
+    hanja_table_new_from_list(): 필요 없는 메시지 출력 제거
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@107 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hanja.c
+
+commit 8aa291c66637013b4bb7cbbb2905056f06ab711e
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2007-01-04 22:36:11 +0900
+
+    keyboard array와 combination array를 const로 바꿈
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@106 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+M	hangul/hangulkeyboard.h
+
+commit eed16a373e9d2c2394e10531a2e0996808a48391
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-12-27 13:53:28 +0900
+
+    hanja_list_delete(), hanja_table_delete() 변경 적용
+    
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@105 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/hanja.c
+
+commit 5aaa7b604d87b02181c9083c53096f60079d4596
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-12-23 01:49:09 +0900
+
+    hanja_table_destroy() -> hanja_table_delete()
+    hanja_list_destroy() -> hanja_list_delete()
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@104 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hanja.c
+
+commit b774179dd8bba942ecc74a72bd10246faf3c016a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-12-17 00:02:33 +0900
+
+    한글 keyboard table 업데이트
+     * 영문자의 경우도 입력 루틴에서 처리함, 그렇지 않으면 qwerty 자판이 아닌경우
+       영문, 또는 기호가 잘못 입력되는 경우가 발생할 수 있음
+     * 주석에 코드값도 추가함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@103 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulkeyboard.h
+
+commit 2614a768e4c18c95abb65881ede32cbf1d1a1f2b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-12-02 12:33:14 +0900
+
+    세벌식 자판에서 종성 + 중성 순서로 입력했을때 종성을 입력하면 더이상 조합이
+    안되는 문제를 수정함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@102 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit 498319fb61d73f214e8e1fcc3ec2e3228b7b8e7e
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-12-02 02:00:41 +0900
+
+    ucschar를 다시 uint32_t로 되돌림
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@101 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+
+commit b55ceb9aa07391eae39404ac17559306f1ee68df
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-11-27 23:44:57 +0900
+
+    * hangulconfig.h 인스톨 룰 추가
+    * hangul.h에서 hangulconfig.h를 include
+    * ucschar를 int type으로 변경
+    * inttypes.h를 hangulinputcontext.c에서 직접 include하게 함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@100 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+
+commit a444ce20b20407d7720572c6558ae742423a5a28
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-11-27 23:34:10 +0900
+
+    hangulconf.h을 자동 생성하는 코드 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@99 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit 589a20d52666a8cdc4efc5914c2303437da13d28
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-11-17 20:36:40 +0900
+
+    마지막 글자를 nul로 채움
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@98 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/hangul.c
+
+commit 2d7bd4d5442bdd9cf669587228931070715b5758
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-11-13 10:54:06 +0900
+
+    3벌식 자판에서 dvorak 처리(기호의 배열도 유지한다)
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@97 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulkeyboard.h
+
+commit 265063927cf79b713eeefcf9a8881e9dd1ce8a16
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-11-13 00:58:58 +0900
+
+    test.c -> hangul.c
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@96 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/Makefile.am
+R100	test/test.c	test/hangul.c
+
+commit 5c7b0676fee317c776ec635e7c3af2628f6ffd40
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-11-13 00:56:41 +0900
+
+    * 새로 작성된 hangul_ic_new() 루틴 사용
+    * wcstombs() 대신 iconv() 사용
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@95 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/test.c
+
+commit d474bfc544a664a93f646581ff63b26f0f23a3aa
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-11-13 00:55:27 +0900
+
+    * hangul_keyboard_get_type() 사용
+    * hangul_ic_new()에서 keyboard 정보를 string을 전달
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@94 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+
+commit 616e939600a60a2fc7a42bbdaa8e200df2130334
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-11-12 23:21:37 +0900
+
+    새로운 HangulKeyboard, HangulCombination 적용
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@93 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	hangul/hangulkeyboard.h
+
+commit c6c854a554a5bcc4c38811bed987db6cdb242461
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-11-08 22:48:24 +0900
+
+    remove unneeded header wchar.h
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@92 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+
+commit 52865cc927f5c5eb0f46f258329f5bf5fa919b79
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-28 01:00:39 +0900
+
+    한자성어 데이터 추가 (http://hanja.pe.kr 로부터 추출한 것임)
+    참고: http://lists.kldp.net/pipermail/hangul-hackers/2006-October/000196.html
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@91 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 2e4cbbf25d6e65b5d5f536a47bed7d94cb8f7175
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-27 16:04:32 +0900
+
+    * update ChangeLog
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@89 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	ChangeLog
+
+commit 79fca2e347d7601fdc9acd060f57410b9e30999b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-27 16:04:13 +0900
+
+    * update documents
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@88 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	NEWS
+M	README
+
+commit 4a4d098c5cd7cd8ab7f794f2acdecc2a9b81287a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-27 15:56:08 +0900
+
+    0.0.3 release 준비 (0.0.4는 실수한 것임)
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@87 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit d64588bb3912e07d60912004e69d7c864089728a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-27 15:53:41 +0900
+
+    0.0.4 준비
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@86 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+
+commit 442f6b90c6531c212b20b9f910ba0780a7140633
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-27 15:53:18 +0900
+
+    log target 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@85 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+
+commit 4deebb9ebba5b402f16d3ee8fedd3bdd35e467d8
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-27 14:56:50 +0900
+
+    hangul_ic_flush()의 바뀐점 적용
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@84 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	bindings/python/pyhangul.c
+M	bindings/python/setup.py
+
+commit 5cf4a57dd9703326a9acf5a192f0ef5ff612705a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-27 14:40:34 +0900
+
+    ignore list 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@83 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+commit d9f695999d86c4e6f31f9d844617a50d30062d2a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-27 14:33:24 +0900
+
+    hanja test 코드 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@82 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/Makefile.am
+A	test/hanja.c
+
+commit cfef1788a5a714d72a387f3eceeef5e7a38f082d
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-27 14:29:12 +0900
+
+     * HanjaTable, HanjaList, Hanja struct를 외부로 노출되지 않게함.
+     * 각 struct들의 액세스 함수를 추가함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@81 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hanja.c
+
+commit de47a9956926f9a2a5222c95633cb46ab53750a7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-25 23:17:01 +0900
+
+    국립국어원의 "한국어 학습용 어휘 목록" 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@80 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit f62324257c3addcb9dc115375792011b6f66543a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-22 01:50:10 +0900
+
+    data/hanja/hanja.txt:
+        * 한자 단어 추가 (국립국어연구원의 '현대 국어 사용 빈도 조사 결과'
+          파일에서 추출함)
+    
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@79 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 1f4f261b9ca40a4d235761f8ba369d0c989f8ee6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-21 23:18:48 +0900
+
+    data/hanja/hanja.txt:
+        * KSX1001과 KSX1002에 있는 한자만 남기고 나머지는 지움
+        * 국립국어연구원에서 제공받은 한자독음 파일을 참고하여 다시 작성
+          참고: http://lists.kldp.net/pipermail/hangul-hackers/2004-June/000073.html
+    
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@78 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 24437f6f0da4846ee28a28a4be0387e97d649dac
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-02 00:35:17 +0900
+
+    hangul/hangul.h,hangul/hanja.c:
+        * remove hanja_table_match() and add hanja_table_match_prefix() and
+          hanja_table_match_suffix()
+    
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@77 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hanja.c
+
+commit 06d29636af5f421ddcfbf160e43f7ca9ef05a7f1
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-10-01 17:08:19 +0900
+
+    hangul/hangul.h,hangul/hangulinputcontext.c:
+        * add hangul_ic_flush() function which flushes the current buffer and
+          return it. returned pointer is not need to freed, but it is available
+          until other HangulInputContext function is called.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@76 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	test/test.c
+
+commit f65009a9734a6d37c59c80d30241465afc328543
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-09-23 15:05:10 +0900
+
+    data/hanja/hanja.txt:
+        remove symbol data from hanja data list. I will use another data table for
+        symbol area.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@75 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit f369273a8230927ff21d659f73266ab94e149f53
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-05-23 10:45:06 +0900
+
+    bindings 디렉토리에 Makefile.am 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@74 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+A	bindings/Makefile.am
+
+commit 4bf3739073f599bed9cf6ac425dc3b96e69b189f
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-05-22 22:40:04 +0900
+
+    update ChangeLog
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@73 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	ChangeLog
+
+commit d7cb685839d0c832b5647cfec4272cfd8e1ad5b2
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-05-22 22:31:45 +0900
+
+    LIBHANGUL_VERSION 대신 PACKAGE_VERSION을 사용함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@72 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+M	libhangul.pc.in
+
+commit b8749112387e19a4f78e54a96e5d8c3421c50025
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-05-15 23:06:14 +0900
+
+    candidate의 순서를 nabi와 같게 바꿈
+    see: http://kldp.net/tracker/?func=detail&atid=350987&aid=301209&group_id=510
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@71 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit cd7038d831cf8fbc72d7d96f43651d701141d1b7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-05-14 19:41:29 +0900
+
+    ucs string의 nul 문자를 L'\0'에서 0으로 바꿈
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@70 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit ccc9b7733e0f46c891c8aed8d0e363318f831bfe
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-05-14 03:31:33 +0900
+
+    * bindings 디렉토리 추가 (python, ruby포함)
+    * 문서 업데이트
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@68 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	ChangeLog
+M	Makefile.am
+M	NEWS
+M	configure.ac
+
+commit 3501eca0d907188bcd308e42b22daf87538a1ecd
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-03-23 13:12:11 +0900
+
+    hangul_ic_process_jamo에서 처리하지 않는 글자는 false를 리턴하게 함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@67 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit f803e8b54f9e07b7884e5c6660d2196024a126fb
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-03-12 15:01:58 +0900
+
+    bindings dir 추가
+    pyhangul을 bindings/python으로 옮김
+    ruby binding 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@66 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+R100	pyhangul/Makefile	bindings/python/Makefile
+R100	pyhangul/pyhangul.c	bindings/python/pyhangul.c
+R100	pyhangul/setup.py	bindings/python/setup.py
+R100	pyhangul/test_pyhangul.py	bindings/python/test_pyhangul.py
+A	bindings/ruby/extconf.rb
+A	bindings/ruby/hangul.c
+A	bindings/ruby/test-hangul.rb
+D	pyhangul/dist.bat
+
+commit c223fea59cdd7456e314dcabd47447ef4bfbfe75
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-03-12 14:53:25 +0900
+
+    hangul_ic_dvorak_to_qwerty() 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@65 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+
+commit 32592a4dbbc0fb034c06927cb60496b5ecc7e856
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-03-12 14:52:59 +0900
+
+    dvorak + 두벌식 자판에서 기호글자는 qwerty 배열처럼 처리
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@64 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulkeyboard.h
+
+commit 96c2b98ceb8ff1a7df07f0b9993c4d6034989db5
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-03-04 10:40:59 +0900
+
+    자모식 루틴에서 영문자 처리 개선
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@63 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit fed80add531c9874cedd2da24fbbb662f3a2b2bd
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-02-25 22:33:54 +0900
+
+    filter 함수 인자 바뀐 것을 적용함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@62 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/test.c
+
+commit 6ab0c4fbcfcbef2afd1ad57d077ee3ca4d22d3fb
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-02-25 22:27:06 +0900
+
+    HangulInputContext의 실제 구현을 hangulinputcontext.c로 숨김
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@61 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	hangul/hangulkeyboard.h
+
+commit e3191f7fbfb369d347531b1e925908f87d77b83c
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-02-25 22:14:37 +0900
+
+    라이센스 연도 갱신
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@60 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+
+commit 791415ffd55df3210c82ccfd6c374e5efb8b5e02
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-02-25 18:04:30 +0900
+
+    hangul_ic_process_jaso()(세벌식 루틴)에서도 filter 함수 적용
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@59 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit 51b41ee4e1389a506fd259cc53ff735c1820da54
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-02-25 18:03:46 +0900
+
+    hangul_jaso_to_jamo에서 잘못된 처리 수정
+    hangul_choseong_to_jamo, hangul_jungseong_to_jamo, hangul_jongseong_to_jamo 제거
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@58 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulctype.c
+
+commit d7efaec14be1154da6d9d3991a34e6cb8dda0e1b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-02-25 17:19:00 +0900
+
+    hangul_ic_push 가 실패할 경우 한번더 push함
+    ㅆㅠ 나 ㅠㅆ 를 입력할 때 발생하는 문제를 수정함
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@57 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit 1b0c5c4ebcd43e8b037dac6f3df9893e94efa43a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-02-18 15:49:57 +0900
+
+    add hangul_jaso_to_jamo()
+    add new parameter preedit string to HangulICFilter
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@56 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+
+commit a8eeebba20f1f9b0f4f5dd8519dd95f336d85c40
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-02-18 11:13:18 +0900
+
+    ignore comment line which is started by '#' or blank line
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@55 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hanja.c
+
+commit f2a1b47a89726c2dea0e1871ced91a5d18715737
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-02-18 02:41:10 +0900
+
+    use buffer.jongseong not jungseong on hangul_ic_push
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@54 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit 9d31683fdfda90ae99035d4bcda8231c8cd46537
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-02-18 02:19:31 +0900
+
+    * filter function and data pointer initialize
+    * make work when filter functions is NULL
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@53 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit 6867c770de3ab39ce4b4ed57cb93df923c8dfaf7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-02-17 19:22:48 +0900
+
+    add hangul_ic_set_filter() function
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@52 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	test/test.c
+
+commit 03c9b1fbaacb6bdfdce1dfeed1507a4387e7fb50
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2006-02-11 13:52:10 +0900
+
+    rename hangul_ic_filter to hangul_ic_process
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@51 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	pyhangul/pyhangul.c
+M	test/test.c
+
+commit 532a79532914ad1a3cf0687bdf20e179606220d5
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-12-21 21:41:18 +0900
+
+    remove word dictionary data and add license terms
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@50 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 2d041be92042e34e9df3b6393a306d24aff13665
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-12-14 10:44:20 +0900
+
+    fix bug #301100, thanks to Young Chol Song (skystars)
+    check the index validity on hangul_buffer_peek function
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@49 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit 4ff65a24b89261d47553f02dec650a6239752c11
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-27 23:19:43 +0900
+
+    fix the problem that 'krrk' generate '각가'
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@48 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit b6659f2b83b4a56fa4a317dba2bdae7269ec80ff
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-20 23:27:07 +0900
+
+    update changelog
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@45 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	ChangeLog
+
+commit 367ee548734a37d59535640d7922e86c0e3d422b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-20 01:16:28 +0900
+
+    change includedir to have hangul header directory in libhangul.pc
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@43 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	libhangul.pc.in
+
+commit db74a6f906a92b0c6fb297d9a58de846b9a75f0e
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-20 01:13:49 +0900
+
+    add libtoolize command
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@42 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	autogen.sh
+
+commit 6b8a277e05b0a6e32a31499bb7a503354e278e9e
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-19 16:12:31 +0900
+
+    add pyhangul test code pyhangul/test_pyhangul.py
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@41 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+A	pyhangul/test_pyhangul.py
+
+commit 639b3f5405585c210af812e1276622a58234ed45
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-19 16:07:42 +0900
+
+    add test to SUBDIRS
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@40 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+
+commit 905bf8fe31b03e596a111a3fd5453b5ad45947d7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-19 16:07:14 +0900
+
+    update documents
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@39 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	NEWS
+M	README
+
+commit da00eb913147738126d9e8a3ee070678c7e3338e
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-19 16:06:59 +0900
+
+    add developer, Joon-cheol Park
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@38 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	AUTHORS
+
+commit a8ea6c02e5ac79804d69c52bc559c5181d749bfa
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-19 13:28:57 +0900
+
+    clean up setup.py, python install script
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@37 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	pyhangul/setup.py
+
+commit 4fccb37f915daf0789af3072cdd22424897785fa
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-18 12:43:53 +0900
+
+    add doxygen support
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@36 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+A	Doxyfile
+M	hangul/hangulctype.c
+
+commit a9375fc87584256eb217f8bc2288a23307dbc855
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-18 12:43:21 +0900
+
+    add some new word
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@35 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	data/hanja/hanja.txt
+
+commit 2c5512523358c6d49261c49bd1699f90b192149b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-04 23:31:59 +0900
+
+    Apply the changes, libtoolize and new api hangul_ic_flush
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@34 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	test/Makefile.am
+M	test/test.c
+
+commit 7c759bc9b4ea28400c717fea5d5db12260d420df
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-04 23:24:50 +0900
+
+    Change comment style, // -> /* */
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@33 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	pyhangul/pyhangul.c
+
+commit 056ab50f5e3cfab862308ec0fbdfd4db40564a0d
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-04 23:22:35 +0900
+
+    Change wchar_t to ucschar
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@32 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	pyhangul/pyhangul.c
+
+commit f81ae8aca753b44cb87f064ad28bd18e0a44648d
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-04 22:39:58 +0900
+
+    Add new api hangul_ic_flush
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@31 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	pyhangul/pyhangul.c
+
+commit 0fedfbb49de13e0aa581686695bf264ae8cc9ef4
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-11-04 22:39:38 +0900
+
+    libtoolize
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@30 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	pyhangul/setup.py
+
+commit d4d44867605fb40133f590344ccbc71104874a96
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-10-29 17:37:58 +0900
+
+    * return false if we do not use the key event
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@29 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+M	hangul/hangulkeyboard.h
+
+commit 8c42cfbec062853846e2bfb9824f1ff0a88010f6
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-10-03 16:00:43 +0900
+
+    * Makefile.am: add pkgconfig file rule
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@28 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+
+commit d173add7fc0e699fec21dd0e5ad192f32be6b04e
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-10-02 14:32:31 +0900
+
+    add hangul_ic_reset() function
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@27 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+
+commit a91d5797a5dcf5cb4a0342976c9a3257785c1456
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-10-02 14:31:02 +0900
+
+    * remove unneeded main() function ;)
+    * remove debuging code
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@26 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hanja.c
+
+commit a7409b7b25d3153a5a750ff8885e20387d5b3905
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-10-01 15:41:37 +0900
+
+    add svn:ignore properties
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@25 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+commit 21dfbeb453bb4be4efc3e0861146c1b653ebb83f
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-10-01 15:15:45 +0900
+
+    * data/hanja/hanja.txt: add default hanja dictionary file.
+    * modify configure.ac, Makefile.ams to add hanja dictionary file.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@24 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+M	configure.ac
+A	data/Makefile.am
+A	data/hanja/Makefile.am
+A	data/hanja/hanja.txt
+M	hangul/Makefile.am
+M	hangul/hanja.c
+
+commit 6444e11a19b7fb852c89d45214404c76e458ab27
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-10-01 14:39:54 +0900
+
+    * use ucschar instead of wchar_t
+    * change filter name from filter_2 to filter_jamo and filter_3 to filter_jaso
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@23 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+
+commit f4bff492c0be6bdd77edf7ec71423e53a214d5d8
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-10-01 14:17:13 +0900
+
+    rename hangul_is_reset -> hangul_ic_flush
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@22 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+
+commit 330fc08ebccdce6ddfb82df54153e3c5dbcd8231
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-10-01 14:01:19 +0900
+
+    change the license to LGPL
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@21 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	COPYING
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+M	hangul/hanja.c
+
+commit e374ec398101adaf402e36e22d89312385e997e7
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-10-01 13:49:15 +0900
+
+    * change wchar_t to ucschar(uint32_t)
+    * add new functions: hangul_is_choseong_conjoinable, hangul_is_jungseong_conjoinable, hangul_is_jongseong_conjoinable, hangul_is_syllable
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@20 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+M	hangul/hangulinputcontext.c
+M	hangul/hangulkeyboard.h
+
+commit 87424b400b1e01372d5ca0bee339058f58597aa0
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-09-25 23:10:25 +0900
+
+    * Makefile.am: remove test from SUBDIR target
+    * hangul/Makefile.am, hangul/hangul.h, hangul/hanja.c: add hanja dic interface
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@19 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	Makefile.am
+M	hangul/Makefile.am
+M	hangul/hangul.h
+A	hangul/hanja.c
+
+commit b889352c8cc7340417e2dc0897620e80b26b3f7b
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-09-25 22:55:24 +0900
+
+    * libtoolize
+    * added pkgconfig file
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@18 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	configure.ac
+M	hangul/Makefile.am
+A	libhangul.pc.in
+
+commit 31bb1e9a3812dc392a9b8a8102ecf21eae354c63
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-09-25 19:24:56 +0900
+
+    hangul_is_syllable(wchar_t ch) 추가
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@17 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulctype.c
+
+commit 2dd17d1bed9c0760ad5bb2395a92a3ae327f5154
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-08-25 23:58:55 +0900
+
+    do not make string, if there is no cho, jung, jongseong
+    in hangul_buffer_get_jamo_string()
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@16 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit ec40b744948ad7f2fdb3282771a6194a29737fdf
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-08-21 14:05:26 +0900
+
+    append the translated char to the commit string if it has value.
+    (to solve the symbol input problem of jaso routine)
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@15 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangulinputcontext.c
+
+commit 7c8dea679d00e50f14132d617e6f16e949bcee48
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2005-07-23 23:50:10 +0900
+
+    migrate to svn and rearrange source directory
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/libhangul/trunk@14 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+commit 0748ae316cde3b173e78d964fa37012736ee0fbb
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2004-12-14 22:41:59 +0900
+
+    Change api of hangul_ic_filter(); remove capslock argument.
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/trunk/hangul@13 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	pyhangul/pyhangul.c
+M	test/test.c
+
+commit d63295a13181a7bdebcdce0373cffa7f77dc7017
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2004-12-07 21:58:00 +0900
+
+    include inttypes.h instead of stdint.h
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/trunk/hangul@12 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+
+commit fa9eee301e61283e216fe2319b5f61fa0593baf3
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2004-12-05 13:11:46 +0900
+
+     * Add 3no-shift, 3yetgul keyboard
+     * Clear preedit string on hangul_ic_reset
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/trunk/hangul@11 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	hangul/hangul.h
+M	hangul/hangulinputcontext.c
+M	hangul/hangulkeyboard.h
+
+commit f2cbb28e756f367b029d1abc56940ffcce37af5f
+Author: JoonCheol Park <jooncheol@gmail.com>
+Date:   2004-12-02 00:12:07 +0900
+
+    add a script for win32-setup (using mingw32 compiler)
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/trunk/hangul@10 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+A	pyhangul/dist.bat
+M	pyhangul/setup.py
+
+commit 169bbce4589d463326911eb9c58549f1bd0006a1
+Author: JoonCheol Park <jooncheol@gmail.com>
+Date:   2004-11-08 22:54:21 +0900
+
+    *** empty log message ***
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/trunk/hangul@9 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	pyhangul/pyhangul.c
+
+commit 4bd754b52f1a05785a686218dd9b1092cfce3ae6
+Author: JoonCheol Park <jooncheol@gmail.com>
+Date:   2004-11-08 22:47:37 +0900
+
+    setup.py� path��
+    
+    git-svn-id: http://kldp.net/svn/hangul/trunk/hangul@8 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	pyhangul/pyhangul.c
+M	pyhangul/setup.py
+
+commit 04c861bb0da5bd3a17299bf17467dcc407441cee
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2004-11-08 20:45:26 +0900
+
+    write README and add autogen.sh
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/trunk/hangul@7 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+M	README
+A	autogen.sh
+
+commit 0e0b2886d127cfe94b29c8ace8f7c70b6846223a
+Author: Choe Hwanjin <choe.hwanjin@gmail.com>
+Date:   2004-11-08 20:39:11 +0900
+
+    Initial revision
+    
+    
+    git-svn-id: http://kldp.net/svn/hangul/trunk/hangul@3 8f00fcd2-89fc-0310-932e-b01be5b65e01
+
+A	AUTHORS
+A	COPYING
+A	ChangeLog
+A	Makefile.am
+A	NEWS
+A	README
+A	configure.ac
+A	hangul/Makefile.am
+A	hangul/hangul.h
+A	hangul/hangulctype.c
+A	hangul/hangulinputcontext.c
+A	hangul/hangulkeyboard.h
+A	pyhangul/Makefile
+A	pyhangul/pyhangul.c
+A	pyhangul/setup.py
+A	test/Makefile.am
+A	test/test.c

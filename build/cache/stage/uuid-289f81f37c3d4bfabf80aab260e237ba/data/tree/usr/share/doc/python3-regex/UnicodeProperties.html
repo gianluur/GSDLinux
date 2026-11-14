@@ -1,0 +1,1828 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.23: https://docutils.sourceforge.io/" />
+<title>UnicodeProperties.rst</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document">
+
+
+<p>The following is a list of the 94 properties which are supported by this module:</p>
+<dl class="docutils">
+<dt>Alphabetic [Alpha]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Alphanumeric [AlNum]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Any</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>ASCII_Hex_Digit [AHex]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Bidi_Class [bc]</dt>
+<dd>Arabic_Letter [AL]
+Arabic_Number [AN]
+Boundary_Neutral [BN]
+Common_Separator [CS]
+European_Number [EN]
+European_Separator [ES]
+European_Terminator [ET]
+First_Strong_Isolate [FSI]
+Left_To_Right [L]
+Left_To_Right_Embedding [LRE]
+Left_To_Right_Isolate [LRI]
+Left_To_Right_Override [LRO]
+Nonspacing_Mark [NSM]
+Other_Neutral [ON]
+Paragraph_Separator [B]
+Pop_Directional_Format [PDF]
+Pop_Directional_Isolate [PDI]
+Right_To_Left [R]
+Right_To_Left_Embedding [RLE]
+Right_To_Left_Isolate [RLI]
+Right_To_Left_Override [RLO]
+Segment_Separator [S]
+White_Space [WS]</dd>
+<dt>Bidi_Control [Bidi_C]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Bidi_Mirrored [Bidi_M]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Blank</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Block [blk]</dt>
+<dd>Adlam
+Aegean_Numbers
+Ahom
+Alchemical_Symbols [Alchemical]
+Alphabetic_Presentation_Forms [Alphabetic_PF]
+Anatolian_Hieroglyphs
+Ancient_Greek_Musical_Notation [Ancient_Greek_Music]
+Ancient_Greek_Numbers
+Ancient_Symbols
+Arabic
+Arabic_Extended_A [Arabic_Ext_A]
+Arabic_Mathematical_Alphabetic_Symbols [Arabic_Math]
+Arabic_Presentation_Forms_A [Arabic_PF_A]
+Arabic_Presentation_Forms_B [Arabic_PF_B]
+Arabic_Supplement [Arabic_Sup]
+Armenian
+Arrows
+Avestan
+Balinese
+Bamum
+Bamum_Supplement [Bamum_Sup]
+Basic_Latin [ASCII]
+Bassa_Vah
+Batak
+Bengali
+Bhaiksuki
+Block_Elements
+Bopomofo
+Bopomofo_Extended [Bopomofo_Ext]
+Box_Drawing
+Brahmi
+Braille_Patterns [Braille]
+Buginese
+Buhid
+Byzantine_Musical_Symbols [Byzantine_Music]
+Carian
+Caucasian_Albanian
+Chakma
+Cham
+Cherokee
+Cherokee_Supplement [Cherokee_Sup]
+Chess_Symbols
+CJK_Compatibility [CJK_Compat]
+CJK_Compatibility_Forms [CJK_Compat_Forms]
+CJK_Compatibility_Ideographs [CJK_Compat_Ideographs]
+CJK_Compatibility_Ideographs_Supplement [CJK_Compat_Ideographs_Sup]
+CJK_Radicals_Supplement [CJK_Radicals_Sup]
+CJK_Strokes
+CJK_Symbols_And_Punctuation [CJK_Symbols]
+CJK_Unified_Ideographs [CJK]
+CJK_Unified_Ideographs_Extension_A [CJK_Ext_A]
+CJK_Unified_Ideographs_Extension_B [CJK_Ext_B]
+CJK_Unified_Ideographs_Extension_C [CJK_Ext_C]
+CJK_Unified_Ideographs_Extension_D [CJK_Ext_D]
+CJK_Unified_Ideographs_Extension_E [CJK_Ext_E]
+CJK_Unified_Ideographs_Extension_F [CJK_Ext_F]
+Combining_Diacritical_Marks [Diacriticals]
+Combining_Diacritical_Marks_Extended [Diacriticals_Ext]
+Combining_Diacritical_Marks_For_Symbols [Combining_Marks_For_Symbols, Diacriticals_For_Symbols]
+Combining_Diacritical_Marks_Supplement [Diacriticals_Sup]
+Combining_Half_Marks [Half_Marks]
+Common_Indic_Number_Forms [Indic_Number_Forms]
+Control_Pictures
+Coptic
+Coptic_Epact_Numbers
+Counting_Rod_Numerals [Counting_Rod]
+Cuneiform
+Cuneiform_Numbers_And_Punctuation [Cuneiform_Numbers]
+Currency_Symbols
+Cypriot_Syllabary
+Cyrillic
+Cyrillic_Extended_A [Cyrillic_Ext_A]
+Cyrillic_Extended_B [Cyrillic_Ext_B]
+Cyrillic_Extended_C [Cyrillic_Ext_C]
+Cyrillic_Supplement [Cyrillic_Sup, Cyrillic_Supplementary]
+Deseret
+Devanagari
+Devanagari_Extended [Devanagari_Ext]
+Dingbats
+Dogra
+Domino_Tiles [Domino]
+Duployan
+Early_Dynastic_Cuneiform
+Egyptian_Hieroglyphs
+Egyptian_Hieroglyph_Format_Controls
+Elbasan
+Elymaic
+Emoticons
+Enclosed_Alphanumerics [Enclosed_Alphanum]
+Enclosed_Alphanumeric_Supplement [Enclosed_Alphanum_Sup]
+Enclosed_CJK_Letters_And_Months [Enclosed_CJK]
+Enclosed_Ideographic_Supplement [Enclosed_Ideographic_Sup]
+Ethiopic
+Ethiopic_Extended [Ethiopic_Ext]
+Ethiopic_Extended_A [Ethiopic_Ext_A]
+Ethiopic_Supplement [Ethiopic_Sup]
+General_Punctuation [Punctuation]
+Geometric_Shapes
+Geometric_Shapes_Extended [Geometric_Shapes_Ext]
+Georgian
+Georgian_Extended [Georgian_Ext]
+Georgian_Supplement [Georgian_Sup]
+Glagolitic
+Glagolitic_Supplement [Glagolitic_Sup]
+Gothic
+Grantha
+Greek_And_Coptic [Greek]
+Greek_Extended [Greek_Ext]
+Gujarati
+Gunjala_Gondi
+Gurmukhi
+Halfwidth_And_Fullwidth_Forms [Half_And_Full_Forms]
+Hangul_Compatibility_Jamo [Compat_Jamo]
+Hangul_Jamo [Jamo]
+Hangul_Jamo_Extended_A [Jamo_Ext_A]
+Hangul_Jamo_Extended_B [Jamo_Ext_B]
+Hangul_Syllables [Hangul]
+Hanifi_Rohingya
+Hanunoo
+Hatran
+Hebrew
+High_Private_Use_Surrogates [High_PU_Surrogates]
+High_Surrogates
+Hiragana
+Ideographic_Description_Characters [IDC]
+Ideographic_Symbols_And_Punctuation [Ideographic_Symbols]
+Imperial_Aramaic
+Indic_Siyaq_Numbers
+Inscriptional_Pahlavi
+Inscriptional_Parthian
+IPA_Extensions [IPA_Ext]
+Javanese
+Kaithi
+Kana_Extended_A [Kana_Ext_A]
+Kana_Supplement [Kana_Sup]
+Kanbun
+Kangxi_Radicals [Kangxi]
+Kannada
+Katakana
+Katakana_Phonetic_Extensions [Katakana_Ext]
+Kayah_Li
+Kharoshthi
+Khmer
+Khmer_Symbols
+Khojki
+Khudawadi
+Lao
+Latin_1_Supplement [Latin_1, Latin_1_Sup]
+Latin_Extended_A [Latin_Ext_A]
+Latin_Extended_Additional [Latin_Ext_Additional]
+Latin_Extended_B [Latin_Ext_B]
+Latin_Extended_C [Latin_Ext_C]
+Latin_Extended_D [Latin_Ext_D]
+Latin_Extended_E [Latin_Ext_E]
+Lepcha
+Letterlike_Symbols
+Limbu
+Linear_A
+Linear_B_Ideograms
+Linear_B_Syllabary
+Lisu
+Low_Surrogates
+Lycian
+Lydian
+Mahajani
+Mahjong_Tiles [Mahjong]
+Makasar
+Malayalam
+Mandaic
+Manichaean
+Marchen
+Masaram_Gondi
+Mathematical_Alphanumeric_Symbols [Math_Alphanum]
+Mathematical_Operators [Math_Operators]
+Mayan_Numerals
+Medefaidrin
+Meetei_Mayek
+Meetei_Mayek_Extensions [Meetei_Mayek_Ext]
+Mende_Kikakui
+Meroitic_Cursive
+Meroitic_Hieroglyphs
+Miao
+Miscellaneous_Mathematical_Symbols_A [Misc_Math_Symbols_A]
+Miscellaneous_Mathematical_Symbols_B [Misc_Math_Symbols_B]
+Miscellaneous_Symbols [Misc_Symbols]
+Miscellaneous_Symbols_And_Arrows [Misc_Arrows]
+Miscellaneous_Symbols_And_Pictographs [Misc_Pictographs]
+Miscellaneous_Technical [Misc_Technical]
+Modi
+Modifier_Tone_Letters
+Mongolian
+Mongolian_Supplement [Mongolian_Sup]
+Mro
+Multani
+Musical_Symbols [Music]
+Myanmar
+Myanmar_Extended_A [Myanmar_Ext_A]
+Myanmar_Extended_B [Myanmar_Ext_B]
+Nabataean
+Nandinagari
+Newa
+New_Tai_Lue
+NKo
+No_Block [NB]
+Number_Forms
+Nushu
+Nyiakeng_Puachue_Hmong
+Ogham
+Old_Hungarian
+Old_Italic
+Old_North_Arabian
+Old_Permic
+Old_Persian
+Old_Sogdian
+Old_South_Arabian
+Old_Turkic
+Ol_Chiki
+Optical_Character_Recognition [OCR]
+Oriya
+Ornamental_Dingbats
+Osage
+Osmanya
+Ottoman_Siyaq_Numbers
+Pahawh_Hmong
+Palmyrene
+Pau_Cin_Hau
+Phags_Pa
+Phaistos_Disc [Phaistos]
+Phoenician
+Phonetic_Extensions [Phonetic_Ext]
+Phonetic_Extensions_Supplement [Phonetic_Ext_Sup]
+Playing_Cards
+Private_Use_Area [Private_Use, PUA]
+Psalter_Pahlavi
+Rejang
+Rumi_Numeral_Symbols [Rumi]
+Runic
+Samaritan
+Saurashtra
+Sharada
+Shavian
+Shorthand_Format_Controls
+Siddham
+Sinhala
+Sinhala_Archaic_Numbers
+Small_Form_Variants [Small_Forms]
+Small_Kana_Extension [Small_Kana_Ext]
+Sogdian
+Sora_Sompeng
+Soyombo
+Spacing_Modifier_Letters [Modifier_Letters]
+Specials
+Sundanese
+Sundanese_Supplement [Sundanese_Sup]
+Superscripts_And_Subscripts [Super_And_Sub]
+Supplemental_Arrows_A [Sup_Arrows_A]
+Supplemental_Arrows_B [Sup_Arrows_B]
+Supplemental_Arrows_C [Sup_Arrows_C]
+Supplemental_Mathematical_Operators [Sup_Math_Operators]
+Supplemental_Punctuation [Sup_Punctuation]
+Supplemental_Symbols_And_Pictographs [Sup_Symbols_And_Pictographs]
+Supplementary_Private_Use_Area_A [Sup_PUA_A]
+Supplementary_Private_Use_Area_B [Sup_PUA_B]
+Sutton_SignWriting
+Syloti_Nagri
+Symbols_And_Pictographs_Extended_A [Symbols_And_Pictographs_Ext_A]
+Syriac
+Syriac_Supplement [Syriac_Sup]
+Tagalog
+Tagbanwa
+Tags
+Tai_Le
+Tai_Tham
+Tai_Viet
+Tai_Xuan_Jing_Symbols [Tai_Xuan_Jing]
+Takri
+Tamil
+Tamil_Supplement [Tamil_Sup]
+Tangut
+Tangut_Components
+Telugu
+Thaana
+Thai
+Tibetan
+Tifinagh
+Tirhuta
+Transport_And_Map_Symbols [Transport_And_Map]
+Ugaritic
+Unified_Canadian_Aboriginal_Syllabics [Canadian_Syllabics, UCAS]
+Unified_Canadian_Aboriginal_Syllabics_Extended [UCAS_Ext]
+Vai
+Variation_Selectors [VS]
+Variation_Selectors_Supplement [VS_Sup]
+Vedic_Extensions [Vedic_Ext]
+Vertical_Forms
+Wancho
+Warang_Citi
+Yijing_Hexagram_Symbols [Yijing]
+Yi_Radicals
+Yi_Syllables
+Zanabazar_Square</dd>
+<dt>Canonical_Combining_Class [ccc]</dt>
+<dd>Above [230, A]
+Above_Left [228, AL]
+Above_Right [232, AR]
+Attached_Above [214, ATA]
+Attached_Above_Right [216, ATAR]
+Attached_Below [202, ATB]
+Attached_Below_Left [200, ATBL]
+Below [220, B]
+Below_Left [218, BL]
+Below_Right [222, BR]
+CCC10 [10]
+CCC103 [103]
+CCC107 [107]
+CCC11 [11]
+CCC118 [118]
+CCC12 [12]
+CCC122 [122]
+CCC129 [129]
+CCC13 [13]
+CCC130 [130]
+CCC132 [132]
+CCC133 [133]
+CCC14 [14]
+CCC15 [15]
+CCC16 [16]
+CCC17 [17]
+CCC18 [18]
+CCC19 [19]
+CCC20 [20]
+CCC21 [21]
+CCC22 [22]
+CCC23 [23]
+CCC24 [24]
+CCC25 [25]
+CCC26 [26]
+CCC27 [27]
+CCC28 [28]
+CCC29 [29]
+CCC30 [30]
+CCC31 [31]
+CCC32 [32]
+CCC33 [33]
+CCC34 [34]
+CCC35 [35]
+CCC36 [36]
+CCC84 [84]
+CCC91 [91]
+Double_Above [234, DA]
+Double_Below [233, DB]
+Iota_Subscript [240, IS]
+Kana_Voicing [8, KV]
+Left [224, L]
+Not_Reordered [0, NR]
+Nukta [7, NK]
+Overlay [1, OV]
+Right [226, R]
+Virama [9, VR]</dd>
+<dt>Cased</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Case_Ignorable [CI]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Changes_When_Casefolded [CWCF]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Changes_When_Casemapped [CWCM]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Changes_When_Lowercased [CWL]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Changes_When_Titlecased [CWT]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Changes_When_Uppercased [CWU]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Dash</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Decomposition_Type [dt]</dt>
+<dd>Canonical [Can]
+Circle [Enc]
+Compat [Com]
+Final [Fin]
+Font
+Fraction [Fra]
+Initial [Init]
+Isolated [Iso]
+Medial [Med]
+Narrow [Nar]
+Nobreak [Nb]
+None
+Small [Sml]
+Square [Sqr]
+Sub
+Super [Sup]
+Vertical [Vert]
+Wide</dd>
+<dt>Default_Ignorable_Code_Point [DI]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Deprecated [Dep]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Diacritic [Dia]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>East_Asian_Width [ea]</dt>
+<dd>Ambiguous [A]
+Fullwidth [F]
+Halfwidth [H]
+Narrow [Na]
+Neutral [N]
+Wide [W]</dd>
+<dt>Emoji</dt>
+<dd>No
+Yes</dd>
+<dt>Emoji_Component</dt>
+<dd>No
+Yes</dd>
+<dt>Emoji_Modifier</dt>
+<dd>No
+Yes</dd>
+<dt>Emoji_Modifier_Base</dt>
+<dd>No
+Yes</dd>
+<dt>Emoji_Presentation</dt>
+<dd>No
+Yes</dd>
+<dt>Extended_Pictographic</dt>
+<dd>No
+Yes</dd>
+<dt>Extender [Ext]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>General_Category [gc]</dt>
+<dd>Assigned
+Cased_Letter [LC]
+Close_Punctuation [Pe]
+Connector_Punctuation [Pc]
+Control [Cc, cntrl]
+Currency_Symbol [Sc]
+Dash_Punctuation [Pd]
+Decimal_Number [digit, Nd]
+Enclosing_Mark [Me]
+Final_Punctuation [Pf]
+Format [Cf]
+Initial_Punctuation [Pi]
+Letter [L, L&amp;]
+Letter_Number [Nl]
+Line_Separator [Zl]
+Lowercase_Letter [Ll]
+Mark [Combining_Mark, M, M&amp;]
+Math_Symbol [Sm]
+Modifier_Letter [Lm]
+Modifier_Symbol [Sk]
+Nonspacing_Mark [Mn]
+Number [N, N&amp;]
+Open_Punctuation [Ps]
+Other [C, C&amp;]
+Other_Letter [Lo]
+Other_Number [No]
+Other_Punctuation [Po]
+Other_Symbol [So]
+Paragraph_Separator [Zp]
+Private_Use [Co]
+Punctuation [P, P&amp;, punct]
+Separator [Z, Z&amp;]
+Space_Separator [Zs]
+Spacing_Mark [Mc]
+Surrogate [Cs]
+Symbol [S, S&amp;]
+Titlecase_Letter [Lt]
+Unassigned [Cn]
+Uppercase_Letter [Lu]</dd>
+<dt>Graph</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Grapheme_Base [Gr_Base]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Grapheme_Cluster_Break [GCB]</dt>
+<dd>Control [CN]
+CR
+Extend [EX]
+E_Base [EB]
+E_Base_GAZ [EBG]
+E_Modifier [EM]
+Glue_After_Zwj [GAZ]
+L
+LF
+LV
+LVT
+Other [XX]
+Prepend [PP]
+Regional_Indicator [RI]
+SpacingMark [SM]
+T
+V
+ZWJ</dd>
+<dt>Grapheme_Extend [Gr_Ext]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Grapheme_Link [Gr_Link]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Hangul_Syllable_Type [hst]</dt>
+<dd>Leading_Jamo [L]
+LVT_Syllable [LVT]
+LV_Syllable [LV]
+Not_Applicable [NA]
+Trailing_Jamo [T]
+Vowel_Jamo [V]</dd>
+<dt>Hex_Digit [Hex]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Hyphen</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Ideographic [Ideo]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>IDS_Binary_Operator [IDSB]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>IDS_Trinary_Operator [IDST]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>ID_Continue [IDC]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>ID_Start [IDS]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Indic_Positional_Category [InPC]</dt>
+<dd>Bottom
+Bottom_And_Left
+Bottom_And_Right
+Left
+Left_And_Right
+NA
+Overstruck
+Right
+Top
+Top_And_Bottom
+Top_And_Bottom_And_Right
+Top_And_Left
+Top_And_Left_And_Right
+Top_And_Right
+Visual_Order_Left</dd>
+<dt>Indic_Syllabic_Category [InSC]</dt>
+<dd>Avagraha
+Bindu
+Brahmi_Joining_Number
+Cantillation_Mark
+Consonant
+Consonant_Dead
+Consonant_Final
+Consonant_Head_Letter
+Consonant_Initial_Postfixed
+Consonant_Killer
+Consonant_Medial
+Consonant_Placeholder
+Consonant_Preceding_Repha
+Consonant_Prefixed
+Consonant_Subjoined
+Consonant_Succeeding_Repha
+Consonant_With_Stacker
+Gemination_Mark
+Invisible_Stacker
+Joiner
+Modifying_Letter
+Non_Joiner
+Nukta
+Number
+Number_Joiner
+Other
+Pure_Killer
+Register_Shifter
+Syllable_Modifier
+Tone_Letter
+Tone_Mark
+Virama
+Visarga
+Vowel
+Vowel_Dependent
+Vowel_Independent</dd>
+<dt>Joining_Group [jg]</dt>
+<dd>African_Feh
+African_Noon
+African_Qaf
+Ain
+Alaph
+Alef
+Beh
+Beth
+Burushaski_Yeh_Barree
+Dal
+Dalath_Rish
+E
+Farsi_Yeh
+Fe
+Feh
+Final_Semkath
+Gaf
+Gamal
+Hah
+Hamza_On_Heh_Goal [Teh_Marbuta_Goal]
+Hanifi_Rohingya_Kinna_Ya
+Hanifi_Rohingya_Pa
+He
+Heh
+Heh_Goal
+Heth
+Kaf
+Kaph
+Khaph
+Knotted_Heh
+Lam
+Lamadh
+Malayalam_Bha
+Malayalam_Ja
+Malayalam_Lla
+Malayalam_Llla
+Malayalam_Nga
+Malayalam_Nna
+Malayalam_Nnna
+Malayalam_Nya
+Malayalam_Ra
+Malayalam_Ssa
+Malayalam_Tta
+Manichaean_Aleph
+Manichaean_Ayin
+Manichaean_Beth
+Manichaean_Daleth
+Manichaean_Dhamedh
+Manichaean_Five
+Manichaean_Gimel
+Manichaean_Heth
+Manichaean_Hundred
+Manichaean_Kaph
+Manichaean_Lamedh
+Manichaean_Mem
+Manichaean_Nun
+Manichaean_One
+Manichaean_Pe
+Manichaean_Qoph
+Manichaean_Resh
+Manichaean_Sadhe
+Manichaean_Samekh
+Manichaean_Taw
+Manichaean_Ten
+Manichaean_Teth
+Manichaean_Thamedh
+Manichaean_Twenty
+Manichaean_Waw
+Manichaean_Yodh
+Manichaean_Zayin
+Meem
+Mim
+Noon
+No_Joining_Group
+Nun
+Nya
+Pe
+Qaf
+Qaph
+Reh
+Reversed_Pe
+Rohingya_Yeh
+Sad
+Sadhe
+Seen
+Semkath
+Shin
+Straight_Waw
+Swash_Kaf
+Syriac_Waw
+Tah
+Taw
+Teh_Marbuta
+Teth
+Waw
+Yeh
+Yeh_Barree
+Yeh_With_Tail
+Yudh
+Yudh_He
+Zain
+Zhain</dd>
+<dt>Joining_Type [jt]</dt>
+<dd>Dual_Joining [D]
+Join_Causing [C]
+Left_Joining [L]
+Non_Joining [U]
+Right_Joining [R]
+Transparent [T]</dd>
+<dt>Join_Control [Join_C]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Line_Break [lb]</dt>
+<dd>Alphabetic [AL]
+Ambiguous [AI]
+Break_After [BA]
+Break_Before [BB]
+Break_Both [B2]
+Break_Symbols [SY]
+Carriage_Return [CR]
+Close_Parenthesis [CP]
+Close_Punctuation [CL]
+Combining_Mark [CM]
+Complex_Context [SA]
+Conditional_Japanese_Starter [CJ]
+Contingent_Break [CB]
+Exclamation [EX]
+E_Base [EB]
+E_Modifier [EM]
+Glue [GL]
+H2
+H3
+Hebrew_Letter [HL]
+Hyphen [HY]
+Ideographic [ID]
+Infix_Numeric [IS]
+Inseparable [IN, Inseperable]
+JL
+JT
+JV
+Line_Feed [LF]
+Mandatory_Break [BK]
+Next_Line [NL]
+Nonstarter [NS]
+Numeric [NU]
+Open_Punctuation [OP]
+Postfix_Numeric [PO]
+Prefix_Numeric [PR]
+Quotation [QU]
+Regional_Indicator [RI]
+Space [SP]
+Surrogate [SG]
+Unknown [XX]
+Word_Joiner [WJ]
+ZWJ
+ZWSpace [ZW]</dd>
+<dt>Logical_Order_Exception [LOE]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Lowercase [Lower]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Math</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>NFC_Quick_Check [NFC_QC]</dt>
+<dd>Maybe [M]
+No [N]
+Yes [Y]</dd>
+<dt>NFD_Quick_Check [NFD_QC]</dt>
+<dd>No [N]
+Yes [Y]</dd>
+<dt>NFKC_Quick_Check [NFKC_QC]</dt>
+<dd>Maybe [M]
+No [N]
+Yes [Y]</dd>
+<dt>NFKD_Quick_Check [NFKD_QC]</dt>
+<dd>No [N]
+Yes [Y]</dd>
+<dt>Noncharacter_Code_Point [NChar]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Numeric_Type [nt]</dt>
+<dd>Decimal [De]
+Digit [Di]
+None
+Numeric [Nu]</dd>
+<dt>Numeric_Value [nv]</dt>
+<dd>-1/2
+0
+1
+1/10
+1/12
+1/16
+1/160
+1/2
+1/20
+1/3
+1/32
+1/320
+1/4
+1/40
+1/5
+1/6
+1/64
+1/7
+1/8
+1/80
+1/9
+10
+100
+1000
+10000
+100000
+1000000
+10000000
+100000000
+10000000000
+1000000000000
+11
+11/12
+11/2
+12
+13
+13/2
+14
+15
+15/2
+16
+17
+17/2
+18
+19
+2
+2/3
+2/5
+20
+200
+2000
+20000
+200000
+20000000
+21
+216000
+22
+23
+24
+25
+26
+27
+28
+29
+3
+3/16
+3/2
+3/20
+3/4
+3/5
+3/64
+3/8
+3/80
+30
+300
+3000
+30000
+300000
+31
+32
+33
+34
+35
+36
+37
+38
+39
+4
+4/5
+40
+400
+4000
+40000
+400000
+41
+42
+43
+432000
+44
+45
+46
+47
+48
+49
+5
+5/12
+5/2
+5/6
+5/8
+50
+500
+5000
+50000
+500000
+6
+60
+600
+6000
+60000
+600000
+7
+7/12
+7/2
+7/8
+70
+700
+7000
+70000
+700000
+8
+80
+800
+8000
+80000
+800000
+9
+9/2
+90
+900
+9000
+90000
+900000
+NaN</dd>
+<dt>Other_Alphabetic [OAlpha]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Other_Default_Ignorable_Code_Point [ODI]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Other_Grapheme_Extend [OGr_Ext]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Other_ID_Continue [OIDC]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Other_ID_Start [OIDS]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Other_Lowercase [OLower]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Other_Math [OMath]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Other_Uppercase [OUpper]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Pattern_Syntax [Pat_Syn]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Pattern_White_Space [Pat_WS]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Posix_AlNum</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Posix_Digit</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Posix_Punct</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Posix_XDigit</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Prepended_Concatenation_Mark [PCM]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Print</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Quotation_Mark [QMark]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Radical</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Regional_Indicator [RI]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Script [sc]</dt>
+<dd>Adlam [Adlm]
+Ahom
+Anatolian_Hieroglyphs [Hluw]
+Arabic [Arab]
+Armenian [Armn]
+Avestan [Avst]
+Balinese [Bali]
+Bamum [Bamu]
+Bassa_Vah [Bass]
+Batak [Batk]
+Bengali [Beng]
+Bhaiksuki [Bhks]
+Bopomofo [Bopo]
+Brahmi [Brah]
+Braille [Brai]
+Buginese [Bugi]
+Buhid [Buhd]
+Canadian_Aboriginal [Cans]
+Carian [Cari]
+Caucasian_Albanian [Aghb]
+Chakma [Cakm]
+Cham
+Cherokee [Cher]
+Common [Zyyy]
+Coptic [Copt, Qaac]
+Cuneiform [Xsux]
+Cypriot [Cprt]
+Cyrillic [Cyrl]
+Deseret [Dsrt]
+Devanagari [Deva]
+Dogra [Dogr]
+Duployan [Dupl]
+Egyptian_Hieroglyphs [Egyp]
+Elbasan [Elba]
+Elymaic [Elym]
+Ethiopic [Ethi]
+Georgian [Geor]
+Glagolitic [Glag]
+Gothic [Goth]
+Grantha [Gran]
+Greek [Grek]
+Gujarati [Gujr]
+Gunjala_Gondi [Gong]
+Gurmukhi [Guru]
+Han [Hani]
+Hangul [Hang]
+Hanifi_Rohingya [Rohg]
+Hanunoo [Hano]
+Hatran [Hatr]
+Hebrew [Hebr]
+Hiragana [Hira]
+Imperial_Aramaic [Armi]
+Inherited [Qaai, Zinh]
+Inscriptional_Pahlavi [Phli]
+Inscriptional_Parthian [Prti]
+Javanese [Java]
+Kaithi [Kthi]
+Kannada [Knda]
+Katakana [Kana]
+Katakana_Or_Hiragana [Hrkt]
+Kayah_Li [Kali]
+Kharoshthi [Khar]
+Khmer [Khmr]
+Khojki [Khoj]
+Khudawadi [Sind]
+Lao [Laoo]
+Latin [Latn]
+Lepcha [Lepc]
+Limbu [Limb]
+Linear_A [Lina]
+Linear_B [Linb]
+Lisu
+Lycian [Lyci]
+Lydian [Lydi]
+Mahajani [Mahj]
+Makasar [Maka]
+Malayalam [Mlym]
+Mandaic [Mand]
+Manichaean [Mani]
+Marchen [Marc]
+Masaram_Gondi [Gonm]
+Medefaidrin [Medf]
+Meetei_Mayek [Mtei]
+Mende_Kikakui [Mend]
+Meroitic_Cursive [Merc]
+Meroitic_Hieroglyphs [Mero]
+Miao [Plrd]
+Modi
+Mongolian [Mong]
+Mro [Mroo]
+Multani [Mult]
+Myanmar [Mymr]
+Nabataean [Nbat]
+Nandinagari [Nand]
+Newa
+New_Tai_Lue [Talu]
+Nko [Nkoo]
+Nushu [Nshu]
+Nyiakeng_Puachue_Hmong [Hmnp]
+Ogham [Ogam]
+Old_Hungarian [Hung]
+Old_Italic [Ital]
+Old_North_Arabian [Narb]
+Old_Permic [Perm]
+Old_Persian [Xpeo]
+Old_Sogdian [Sogo]
+Old_South_Arabian [Sarb]
+Old_Turkic [Orkh]
+Ol_Chiki [Olck]
+Oriya [Orya]
+Osage [Osge]
+Osmanya [Osma]
+Pahawh_Hmong [Hmng]
+Palmyrene [Palm]
+Pau_Cin_Hau [Pauc]
+Phags_Pa [Phag]
+Phoenician [Phnx]
+Psalter_Pahlavi [Phlp]
+Rejang [Rjng]
+Runic [Runr]
+Samaritan [Samr]
+Saurashtra [Saur]
+Sharada [Shrd]
+Shavian [Shaw]
+Siddham [Sidd]
+SignWriting [Sgnw]
+Sinhala [Sinh]
+Sogdian [Sogd]
+Sora_Sompeng [Sora]
+Soyombo [Soyo]
+Sundanese [Sund]
+Syloti_Nagri [Sylo]
+Syriac [Syrc]
+Tagalog [Tglg]
+Tagbanwa [Tagb]
+Tai_Le [Tale]
+Tai_Tham [Lana]
+Tai_Viet [Tavt]
+Takri [Takr]
+Tamil [Taml]
+Tangut [Tang]
+Telugu [Telu]
+Thaana [Thaa]
+Thai
+Tibetan [Tibt]
+Tifinagh [Tfng]
+Tirhuta [Tirh]
+Ugaritic [Ugar]
+Unknown [Zzzz]
+Vai [Vaii]
+Wancho [Wcho]
+Warang_Citi [Wara]
+Yi [Yiii]
+Zanabazar_Square [Zanb]</dd>
+<dt>Script_Extensions [scx]</dt>
+<dd>Adlam [Adlm]
+Adlm Arab Mand Mani Phlp Rohg Sogd Syrc
+Ahom
+Anatolian_Hieroglyphs [Hluw]
+Arab Copt
+Arab Rohg
+Arab Rohg Syrc Thaa
+Arab Syrc
+Arab Syrc Thaa
+Arab Thaa
+Arabic [Arab]
+Armenian [Armn]
+Armn Geor
+Avestan [Avst]
+Balinese [Bali]
+Bamum [Bamu]
+Bassa_Vah [Bass]
+Batak [Batk]
+Beng Cakm Sylo
+Beng Deva
+Beng Deva Dogr Gong Gonm Gran Gujr Guru Knda Limb Mahj Mlym Nand Orya Sind Sinh Sylo Takr Taml Telu Tirh
+Beng Deva Dogr Gong Gonm Gran Gujr Guru Knda Mahj Mlym Nand Orya Sind Sinh Sylo Takr Taml Telu Tirh
+Beng Deva Gran Gujr Guru Knda Latn Mlym Orya Shrd Taml Telu Tirh
+Beng Deva Gran Gujr Guru Knda Latn Mlym Orya Taml Telu Tirh
+Beng Deva Gran Knda
+Beng Deva Gran Knda Nand Orya Telu Tirh
+Bengali [Beng]
+Bhaiksuki [Bhks]
+Bopo Hang Hani Hira Kana
+Bopo Hang Hani Hira Kana Yiii
+Bopo Hani
+Bopomofo [Bopo]
+Brahmi [Brah]
+Braille [Brai]
+Bugi Java
+Buginese [Bugi]
+Buhd Hano Tagb Tglg
+Buhid [Buhd]
+Cakm Mymr Tale
+Canadian_Aboriginal [Cans]
+Carian [Cari]
+Caucasian_Albanian [Aghb]
+Chakma [Cakm]
+Cham
+Cherokee [Cher]
+Common [Zyyy]
+Coptic [Copt, Qaac]
+Cprt Lina Linb
+Cprt Linb
+Cuneiform [Xsux]
+Cypriot [Cprt]
+Cyrillic [Cyrl]
+Cyrl Glag
+Cyrl Latn
+Cyrl Perm
+Deseret [Dsrt]
+Deva Dogr Gujr Guru Khoj Knda Kthi Mahj Mlym Modi Nand Sind Takr Tirh
+Deva Dogr Gujr Guru Khoj Knda Kthi Mahj Modi Nand Sind Takr Tirh
+Deva Dogr Gujr Guru Khoj Kthi Mahj Modi Sind Takr Tirh
+Deva Dogr Kthi Mahj
+Deva Gran
+Deva Gran Knda
+Deva Gran Latn
+Deva Knda Mlym Orya Taml Telu
+Deva Nand
+Deva Shrd
+Deva Taml
+Devanagari [Deva]
+Dogra [Dogr]
+Duployan [Dupl]
+Egyptian_Hieroglyphs [Egyp]
+Elbasan [Elba]
+Elymaic [Elym]
+Ethiopic [Ethi]
+Geor Latn
+Georgian [Geor]
+Glagolitic [Glag]
+Gothic [Goth]
+Gran Taml
+Grantha [Gran]
+Greek [Grek]
+Gujarati [Gujr]
+Gujr Khoj
+Gunjala_Gondi [Gong]
+Gurmukhi [Guru]
+Guru Mult
+Han [Hani]
+Hangul [Hang]
+Hani Hira Kana
+Hanifi_Rohingya [Rohg]
+Hanunoo [Hano]
+Hatran [Hatr]
+Hebrew [Hebr]
+Hira Kana
+Hiragana [Hira]
+Imperial_Aramaic [Armi]
+Inherited [Qaai, Zinh]
+Inscriptional_Pahlavi [Phli]
+Inscriptional_Parthian [Prti]
+Javanese [Java]
+Kaithi [Kthi]
+Kali Latn Mymr
+Kannada [Knda]
+Katakana [Kana]
+Kayah_Li [Kali]
+Kharoshthi [Khar]
+Khmer [Khmr]
+Khojki [Khoj]
+Khudawadi [Sind]
+Knda Nand
+Lao [Laoo]
+Latin [Latn]
+Latn Mong
+Lepcha [Lepc]
+Limbu [Limb]
+Linear_A [Lina]
+Linear_B [Linb]
+Lisu
+Lycian [Lyci]
+Lydian [Lydi]
+Mahajani [Mahj]
+Makasar [Maka]
+Malayalam [Mlym]
+Mandaic [Mand]
+Manichaean [Mani]
+Marchen [Marc]
+Masaram_Gondi [Gonm]
+Medefaidrin [Medf]
+Meetei_Mayek [Mtei]
+Mende_Kikakui [Mend]
+Meroitic_Cursive [Merc]
+Meroitic_Hieroglyphs [Mero]
+Miao [Plrd]
+Modi
+Mong Phag
+Mongolian [Mong]
+Mro [Mroo]
+Multani [Mult]
+Myanmar [Mymr]
+Nabataean [Nbat]
+Nandinagari [Nand]
+Newa
+New_Tai_Lue [Talu]
+Nko [Nkoo]
+Nushu [Nshu]
+Nyiakeng_Puachue_Hmong [Hmnp]
+Ogham [Ogam]
+Old_Hungarian [Hung]
+Old_Italic [Ital]
+Old_North_Arabian [Narb]
+Old_Permic [Perm]
+Old_Persian [Xpeo]
+Old_Sogdian [Sogo]
+Old_South_Arabian [Sarb]
+Old_Turkic [Orkh]
+Ol_Chiki [Olck]
+Oriya [Orya]
+Osage [Osge]
+Osmanya [Osma]
+Pahawh_Hmong [Hmng]
+Palmyrene [Palm]
+Pau_Cin_Hau [Pauc]
+Phags_Pa [Phag]
+Phoenician [Phnx]
+Psalter_Pahlavi [Phlp]
+Rejang [Rjng]
+Runic [Runr]
+Samaritan [Samr]
+Saurashtra [Saur]
+Sharada [Shrd]
+Shavian [Shaw]
+Siddham [Sidd]
+SignWriting [Sgnw]
+Sinhala [Sinh]
+Sogdian [Sogd]
+Sora_Sompeng [Sora]
+Soyombo [Soyo]
+Sundanese [Sund]
+Syloti_Nagri [Sylo]
+Syriac [Syrc]
+Tagalog [Tglg]
+Tagbanwa [Tagb]
+Tai_Le [Tale]
+Tai_Tham [Lana]
+Tai_Viet [Tavt]
+Takri [Takr]
+Tamil [Taml]
+Tangut [Tang]
+Telugu [Telu]
+Thaana [Thaa]
+Thai
+Tibetan [Tibt]
+Tifinagh [Tfng]
+Tirhuta [Tirh]
+Ugaritic [Ugar]
+Unknown [Zzzz]
+Vai [Vaii]
+Wancho [Wcho]
+Warang_Citi [Wara]
+Yi [Yiii]
+Zanabazar_Square [Zanb]</dd>
+<dt>Sentence_Break [SB]</dt>
+<dd>ATerm [AT]
+Close [CL]
+CR
+Extend [EX]
+Format [FO]
+LF
+Lower [LO]
+Numeric [NU]
+OLetter [LE]
+Other [XX]
+SContinue [SC]
+Sep [SE]
+Sp
+STerm [ST]
+Upper [UP]</dd>
+<dt>Sentence_Terminal [STerm]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Soft_Dotted [SD]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Terminal_Punctuation [Term]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Unified_Ideograph [UIdeo]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Uppercase [Upper]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Variation_Selector [VS]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>White_Space [space, WSpace]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Word</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>Word_Break [WB]</dt>
+<dd>ALetter [LE]
+CR
+Double_Quote [DQ]
+Extend
+ExtendNumLet [EX]
+E_Base [EB]
+E_Base_GAZ [EBG]
+E_Modifier [EM]
+Format [FO]
+Glue_After_Zwj [GAZ]
+Hebrew_Letter [HL]
+Katakana [KA]
+LF
+MidLetter [ML]
+MidNum [MN]
+MidNumLet [MB]
+Newline [NL]
+Numeric [NU]
+Other [XX]
+Regional_Indicator [RI]
+Single_Quote [SQ]
+WSegSpace
+ZWJ</dd>
+<dt>XDigit</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>XID_Continue [XIDC]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+<dt>XID_Start [XIDS]</dt>
+<dd>No [F, False, N]
+Yes [T, True, Y]</dd>
+</dl>
+</div>
+</body>
+</html>

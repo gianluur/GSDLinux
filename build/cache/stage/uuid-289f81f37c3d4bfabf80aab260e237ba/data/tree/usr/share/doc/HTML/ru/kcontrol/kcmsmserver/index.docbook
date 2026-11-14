@@ -1,0 +1,186 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+"dtd/kdedbx45.dtd" [
+<!ENTITY % addindex "IGNORE">
+<!ENTITY % Russian "INCLUDE"
+> <!-- change language only here -->
+]>
+
+<article id="kcmsmserver" lang="&language;">
+<articleinfo>
+<title
+>Управление сеансами</title>
+<authorgroup>
+<author
+>&Jost.Schenck; &Jost.Schenck.mail;</author>
+<author
+><firstname
+>Natalie</firstname
+><surname
+>Clarius</surname
+><email
+>natalie_clarius@yahoo.de</email
+></author>
+<othercredit role="translator"
+><firstname
+>Екатерина</firstname
+><surname
+>Пыжова</surname
+> <affiliation
+><address
+><email
+>haleth@yandex.ru</email
+></address
+></affiliation
+> <contrib
+>Перевод на русский язык</contrib
+></othercredit
+> <othercredit role="translator"
+><firstname
+>Олеся</firstname
+><surname
+>Герасименко</surname
+> <affiliation
+><address
+><email
+>gammaray@basealt.ru</email
+></address
+></affiliation
+> <contrib
+>Перевод на русский язык</contrib
+></othercredit
+><othercredit role="reviewer"
+><firstname
+>Александр</firstname
+><surname
+>Яворский</surname
+><contrib
+>Рецензирование</contrib
+></othercredit
+> 
+</authorgroup>
+
+<date
+>2023-01-30</date>
+<releaseinfo
+>Plasma 5.27</releaseinfo>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>параметры системы</keyword>
+<keyword
+>сеанс</keyword>
+<keyword
+>Параметры системы</keyword>
+<keyword
+>завершение сеанса</keyword>
+</keywordset>
+</articleinfo>
+
+<sect1 id="sessions">
+<title
+>Сеанс рабочего стола</title>
+
+<para
+>Этот модуль приложения «Параметры системы» служит для настройки параметров диспетчера сеансов и завершения работы &plasma;.</para>
+
+<para
+>Управление сеансами касается способности &plasma; сохранять состояние приложений и окон на момент выхода из &plasma; и восстанавливать их при следующем входе.</para>
+
+<sect2 id="sessions-logoutscreen">
+<title
+>Общие</title>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Запрашивать подтверждение: при завершении работы, перезагрузке и выходе из системы</guilabel
+></term>
+<listitem>
+<para
+>При включении этого параметра экран подтверждения выхода будет показываться при выходе из системы, выключении или перезагрузке. При выключении параметра компьютер будет выходить из системы, выключаться и т. д. немедленно после нажатия соответствующей кнопки.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+
+<sect2 id="sessions-restore">
+<title
+>Запускать открытые приложения при входе</title>
+<para
+>Этот раздел позволяет настроить поведение диспетчера сеансов &plasma; при входе пользователя в систему:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>При последнем выходе</guilabel
+></term>
+<listitem
+><para
+>При выборе этого варианта &plasma; при выходе сохраняет состояние сеанса. При следующем входе сохранённое состояние будет восстановлено, позволяя продолжить работу с момента её завершения.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>При сохранении сеанса вручную</guilabel
+></term>
+<listitem
+><para
+>При выборе этого варианта при начале сеанса &plasma; будет восстановлено сохранённое вручную состояние, а не состояние при выходе из последнего сеанса.</para
+><para
+>Кнопка <guilabel
+>Сохранить сеанс</guilabel
+> будет добавлена в <guilabel
+>Меню запуска приложений</guilabel
+> и в поиск &plasma;. При её нажатии &plasma; запоминает открытые приложения и восстанавливает их при следующем входе. Повторное нажатие заменяет сохранённый набор приложений.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><guilabel
+>Начинать с пустого сеанса</guilabel
+></term>
+<listitem>
+<para
+>При выборе этого варианта &plasma; никогда не будет восстанавливать сохранённые сеансы.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para
+>Также можно определить список приложений, состояние которых не следует сохранять для их последующего запуска при восстановлении сеанса. Для этого в соответствующее поле следует ввести имена приложений, разделённые двоеточиями (<literal
+>:</literal
+>) или запятыми (<literal
+>,</literal
+>). Например, <userinput
+>xterm:konsole</userinput
+> или <userinput
+>xterm,konsole</userinput
+>.</para>
+</sect2>
+
+<sect2 id="sessions-firmware">
+<title
+>Прошивка</title>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>При следующей перезагрузке: войти в настройки UEFI</guilabel
+></term>
+<listitem
+><para
+>При включении этого параметра компьютер при следующем перезапуске войдёт в режим настройки прошивки (BIOS/UEFI). Это может быть проще, чем пытаться попасть туда, быстро нажимая специальные клавиши во время загрузки.</para
+></listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+
+</sect1>
+
+</article>
+

@@ -1,0 +1,91 @@
+v2.8.2
+======
+ - Sort certificates by underlying objects CKA_ID to provide deterministic
+   object order
+ - Avoid using uninitialized memory
+ - Improve test coverage and build scripts
+ - Improve compatibility with modern compilers (avoid strict warnings)
+
+v2.8.1
+======
+ - Improve CI and build scripts
+ - Execute tests also with token not supporting raw RSA
+ - Run fuzzers in CI
+ - Unbreak RAW deciphering emulation using RSA-PKCS1 method
+ - Use g_memdup2 to avoid deprecation warnings with new glib2
+
+v2.8.0
+======
+ - Improve project documentation
+ - Bump minimal glib version to 2.32 and remove old compatibility functions
+ - Introduce meson build system in addition to existing autotools
+ - Create and run fuzzer drivers to improve stability
+ - Introduce a new API vcard_emul_finalize() to clean up allocated resources
+ - Remove key caching to avoid issues with some PKCS #11 modules
+ - Prevent logging critical errors on unknown instruction
+
+v2.7.0
+======
+
+- Improve compatibility with Windows guests, particularly with ActivClient
+  Windows drivers.
+- Implement Microsoft PnP applet used by Windows for card detection
+- Fill several structures returned by Global Platform applet to mimic
+  behavior of real cards.
+- Implement API for creation of serial number used to uniquely identify
+  a emulated card.
+- More verbose debug logs
+- Fix the VERIFY semantics, which can be used for login status check
+- Add clang and csbuild CI targets
+- Use ATR from official CAC card to improve card detection under Windows
+
+v2.6.1
+======
+
+- various bug fixes (memory corruption issues which would cause crashes in
+  spice-gtk)
+
+v2.6.0
+======
+
+- provides implementation of GSC-IS 2.1 (aka CAC version 2) to improve
+  interoperability with guest software using the emulated or shared
+  smart cards. The previously implemented CACv1 specification is no
+  longer supported by any other application so the old code is gone
+  and any application depending on this old standard will not work
+  anymore.
+- vscclient is no longer installed, as it is not an end-user support
+  solution
+- various bug & leak fixes
+
+v2.5.3
+======
+
+- fix memory leak in vcard_apdu_new
+- do not fail, if the caller didn't pick up response
+  from previous call (to please opensc)
+- some scan-build errors fixed
+
+
+v2.5.2
+======
+
+- remove libcacard.h usage warning (to silence qemu 2.5.0 build)
+
+v2.5.1
+======
+
+- fix mingw cross-compilation
+- add error checking to vcard_emul_options()
+- add VCARD_DIRECT implementation to provide direct communication with
+  a smartcard using libpcsclite (--enable-pcsc)
+- add a top-level libcacard.h header compatible with c++
+- add test & code coverage and travis CI integration
+- bug fix: delete the reader entry after queueing an event, not before
+
+v2.5.0
+======
+
+This is the first standalone release after the split from qemu.git
+(the last release of libcacard was part of qemu 2.4). The hosting and
+maintenance of libcacard is now part of the Spice project.

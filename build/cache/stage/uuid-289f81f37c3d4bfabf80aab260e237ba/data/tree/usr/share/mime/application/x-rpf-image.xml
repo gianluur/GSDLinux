@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-rpf-image">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Sparse Wii disc image</comment>
+  <sub-class-of type="application/x-wii-rom"/>
+  <generic-icon name="application-x-cd-image"/>
+  <glob pattern="*.rpf"/>
+</mime-type>

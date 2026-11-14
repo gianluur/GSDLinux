@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-nintendo-amiibo">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Nintendo amiibo NFC dump</comment>
+  <acronym>NFC</acronym>
+  <expanded-acronym>Near Field Communication</expanded-acronym>
+  <generic-icon name="application-octet-stream"/>
+  <glob pattern="*.nfc"/>
+  <glob pattern="*.nfp"/>
+</mime-type>

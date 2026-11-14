@@ -1,0 +1,1530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+
+  <!-- *** Miscellaneous *** -->
+
+  <!-- 2352-byte sector disc images -->
+  <mime-type type="application/x-raw-cd-image">
+    <comment>raw 2352-byte sector CD image</comment>
+    <sub-class-of type="application/x-raw-disk-image"/>
+    <generic-icon name="application-x-cd-image"/>
+    <magic priority="50">
+      <match value="\x00\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\x00" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- *** Audio *** -->
+
+  <!-- ADX -->
+  <mime-type type="audio/x-adx">
+    <comment>CRI ADX audio</comment>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.adx"/>
+  </mime-type>
+
+  <!-- BCSTM -->
+  <mime-type type="audio/x-bcstm">
+    <comment>Nintendo 3DS BCSTM audio</comment>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.bcstm"/>
+    <magic priority="50">
+      <match value="CSTM" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="audio/x-bfstm">
+    <comment>Nintendo Wii U BFSTM audio</comment>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.bfstm"/>
+    <magic priority="50">
+      <match value="FSTM" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="audio/x-bcwav">
+    <comment>Nintendo Wii U BCWAV audio</comment>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.bcwav"/>
+    <magic priority="50">
+      <match value="CWAV" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- BRSTM -->
+  <mime-type type="audio/x-brstm">
+    <comment>Nintendo Wii BRSTM audio</comment>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.brstm"/>
+    <magic priority="50">
+      <match value="RSTM" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- DMG -->
+  <mime-type type="application/x-analogue-pocket-rom">
+    <comment>Analogue Pocket ROM</comment>
+    <generic-icon name="application-x-executable"/>
+    <magic>
+      <match type="string" value="\x01\x10\xce\xef\x00\x00\x44\xaa\x00\x74\x00\x18\x11\x95\x00\x34\x00\x1a\x00\xd5\x00\x22\x00\x69" offset="260"/>
+    </magic>
+    <glob pattern="*.pocket"/>
+  </mime-type>
+
+  <!-- GBS -->
+  <mime-type type="audio/x-gbs">
+    <comment>Game Boy Sound System audio</comment>
+    <acronym>GBS</acronym>
+    <expanded-acronym>Game Boy Sound System</expanded-acronym>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.gbs"/>
+    <magic priority="50">
+      <match value="GBS\x01" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="audio/x-gbr">
+    <comment>Game Boy Ripped audio</comment>
+    <acronym>GBR</acronym>
+    <expanded-acronym>Game Boy Ripped</expanded-acronym>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.gbr"/>
+    <magic priority="50">
+      <match value="GBRF" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- NSF -->
+  <mime-type type="audio/x-nsf">
+    <comment>Nintendo Sound Format audio</comment>
+    <acronym>NSF</acronym>
+    <expanded-acronym>Nintendo Sound Format</expanded-acronym>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.nsf"/>
+    <magic priority="50">
+      <match value="NESM\x1A\x01" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- S98 -->
+  <mime-type type="audio/x-sap">
+    <comment>S98 audio</comment>
+    <acronym>S98</acronym>
+    <expanded-acronym>S98</expanded-acronym>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.s98"/>
+    <magic priority="50">
+      <match value="S983" type="string" offset="0"/>
+      <match value="S982" type="string" offset="0"/>
+      <match value="S981" type="string" offset="0"/>
+      <match value="S980" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- SAP -->
+  <mime-type type="audio/x-sap">
+    <comment>Atari 8-bit audio</comment>
+    <acronym>SAP</acronym>
+    <expanded-acronym>Slight Atari Player</expanded-acronym>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.sap"/>
+    <magic priority="50">
+      <match value="SAP\r\n" type="string" offset="0"/>
+      <match value="SAP\n" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- SNDH -->
+  <mime-type type="audio/x-sndh">
+    <comment>Atari ST audio</comment>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.sndh"/>
+    <magic priority="50">
+      <match value="SNDH" type="string" offset="12"/>
+      <!-- NOTE: This technically matches any Pack-ICE compressed file. -->
+      <match value="ICE!" type="string" offset="0"/>
+      <match value="Ice!" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- SPC -->
+  <mime-type type="audio/x-spc">
+    <comment>Super NES audio</comment>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.spc"/>
+    <magic priority="50">
+      <match value="SNES-SPC700 Sound File Data v0.30" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- VGM -->
+  <mime-type type="audio/x-vgm">
+    <comment>Video Game Music audio</comment>
+    <acronym>VGM</acronym>
+    <expanded-acronym>Video Game Music</expanded-acronym>
+    <generic-icon name="audio-x-generic"/>
+    <glob pattern="*.vgm"/>
+    <glob pattern="*.vgz"/>
+    <!--<glob pattern="*.vgm.gz"/>-->
+    <magic priority="50">
+      <match value="Vgm " type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- *** Common *** -->
+
+  <!-- ParamSFO -->
+  <mime-type type="application/x-playstation-sfo">
+    <comment>PlayStation System File Object</comment>
+    <acronym>SFO</acronym>
+    <expanded-acronym>System File Object</expanded-acronym>
+    <generic-icon name="application-x-m4"/>
+    <glob pattern="*.sfo"/>
+    <magic priority="50">
+      <match value="0x00505346" type="big32" offset="0"/> <!-- "\0PSF" -->
+    </magic>
+  </mime-type>
+
+  <!-- *** Console *** -->
+
+  <!-- CBMCart -->
+  <mime-type type="application/x-c64-cartridge">
+    <comment>Commodore 64 ROM cartridge</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <magic priority="70">
+      <match value="C64 CARTRIDGE   " type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-c128-cartridge">
+    <comment>Commodore 128 ROM cartridge</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <magic priority="70">
+      <match value="C128 CARTRIDGE  " type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-cbm2-cartridge">
+    <comment>Commodore CBM-II ROM cartridge</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <magic priority="70">
+      <match value="CBM2 CARTRIDGE  " type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-vic20-cartridge">
+    <comment>Commodore VIC-20 ROM cartridge</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <magic priority="70">
+      <match value="VIC20 CARTRIDGE " type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-plus4-cartridge">
+    <comment>Commodore Plus/4 ROM cartridge</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <magic priority="70">
+      <match value="PLUS4 CARTRIDGE " type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- ColecoVision -->
+  <mime-type type="application/x-colecovision-rom">
+    <comment>ColecoVision ROM image</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.col"/>
+    <!-- NOTE: Can't add the AA55/55AA magic because it's too generic. -->
+  </mime-type>
+
+  <!-- Dreamcast -->
+  <mime-type type="application/x-dreamcast-rom">
+    <comment>Dreamcast disc image</comment>
+    <sub-class-of type="application/x-cd-image"/>
+    <generic-icon name="application-x-cd-image"/>
+    <alias type="application/x-dreamcast-iso-image"/>
+    <magic priority="50">
+      <match value="SEGA SEGAKATANA" type="string" offset="0"/>
+      <match value="SEGA SEGAKATANA" type="string" offset="16"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-gd-rom-cue">
+    <comment>GD-ROM image cuesheet</comment>
+    <acronym>GD-ROM</acronym>
+    <expanded-acronym>Gigabyte Disc Read-Only Memory</expanded-acronym>
+    <sub-class-of type="application/x-cd-image"/>
+    <generic-icon name="application-x-cd-image"/>
+    <glob pattern="*.gdi"/>
+  </mime-type>
+
+  <!-- DreamcastSave -->
+  <mime-type type="application/x-dreamcast-vms">
+    <comment>Dreamcast VMS save file</comment>
+    <acronym>VMS</acronym>
+    <expanded-acronym>Visual Memory System</expanded-acronym>
+    <!-- FIXME: Better icon. -->
+    <sub-class-of type="application/octet-stream"/>
+    <generic-icon name="application-octet-stream"/>
+    <glob pattern="*.vms"/>
+  </mime-type>
+  <mime-type type="application/x-dreamcast-vms-info">
+    <comment>Dreamcast VMS information file</comment>
+    <acronym>VMS</acronym>
+    <expanded-acronym>Visual Memory System</expanded-acronym>
+    <!-- FIXME: Better icon. -->
+    <sub-class-of type="application/octet-stream"/>
+    <generic-icon name="application-octet-stream"/>
+    <glob pattern="*.vmi"/>
+  </mime-type>
+  <mime-type type="application/x-dreamcast-dci">
+    <comment>Dreamcast Nexus save file</comment>
+    <!-- FIXME: Better icon. -->
+    <sub-class-of type="application/octet-stream"/>
+    <generic-icon name="application-octet-stream"/>
+    <glob pattern="*.dci"/>
+  </mime-type>
+
+  <!-- GameCube -->
+  <mime-type type="application/x-gamecube-rom">
+    <comment>GameCube disc image</comment>
+    <sub-class-of type="application/x-cd-image"/>
+    <generic-icon name="application-x-cd-image"/>
+    <alias type="application/x-gamecube-iso-image"/>
+    <glob pattern="*.gcm"/>
+    <glob pattern="*.ciso"/>
+    <magic priority="50">
+      <match value="0xc2339f3d" type="big32" offset="28"/>
+      <match value="CISO" type="string" offset="0">
+        <match value="0xc2339f3d" type="big32" offset="32796"/>
+      </match>
+      <match value="WBFS" type="string" offset="0">
+        <match value="0xc2339f3d" type="big32" offset="540"/>
+      </match>
+    </magic>
+  </mime-type>
+  <!-- FIXME: Conflicts with game.com (it's not checking magic) -->
+  <!--
+  <mime-type type="application/x-gamecube-tgc">
+    <comment>GameCube embedded disc image</comment>
+    <sub-class-of type="application/x-cd-image"/>
+    <generic-icon name="application-x-cd-image"/>
+    <glob pattern="*.tgc"/>
+    <magic priority="50">
+      <match value="0xAE0F38A2" type="big32" offset="0"/>
+    </magic>
+  </mime-type>
+  -->
+  <mime-type type="application/x-wii-rom">
+    <comment>Wii disc image</comment>
+    <sub-class-of type="application/x-cd-image"/>
+    <generic-icon name="application-x-cd-image"/>
+    <alias type="application/x-wii-iso-image"/>
+    <alias type="application/x-wbfs"/>
+    <glob pattern="*.gcm"/>
+    <glob pattern="*.ciso"/>
+    <glob pattern="*.rvm"/>
+    <magic priority="50">
+      <match value="0x5d1c9ea3" type="big32" offset="24"/>
+      <match value="CISO" type="string" offset="0">
+        <match value="0x5d1c9ea3" type="big32" offset="32792"/>
+      </match>
+      <match value="WBFS" type="string" offset="0">
+        <match value="0x5d1c9ea3" type="big32" offset="536"/>
+      </match>
+      <match value="WII\001DISC" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-gcz-image">
+    <comment>Compressed GameCube/Wii disc image</comment>
+    <sub-class-of type="application/x-gamecube-rom"/>
+    <generic-icon name="application-x-cd-image"/>
+    <glob pattern="*.gcz"/>
+    <magic priority="50">
+      <match value="0xb10bc001" type="big32" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-dpf-image">
+    <comment>Sparse GameCube disc image</comment>
+    <sub-class-of type="application/x-gamecube-rom"/>
+    <generic-icon name="application-x-cd-image"/>
+    <glob pattern="*.dpf"/>
+    <magic priority="50">
+      <match value="0x23fc3e86" type="little32" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-rpf-image">
+    <comment>Sparse Wii disc image</comment>
+    <sub-class-of type="application/x-wii-rom"/>
+    <generic-icon name="application-x-cd-image"/>
+    <glob pattern="*.rpf"/>
+    <magic priority="50">
+      <match value="0xe0f92b6a" type="little32" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-wia">
+    <comment>Compressed GameCube/Wii disc image</comment>
+    <sub-class-of type="application/x-wii-rom"/>
+    <generic-icon name="application-x-cd-image"/>
+    <glob pattern="*.wia"/>
+    <magic priority="50">
+      <match value="WIA\x01" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-rvz-image">
+    <comment>Compressed GameCube/Wii disc image</comment>
+    <sub-class-of type="application/x-wii-rom"/>
+    <generic-icon name="application-x-cd-image"/>
+    <glob pattern="*.rvz"/>
+    <magic priority="50">
+      <match value="RVZ\x01" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- GameCubeBNR -->
+  <mime-type type="application/x-gamecube-bnr">
+    <comment>GameCube banner image</comment>
+    <!-- FIXME: Better icon. -->
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.bnr"/>
+    <magic priority="50">
+      <match value="BNR1" type="string" offset="0"/>
+      <match value="BNR2" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- GameCubeSave -->
+  <mime-type type="application/x-gamecube-save">
+    <comment>GameCube save file</comment>
+    <!-- FIXME: Better icon. -->
+    <sub-class-of type="application/octet-stream"/>
+    <generic-icon name="application-octet-stream"/>
+    <glob pattern="*.gci"/>
+    <glob pattern="*.gcs"/>
+    <glob pattern="*.sav"/>
+    <magic priority="90">
+      <match value="DATELGC_SAVE" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- Intellivision -->
+  <mime-type type="application/x-intellivision-rom">
+    <comment>Intellivision ROM image</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.int"/>
+    <glob pattern="*.itv"/>
+  </mime-type>
+
+  <!-- iQuePlayer -->
+  <!-- TODO: Distinguish between CMD (10,668 bytes) and DAT (11,084 bytes). -->
+  <mime-type type="application/x-ique-cmd">
+    <comment>iQue Player content metadata file</comment>
+    <acronym>CMD</acronym>
+    <expanded-acronym>Content Metadata</expanded-acronym>
+    <!-- FIXME: Better icon. -->
+    <sub-class-of type="application/octet-stream"/>
+    <generic-icon name="application-octet-stream"/>
+    <magic priority="75">
+      <match value="CAM\x00" type="string" offset="64">
+        <match value="Root" type="string" offset="10328"/>
+      </match>
+    </magic>
+  </mime-type>
+
+  <!-- MegaDrive -->
+  <mime-type type="application/x-sega-cd-32x-rom">
+    <!-- Translate this to Mega-CD if the console was known as such in your locale
+         Should be Mega-CD in all but en_US, Mexico, Canada and Brazil: https://en.wikipedia.org/wiki/Sega_CD -->
+    <comment>Sega CD 32X disc image</comment>
+    <sub-class-of type="application/x-cd-image"/>
+    <generic-icon name="application-x-cd-image"/>
+    <!-- Also matches the application/x-genesis-rom magic values, hence the higher priority -->
+    <!-- FIXME: Verify the "SEGA 32X" header and priority values. -->
+    <magic priority="70">
+      <match type="string" value="SEGADISCSYSTEM" offset="0">
+        <match type="string" value="SEGA 32X" offset="256"/>
+      </match>
+      <match type="string" value="SEGADISCSYSTEM" offset="16">
+        <match type="string" value="SEGA 32X" offset="272"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-sega-pico-rom">
+    <!-- Translate this to Kids Computer Pico if the console was known as such in your locale
+         Should be Sega Pico in all but Japan: https://en.wikipedia.org/wiki/Sega_Pico -->
+    <comment>Sega Pico ROM</comment>
+    <generic-icon name="application-x-executable"/>
+    <magic priority="50">
+      <match type="string" value="SEGA PICO" offset="256"/>
+      <match type="string" value="SAMSUNG PICO" offset="256"/>
+      <match type="string" value="SEGATOYS PICO" offset="256"/>
+      <match type="string" value="IMA IKUNOUJYUKU" offset="256"/>
+    </magic>
+    <glob pattern="*.pco"/>
+  </mime-type>
+  <mime-type type="application/x-sega-teradrive-rom">
+    <comment>Sega Teradrive ROM</comment>
+    <generic-icon name="application-x-executable"/>
+    <magic priority="50">
+      <match type="string" value="SEGA TERA68K" offset="256"/>
+      <match type="string" value="SEGA TERA286" offset="256"/>
+    </magic>
+  </mime-type>
+
+  <!-- NES -->
+  <mime-type type="application/x-nes-rom">
+    <!-- NOTE: This is already upstream, but is missing magic numbers. -->
+    <comment>NES ROM</comment>
+    <acronym>NES</acronym>
+    <expanded-acronym>Nintendo Entertainment System</expanded-acronym>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.nes"/>
+    <glob pattern="*.nez"/>
+    <glob pattern="*.unf"/>
+    <glob pattern="*.unif"/>
+    <magic priority="50">
+      <match value="NES\x1A" type="string" offset="0"/>
+      <match value="NES\x00" type="string" offset="0"/>
+      <match value="UNIF" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-fds-disk">
+    <!-- NOTE: This is already upstream, but is missing support for fwNES headers. -->
+    <comment>Nintendo FDS disk image</comment>
+    <acronym>FDS</acronym>
+    <expanded-acronym>Famicom Disk System</expanded-acronym>
+    <glob pattern="*.fds"/>
+    <glob pattern="*.qd"/>
+    <magic priority="50">
+      <match type="string" value="*NINTENDO-HVC*" offset="1"/>
+      <match type="string" value="FDS\x1A" offset="0">
+        <match type="string" value="*NINTENDO-HVC*" offset="17"/>
+      </match>
+    </magic>
+  </mime-type>
+
+  <!-- PlayStationEXE -->
+  <mime-type type="application/x-ps1-executable">
+    <comment>PlayStation executable</comment>
+    <sub-class-of type="application/octet-stream"/>
+    <generic-icon name="application-octet-stream"/>
+    <magic priority="50">
+      <match value="PS-X EXE" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- PlayStationSave -->
+  <mime-type type="application/x-ps1-save">
+    <comment>PlayStation save file</comment>
+    <!-- FIXME: Better icon. -->
+    <sub-class-of type="application/octet-stream"/>
+    <generic-icon name="application-octet-stream"/>
+    <glob pattern="*.psv"/>
+    <glob pattern="*.mcb"/>
+    <glob pattern="*.mcx"/>
+    <!--<glob pattern="*.pda"/>--> <!-- FIXME: Too generic? -->
+    <glob pattern="*.psx"/>
+    <glob pattern="*.mcs"/>
+    <!--<glob pattern="*.ps1"/>--> <!-- FIXME: Conflicts with PowerShell. -->
+    <magic priority="50">
+      <match value="\0VSP\0\0\0\0" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- SNES (SatellaView from no-intro) -->
+  <mime-type type="application/x-satellaview-rom">
+    <comment>Satellaview ROM</comment>
+    <sub-class-of type="application/vnd.nintendo.snes.rom"/>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.bs"/>
+  </mime-type>
+
+  <!-- SufamiTurbo (handled as SNES, sort of) -->
+  <mime-type type="application/x-sufami-turbo-rom">
+    <comment>Sufami Turbo ROM</comment>
+    <sub-class-of type="application/vnd.nintendo.snes.rom"/>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.st"/>
+    <magic priority="50">
+      <match value="BANDAI SFC-ADX" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- GameCubeBNR -->
+  <mime-type type="application/x-wii-bnr">
+    <comment>Wii banner animation</comment>
+    <!-- FIXME: Better icon. -->
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <!-- NOTE: Same as GameCubeBNR... -->
+    <glob pattern="*.bnr"/>
+    <magic priority="80">
+      <match value="IMET" type="string" offset="64"/>
+      <match value="IMET" type="string" offset="128"/>  <!-- seen in some homebrew? -->
+    </magic>
+  </mime-type>
+
+  <!-- WiiSettingTxt -->
+  <!-- FIXME: Conflicts with text/plain -->
+  <mime-type type="application/x-wii-setting-txt">
+    <comment>Wii settings file</comment>
+    <sub-classof type="text/plain"/>  <!-- it's obfuscated plain text -->
+    <generic-icon name="application-x-sharedlib"/> <!-- FIXME: Better icon? -->
+    <!-- must be >= 80 to beat ".txt" -->
+    <magic priority="90">
+      <!-- "AREA" key; always at the beginning of the file -->
+      <match value="0xbba6ac92" type="big32" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- WiiTicket -->
+  <mime-type type="application/x-nintendo-ticket">
+    <comment>Nintendo Ticket</comment>
+    <generic-icon name="application-pkix-cert"/>
+    <glob pattern="*.tik"/>
+  </mime-type>
+
+  <!-- WiiTMD -->
+  <mime-type type="application/x-nintendo-tmd">
+    <comment>Nintendo Title Metadata</comment>
+    <generic-icon name="application-pkix-cert"/>
+    <glob pattern="*.tmd"/>
+  </mime-type>
+
+  <!-- WiiU -->
+  <mime-type type="application/x-wii-u-rom">
+    <comment>Wii U disc image</comment>
+    <sub-class-of type="application/x-cd-image"/>
+    <generic-icon name="application-x-cd-image"/>
+    <alias type="application/x-wii-u-iso-image"/>
+    <glob pattern="*.wud"/>
+    <glob pattern="*.wux"/>
+    <magic priority="50">
+      <match value="WUP-" type="string" offset="0"/>
+      <match value="WUX0\x2E\xD0\x99\x10" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- WiiUAncast -->
+  <mime-type type="application/x-wii-u-firmware-image">
+    <comment>Wii U firmware image</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <alias type="application/x-wii-u-ancast"/>
+    <glob pattern="*.ancast"/>
+    <glob pattern="*.img"/>
+    <magic priority="90">
+      <match value="0xEFA282D9" type="big32" offset="0"/>
+      <!-- FIXME: Hard-coded for DOL Data0 at 0x500. -->
+      <match value="0xEFA282D9" type="big32" offset="1280"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-wii-u-toucan-image">
+    <comment>Wii U Toucan image</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <alias type="application/x-wii-u-toucan"/>
+    <!-- <glob pattern="*.bin"/> FIXME: Too generic? -->
+    <magic priority="70">
+      <match value="0xFD9B5B7A" type="big32" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- WiiWAD -->
+  <!-- Wii WADs have 64-byte alignment; BroadOn WADs do not. -->
+  <!-- DSi debug TADs *usually* don't have 64-byte alignment. -->
+  <mime-type type="application/x-wii-wad">
+    <comment>Wii WAD package</comment>
+    <generic-icon name="application-x-executable"/>
+    <!-- Doom WAD has a priority of 80 for the file extension. -->
+    <magic priority="85">
+      <match type="string" value="Is\0\0" offset="4">
+        <match type="big32" value="0" offset="32"/>
+      </match>
+      <match type="string" value="ib\0\0" offset="4"/>
+      <match type="string" value="Bk\0\0" offset="4"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-nintendo-dsi-tad">
+    <comment>Nintendo DSi TAD package</comment>
+    <generic-icon name="application-x-executable"/>
+    <!-- FIXME: This heuristic is incorrect.
+    <magic priority="90">
+      <match type="string" value="Is\0\0" offset="4">
+        <match type="string" value="Root" offset="640"/>
+      </match>
+    </magic>
+    -->
+    <glob pattern="*.tad"/>
+  </mime-type>
+
+  <!-- WiiWIBN -->
+  <mime-type type="application/x-wii-wibn">
+    <comment>Wii save game banner file</comment>
+    <!-- FIXME: Better icon. -->
+    <sub-class-of type="application/octet-stream"/>
+    <generic-icon name="application-octet-stream"/>
+    <magic priority="50">
+      <match value="WIBN" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- Xbox_XBE -->
+  <mime-type type="application/x-xbox-executable">
+    <comment>Xbox executable</comment>
+    <acronym>XBE</acronym>
+    <expanded-acronym>Xbox Executable</expanded-acronym>
+    <sub-class-of type="application/octet-stream"/>
+    <generic-icon name="application-octet-stream"/>
+    <glob pattern="*.xbe"/>
+    <magic priority="50">
+      <match value="XBEH" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- Xbox360_STFS -->
+  <mime-type type="application/x-xbox360-stfs">
+    <comment>Xbox 360 package</comment>
+    <acronym>STFS</acronym>
+    <expanded-acronym>Secure Transacted File System</expanded-acronym>
+    <sub-class-of type="application/x-archive"/>
+    <generic-icon name="package-x-generic"/>
+    <glob pattern="*.fxs"/>	<!-- Fallout -->
+    <glob pattern="*.exs"/>	<!-- Skyrim -->
+    <magic priority="50">
+      <match value="CON " type="string" offset="0"/>
+      <match value="LIVE" type="string" offset="0"/>
+      <match value="PIRS" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- Xbox360_XDBF -->
+  <mime-type type="application/x-xbox360-xdbf">
+    <comment>Xbox 360 resource database file</comment>
+    <acronym>XDBF</acronym>
+    <expanded-acronym>Xbox Database File</expanded-acronym>
+    <sub-class-of type="application/octet-stream"/>
+    <generic-icon name="application-octet-stream"/>
+    <glob pattern="*.xdbf"/>
+    <glob pattern="*.gpd"/>
+    <magic priority="50">
+      <match value="XDBF" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- Xbox360_XEX -->
+  <mime-type type="application/x-xbox360-executable">
+    <comment>Xbox 360 executable</comment>
+    <acronym>XEX</acronym>
+    <expanded-acronym>Xbox 360 Executable</expanded-acronym>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.xex"/>
+    <magic priority="50">
+      <match value="XEX1" type="string" offset="0"/>
+      <match value="XEX2" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-xbox360-patch">
+    <comment>Xbox 360 patch</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.xexp"/>
+    <magic priority="50">
+      <match value="XEX2" type="string" offset="0">
+        <match value="0x10" mask="0x70" type="byte" offset="7"/>
+        <match value="0x20" mask="0x70" type="byte" offset="7"/>
+        <match value="0x40" mask="0x70" type="byte" offset="7"/>
+      </match>
+    </magic>
+  </mime-type>
+
+  <!-- *** Handheld *** -->
+
+  <!-- GameCom -->
+  <mime-type type="application/x-game-com-rom">
+    <comment>game.com ROM image</comment>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.tgc"/>
+    <magic priority="75">
+      <match value="TigerDMGC" type="string" offset="5"/>
+      <match value="TigerDMGC" type="string" offset="262149"/>
+    </magic>
+  </mime-type>
+
+  <!-- GameBoyAdvance -->
+  <mime-type type="application/x-gba-rom">
+    <comment>Game Boy Advance ROM</comment>
+    <generic-icon name="application-x-executable"/>
+    <alias type="application/x-gameboy-advance-rom"/>
+    <alias type="application/x-agb-rom"/>
+    <glob pattern="*.gba"/>
+    <glob pattern="*.agb"/>
+    <!-- <glob pattern="*.mb"/> --> <!-- TODO -->
+    <magic priority="50">
+      <match value="\x24\xFF\xAE\x51\x69\x9A\xA2\x21\x3D\x84\x82\x0A\x84\xE4\x09\xAD" type="string" offset="4"/>
+    </magic>
+  </mime-type>
+
+  <!-- Nintendo3DS -->
+  <mime-type type="application/x-nintendo-3ds-executable">
+    <comment>Nintendo 3DS homebrew application</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <alias type="application/x-ctr-3dsx"/>
+    <glob pattern="*.3dsx"/>
+    <glob pattern="*.z3dsx"/>
+    <magic priority="50">
+      <match value="3DSX" type="string" offset="0"/>
+      <match value="Z3DS" type="string" offset="0">
+        <match value="3DSX" type="string" offset="4"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-nintendo-3ds-rom">
+    <comment>Nintendo 3DS ROM image</comment>
+    <acronym>CCI</acronym>
+    <expanded-acronym>CTR Cart Image</expanded-acronym>
+    <sub-class-of type="application/x-raw-disk-image"/>
+    <generic-icon name="application-x-executable"/>
+    <alias type="application/x-ctr-cci"/>
+    <glob pattern="*.3ds"/>
+    <glob pattern="*.3dz"/>
+    <glob pattern="*.cci"/>
+    <glob pattern="*.csu"/>
+    <glob pattern="*.z3ds"/>
+    <glob pattern="*.z3dz"/>
+    <glob pattern="*.zcci"/>
+    <glob pattern="*.zcsu"/>
+    <magic priority="50">
+      <match value="NCSD" type="string" offset="256">
+        <match value="\x00\x00\x00\x00\x00\x00\x00\x00" type="string" offset="272"/>
+      </match>
+      <match value="Z3DS" type="string" offset="0">
+        <match value="NCSD" type="string" offset="4"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-nintendo-3ds-emmc">
+    <comment>Nintendo 3DS eMMC dump</comment>
+    <sub-class-of type="application/x-raw-disk-image"/>
+    <generic-icon name="application-x-raw-disk-image"/>
+    <magic priority="50">
+      <match value="NCSD" type="string" offset="256">
+        <match value="\x01\x02\x02\x02\x02\x00\x00\x00" type="string" offset="272"/>
+        <match value="\x01\x02\x02\x02\x03\x00\x00\x00" type="string" offset="272"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-nintendo-3ds-cia">
+    <comment>Nintendo 3DS importable archive</comment>
+    <acronym>CIA</acronym>
+    <expanded-acronym>CTR Importable Archive</expanded-acronym>
+    <sub-class-of type="application/x-archive"/>
+    <generic-icon name="package-x-generic"/>
+    <alias type="application/x-ctr-cia"/>
+    <glob pattern="*.cia"/>
+    <glob pattern="*.zcia"/>
+    <magic priority="50">
+      <match value="Z3DS" type="string" offset="0">
+        <match value="CIA\x00" type="string" offset="4"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-nintendo-3ds-ncch">
+    <comment>Nintendo 3DS NCCH container</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.ncch"/>
+    <magic priority="50">
+      <match value="NCCH" type="string" offset="256"/>
+      <match value="Z3DS" type="string" offset="0">
+        <match value="NCCH" type="string" offset="4"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-nintendo-3ds-cxi">
+    <comment>Nintendo 3DS executable</comment>
+    <acronym>CXI</acronym>
+    <expanded-acronym>CTR eXecutable Image</expanded-acronym>
+    <sub-class-of type="application/x-nintendo-3ds-ncch"/>
+    <generic-icon name="application-x-executable"/>
+    <!-- NOTE: CXI is a specific type of NCCH. -->
+    <alias type="application/x-ctr-cxi"/>
+    <glob pattern="*.cxi"/>
+    <glob pattern="*.zcxi"/>
+    <magic priority="60">
+      <match value="Z3DS" type="string" offset="0">
+        <match value="NCCH" type="string" offset="4"/>
+      </match>
+    </magic>
+  </mime-type>
+
+  <!-- Nintendo3DS_SMDH -->
+  <mime-type type="application/x-nintendo-3ds-smdh">
+    <comment>Nintendo 3DS icon file</comment>
+    <acronym>SMDH</acronym>
+    <expanded-acronym>System Menu Data Header</expanded-acronym>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <alias type="application/x-ctr-smdh"/>
+    <glob pattern="*.smdh"/>
+    <glob pattern="*.icn"/>
+    <magic priority="50">
+      <match value="SMDH" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- Nintendo3DSFirm -->
+  <mime-type type="application/x-nintendo-3ds-firm">
+    <comment>Nintendo 3DS firmware binary</comment>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.firm"/>
+    <magic priority="50">
+      <match value="FIRM" type="string" offset="4"/>
+    </magic>
+  </mime-type>
+
+  <!-- NintendoDS -->
+  <mime-type type="application/vnd.nintendo.nitro.rom">
+    <comment>Nintendo DS ROM</comment>
+    <generic-icon name="application-x-executable"/>
+    <alias type="application/x-nintendo-ds-rom"/>
+    <glob pattern="*.nds"/>
+    <glob pattern="*.dsi"/>
+    <glob pattern="*.ids"/>
+    <glob pattern="*.srl"/>
+    <magic priority="70">
+      <match value="\x24\xFF\xAE\x51\x69\x9A\xA2\x21\x3D\x84\x82\x0A\x84\xE4\x09\xAD" type="string" offset="192"/>
+      <match value="\xC8\x60\x4F\xE2\x01\x70\x8F\xE2\x17\xFF\x2F\xE1\x12\x4F\x11\x48" type="string" offset="192"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-nintendo-dsi-rom">
+    <comment>Nintendo DSi ROM</comment>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.nds"/>
+    <glob pattern="*.dsi"/>
+    <glob pattern="*.ids"/>
+    <glob pattern="*.srl"/>
+    <magic priority="80">
+      <match value="0x03" mask="0x03" type="byte" offset="18">
+        <match value="\x24\xFF\xAE\x51\x69\x9A\xA2\x21\x3D\x84\x82\x0A\x84\xE4\x09\xAD" type="string" offset="192"/>
+        <match value="\xC8\x60\x4F\xE2\x01\x70\x8F\xE2\x17\xFF\x2F\xE1\x12\x4F\x11\x48" type="string" offset="192"/>
+      </match>
+    </magic>
+  </mime-type>
+  <!-- NTRBOOT ROMs are slightly different from regular NDS/DSi ROMs -->
+  <mime-type type="application/x-nintendo-dsi-ntrboot">
+    <comment>Nintendo DSi NTRBOOT ROM</comment>
+    <generic-icon name="application-x-executable"/>
+    <alias type="application/x-nintendo-dsi-rom"/>
+    <magic priority="90">
+      <!-- DSi NTRBOOT ROMs have more info than 3DS NTRBOOT ROMs, but they still don't have a Nintendo logo -->
+      <match value="0" type="little32" offset="192">
+        <match value="0x00416657" type="little32" offset="96">    <!-- card control 13 -->
+          <match value="0x081808F8" type="little32" offset="100"> <!-- card control BF -->
+            <!-- FIXME: Verify that this value is always 0xFF in DSi NTRBOOT ROMs. -->
+            <match value="0x80" mask="0x80" type="byte" offset="431"/>
+          </match>
+        </match>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-nintendo-3ds-ntrboot">
+    <comment>Nintendo 3DS NTRBOOT ROM</comment>
+    <generic-icon name="application-x-executable"/>
+    <alias type="application/x-nintendo-3ds-rom"/>
+    <magic priority="70">
+      <!-- 3DS NTRBOOT ROMs are mostly empty (no Nintendo logo) -->
+      <match value="0" type="little32" offset="192">
+        <match value="0x00586000" type="little32" offset="96">    <!-- card control 13 -->
+          <match value="0x001808F8" type="little32" offset="100"> <!-- card control BF -->
+            <!-- NOTE: KDE doesn't like this one (offset is too high?) -->
+            <!--<match value="FIRM" type="string" offset="32256"/>-->
+          </match>
+        </match>
+      </match>
+    </magic>
+  </mime-type>
+
+  <!-- NintendoDS_BNR -->
+  <!-- FIXME: The magic number is too generic... -->
+  <!--
+  <mime-type type="application/x-nintendo-ds-bnr">
+    <comment>Nintendo DS icon/title data</comment>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.bnr"/>
+    <magic priority="50">
+      <match value="0x0001" type="little16" offset="0"/>
+      <match value="0x0002" type="little16" offset="0"/>
+      <match value="0x0003" type="little16" offset="0"/>
+      <match value="0x0103" type="little16" offset="0"/>
+    </magic>
+  </mime-type>
+  -->
+
+  <!-- PSP -->
+  <mime-type type="application/x-psp-ciso-image">
+    <comment>PlayStation Portable CISO disc image</comment>
+    <sub-class-of type="application/x-cd-image"/>
+    <generic-icon name="application-x-cd-image"/>
+    <glob pattern="*.cso"/>
+    <magic priority="50">
+      <match value="CISO" type="string" offset="0">
+        <!--<match value="0" type="little32" offset="8"/>-->
+        <match value="0x18" type="little32" offset="8"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-psp-dax-image">
+    <comment>PlayStation Portable DAX disc image</comment>
+    <sub-class-of type="application/x-cd-image"/>
+    <generic-icon name="application-x-cd-image"/>
+    <glob pattern="*.dax"/>
+    <magic priority="50">
+      <match value="0x41445800" type="big32" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-psp-jiso-image">
+    <comment>PlayStation Portable JISO disc image</comment>
+    <sub-class-of type="application/x-cd-image"/>
+    <generic-icon name="application-x-cd-image"/>
+    <glob pattern="*.jso"/>
+    <magic priority="50">
+      <match value="JISO" type="string" offset="0">
+        <!-- TODO: Verify this. -->
+        <match value="0x30" type="little32" offset="32"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-psp-ziso-image">
+    <comment>PlayStation Portable ZISO disc image</comment>
+    <sub-class-of type="application/x-cd-image"/>
+    <generic-icon name="application-x-cd-image"/>
+    <glob pattern="*.zso"/>
+    <magic priority="50">
+      <match value="ZISO" type="string" offset="0">
+        <match value="0x18" type="little32" offset="8"/>
+      </match>
+    </magic>
+  </mime-type>
+
+  <!-- WonderSwan -->
+  <mime-type type="application/x-pocket-challenge-v2-rom">
+    <comment>Pocket Challenge v2 ROM</comment>
+    <sub-class-of type="application/x-wonderswan-rom"/>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.pc2"/>
+  </mime-type>
+
+  <!-- *** Media *** -->
+
+  <!-- CBMDOS -->
+  <mime-type type="application/x-cbm-d64">
+    <comment>Commodore 64 (1541) disk image</comment>
+    <sub-class-of type="application/x-raw-disk-image"/>
+    <alias type="application/d64"/>
+    <alias type="application/x-c64-datadisk"/>
+    <alias type="application/x-d64"/>
+    <!-- FIXME: KDE Breeze doesn't have an icon for application/x-raw-disk-image . -->
+    <glob pattern="*.d64"/>
+    <glob pattern="*.d41"/>
+  </mime-type>
+  <mime-type type="application/x-cbm-d71">
+    <comment>Commodore 1571 disk image</comment>
+    <sub-class-of type="application/x-raw-disk-image"/>
+    <alias type="application/x-d71"/>
+    <!-- FIXME: KDE Breeze doesn't have an icon for application/x-raw-disk-image . -->
+    <glob pattern="*.d71"/>
+  </mime-type>
+  <mime-type type="application/x-cbm-d80">
+    <comment>Commodore 8050 disk image</comment>
+    <sub-class-of type="application/x-raw-disk-image"/>
+    <alias type="application/x-d80"/>
+    <!-- FIXME: KDE Breeze doesn't have an icon for application/x-raw-disk-image . -->
+    <glob pattern="*.d80"/>
+  </mime-type>
+  <mime-type type="application/x-cbm-d82">
+    <comment>Commodore 8250 disk image</comment>
+    <sub-class-of type="application/x-raw-disk-image"/>
+    <alias type="application/x-d82"/>
+    <!-- FIXME: KDE Breeze doesn't have an icon for application/x-raw-disk-image . -->
+    <glob pattern="*.d82"/>
+  </mime-type>
+  <mime-type type="application/x-cbm-d81">
+    <comment>Commodore 1581 disk image</comment>
+    <sub-class-of type="application/x-raw-disk-image"/>
+    <alias type="application/x-d81"/>
+    <!-- FIXME: KDE Breeze doesn't have an icon for application/x-raw-disk-image . -->
+    <glob pattern="*.d81"/>
+  </mime-type>
+  <mime-type type="application/x-cbm-d67">
+    <comment>Commodore 2040 disk image</comment>
+    <sub-class-of type="application/x-raw-disk-image"/>
+    <!-- FIXME: KDE Breeze doesn't have an icon for application/x-raw-disk-image . -->
+    <glob pattern="*.d67"/>
+  </mime-type>
+  <mime-type type="application/x-cbm-g64">
+    <comment>Commodore 1541 GCR disk image</comment>
+    <sub-class-of type="application/x-raw-disk-image"/>
+    <alias type="application/x-c64-rawdisk"/>
+    <alias type="application/x-g64"/>
+    <!-- FIXME: KDE Breeze doesn't have an icon for application/x-raw-disk-image . -->
+    <glob pattern="*.g64"/>
+    <glob pattern="*.g41"/>
+    <magic priority="50">
+      <match value="GCR-1541" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-cbm-g71">
+    <comment>Commodore 1571 GCR disk image</comment>
+    <sub-class-of type="application/x-raw-disk-image"/>
+    <alias type="application/x-g71"/>
+    <!-- FIXME: KDE Breeze doesn't have an icon for application/x-raw-disk-image . -->
+    <glob pattern="*.g71"/>
+    <magic priority="50">
+      <match value="GCR-1571" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- *** Other *** -->
+
+  <!-- Amiibo -->
+  <mime-type type="application/x-nintendo-amiibo">
+    <comment>Nintendo amiibo NFC dump</comment>
+    <acronym>NFC</acronym>
+    <expanded-acronym>Near Field Communication</expanded-acronym>
+    <generic-icon name="application-octet-stream"/>
+    <glob pattern="*.nfc"/>
+    <glob pattern="*.nfp"/>
+    <magic priority="50">
+      <!-- lock_header, cap_container -->
+      <match value="\x0F\xE0\xF1\x10\xFF\xEE" type="string" offset="10">
+        <!-- lock_footer -->
+        <match value="\x01\x00\x0F" type="string" offset="520">
+          <!-- cfg0 -->
+          <match value="0x00000004" type="big32" offset="524">
+            <!-- cfg1 -->
+            <match value="0x5F000000" type="big32" offset="528">
+              <!-- last byte of amiibo ID must be 0x02 -->
+              <match value="0x02" type="byte" offset="91"/>
+            </match>
+          </match>
+        </match>
+      </match>
+    </magic>
+  </mime-type>
+
+  <!-- Lua -->
+  <mime-type type="application/x-lua">
+    <comment>PUC Lua bytecode file</comment>
+    <glob pattern="*.lub"/>
+    <magic priority="50">
+      <match value="\x1BLua" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- Mach-O -->
+  <!-- FIXME: Using the standard MIME types breaks KDE. -->
+  <mime-type type="application/x-mach-object">
+    <comment>Mach-O object file</comment>
+    <sub-class-of type="application/x-object"/>
+    <generic-icon name="x-office-document"/>
+    <magic priority="50">
+      <match value="0xFEEDFACE" type="big32" offset="0">
+        <match value="1" type="big32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACF" type="big32" offset="0">
+        <match value="1" type="big32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACE" type="little32" offset="0">
+        <match value="1" type="little32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACF" type="little32" offset="0">
+        <match value="1" type="little32" offset="12"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-mach-executable">
+    <comment>Mach-O executable</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <magic priority="50">
+      <match value="0xFEEDFACE" type="big32" offset="0">
+        <match value="2" type="big32" offset="12"/>
+        <match value="5" type="big32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACF" type="big32" offset="0">
+        <match value="2" type="big32" offset="12"/>
+        <match value="5" type="big32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACE" type="little32" offset="0">
+        <match value="2" type="little32" offset="12"/>
+        <match value="5" type="little32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACF" type="little32" offset="0">
+        <match value="2" type="little32" offset="12"/>
+        <match value="5" type="little32" offset="12"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-mach-sharedlib">
+    <comment>Mach-O shared library</comment>
+    <sub-class-of type="application/x-sharedlib"/>
+    <generic-icon name="application-x-sharedlib"/>
+    <glob pattern="*.dylib"/>
+    <magic priority="50">
+      <match value="0xFEEDFACE" type="big32" offset="0">
+        <match value="3" type="big32" offset="12"/>
+        <match value="6" type="big32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACF" type="big32" offset="0">
+        <match value="3" type="big32" offset="12"/>
+        <match value="6" type="big32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACE" type="little32" offset="0">
+        <match value="3" type="little32" offset="12"/>
+        <match value="6" type="little32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACF" type="little32" offset="0">
+        <match value="3" type="little32" offset="12"/>
+        <match value="6" type="little32" offset="12"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-mach-core">
+    <comment>Mach-O core dump</comment>
+    <sub-class-of type="application/x-core"/>
+    <generic-icon name="application-x-core"/>
+    <magic priority="50">
+      <match value="0xFEEDFACE" type="big32" offset="0">
+        <match value="4" type="big32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACF" type="big32" offset="0">
+        <match value="4" type="big32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACE" type="little32" offset="0">
+        <match value="4" type="little32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACF" type="little32" offset="0">
+        <match value="4" type="little32" offset="12"/>
+      </match>
+    </magic>
+  </mime-type>
+  <!-- TODO: Is there a more common MIME type for bundles? -->
+  <mime-type type="application/x-mach-bundle">
+    <comment>Mach-O bundle</comment>
+    <sub-class-of type="application/x-archive"/>
+    <generic-icon name="package-x-generic"/>
+    <glob pattern="*.bundle"/>
+    <magic priority="50">
+      <match value="0xFEEDFACE" type="big32" offset="0">
+        <match value="8" type="big32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACF" type="big32" offset="0">
+        <match value="8" type="big32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACE" type="little32" offset="0">
+        <match value="8" type="little32" offset="12"/>
+      </match>
+      <match value="0xFEEDFACF" type="little32" offset="0">
+        <match value="8" type="little32" offset="12"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-mach-fat-binary">
+    <comment>Mach-O fat binary</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <!-- Conflicts with Java's compiled class files. -->
+    <!-- Assuming a maximum of 16 architectures per universal binary. -->
+    <magic priority="75">
+      <match value="0xCAFEBABE" type="big32" offset="0">
+        <match value="1" type="big32" offset="4"/>
+        <match value="2" type="big32" offset="4"/>
+        <match value="3" type="big32" offset="4"/>
+        <match value="4" type="big32" offset="4"/>
+        <match value="5" type="big32" offset="4"/>
+        <match value="6" type="big32" offset="4"/>
+        <match value="7" type="big32" offset="4"/>
+        <match value="8" type="big32" offset="4"/>
+        <match value="9" type="big32" offset="4"/>
+        <match value="10" type="big32" offset="4"/>
+        <match value="11" type="big32" offset="4"/>
+        <match value="12" type="big32" offset="4"/>
+        <match value="13" type="big32" offset="4"/>
+        <match value="14" type="big32" offset="4"/>
+        <match value="15" type="big32" offset="4"/>
+        <match value="16" type="big32" offset="4"/>
+      </match>
+    </magic>
+  </mime-type>
+
+  <!-- NintendoBadge -->
+  <!-- FIXME: .cab is too generic. -->
+  <mime-type type="application/x-nintendo-badge">
+    <comment>Nintendo Badge Arcade badge</comment>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.prb"/>
+    <magic priority="50">
+      <match value="PRBS" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <!--
+  <mime-type type="application/x-nintendo-badge-set">
+    <comment>Nintendo Badge Arcade badge set</comment>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.cab"/>
+    <magic priority="50">
+      <match value="CABS" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  -->
+
+  <!-- *** Texture *** -->
+
+  <!-- ASTC -->
+  <mime-type type="image/astc">
+    <comment>ASTC texture image</comment>
+    <acronym>ASTC</acronym>
+    <expanded-acronym>Adaptive Scalable Texture Compression</expanded-acronym>
+    <sub-class-of type="image/x-generic"/>
+    <glob pattern="*.astc"/>
+    <generic-icon name="image-x-generic"/>
+    <magic priority="80">
+      <match type="little32" value="0x5CA1AB1E" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- GodotSTEX -->
+  <mime-type type="image/x-godot-stex">
+    <comment>Godot STEX (v3) texture image</comment>
+    <sub-class-of type="image/x-generic"/>
+    <glob pattern="*.stex"/>
+    <generic-icon name="image-x-generic"/>
+    <magic priority="80">
+      <match value="GDST" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-godot-ctex">
+    <comment>Godot CTEX (v4) texture image</comment>
+    <sub-class-of type="image/x-generic"/>
+    <glob pattern="*.ctex"/>
+    <generic-icon name="image-x-generic"/>
+    <magic priority="80">
+      <match value="GST2" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- KhronosKTX2 -->
+  <!-- NOTE: Upstream has KTX1. -->
+  <mime-type type="image/ktx2">
+    <comment>Khronos Texture Image (KTX2)</comment>
+    <acronym>KTX</acronym>
+    <expanded-acronym>Khronos Texture</expanded-acronym>
+    <sub-class-of type="image/x-generic"/>
+    <glob pattern="*.ktx2"/>
+    <generic-icon name="image-x-generic"/>
+    <magic priority="80">
+      <match type="big32" value="0xAB4B5458" offset="0">
+        <match type="big32" value="0x203230BB" offset="4">
+          <match type="big32" value="0x0D0A1A0A" offset="8"/>
+        </match>
+      </match>
+    </magic>
+  </mime-type>
+
+  <!-- PlayStationTIM -->
+  <mime-type type="image/x-ps1-tim">
+    <comment>Sony PlayStation TIM texture file</comment>
+    <acronym>TIM</acronym>
+    <expanded-acronym>Texture Image</expanded-acronym>
+    <sub-class-of type="image/x-generic"/>
+    <glob pattern="*.tim"/>
+    <generic-icon name="image-x-generic"/>
+    <!-- FIXME: The TIM magic number isn't very useful here... -->
+  </mime-type>
+
+  <!-- SegaPVR -->
+  <!-- FIXME: libmirage-gbi.xml is overriding this. -->
+  <mime-type type="image/x-sega-pvr">
+    <comment>Sega Dreamcast PVR texture file</comment>
+    <acronym>PVR</acronym>
+    <expanded-acronym>PowerVR</expanded-acronym>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.pvr"/>
+    <magic priority="75">
+      <match value="PVRT" type="string" offset="0"/>
+      <match value="GBIX" type="string" offset="0">
+        <match value="PVRT" type="string" offset="12"/>
+        <match value="PVRT" type="string" offset="16"/>
+      </match>
+      <match value="GCIX" type="string" offset="0">
+        <match value="PVRT" type="string" offset="12"/>
+        <match value="PVRT" type="string" offset="16"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-sega-gvr">
+    <comment>Sega GVR for GameCube texture file</comment>
+    <acronym>GVR</acronym>
+    <expanded-acronym>PowerVR (GameCube version)</expanded-acronym>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.gvr"/>
+    <magic priority="75">
+      <match value="GVRT" type="string" offset="0"/>
+      <match value="GBIX" type="string" offset="0">
+        <match value="GVRT" type="string" offset="12"/>
+        <match value="GVRT" type="string" offset="16"/>
+      </match>
+      <match value="GCIX" type="string" offset="0">
+        <match value="GVRT" type="string" offset="12"/>
+        <match value="GVRT" type="string" offset="16"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-sega-pvrx">
+    <comment>Sega PVRX for Xbox texture file</comment>
+    <acronym>PVRX</acronym>
+    <expanded-acronym>PowerVR (Xbox version)</expanded-acronym>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.pvr"/>
+    <magic priority="75">
+      <match value="PVRX" type="string" offset="0"/>
+      <match value="GBIX" type="string" offset="0">
+        <match value="PVRX" type="string" offset="12"/>
+        <match value="PVRX" type="string" offset="16"/>
+      </match>
+      <match value="GCIX" type="string" offset="0">
+        <match value="PVRX" type="string" offset="12"/>
+        <match value="PVRX" type="string" offset="16"/>
+      </match>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-sega-svr">
+    <comment>Sega SVR for PlayStation 2 texture file</comment>
+    <acronym>SVR</acronym>
+    <expanded-acronym>PowerVR (Sony version)</expanded-acronym>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.svr"/>
+    <magic priority="75">
+      <!-- FIXME: Also check for SVR-specific format IDs. -->
+      <match value="PVRT" type="string" offset="0"/>
+      <match value="GBIX" type="string" offset="0">
+        <match value="PVRT" type="string" offset="12"/>
+        <match value="PVRT" type="string" offset="16"/>
+      </match>
+      <match value="GCIX" type="string" offset="0">
+        <match value="PVRT" type="string" offset="12"/>
+        <match value="PVRT" type="string" offset="16"/>
+      </match>
+    </magic>
+  </mime-type>
+
+  <!-- ValveVTF -->
+  <mime-type type="image/vnd.valve.source.texture">
+    <comment>Valve texture file</comment>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <alias type="image/x-vtf"/>
+    <glob pattern="*.vtf"/>
+    <magic priority="50">
+      <match value="VTF\0" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- ValveVTF3 -->
+  <mime-type type="image/x-vtf3">
+    <comment>Valve texture file (PS3)</comment>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.vtf"/>
+    <magic priority="50">
+      <match value="VTF3" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- XboxXPR -->
+  <mime-type type="image/x-xbox-xpr0">
+    <comment>Microsoft Xbox XPR0 texture file</comment>
+    <acronym>XPR</acronym>
+    <expanded-acronym>Xbox Packed Resource</expanded-acronym>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.xbx"/>
+    <glob pattern="*.xpr"/>
+    <magic priority="50">
+      <match value="XPR0" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-xbox-xpr1">
+    <comment>Microsoft Xbox XPR0 texture archive</comment>
+    <acronym>XPR</acronym>
+    <expanded-acronym>Xbox Packed Resource</expanded-acronym>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.xpr"/>
+    <magic priority="75">
+      <match value="XPR1" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="image/x-xbox-xpr2">
+    <comment>Microsoft Xbox XPR2 texture archive</comment>
+    <acronym>XPR</acronym>
+    <expanded-acronym>Xbox Packed Resource</expanded-acronym>
+    <sub-class-of type="image/x-generic"/>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.xpr"/>
+    <magic priority="75">
+      <match value="XPR2" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- Not supported by rom-properties, but useful to have anyway. -->
+
+  <!-- IPS patches -->
+  <mime-type type="application/x-ips-patch">
+    <comment>IPS patch file</comment>
+    <acronym>IPS</acronym>
+    <expanded-acronym>International Patching System</expanded-acronym>
+    <sub-class-of type="application/x-patch"/>
+    <generic-icon name="text-x-patch"/>
+    <glob pattern="*.ips"/>
+    <magic priority="50">
+      <match value="PATCH" type="string" offset="0"/>
+    </magic>
+  </mime-type>
+
+  <!-- BasisLZ texture -->
+  <mime-type type="image/basis">
+    <comment>BasisLZ texture image</comment>
+    <sub-class-of type="image/x-generic"/>
+    <glob pattern="*.basis"/>
+    <generic-icon name="image-x-generic"/>
+    <magic priority="80">
+      <match type="little16" value="0x4273" offset="0">
+        <match type="little16" value="0x4D" offset="4"/>
+      </match>
+    </magic>
+  </mime-type>
+
+  <!-- GameCube/Wii executables -->
+  <!-- These are showing up as "image/vnd.microsoft.icon" for some reason... -->
+  <mime-type type="application/x-gamecube-executable">
+    <comment>Nintendo GameCube/Wii executable</comment>
+    <sub-class-of type="application/x-executable"/>
+    <generic-icon name="application-x-executable"/>
+    <glob pattern="*.dol"/>
+  </mime-type>
+
+  <!-- Dummy MIME type for rom-properties.thumbnailer when KDE displays it -->
+  <mime-type type="application/x-dummy-rom-properties-thumbnailer-kde">
+    <comment>ROM Propreties Page GTK thumbnailer (don't enable on KDE!)</comment>
+    <glob pattern="*.donotusethismimetype"/>
+  </mime-type>
+</mime-info>

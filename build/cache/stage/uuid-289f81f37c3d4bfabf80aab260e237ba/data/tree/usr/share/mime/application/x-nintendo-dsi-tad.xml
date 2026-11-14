@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-nintendo-dsi-tad">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Nintendo DSi TAD package</comment>
+  <generic-icon name="application-x-executable"/>
+  <glob pattern="*.tad"/>
+</mime-type>

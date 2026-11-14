@@ -1,0 +1,123 @@
+Revision history for experimental
+
+0.036     2025-07-17 01:40:39+02:00 Europe/Brussels
+          - Add features "class", "keyword_any" and "keyword_all"
+
+0.035     2025-05-01 11:35:41+02:00 Europe/Berlin
+          - regex_sets no longer experimental
+          - switch/smartmatch were deprecated then undeprecated
+          - Properly handle the win32_perlio warning
+
+0.034     2025-01-09 22:11:31+01:00 Europe/Brussels
+          - Rerelease to deal with illegal core update
+
+0.033     2024-12-24 00:50:41+01:00 Europe/Brussels
+          - feature extra_paired_delimiters not considered stable
+
+0.032     2024-04-25 22:30:41+01:00 Europe/Lisbon
+          - Add the newly-stable features to stable.pm - extra_paired_delimiters, const_attr, for_list
+
+0.031     2023-01-31 22:46:02+01:00 Europe/Amsterdam
+          - Fix the name of the extra_paired_delimiters feature (previously
+            mis-documented as extra_paired_delims)
+          - Added "stable.pm", which acts like experimental.pm only for
+            features which have been marked non-experimental in their current
+            form, in later version of perl.
+
+0.030     2022-12-10 13:02:15+01:00 Europe/Amsterdam
+          - Adapt to future deprecation of smartmatch
+
+0.029     2022-10-25 23:22:21+02:00 Europe/Amsterdam
+          - Fix handling of warning categories that have been removed
+
+0.028     2022-04-26 02:02:45+02:00 Europe/Amsterdam
+          - Add extra_paired_delims feature
+
+0.027     2022-02-08 18:41:07+01:00 Europe/Amsterdam
+          - Update documented list of experiments
+
+0.026     2022-02-08 14:41:02+01:00 Europe/Amsterdam
+          - Added defer experiment
+          - Added for_list experiment
+          - Added builtin experiment
+          - args_array_with_signatures
+
+0.025     2021-07-30 14:41:39+02:00 Europe/Amsterdam
+          - Add missing documentation for try
+
+0.024     2021-05-01 19:44:14+02:00 Europe/Amsterdam
+          - Rereleased without NYTProf files
+
+0.023     2021-04-30 19:35:09+02:00 Europe/Amsterdam
+          - Added try feature
+
+0.022     2020-05-04 22:34:48+02:00 Europe/Amsterdam
+          - Skip tests when needed, to allow installation on <5.10
+
+0.021     2020-02-22 23:18:22+01:00 Europe/Amsterdam
+          - Add the isa feature
+
+0.020     2018-05-09 21:31:22+02:00 Europe/Amsterdam
+          - Add the declared_refs feature
+
+0.019     2017-12-03 18:40:19+01:00 Europe/Amsterdam
+          - Rerelease without NYTProf files
+
+0.018     2017-11-29 12:39:58+01:00 Europe/Amsterdam
+          - Make test pass when warnings are enabled
+          - Make experimental installable on 5.8
+
+0.017     2017-11-14 16:23:53+01:00 Europe/Amsterdam
+          Remove auto_deref for 5.24+
+
+0.016     2015-10-10 12:46:48+02:00 Europe/Amsterdam
+          Fix deprecation check
+
+0.015     2015-10-03 14:21:18+02:00 Europe/Amsterdam
+          Make lexical_topic a deprecated feature
+
+0.014     2015-09-12 00:29:37+02:00 Europe/Amsterdam
+          Add bitwise to list of known features
+
+0.013     2014-10-25 21:54:47+02:00 Europe/Amsterdam
+          Rename lvalue_refs to refaliasing
+
+0.012     2014-10-12 12:10:06+02:00 Europe/Amsterdam
+          Added lvalue references feature
+
+0.011     2014-09-27 14:08:47+02:00 Europe/Amsterdam
+          Clarified which order to apply pragmas [Grant McLean]
+
+0.010     2014-08-19 17:47:20+02:00 Europe/Amsterdam
+          Add returning 1's to evals in tests
+
+0.009     2014-08-16 13:43:53+02:00 Europe/Amsterdam
+          Hardcode features for perl < 5.15.7
+
+0.008     2014-07-05 13:58:28+02:00 Europe/Amsterdam
+          Give better perl version formatting
+          Fix smartmatch/switch description
+
+0.007     2014-03-13 09:33:16CET+0100 Europe/Amsterdam
+          Rewrote much of the documentation [Ricardo Signes, Karen Etheridge]
+
+0.006     2014-01-17 00:14:29CET+0100 Europe/Amsterdam
+          Hard require 5.010
+          Support attaching additional features
+          Add autoderef to grandfathered list for 5.14-5.18
+
+0.005     2013-06-09 00:40:53 Europe/Amsterdam
+          Grandfathered lexical_topic
+
+0.004     2013-06-05 11:42:40 Europe/Amsterdam
+          Give better error on legacy perls
+
+0.003     2013-05-27 13:58:37 Europe/Amsterdam
+          More fixing for older perl versions
+
+0.002     2013-05-27 02:07:46 Europe/Amsterdam
+          Fix grandfathering clause
+          Added basic tests
+
+0.001     2013-05-26 15:18:43 Europe/Amsterdam
+          First release

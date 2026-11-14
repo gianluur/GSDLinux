@@ -1,0 +1,169 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generating D-Bus wrappers &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API reference" href="api/index.html" />
+    <link rel="prev" title="Making and parsing messages" href="messages.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Generating D-Bus wrappers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bindgen-command-options">Bindgen command options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Generating D-Bus wrappers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/bindgen.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="generating-d-bus-wrappers">
+<h1>Generating D-Bus wrappers<a class="headerlink" href="#generating-d-bus-wrappers" title="Link to this heading"></a></h1>
+<p>D-Bus includes a mechanism to introspect remote objects and discover the methods
+they define. Jeepney can use this to generate classes defining the messages to
+send. Use it like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">jeepney</span><span class="o">.</span><span class="n">bindgen</span> <span class="o">--</span><span class="n">name</span> <span class="n">org</span><span class="o">.</span><span class="n">freedesktop</span><span class="o">.</span><span class="n">Notifications</span> \
+        <span class="o">--</span><span class="n">path</span> <span class="o">/</span><span class="n">org</span><span class="o">/</span><span class="n">freedesktop</span><span class="o">/</span><span class="n">Notifications</span>
+</pre></div>
+</div>
+<p>This command will produce the class in the example under <a class="reference internal" href="integrate.html#msggen-proxies"><span class="std std-ref">Message generators and proxies</span></a>.</p>
+<p>You specify <em>name</em>—which D-Bus service you’re talking to—and <em>path</em>—an
+object in that service. Jeepney will generate a wrapper for each interface that
+object has, except for some standard ones like the introspection interface
+itself.</p>
+<p>You are welcome to edit the generated code, e.g. to add docstrings or give
+parameters meaningful names. Names like <code class="docutils literal notranslate"><span class="pre">arg_1</span></code> are created when
+introspection doesn’t provide a name.</p>
+<section id="bindgen-command-options">
+<h2>Bindgen command options<a class="headerlink" href="#bindgen-command-options" title="Link to this heading"></a></h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-python-m-jeepney.bindgen-n">
+<span id="cmdoption-python-m-jeepney.bindgen-name"></span><span class="sig-name descname"><span class="pre">-n</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;bus</span> <span class="pre">name&gt;</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--name</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;bus</span> <span class="pre">name&gt;</span></span><a class="headerlink" href="#cmdoption-python-m-jeepney.bindgen-n" title="Link to this definition"></a></dt>
+<dd><p>Bus name to introspect, required unless using <a class="reference internal" href="#cmdoption-python-m-jeepney.bindgen-f"><code class="xref std std-option docutils literal notranslate"><span class="pre">--file</span></code></a>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-python-m-jeepney.bindgen-p">
+<span id="cmdoption-python-m-jeepney.bindgen-path"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;object</span> <span class="pre">path&gt;</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--path</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;object</span> <span class="pre">path&gt;</span></span><a class="headerlink" href="#cmdoption-python-m-jeepney.bindgen-p" title="Link to this definition"></a></dt>
+<dd><p>Object path to introspect, required unless using <a class="reference internal" href="#cmdoption-python-m-jeepney.bindgen-f"><code class="xref std std-option docutils literal notranslate"><span class="pre">--file</span></code></a>.
+Bindings will be generated for all interfaces this object exposes, except
+for common interfaces like ‘Introspectable’.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-python-m-jeepney.bindgen-bus">
+<span class="sig-name descname"><span class="pre">--bus</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;bus&gt;</span></span><a class="headerlink" href="#cmdoption-python-m-jeepney.bindgen-bus" title="Link to this definition"></a></dt>
+<dd><p>Bus to connect to, SESSION (default) or SYSTEM.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-python-m-jeepney.bindgen-f">
+<span id="cmdoption-python-m-jeepney.bindgen-file"></span><span class="sig-name descname"><span class="pre">-f</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;path&gt;</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;path&gt;</span></span><a class="headerlink" href="#cmdoption-python-m-jeepney.bindgen-f" title="Link to this definition"></a></dt>
+<dd><p>An XML file to use as input instead of connecting to D-Bus and using
+introspection. The options above are ignored if this is used.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-python-m-jeepney.bindgen-o">
+<span id="cmdoption-python-m-jeepney.bindgen-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;path&gt;</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;path&gt;</span></span><a class="headerlink" href="#cmdoption-python-m-jeepney.bindgen-o" title="Link to this definition"></a></dt>
+<dd><p>Write the output (Python code) to the specified file.
+By default, a filename is chosen based on the input.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="messages.html" class="btn btn-neutral float-left" title="Making and parsing messages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/index.html" class="btn btn-neutral float-right" title="API reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+MenuBar=Disabled
+
+[General]
+LastUsedVersion=210800
+SideBarPage=folders
+
+[ImageView]
+NavigationEndNotification=NavigationEndNotification::AlwaysWarn
+ThumbnailSplitterSizes=767,219
+
+[MainWindow]
+MenuBar=Disabled
+
+[Recent Files]
+File1[$e]=$HOME/Documents/Universita'/Informatica/Simulazione Prova/WhatsApp Image 2026-11-06 at 09.54.41.jpeg
+File10[$e]=$HOME/Pictures/Screenshots/screenshot_2026-10-31_16-34-29.png
+File2[$e]=$HOME/Documents/Universita'/Informatica/Simulazione Prova/WhatsApp Image 2026-11-06 at 10.32.51 (1).jpeg
+File3[$e]=$HOME/Documents/Universita'/Informatica/Simulazione Prova/WhatsApp Image 2026-11-06 at 10.32.51.jpeg
+File4[$e]=$HOME/Documents/Universita'/Informatica/Simulazione Prova/WhatsApp Image 2026-11-06 at 10.32.52 (1).jpeg
+File5[$e]=$HOME/Documents/Universita'/Informatica/Simulazione Prova/WhatsApp Image 2026-11-06 at 10.32.52 (2).jpeg
+File6[$e]=$HOME/Documents/Universita'/Informatica/Simulazione Prova/WhatsApp Image 2026-11-06 at 10.32.52.jpeg
+File7[$e]=$HOME/Documents/Universita'/Informatica/Simulazione Prova/WhatsApp Image 2026-11-06 at 10.32.53 (1).jpeg
+File8[$e]=$HOME/Documents/Universita'/Informatica/Simulazione Prova/WhatsApp Image 2026-11-06 at 10.32.53.jpeg
+File9[$e]=$HOME/Documents/Universita'/Informatica/Simulazione Prova/WhatsApp Image 2026-11-06 at 10.32.54 (1).jpeg
+Name1[$e]=WhatsApp Image 2026-11-06 at 09.54.41.jpeg
+Name10[$e]=screenshot_2026-10-31_16-34-29.png
+Name2[$e]=WhatsApp Image 2026-11-06 at 10.32.51 (1).jpeg
+Name3[$e]=WhatsApp Image 2026-11-06 at 10.32.51.jpeg
+Name4[$e]=WhatsApp Image 2026-11-06 at 10.32.52 (1).jpeg
+Name5[$e]=WhatsApp Image 2026-11-06 at 10.32.52 (2).jpeg
+Name6[$e]=WhatsApp Image 2026-11-06 at 10.32.52.jpeg
+Name7[$e]=WhatsApp Image 2026-11-06 at 10.32.53 (1).jpeg
+Name8[$e]=WhatsApp Image 2026-11-06 at 10.32.53.jpeg
+Name9[$e]=WhatsApp Image 2026-11-06 at 10.32.54 (1).jpeg
+
+[SideBar]
+InformationSplitterSizes=158,317
+SideBarSplitterSizes=235,1676

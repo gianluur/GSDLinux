@@ -1,0 +1,808 @@
+# vim:et sts=4 sw=4
+#
+# ibus-typing-booster - A completion input method for IBus
+#
+# Copyright (c) 2012-2013 Anish Patil <apatil@redhat.com>
+# Copyright (c) 2012-2016 Mike FABIAN <mfabian@redhat.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+
+'''A module used by ibus-typing-booster to suggest words by using the
+hunspell dictonaries.
+
+'''
+import functools
+import logging
+import os
+import sys
+import unicodedata
+from collections.abc import Iterable
+from types import ModuleType
+from typing import ClassVar
+from typing import Optional
+
+import itb_util_core
+
+LOGGER = logging.getLogger('ibus-typing-booster')
+
+DEBUG_LEVEL = 0
+
+enchant: Optional[ModuleType]
+try:
+    import enchant as _enchant  # type: ignore[import-untyped]
+    enchant = _enchant
+except ImportError:
+    enchant = None
+
+hunspell: Optional[ModuleType]
+try:
+    import hunspell as _hunspell  # type: ignore[import-not-found]  # ty: ignore[unresolved-import]
+    hunspell = _hunspell
+except ImportError:
+    hunspell = None
+
+libvoikko: Optional[ModuleType]
+try:
+    import libvoikko as _libvoikko  # type: ignore[import-untyped]
+    libvoikko = _libvoikko
+except ImportError:
+    libvoikko = None
+
+# Maximum words that should be returned.
+# This should a rather big number in order not
+# to throw away useful matches. But making it very huge
+# makes the performance worse. For example when setting
+# it to 1000, I see a noticable delay when typing the first
+# letter of a word until the candidate lookup table pops up.
+MAX_WORDS = 100
+
+# pylint: disable=attribute-defined-outside-init
+class Dictionary:
+    '''A class to hold a hunspell dictionary'''
+    _instances: ClassVar[dict[tuple[type['Dictionary'], str], 'Dictionary']] = {}
+
+    def __new__(cls: type['Dictionary'], name: str = 'en_US') -> 'Dictionary':  # noqa: PYI034
+        '''Caching instances of this class and reuse previously created instances'''
+        key = (cls, name)
+        if key not in cls._instances:
+            instance = super().__new__(cls)
+            cls._instances[key] = instance
+            instance._initialize(name=name)
+        return cls._instances[key]
+
+    def _initialize(self, name: str = 'en_US') -> None:
+        '''Initialize a Dictionary'''
+        if DEBUG_LEVEL > 1:
+            LOGGER.debug('name=%s', name)
+        self.name = name
+        self.language = self.name.split('_')[0]
+        self.dic_path = ''
+        self.encoding = 'UTF-8'
+        self.words: list[str]= []
+        self.word_pairs: list[tuple[str, str]] = []
+        self.max_word_len = 0 # maximum length of words in this dictionary
+        self.enchant_dict = None
+        self.pyhunspell_object = None
+        self.voikko: Optional[_libvoikko.Voikko] = None
+        if self.name != 'None':
+            self.load_dictionary()
+
+    def load_dictionary(self) -> None:
+        '''Load a hunspell dictionary and instantiate a
+        enchant.Dict() or a hunspell.Hunspell() object.
+
+        '''
+        if DEBUG_LEVEL > 0:
+            LOGGER.debug('load_dictionary() ...\n')
+        (self.dic_path,
+         self.encoding,
+         self.words) = itb_util_core.get_hunspell_dictionary_wordlist(self.name)
+        if self.words:
+            if self.language in itb_util_core.ACCENT_LANGUAGES:
+                self.word_pairs = [
+                    (x, itb_util_core.remove_accents(
+                        x, keep=itb_util_core.ACCENT_LANGUAGES[self.language]))
+                    for x in self.words
+                ]
+            for word in self.words:
+                self.max_word_len = max(self.max_word_len, len(word))
+            if DEBUG_LEVEL > 1:
+                LOGGER.debug(
+                    'max_word_len = %s\n', self.max_word_len)
+            if self.name.split('_')[0] == 'fi':
+                self.enchant_dict = None
+                self.pyhunspell_object = None
+                self.voikko = None
+                if libvoikko is None:
+                    LOGGER.warning(
+                        'Language is “fi” but “import libvoikko” failed.')
+                    return
+                try:
+                    self.voikko = libvoikko.Voikko('fi')
+                except libvoikko.VoikkoException as error:
+                    LOGGER.warning('Init of voikko failed: %s: %s',
+                                   error.__class__.__name__, error)
+                    self.voikko = None
+                return
+            if enchant is not None:
+                broker = enchant.Broker()
+                broker.set_ordering(self.name, 'hunspell,nuspell,aspell,voikko')
+                try:
+                    self.enchant_dict = broker.request_dict(self.name)
+                    if DEBUG_LEVEL > 1 and self.enchant_dict is not None:
+                        LOGGER.debug(
+                            '%s: %r', self.name, self.enchant_dict.provider)
+                except enchant.errors.DictNotFoundError:
+                    LOGGER.exception('Error initializing enchant for %s', self.name)
+                    self.enchant_dict = None
+                except Exception: # pylint: disable=broad-except
+                    LOGGER.exception(
+                        'Unexpected error initializing enchant for %s', self.name)
+                    self.enchant_dict = None
+            elif hunspell is not None and self.dic_path:
+                aff_path = self.dic_path.replace('.dic', '.aff')
+                try:
+                    self.pyhunspell_object = (
+                        hunspell.HunSpell( # pylint: disable=used-before-assignment
+                            self.dic_path, aff_path))
+                except hunspell.HunSpellError:
+                    LOGGER.debug('Error initializing hunspell for %s', self.name)
+                    self.pyhunspell_object = None
+                except Exception: # pylint: disable=broad-except  # noqa: BLE001
+                    LOGGER.debug(
+                        'Unexpected error initializing hunspell for %s', self.name)
+                    self.pyhunspell_object = None
+
+    def spellcheck_enchant(self, word: str) -> bool:
+        '''
+        Spellcheck a word using enchant
+
+        :param word: The word to spellcheck
+        :return: True if spelling is correct, False if not or unknown
+        '''
+        if not self.enchant_dict:
+            return False
+        # enchant does the right thing for all languages, including
+        # Korean, if the input is a Unicode string in NFC.
+        return self.enchant_dict.check(unicodedata.normalize('NFC', word))
+
+    def spellcheck_pyhunspell(self, word: str) -> bool:
+        '''
+        Spellcheck a word using pyhunspell
+
+        :param word: The word to spellcheck
+        :return: True if spelling is correct, False if not or unknown
+        '''
+        if not self.pyhunspell_object:
+            return False
+        # pyhunspell needs its input passed in dictionary encoding.
+        # and also returns in dictionary encoding.
+        return self.pyhunspell_object.spell(
+            unicodedata.normalize('NFC', word).encode(
+                self.encoding, 'replace'))
+
+    def spellcheck_voikko(self, word: str) -> bool:
+        '''
+        Spellcheck a word using voikko
+
+        :param word: The word to spellcheck
+        :return: True if spelling is correct, False if not or unknown
+        '''
+        if not self.voikko:
+            return False
+        # voikko works correctly if the input is a Unicode string in NFC.
+        return bool(self.voikko.spell(unicodedata.normalize('NFC', word)))
+
+    def spellcheck(self, word: str) -> bool:
+        '''
+        Spellcheck a word using enchant, pyhunspell, or voikko
+
+        :param word: The word to spellcheck
+        :return: True if spelling is correct, False if not or unknown
+
+        >>> d = Dictionary('en_US')
+        >>> d.spellcheck('winter')
+        True
+
+        >>> d.spellcheck('winxer')
+        False
+
+        >>> d = Dictionary('None')
+        >>> d.spellcheck('winter')
+        False
+
+        >>> d.spellcheck('winxer')
+        False
+        '''
+        if self.enchant_dict:
+            return self.spellcheck_enchant(word)
+        if self.pyhunspell_object:
+            return self.spellcheck_pyhunspell(word)
+        if self.voikko:
+            return bool(self.voikko.spell(word))
+        return False
+
+    def has_spellchecking(self) -> bool:
+        '''
+        Returns wether this dictionary supports spellchecking or not
+
+        :return: True if this dictionary spports spellchecking, False if not
+
+        Examples:
+
+        >>> d = Dictionary('en_US')
+        >>> d.has_spellchecking()
+        True
+
+        >>> d = Dictionary('zh_CN')
+        >>> d.has_spellchecking()
+        False
+
+        >>> d = Dictionary('None')
+        >>> d.has_spellchecking()
+        False
+        '''
+        return bool(self.enchant_dict or self.pyhunspell_object or self.voikko)
+
+    def spellcheck_suggest_enchant(self, word: str) -> list[str]:
+        '''
+        Return spellchecking suggestions for word using enchant
+
+        :param word: The word to return spellchecking suggestions for
+        :return: list of spellchecking suggestions, possibly empty.
+        '''
+        if not word or not self.enchant_dict:
+            return []
+        # enchant does the right thing for all languages, including
+        # Korean, if the input is NFC. It takes Unicode strings and
+        # returns Unicode strings, no encoding and decoding is
+        # necessary, neither for Python2 nor for Python3.
+        return [
+            unicodedata.normalize(
+                itb_util_core.NORMALIZATION_FORM_INTERNAL, x)
+            for x in
+            self.enchant_dict.suggest(unicodedata.normalize('NFC', word))
+            ]
+
+    def spellcheck_suggest_pyhunspell(self, word: str) -> list[str]:
+        '''
+        Return spellchecking suggestions for word using pyhunspell
+
+        :param word: The word to return spellchecking suggestions for
+        :return: list of spellchecking suggestions, possibly empty.
+        '''
+        if not word or not self.pyhunspell_object:
+            return []
+        # pyhunspell needs its input passed in dictionary encoding.
+        return [
+            unicodedata.normalize(
+                itb_util_core.NORMALIZATION_FORM_INTERNAL, x)
+            for x in
+            self.pyhunspell_object.suggest(
+                unicodedata.normalize('NFC', word).encode(
+                    self.encoding, 'replace'))
+            ]
+
+    def spellcheck_suggest_voikko(self, word: str) -> list[str]:
+        '''
+        Return spellchecking suggestions for word using voikko
+
+        :param word: The word to return spellchecking suggestions for
+        :return: list of spellchecking suggestions, possibly empty.
+        '''
+        if not word or not self.voikko:
+            return []
+        return [
+            unicodedata.normalize(
+                itb_util_core.NORMALIZATION_FORM_INTERNAL, x)
+            for x in
+            self.voikko.suggest(unicodedata.normalize('NFC', word))
+            ]
+
+    # Don’t use @lru_cache(maxsize=None) here, that has a high risk of
+    # memory leaks.  It caches forever — and it keeps strong
+    # references to all function arguments and results. If the method
+    # is on a class instance (self), and the cache calls involving
+    # self, then self gets kept alive — even if no other code
+    # references it! That is a high risk of memory leaks when
+    # instantiated class objects go out of scope.  With a bounded
+    # cache, Python will evict the oldest cache entries automatically
+    # when the cache grows beyond 500,000 entries. That is much safer
+    # The self reference can still stay around as long as there are
+    # still entries in the cache for that instance. But if all entries
+    # referring to a self are evicted, then self can be garbage
+    # collected properly.
+    @functools.lru_cache(maxsize=500_000)  # noqa: B019
+    def spellcheck_suggest(self, word: str) -> list[str]:
+        '''Return spellchecking suggestions for word using enchant,
+        pyhunspell or voikko
+
+        :param word: The word to return spellchecking suggestions for
+        :return: list of spellchecking suggestions, possibly empty.
+
+        Results can be quite different depending on whether enchant or
+        pyhunspell is used and in case of enchant whether hunspell,
+        aspell, myspell, or ispell are used. So for the doctests,
+        better don’t check the complete list of suggestions returned.
+
+        Examples:
+
+        >>> d = Dictionary('en_US')
+        >>> 'Camel' in d.spellcheck_suggest('kamel')
+        True
+
+        >>> d.spellcheck_suggest('')
+        []
+
+        >>> d = Dictionary('None')
+        >>> d.spellcheck_suggest('kamel')
+        []
+
+        '''
+        if self.enchant_dict:
+            return self.spellcheck_suggest_enchant(word)
+        if self.pyhunspell_object:
+            return self.spellcheck_suggest_pyhunspell(word)
+        if self.voikko:
+            return self.spellcheck_suggest_voikko(word)
+        return []
+# pylint: enable=attribute-defined-outside-init
+
+class Hunspell:
+    '''A class to suggest completions or corrections
+    using a list of Hunspell dictionaries
+    '''
+    def __init__(self, dictionary_names: Iterable[str] = ()) -> None:
+        global DEBUG_LEVEL # pylint: disable=global-statement
+        try:
+            DEBUG_LEVEL = int(
+                str(os.getenv('IBUS_TYPING_BOOSTER_DEBUG_LEVEL')))
+        except (TypeError, ValueError):
+            DEBUG_LEVEL = 0
+        self._suggest_cache: dict[str, list[tuple[str, int]]] = {}
+        self._dictionary_names: list[str] = list(dictionary_names)
+        if DEBUG_LEVEL > 1:
+            LOGGER.debug('Hunspell.__init__(dictionary_names=%s)\n',
+                         self._dictionary_names)
+        self._dictionaries: list[Dictionary] = []
+        self.init_dictionaries()
+
+    def init_dictionaries(self) -> None:
+        '''Initialize the hunspell dictionaries
+        '''
+        if DEBUG_LEVEL > 1:
+            if self._dictionary_names:
+                LOGGER.debug(
+                    'Hunspell.init_dictionaries() dictionary_names=%s\n',
+                    self._dictionary_names)
+            else:
+                LOGGER.debug(
+                    'Hunspell.init_dictionaries() dictionary_names=()\n')
+        self.suggest.cache_clear()
+        self._dictionaries = []
+        for dictionary_name in self._dictionary_names:
+            self._dictionaries.append(Dictionary(name=dictionary_name))
+
+    def get_dictionary_names(self) -> list[str]:
+        '''Returns a copy of the list of dictionary names.
+
+        It is important to return a copy, we do not want to change
+        the private member variable directly.'''
+        return list(self._dictionary_names[:])
+
+    def set_dictionary_names(self, dictionary_names: list[str]) -> None:
+        '''Sets the list of dictionary names.
+
+        If the new list of dictionary names differs from the existing
+        one, re-initialize the dictionaries.
+        '''
+        if dictionary_names != self._dictionary_names:
+            if set(dictionary_names) != set(self._dictionary_names):
+                # Some dictionaries are really different, reinitialize:
+                self._dictionary_names = dictionary_names
+                self.init_dictionaries()
+            else:
+                # Only the order of dictionaries has changed.
+                # Reinitializing wastes time, just reorder the
+                # dictionaries:
+                self._dictionary_names = dictionary_names
+                dictionaries_new = []
+                for name in dictionary_names:
+                    for dictionary in self._dictionaries:
+                        if dictionary.name == name:
+                            dictionaries_new.append(dictionary)
+                self._dictionaries = dictionaries_new
+        if DEBUG_LEVEL > 1:
+            LOGGER.debug('set_dictionary_names(%s):\n', dictionary_names)
+            for dictionary in self._dictionaries:
+                LOGGER.debug('%s\n', dictionary.name)
+
+    def spellcheck(self, input_phrase: str) -> bool:
+        '''
+        Checks if a string is likely to be spelled correctly checking
+        multiple dictionaries
+
+        :param input_phrase: A string to spellcheck
+        :return: True if it is more likely to be spelled correctly,
+                 False if it is more likely to be spelled incorrectly.
+                 In detail this means:
+                 True:
+                     - If it is a correctly spelled word in at least one of
+                       the dictionaries supporting spellchecking
+                     - None of the dictionaries support spellchecking
+                     - Contains spaces, spellchecking cannot work
+                 else False.
+
+        Examples:
+
+        >>> h = Hunspell(['en_US', 'de_DE', 'ja_JP'])
+        >>> h.spellcheck('Hello')
+        True
+
+        >>> h.spellcheck('Grüße')
+        True
+
+        >>> h.spellcheck('Gruße')
+        False
+
+        >>> h = Hunspell(['en_US', 'ja_JP'])
+        >>> h.spellcheck('Grüße')
+        False
+
+        >>> h = Hunspell(['ja_JP'])
+        >>> h.spellcheck('Grüße')
+        True
+
+        >>> h = Hunspell(['en_US', 'None'])
+        >>> h.spellcheck('Grüße')
+        False
+
+        >>> h = Hunspell(['None'])
+        >>> h.spellcheck('Grüße')
+        True
+        '''
+        if ' ' in input_phrase:
+            return True
+        spellchecking_dictionaries_available = False
+        spellcheck_total = False
+        for dictionary in self._dictionaries:
+            if dictionary.has_spellchecking():
+                spellchecking_dictionaries_available = True
+                spellcheck_total |= dictionary.spellcheck(input_phrase)
+        return spellcheck_total or not spellchecking_dictionaries_available
+
+    def spellcheck_match_list(self, input_phrase: str) -> list[str]:
+        '''
+        Returns a list of dictionaries where input_phrase can be found
+
+        :param input_phrase: The word to be spellchecked
+        :return: A list of dictionary names which accept input phrase
+                 as a valid word.
+
+        Examples:
+
+        >>> h = Hunspell(['en_US', 'None', 'it_IT', 'fr_FR'])
+        >>> h.spellcheck_match_list('arrive')
+        ['en_US', 'fr_FR']
+        >>> h.spellcheck_match_list('arrivé')
+        ['fr_FR']
+        >>> h.spellcheck_match_list('ragazzo')
+        ['it_IT']
+        >>> h.spellcheck_match_list(' \t')
+        []
+        '''
+        match_list = []
+        if not input_phrase.strip():
+            return []
+        for dictionary in self._dictionaries:
+            if dictionary.spellcheck(input_phrase):
+                match_list.append(dictionary.name)
+        return match_list
+
+    def spellcheck_single_dictionary(self, words: Iterable[str] = ()) -> list[str]:
+        '''
+        Checks whether there is at least one dictionary where all words
+        in the input list spellcheck as True.
+
+        :param words: An iterable of words to spellcheck
+        :return: - [] if at least one input word is empty
+                 - names of dictionaries where all words in the input list
+                   spellcheck as True, or [] if there is no such dictionary.
+
+        Examples:
+
+        >>> h = Hunspell(['en_US', 'fr_FR'])
+
+        All 3 words spellcheck True in the French dictionary:
+
+        >>> h.spellcheck_single_dictionary(('Je', 'suis', 'arrivé'))
+        ['fr_FR']
+
+        Not a correct French sentence but all 3 words spellcheck True
+        in the French dictionary:
+
+        >>> h.spellcheck_single_dictionary(('Je', 'suis', 'arrive'))
+        ['fr_FR']
+
+        All words spellcheck as True in both the English and the French dictionary:
+
+        >>> h.spellcheck_single_dictionary(('arrive', 'arrive', 'arrive'))
+        ['en_US', 'fr_FR']
+
+        Not all 3 words spellcheck True in the French dictionary and
+        not all 3 words spellcheck True in the English dictionary either:
+
+        >>> h.spellcheck_single_dictionary(('Je', 'suis', 'arrived'))
+        []
+
+        All 3 words spellcheck True in the English dictionary:
+
+        >>> h.spellcheck_single_dictionary(('I', 'have', 'arrived'))
+        ['en_US']
+
+        Unfortunately these 3 words spellcheck True in the French dictionary
+        ('have' is a form of the verb 'haver', 'I' is the name of the letter):
+
+        >>> h.spellcheck_single_dictionary(('I', 'have', 'arrivé'))
+        ['fr_FR']
+
+        If the input contains empty words the result is '':
+
+        >>> h.spellcheck_single_dictionary(('I', 'have', ''))
+        []
+        '''
+        words = list(words)
+        if not all(words):
+            return []
+        dictionary_names = []
+        for dictionary in self._dictionaries:
+            spellcheck_total = True
+            for word in words:
+                spellcheck_total &= dictionary.spellcheck(word)
+            if spellcheck_total:
+                dictionary_names.append(dictionary.name)
+        return sorted(dictionary_names)
+
+    # Don’t use @lru_cache(maxsize=None) here, that has a high risk of
+    # memory leaks.  It caches forever — and it keeps strong
+    # references to all function arguments and results. If the method
+    # is on a class instance (self), and the cache calls involving
+    # self, then self gets kept alive — even if no other code
+    # references it! That is a high risk of memory leaks when
+    # instantiated class objects go out of scope.  With a bounded
+    # cache, Python will evict the oldest cache entries automatically
+    # when the cache grows beyond 500,000 entries. That is much safer
+    # The self reference can still stay around as long as there are
+    # still entries in the cache for that instance. But if all entries
+    # referring to a self are evicted, then self can be garbage
+    # collected properly.
+    @functools.lru_cache(maxsize=500_000)  # noqa: B019
+    def suggest(self, input_phrase: str) -> list[tuple[str, int]]:
+        # pylint: disable=line-too-long
+        '''Return completions or corrections for the input phrase
+
+        :param input_phrase: A string to find completions or corrections for
+
+        Returns a list of tuples of the form (<word>, <score>)
+                <score> can have these values:
+                    0: This is a completion, i.e. input_phrase matches
+                       the beginning of <word> (accent insensitive match)
+                   negative number: This is a spell checking correction
+
+        Examples:
+
+        (Attention, the return values are in internal
+        normalization form ('NFD'))
+
+        >>> h = Hunspell(['de_DE', 'cs_CZ'])
+        >>> h.suggest('Geschwindigkeitsubertre')[0]
+        ('Geschwindigkeitsübertretungsverfahren', 0)
+
+        >>> h.suggest('Geschwindigkeitsübertretungsverfahren')[0]
+        ('Geschwindigkeitsübertretungsverfahren', 0)
+
+        >>> h.suggest('Glühwürmchen')[0]
+        ('Glühwürmchen', 0)
+
+        >>> h.suggest('Alpengluhen')[0]
+        ('Alpenglühen', 0)
+
+        >>> h.suggest('filosofictejs')[0]
+        ('filosofičtější', 0)
+
+        >>> h.suggest('filosofičtější')[0]
+        ('filosofičtější', 0)
+
+        >>> h.suggest('filosofičtějš')[0]
+        ('filosofičtější', 0)
+
+        >>> h = Hunspell(['it_IT'])
+        >>> h.suggest('principianti')
+        [('principianti', 0), ('principiati', -1), ('principiante', -2), ('principiarti', -3), ('principiasti', -4)]
+
+        >>> h = Hunspell(['es_ES'])
+        >>> h.suggest('teneis')
+        [('tenéis', 0), ('teneos', -1), ('tenes', -2), ('tenis', -3), ('tienes', -4), ('te neis', -5), ('te-neis', -6)]
+
+        >>> h.suggest('tenéis')[0]
+        ('tenéis', 0)
+
+        >>> h = Hunspell(['en_US'])
+        >>> ('Camelot', 0) in h.suggest('camel') # Should work with aspell and hunspell
+        True
+
+        >>> h = Hunspell(['fr_FR'])
+        >>> h.suggest('differemmen')
+        [('différemment', 0)]
+
+        >>> h = Hunspell(['None'])
+        >>> h.suggest('camel')
+        []
+
+        >>> h = Hunspell(['None', 'en_US'])
+        >>> ('Camelot', 0) in h.suggest('camel') # Should work with aspell and hunspell
+        True
+
+        >>> h = Hunspell(['en_US'])
+        >>> all((x, 0) in h.suggest('tree') for x in ('trees', 'treed'))
+        True
+
+        For benchmarking:
+
+        >>> result = [h.suggest(c) for c in 'abcdefghijklmnopqrstuvwxyz']
+        >>> result = [h.suggest(word) for word in ('infl', 'mess', 'tree', 'temp', 'wood', 'gard', 'came', 'wind', 'wate', 'succ', 'dict', 'load', 'enco', 'spell', 'word', 'auto', 'mode', 'bicy', 'moun', 'batt', 'tabl', 'star', 'moon', 'univ')]
+        '''
+        # pylint: enable=line-too-long
+        if DEBUG_LEVEL > 1:
+            LOGGER.debug(
+                "Hunspell.suggest() input_phrase=%(ip)s\n",
+                {'ip': input_phrase.encode('UTF-8')})
+        # http://pwet.fr/man/linux/fichiers_speciaux/hunspell says:
+        #
+        # > A dictionary file (*.dic) contains a list of words, one per
+        # > line. The first line of the dictionaries (except personal
+        # > dictionaries) contains the word count. Each word may
+        # > optionally be followed by a slash ("/") and one or more
+        # > flags, which represents affixes or special attributes.
+        #
+        # I.e. if '/' is already contained in the input, it cannot
+        # match a word in the dictionary and we return an empty list
+        # immediately:
+        if not input_phrase or '/' in input_phrase:
+            return []
+        # make sure input_phrase is in the internal normalization form (NFD):
+        input_phrase = unicodedata.normalize(
+            itb_util_core.NORMALIZATION_FORM_INTERNAL, input_phrase)
+
+        suggested_words: dict[str, dict[str, int]] = {}
+        for dictionary in self._dictionaries:
+            name = dictionary.name
+            suggested_words[name] = {}
+            if dictionary.words:
+                if dictionary.word_pairs:
+                    input_phrase_no_accents = itb_util_core.remove_accents(
+                        input_phrase,
+                        keep=itb_util_core.ACCENT_LANGUAGES[dictionary.language])
+                # If the input phrase is longer than than the maximum
+                # word length in a dictionary, don’t try
+                # complete it, it just wastes time then.
+                if len(input_phrase) <= dictionary.max_word_len:
+                    if dictionary.word_pairs:
+                        query = input_phrase_no_accents.casefold()
+                        for word, stripped in dictionary.word_pairs:
+                            if stripped.casefold().startswith(query):
+                                suggested_words[name][word] = 0
+                    else:
+                        query = input_phrase.casefold()
+                        for word in dictionary.words:
+                            if word.casefold().startswith(query):
+                                suggested_words[name][word] = 0
+                if len(input_phrase) >= 4:
+                    if dictionary.spellcheck(input_phrase):
+                        # This is a valid word in this dictionary.
+                        # It might have been missed by the
+                        # matching above because the dictionary
+                        # might not contain all possible word
+                        # forms (The prefix and suffix information
+                        # has been ignored). But the spell checker
+                        # knows about this, if the spell checker
+                        # thinks it is a correct word, it must be
+                        # counted as a match of course:
+                        suggested_words[name][input_phrase] = 0
+                    # Add suffixes:
+                    # See: https://github.com/mike-fabian/ibus-typing-booster/issues/799
+                    suffixed_suggestions = {
+                        x: 0
+                        for suggestion in sorted(suggested_words[name])[0:4]
+                        for x in dictionary.spellcheck_suggest(suggestion)
+                        if x.startswith(suggestion)
+                    }
+                    suggested_words[name].update(suffixed_suggestions)
+                    extra_suggestions = (
+                        unicodedata.normalize(
+                            itb_util_core.NORMALIZATION_FORM_INTERNAL, x)
+                        for x in
+                        dictionary.spellcheck_suggest(input_phrase)
+                    )
+                    # Number only suggestions which are actually added. The Hunspell
+                    # suggestion list may contain the input word itself, depending on the
+                    # Hunspell version, and that must not affect the ranking of corrections.
+                    spellcheck_value = 0
+                    for suggestion in extra_suggestions:
+                        if suggestion not in suggested_words[name]:
+                            if (dictionary.word_pairs
+                                and
+                                itb_util_core.remove_accents(
+                                    suggestion,
+                                    keep=itb_util_core.ACCENT_LANGUAGES[
+                                        dictionary.language])
+                                == input_phrase_no_accents):
+                                suggested_words[name][suggestion] = 0
+                            else:
+                                spellcheck_value -= 1
+                                suggested_words[name][suggestion] = spellcheck_value
+        suggested_words_total = itb_util_core.merge_dicts_max(
+            *suggested_words.values())
+        sorted_suggestions = sorted(
+            suggested_words_total.items(),
+            key=lambda x: (
+                - x[1],    # 0: in dictionary, negative: spellcheck
+                len(x[0]), # length of word ascending
+                x[0],      # alphabetical
+            ))[0:MAX_WORDS]
+        return sorted_suggestions
+
+BENCHMARK = True
+
+def main() -> None:
+    '''
+    Used for testing and profiling.
+
+    “python3 hunspell_suggest.py”
+
+    runs some tests and prints profiling data.
+    '''
+    log_handler = logging.StreamHandler(stream=sys.stderr)
+    log_formatter = logging.Formatter(
+        '%(asctime)s %(filename)s '
+        'line %(lineno)d %(funcName)s %(levelname)s: '
+        '%(message)s')
+    log_handler.setFormatter(log_formatter)
+    LOGGER.setLevel(logging.DEBUG)
+    LOGGER.addHandler(log_handler)
+
+    if BENCHMARK:
+        import cProfile  # pylint: disable=import-outside-toplevel
+        import pstats  # pylint: disable=import-outside-toplevel
+        profile = cProfile.Profile()
+        profile.enable()
+
+    import doctest  # pylint: disable=import-outside-toplevel
+    (failed, _attempted) = doctest.testmod()
+
+    if BENCHMARK:
+        profile.disable()
+        stats = pstats.Stats(profile)
+        stats.strip_dirs()
+        stats.sort_stats('cumulative')
+        stats.print_stats('hunspell', 25)
+        stats.print_stats('enchant', 25)
+
+    LOGGER.info('itb_util_core.remove_accents() cache info: %s',
+                itb_util_core.remove_accents.cache_info())
+
+    sys.exit(failed)
+
+if __name__ == "__main__":
+    main()

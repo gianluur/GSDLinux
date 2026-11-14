@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+"dtd/kdedbx45.dtd" [
+<!ENTITY % addindex "IGNORE">
+<!ENTITY % Russian "INCLUDE"
+> <!-- change language only here -->
+]>
+	
+<article lang="&language;" id="thumbnail">
+<title
+>thumbnail</title>
+<articleinfo>
+<authorgroup>
+<author
+>&Carsten.Pfeiffer; &Carsten.Pfeiffer.mail;</author>
+<othercredit role="translator"
+><firstname
+></firstname
+><surname
+></surname
+><affiliation
+><address
+><email
+></email
+></address
+></affiliation
+><contrib
+></contrib
+></othercredit
+> 
+</authorgroup>
+<date
+>11 декабря 2016 г.</date>
+<releaseinfo
+>Приложения KDE 16.12</releaseinfo>
+</articleinfo>
+<para
+>Модуль KIO thumbnail используется в &kde; для создания миниатюр с прозрачной работой по сети и их постоянным сохранением.</para>
+
+<para
+>Для создания собственно миниатюр модуль KIO thumbnail использует подключаемые модули. Эти миниатюры можно увидеть, выбрав в диспетчере файлов &dolphin; или &konqueror; <menuchoice
+><guimenu
+>Вид</guimenu
+><guisubmenu
+>Предварительный просмотр</guisubmenu
+></menuchoice
+>.</para>
+
+<para
+>Пользователю модуль KIO thumbnail напрямую не нужен, но разработчики могут использовать его в своих приложениях для создания миниатюр файлов.</para>
+
+<para
+>Более подробная информация находится в документации с исходными файлами. Смотрите папку <ulink url="https://commits.kde.org/kio-extras?path=thumbnail"
+>thumbnail</ulink
+> </para>
+
+</article>

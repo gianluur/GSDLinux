@@ -1,0 +1,109 @@
+NAME
+
+    Text::Balanced - Extract delimited text sequences from strings.
+
+SYNOPSIS
+
+    use Text::Balanced qw (
+        extract_delimited
+        extract_bracketed
+        extract_quotelike
+        extract_codeblock
+        extract_variable
+        extract_tagged
+        extract_multiple
+        gen_delimited_pat
+        gen_extract_tagged
+    );
+
+    # Extract the initial substring of $text that is delimited by
+    # two (unescaped) instances of the first character in $delim.
+
+    ($extracted, $remainder) = extract_delimited($text,$delim);
+
+    # Extract the initial substring of $text that is bracketed
+    # with a delimiter(s) specified by $delim (where the string
+    # in $delim contains one or more of '(){}[]<>').
+
+    ($extracted, $remainder) = extract_bracketed($text,$delim);
+
+    # Extract the initial substring of $text that is bounded by
+    # an XML tag.
+
+    ($extracted, $remainder) = extract_tagged($text);
+
+    # Extract the initial substring of $text that is bounded by
+    # a C<BEGIN>...C<END> pair. Don't allow nested C<BEGIN> tags
+
+    ($extracted, $remainder) =
+        extract_tagged($text,"BEGIN","END",undef,{bad=>["BEGIN"]});
+
+    # Extract the initial substring of $text that represents a
+    # Perl "quote or quote-like operation"
+
+    ($extracted, $remainder) = extract_quotelike($text);
+
+    # Extract the initial substring of $text that represents a block
+    # of Perl code, bracketed by any of character(s) specified by $delim
+    # (where the string $delim contains one or more of '(){}[]<>').
+
+    ($extracted, $remainder) = extract_codeblock($text,$delim);
+
+    # Extract the initial substrings of $text that would be extracted by
+    # one or more sequential applications of the specified functions
+    # or regular expressions
+
+    @extracted = extract_multiple($text,
+                                  [ \&extract_bracketed,
+                                    \&extract_quotelike,
+                                    \&some_other_extractor_sub,
+                                    qr/[xyz]*/,
+                                    'literal',
+                                  ]);
+
+    # Create a string representing an optimized pattern (a la Friedl)
+    # that matches a substring delimited by any of the specified characters
+    # (in this case: any type of quote or a slash)
+
+    $patstring = gen_delimited_pat(q{'"`/});
+
+    # Generate a reference to an anonymous sub that is just like extract_tagged
+    # but pre-compiled and optimized for a specific pair of tags, and
+    # consequently much faster (i.e. 3 times faster). It uses qr// for better
+    # performance on repeated calls.
+
+    $extract_head = gen_extract_tagged('<HEAD>','</HEAD>');
+    ($extracted, $remainder) = $extract_head->($text);
+
+DESCRIPTION
+
+    The various extract_... subroutines may be used to extract a delimited
+    substring, possibly after skipping a specified prefix string. By default,
+    that prefix is optional whitespace (/\s*/), but you can change it to
+    whatever you wish (see below).
+
+    The substring to be extracted must appear at the current pos location of the
+    string's variable (or at index zero, if no pos position is defined). In
+    other words, the extract_... subroutines *don't* extract the first
+    occurrence of a substring anywhere in a string (like an unanchored regex
+    would). Rather, they extract an occurrence of the substring appearing
+    immediately at the current matching position in the string (like a
+    \G-anchored regex would).
+
+INSTALLATION
+
+    See the INSTALL file.
+
+COPYRIGHT
+
+    Copyright (C) 1997-2001 Damian Conway. All rights reserved.
+    Copyright (C) 2009 Adam Kennedy.
+    Copyright (C) 2015, 2020, 2022 Steve Hay and other contributors. All rights
+    reserved.
+
+LICENCE
+
+    This distribution is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself, i.e. under the terms of either the GNU
+    General Public License or the Artistic License, as specified in the LICENCE
+    file.

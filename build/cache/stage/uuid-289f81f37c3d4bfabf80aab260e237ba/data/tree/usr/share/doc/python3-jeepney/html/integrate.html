@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connecting to DBus and sending messages &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Making and parsing messages" href="messages.html" />
+    <link rel="prev" title="Jeepney 0.9.0" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Connecting to DBus and sending messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#connections-and-routers">Connections and Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#message-generators-and-proxies">Message generators and proxies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sending-receiving-file-descriptors">Sending &amp; receiving file descriptors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Connecting to DBus and sending messages</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/integrate.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="connecting-to-dbus-and-sending-messages">
+<h1>Connecting to DBus and sending messages<a class="headerlink" href="#connecting-to-dbus-and-sending-messages" title="Link to this heading"></a></h1>
+<p>Jeepney can be used with several different frameworks:</p>
+<ul class="simple">
+<li><p>Blocking I/O</p></li>
+<li><p>Multi-threading with the <a class="reference external" href="https://docs.python.org/3/library/threading.html">threading</a> module</p></li>
+<li><p><a class="reference external" href="https://trio.readthedocs.io/en/stable/">Trio</a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/asyncio.html">asyncio</a></p></li>
+</ul>
+<p>For each of these, there is a module in <code class="docutils literal notranslate"><span class="pre">jeepney.io</span></code> providing the
+integration layer.</p>
+<p>Here’s an example of sending a desktop notification, using blocking I/O:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jeepney</span><span class="w"> </span><span class="kn">import</span> <span class="n">DBusAddress</span><span class="p">,</span> <span class="n">new_method_call</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney.io.blocking</span><span class="w"> </span><span class="kn">import</span> <span class="n">open_dbus_connection</span>
+
+<span class="n">notifications</span> <span class="o">=</span> <span class="n">DBusAddress</span><span class="p">(</span><span class="s1">&#39;/org/freedesktop/Notifications&#39;</span><span class="p">,</span>
+                            <span class="n">bus_name</span><span class="o">=</span><span class="s1">&#39;org.freedesktop.Notifications&#39;</span><span class="p">,</span>
+                            <span class="n">interface</span><span class="o">=</span><span class="s1">&#39;org.freedesktop.Notifications&#39;</span><span class="p">)</span>
+
+<span class="n">connection</span> <span class="o">=</span> <span class="n">open_dbus_connection</span><span class="p">(</span><span class="n">bus</span><span class="o">=</span><span class="s1">&#39;SESSION&#39;</span><span class="p">)</span>
+
+<span class="c1"># Construct a new D-Bus message. new_method_call takes the address, the</span>
+<span class="c1"># method name, the signature string, and a tuple of arguments.</span>
+<span class="n">msg</span> <span class="o">=</span> <span class="n">new_method_call</span><span class="p">(</span><span class="n">notifications</span><span class="p">,</span> <span class="s1">&#39;Notify&#39;</span><span class="p">,</span> <span class="s1">&#39;susssasa</span><span class="si">{sv}</span><span class="s1">i&#39;</span><span class="p">,</span>
+                      <span class="p">(</span><span class="s1">&#39;jeepney_test&#39;</span><span class="p">,</span>  <span class="c1"># App name</span>
+                       <span class="mi">0</span><span class="p">,</span>   <span class="c1"># Not replacing any previous notification</span>
+                       <span class="s1">&#39;&#39;</span><span class="p">,</span>  <span class="c1"># Icon</span>
+                       <span class="s1">&#39;Hello, world!&#39;</span><span class="p">,</span>  <span class="c1"># Summary</span>
+                       <span class="s1">&#39;This is an example notification from Jeepney&#39;</span><span class="p">,</span>
+                       <span class="p">[],</span> <span class="p">{},</span>  <span class="c1"># Actions, hints</span>
+                       <span class="o">-</span><span class="mi">1</span><span class="p">,</span>      <span class="c1"># expire_timeout (-1 = default)</span>
+                      <span class="p">))</span>
+
+<span class="c1"># Send the message and wait for the reply</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">send_and_get_reply</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Notification ID:&#39;</span><span class="p">,</span> <span class="n">reply</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>And here is the same thing using asyncio:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Send a desktop notification</span>
+
+<span class="sd">See also aio_notify.py, which does the same with the higher-level Proxy API.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney</span><span class="w"> </span><span class="kn">import</span> <span class="n">DBusAddress</span><span class="p">,</span> <span class="n">new_method_call</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney.io.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">open_dbus_router</span>
+
+<span class="n">notifications</span> <span class="o">=</span> <span class="n">DBusAddress</span><span class="p">(</span><span class="s1">&#39;/org/freedesktop/Notifications&#39;</span><span class="p">,</span>
+                            <span class="n">bus_name</span><span class="o">=</span><span class="s1">&#39;org.freedesktop.Notifications&#39;</span><span class="p">,</span>
+                            <span class="n">interface</span><span class="o">=</span><span class="s1">&#39;org.freedesktop.Notifications&#39;</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_notification</span><span class="p">():</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">new_method_call</span><span class="p">(</span><span class="n">notifications</span><span class="p">,</span> <span class="s1">&#39;Notify&#39;</span><span class="p">,</span> <span class="s1">&#39;susssasa</span><span class="si">{sv}</span><span class="s1">i&#39;</span><span class="p">,</span>
+                            <span class="p">(</span><span class="s1">&#39;jeepney_test&#39;</span><span class="p">,</span>  <span class="c1"># App name</span>
+                             <span class="mi">0</span><span class="p">,</span>     <span class="c1"># Not replacing any previous notification</span>
+                             <span class="s1">&#39;&#39;</span><span class="p">,</span>    <span class="c1"># Icon</span>
+                             <span class="s1">&#39;Hello, world!&#39;</span><span class="p">,</span>  <span class="c1"># Summary</span>
+                             <span class="s1">&#39;This is an example notification from Jeepney&#39;</span><span class="p">,</span>
+                             <span class="p">[],</span> <span class="p">{},</span>  <span class="c1"># Actions, hints</span>
+                             <span class="o">-</span><span class="mi">1</span><span class="p">,</span>      <span class="c1"># expire_timeout (-1 = default)</span>
+                            <span class="p">))</span>
+    <span class="c1"># Send the message and await the reply</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">open_dbus_router</span><span class="p">()</span> <span class="k">as</span> <span class="n">router</span><span class="p">:</span>
+        <span class="n">reply</span> <span class="o">=</span> <span class="k">await</span> <span class="n">router</span><span class="o">.</span><span class="n">send_and_get_reply</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Notification ID:&#39;</span><span class="p">,</span> <span class="n">reply</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+<span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">send_notification</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>See the <a class="reference external" href="https://gitlab.com/takluyver/jeepney/-/tree/master/examples">examples folder</a>
+in Jeepney’s source repository for more examples.</p>
+<section id="connections-and-routers">
+<span id="id1"></span><h2>Connections and Routers<a class="headerlink" href="#connections-and-routers" title="Link to this heading"></a></h2>
+<p>Each integration (except blocking I/O) can create <em>connections</em> and <em>routers</em>.</p>
+<p><strong>Routers</strong> are useful for calling methods in other processes.
+Routers let you send a request and wait for a reply, using a
+<a class="reference internal" href="#msggen-proxies"><span class="std std-ref">proxy</span></a> or with <code class="docutils literal notranslate"><span class="pre">router.send_and_get_reply()</span></code>.
+You can also filter incoming messages into queues, e.g. to wait for a specific
+signal. But if messages arrive faster than they are processed, these queues fill
+up, and messages may be dropped.</p>
+<p><strong>Connections</strong> are simpler: they let you send and receive messages, but
+<code class="docutils literal notranslate"><span class="pre">conn.receive()</span></code> will give you the next message read, whatever that is.
+You’d use this to write a server which responds to incoming messages.
+A connection will never discard an incoming message.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For blocking, single-threaded I/O, the connection doubles as a router.
+Incoming messages while you’re waiting for a reply will be filtered,
+and you can also filter the next message by calling <code class="docutils literal notranslate"><span class="pre">conn.recv_messages()</span></code>.</p>
+<p>Routers for the other integrations receive messages in a background task.</p>
+</div>
+</section>
+<section id="message-generators-and-proxies">
+<span id="msggen-proxies"></span><h2>Message generators and proxies<a class="headerlink" href="#message-generators-and-proxies" title="Link to this heading"></a></h2>
+<p>If you’re calling a number of different methods, you can make a <em>message
+generator</em> class containing their definitions. Jeepney includes a tool to
+generate these classes automatically—see <a class="reference internal" href="bindgen.html"><span class="doc">Generating D-Bus wrappers</span></a>.</p>
+<p>Message generators define how to construct messages. <em>Proxies</em> are wrappers
+around message generators which send a message and get the reply back.</p>
+<p>Let’s rewrite the example above to use a message generator and a proxy:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Send a desktop notification</span>
+
+<span class="sd">See also aio_notify_noproxy.py, which does the same with lower-level APIs</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney</span><span class="w"> </span><span class="kn">import</span> <span class="n">MessageGenerator</span><span class="p">,</span> <span class="n">new_method_call</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney.io.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">open_dbus_router</span><span class="p">,</span> <span class="n">Proxy</span>
+
+<span class="c1"># ---- Message generator, created by jeepney.bindgen ----</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Notifications</span><span class="p">(</span><span class="n">MessageGenerator</span><span class="p">):</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s1">&#39;org.freedesktop.Notifications&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_path</span><span class="o">=</span><span class="s1">&#39;/org/freedesktop/Notifications&#39;</span><span class="p">,</span>
+                 <span class="n">bus_name</span><span class="o">=</span><span class="s1">&#39;org.freedesktop.Notifications&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">object_path</span><span class="o">=</span><span class="n">object_path</span><span class="p">,</span> <span class="n">bus_name</span><span class="o">=</span><span class="n">bus_name</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">Notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg_0</span><span class="p">,</span> <span class="n">arg_1</span><span class="p">,</span> <span class="n">arg_2</span><span class="p">,</span> <span class="n">arg_3</span><span class="p">,</span> <span class="n">arg_4</span><span class="p">,</span> <span class="n">arg_5</span><span class="p">,</span> <span class="n">arg_6</span><span class="p">,</span> <span class="n">arg_7</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">new_method_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;Notify&#39;</span><span class="p">,</span> <span class="s1">&#39;susssasa</span><span class="si">{sv}</span><span class="s1">i&#39;</span><span class="p">,</span>
+                               <span class="p">(</span><span class="n">arg_0</span><span class="p">,</span> <span class="n">arg_1</span><span class="p">,</span> <span class="n">arg_2</span><span class="p">,</span> <span class="n">arg_3</span><span class="p">,</span> <span class="n">arg_4</span><span class="p">,</span> <span class="n">arg_5</span><span class="p">,</span> <span class="n">arg_6</span><span class="p">,</span> <span class="n">arg_7</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">CloseNotification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg_0</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">new_method_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;CloseNotification&#39;</span><span class="p">,</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span>
+                               <span class="p">(</span><span class="n">arg_0</span><span class="p">,))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetCapabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">new_method_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;GetCapabilities&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetServerInformation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">new_method_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;GetServerInformation&#39;</span><span class="p">)</span>
+<span class="c1"># ---- End auto generated code ----</span>
+
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_notification</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">open_dbus_router</span><span class="p">()</span> <span class="k">as</span> <span class="n">router</span><span class="p">:</span>
+        <span class="n">proxy</span> <span class="o">=</span> <span class="n">Proxy</span><span class="p">(</span><span class="n">Notifications</span><span class="p">(),</span> <span class="n">router</span><span class="p">)</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="k">await</span> <span class="n">proxy</span><span class="o">.</span><span class="n">Notify</span><span class="p">(</span><span class="s1">&#39;jeepney_test&#39;</span><span class="p">,</span>  <span class="c1"># App name</span>
+                              <span class="mi">0</span><span class="p">,</span>      <span class="c1"># Not replacing any previous notification</span>
+                              <span class="s1">&#39;&#39;</span><span class="p">,</span>     <span class="c1"># Icon</span>
+                              <span class="s1">&#39;Hello, world!&#39;</span><span class="p">,</span>  <span class="c1"># Summary</span>
+                              <span class="s1">&#39;This is an example notification from Jeepney&#39;</span><span class="p">,</span>
+                              <span class="p">[],</span> <span class="p">{},</span>  <span class="c1"># Actions, hints</span>
+                              <span class="o">-</span><span class="mi">1</span><span class="p">,</span>      <span class="c1"># expire_timeout (-1 = default)</span>
+                             <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Notification ID:&#39;</span><span class="p">,</span> <span class="n">resp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">send_notification</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>This is more code for the simple use case here, but in a larger application
+collecting the message definitions together like this could make it clearer.</p>
+</section>
+<section id="sending-receiving-file-descriptors">
+<span id="send-recv-fds"></span><h2>Sending &amp; receiving file descriptors<a class="headerlink" href="#sending-receiving-file-descriptors" title="Link to this heading"></a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 0.7.</span></p>
+</div>
+<p>D-Bus allows sending file descriptors - references to open files, sockets, etc.
+To use this, use the blocking, multi-threading or Trio integration and enable it
+(<code class="docutils literal notranslate"><span class="pre">enable_fds=True</span></code>) when connecting to D-Bus. If you enable FD support but the
+message bus can’t or won’t support it, <a class="reference internal" href="api/auth.html#jeepney.auth.FDNegotiationError" title="jeepney.auth.FDNegotiationError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">FDNegotiationError</span></code></a> will be raised.</p>
+<p>To send a file descriptor, pass any object with a <code class="docutils literal notranslate"><span class="pre">.fileno()</span></code> method, such as
+an open file or socket, or a suitable integer. The file descriptor must not be
+closed before the message is sent.</p>
+<p>A received file descriptor will be returned as a <a class="reference internal" href="api/fds.html#jeepney.FileDescriptor" title="jeepney.FileDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileDescriptor</span></code></a> object
+to help avoid leaking FDs. This can easily be converted to
+a file object (<a class="reference internal" href="api/fds.html#jeepney.FileDescriptor.to_file" title="jeepney.FileDescriptor.to_file"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_file()</span></code></a>),
+a socket (<a class="reference internal" href="api/fds.html#jeepney.FileDescriptor.to_socket" title="jeepney.FileDescriptor.to_socket"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_socket()</span></code></a>)
+or a plain integer (<a class="reference internal" href="api/fds.html#jeepney.FileDescriptor.to_raw_fd" title="jeepney.FileDescriptor.to_raw_fd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_raw_fd()</span></code></a>).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Send a file descriptor for a temp file (normally not visible in any folder)</span>
+<span class="k">with</span> <span class="n">TemporaryFile</span><span class="p">()</span> <span class="k">as</span> <span class="n">tf</span><span class="p">:</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">new_method_call</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="s1">&#39;write_data&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">tf</span><span class="p">,))</span>
+    <span class="k">await</span> <span class="n">router</span><span class="o">.</span><span class="n">send_and_get_reply</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+<span class="c1"># Receive a file descriptor, use it as a writable file</span>
+<span class="n">msg</span> <span class="o">=</span> <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">receive</span><span class="p">()</span>
+<span class="n">fd</span><span class="p">,</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">body</span>
+<span class="k">with</span> <span class="n">fd</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Timestamp: </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The snippets above are based on the Trio integration. See the
+<a class="reference external" href="https://gitlab.com/takluyver/jeepney/-/tree/master/examples">examples directory</a>
+in the Jeepney repository for complete, working examples.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Jeepney 0.9.0" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="messages.html" class="btn btn-neutral float-right" title="Making and parsing messages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

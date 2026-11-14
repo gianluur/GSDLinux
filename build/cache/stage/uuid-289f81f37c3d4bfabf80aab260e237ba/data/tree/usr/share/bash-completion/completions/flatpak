@@ -1,0 +1,47 @@
+# Check for bash
+[ -z "$BASH_VERSION" ] && return
+
+####################################################################################################
+
+__flatpak() {
+    local IFS=$'\n'
+    local cur
+    local -a RES
+    cur=$(_get_cword :)
+    readarray -t RES < <(flatpak complete "${COMP_LINE}" "${COMP_POINT}" "${cur}")
+
+    COMPREPLY=()
+    local res
+    local -a COMPGEN_OPTS
+    local -a REPLIES
+    for res in "${RES[@]}"; do
+        if [[ $res == "__FLATPAK_FILE" ]]; then
+            COMPGEN_OPTS=('-f')
+        elif [[ $res == "__FLATPAK_BUNDLE_FILE" ]]; then
+            COMPGEN_OPTS=('-f' '-X' '!*.flatpak')
+        elif [[ $res == "__FLATPAK_BUNDLE_OR_REF_FILE" ]]; then
+            COMPGEN_OPTS=('-f' '-X' '!*.flatpak@(|ref)')
+        elif [[ $res == "__FLATPAK_DIR" ]]; then
+            COMPGEN_OPTS=('-d')
+        else
+            COMPGEN_OPTS=()
+        fi
+
+        if [[ ${#COMPGEN_OPTS[@]} -ne 0 ]]; then
+            local CUR
+            if [[ $cur == "=" ]]; then
+                CUR=""
+            else
+                CUR="$cur"
+            fi
+            readarray -t REPLIES < <(compgen "${COMPGEN_OPTS[@]}" -- "${CUR}")
+            COMPREPLY+=("${REPLIES[@]}")
+        else
+            COMPREPLY=("${COMPREPLY[@]}" "$res")
+        fi
+    done
+}
+
+####################################################################################################
+
+complete -o nospace -F __flatpak flatpak

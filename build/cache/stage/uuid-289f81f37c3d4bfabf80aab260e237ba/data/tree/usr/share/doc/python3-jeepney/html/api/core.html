@@ -1,0 +1,627 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Core API &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Common messages" href="common_msgs.html" />
+    <link rel="prev" title="API reference" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Core API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#message-constructors">Message constructors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.new_method_call"><code class="docutils literal notranslate"><span class="pre">new_method_call()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.new_method_return"><code class="docutils literal notranslate"><span class="pre">new_method_return()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.new_error"><code class="docutils literal notranslate"><span class="pre">new_error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.new_signal"><code class="docutils literal notranslate"><span class="pre">new_signal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBusAddress"><code class="docutils literal notranslate"><span class="pre">DBusAddress</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.MessageGenerator"><code class="docutils literal notranslate"><span class="pre">MessageGenerator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#parsing">Parsing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.Parser"><code class="docutils literal notranslate"><span class="pre">Parser</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#message-objects">Message objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.Message"><code class="docutils literal notranslate"><span class="pre">Message</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.Header"><code class="docutils literal notranslate"><span class="pre">Header</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#exceptions">Exceptions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.SizeLimitError"><code class="docutils literal notranslate"><span class="pre">SizeLimitError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBusErrorResponse"><code class="docutils literal notranslate"><span class="pre">DBusErrorResponse</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#enums-flags">Enums &amp; Flags</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.Endianness"><code class="docutils literal notranslate"><span class="pre">Endianness</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.HeaderFields"><code class="docutils literal notranslate"><span class="pre">HeaderFields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.MessageFlag"><code class="docutils literal notranslate"><span class="pre">MessageFlag</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.MessageType"><code class="docutils literal notranslate"><span class="pre">MessageType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#matching-messages">Matching messages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.MatchRule"><code class="docutils literal notranslate"><span class="pre">MatchRule</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="common_msgs.html">Common messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auth.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fds.html">File descriptor support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blocking.html">Blocking I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="threading.html">Blocking I/O with threads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trio.html">Trio integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="asyncio.html">Asyncio integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io_exceptions.html">I/O Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API reference</a></li>
+      <li class="breadcrumb-item active">Core API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/core.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-jeepney">
+<span id="core-api"></span><h1>Core API<a class="headerlink" href="#module-jeepney" title="Link to this heading"></a></h1>
+<section id="message-constructors">
+<h2>Message constructors<a class="headerlink" href="#message-constructors" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="jeepney.new_method_call">
+<span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">new_method_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#new_method_call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.new_method_call" title="Link to this definition"></a></dt>
+<dd><p>Construct a new method call message</p>
+<p>This is a relatively low-level method. In many cases, this will be called
+from a <a class="reference internal" href="#jeepney.MessageGenerator" title="jeepney.MessageGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">MessageGenerator</span></code></a> subclass which provides a more convenient
+API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>remote_obj</strong> (<a class="reference internal" href="#jeepney.DBusAddress" title="jeepney.DBusAddress"><em>DBusAddress</em></a>) – The object to call a method on</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – The name of the method to call</p></li>
+<li><p><strong>signature</strong> (<em>str</em>) – The DBus signature of the body data</p></li>
+<li><p><strong>body</strong> (<em>tuple</em>) – Body data (i.e. method parameters)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jeepney.new_method_return">
+<span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">new_method_return</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#new_method_return"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.new_method_return" title="Link to this definition"></a></dt>
+<dd><p>Construct a new response message</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent_msg</strong> (<a class="reference internal" href="#jeepney.Message" title="jeepney.Message"><em>Message</em></a>) – The method call this is a reply to</p></li>
+<li><p><strong>signature</strong> (<em>str</em>) – The DBus signature of the body data</p></li>
+<li><p><strong>body</strong> (<em>tuple</em>) – Body data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jeepney.new_error">
+<span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">new_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#new_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.new_error" title="Link to this definition"></a></dt>
+<dd><p>Construct a new error response message</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent_msg</strong> (<a class="reference internal" href="#jeepney.Message" title="jeepney.Message"><em>Message</em></a>) – The method call this is a reply to</p></li>
+<li><p><strong>error_name</strong> (<em>str</em>) – The name of the error</p></li>
+<li><p><strong>signature</strong> (<em>str</em>) – The DBus signature of the body data</p></li>
+<li><p><strong>body</strong> (<em>tuple</em>) – Body data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jeepney.new_signal">
+<span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">new_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">emitter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#new_signal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.new_signal" title="Link to this definition"></a></dt>
+<dd><p>Construct a new signal message</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>emitter</strong> (<a class="reference internal" href="#jeepney.DBusAddress" title="jeepney.DBusAddress"><em>DBusAddress</em></a>) – The object sending the signal</p></li>
+<li><p><strong>signal</strong> (<em>str</em>) – The name of the signal</p></li>
+<li><p><strong>signature</strong> (<em>str</em>) – The DBus signature of the body data</p></li>
+<li><p><strong>body</strong> (<em>tuple</em>) – Body data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.DBusAddress">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">DBusAddress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bus_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#DBusAddress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBusAddress" title="Link to this definition"></a></dt>
+<dd><p>This identifies the object and interface a message is for.</p>
+<p>e.g. messages to display desktop notifications would have this address:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DBusAddress</span><span class="p">(</span><span class="s1">&#39;/org/freedesktop/Notifications&#39;</span><span class="p">,</span>
+            <span class="n">bus_name</span><span class="o">=</span><span class="s1">&#39;org.freedesktop.Notifications&#39;</span><span class="p">,</span>
+            <span class="n">interface</span><span class="o">=</span><span class="s1">&#39;org.freedesktop.Notifications&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.MessageGenerator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">MessageGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bus_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#MessageGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.MessageGenerator" title="Link to this definition"></a></dt>
+<dd><p>Subclass this to define the methods available on a DBus interface.</p>
+<p>jeepney.bindgen can automatically create subclasses using introspection.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../bindgen.html"><span class="doc">Generating D-Bus wrappers</span></a></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="parsing">
+<h2>Parsing<a class="headerlink" href="#parsing" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.Parser">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">Parser</span></span><a class="reference internal" href="../_modules/jeepney/low_level.html#Parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Parser" title="Link to this definition"></a></dt>
+<dd><p>Parse DBus messages from a stream of incoming data.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.Parser.add_data">
+<span class="sig-name descname"><span class="pre">add_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/low_level.html#Parser.add_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Parser.add_data" title="Link to this definition"></a></dt>
+<dd><p>Provide newly received data to the parser</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.Parser.get_next_message">
+<span class="sig-name descname"><span class="pre">get_next_message</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#jeepney.Message" title="jeepney.low_level.Message"><span class="pre">Message</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/jeepney/low_level.html#Parser.get_next_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Parser.get_next_message" title="Link to this definition"></a></dt>
+<dd><p>Parse one message, if there is enough data.</p>
+<p>Returns None if it doesn’t have a complete message.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="message-objects">
+<h2>Message objects<a class="headerlink" href="#message-objects" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.Message">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">Message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/low_level.html#Message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Message" title="Link to this definition"></a></dt>
+<dd><p>Object representing a DBus message.</p>
+<p>It’s not normally necessary to construct this directly: use higher level
+functions and methods instead.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.Message.header">
+<span class="sig-name descname"><span class="pre">header</span></span><a class="headerlink" href="#jeepney.Message.header" title="Link to this definition"></a></dt>
+<dd><p>A <a class="reference internal" href="#jeepney.Header" title="jeepney.Header"><code class="xref py py-class docutils literal notranslate"><span class="pre">Header</span></code></a> object</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.Message.body">
+<span class="sig-name descname"><span class="pre">body</span></span><a class="headerlink" href="#jeepney.Message.body" title="Link to this definition"></a></dt>
+<dd><p>A tuple of the data in this message. The number and types of the elements
+depend on the message’s signature:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>D-Bus type</p></th>
+<th class="head"><p>D-Bus code</p></th>
+<th class="head"><p>Python type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>BYTE</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-odd"><td><p>BOOLEAN</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b</span></code></p></td>
+<td><p>bool</p></td>
+</tr>
+<tr class="row-even"><td><p>INT16</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-odd"><td><p>UINT16</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">q</span></code></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-even"><td><p>INT32</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">i</span></code></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-odd"><td><p>UINT32</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">u</span></code></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-even"><td><p>INT64</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">x</span></code></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-odd"><td><p>UINT64</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">t</span></code></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-even"><td><p>DOUBLE</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">d</span></code></p></td>
+<td><p>float</p></td>
+</tr>
+<tr class="row-odd"><td><p>STRING</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">s</span></code></p></td>
+<td><p>str</p></td>
+</tr>
+<tr class="row-even"><td><p>OBJECT_PATH</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">o</span></code></p></td>
+<td><p>str</p></td>
+</tr>
+<tr class="row-odd"><td><p>SIGNATURE</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">g</span></code></p></td>
+<td><p>str</p></td>
+</tr>
+<tr class="row-even"><td><p>ARRAY</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">a</span></code></p></td>
+<td><p>list</p></td>
+</tr>
+<tr class="row-odd"><td><p>STRUCT</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">()</span></code></p></td>
+<td><p>tuple</p></td>
+</tr>
+<tr class="row-even"><td><p>VARIANT</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">v</span></code></p></td>
+<td><p>2-tuple <code class="docutils literal notranslate"><span class="pre">(signature,</span> <span class="pre">value)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>DICT_ENTRY</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{}</span></code></p></td>
+<td><p>dict (for array of dict entries)</p></td>
+</tr>
+<tr class="row-even"><td><p>UNIX_FD</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">h</span></code></p></td>
+<td><p>See <a class="reference internal" href="../integrate.html#send-recv-fds"><span class="std std-ref">Sending &amp; receiving file descriptors</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.Message.serialise">
+<span class="sig-name descname"><span class="pre">serialise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="../_modules/jeepney/low_level.html#Message.serialise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Message.serialise" title="Link to this definition"></a></dt>
+<dd><p>Convert this message to bytes.</p>
+<p>Specifying <em>serial</em> overrides the <code class="docutils literal notranslate"><span class="pre">msg.header.serial</span></code> field, so a
+connection can use its own serial number without modifying the message.</p>
+<p>If file-descriptor support is in use, <em>fds</em> should be a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code> object with type <code class="docutils literal notranslate"><span class="pre">'i'</span></code>. Any file descriptors in
+the message will be added to the array. If the message contains FDs,
+it can’t be serialised without this array.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.Header">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">Header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endianness</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protocol_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/low_level.html#Header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Header" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.Header.endianness">
+<span class="sig-name descname"><span class="pre">endianness</span></span><a class="headerlink" href="#jeepney.Header.endianness" title="Link to this definition"></a></dt>
+<dd><p><a class="reference internal" href="#jeepney.Endianness" title="jeepney.Endianness"><code class="xref py py-class docutils literal notranslate"><span class="pre">Endianness</span></code></a> object, affecting message serialisation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.Header.message_type">
+<span class="sig-name descname"><span class="pre">message_type</span></span><a class="headerlink" href="#jeepney.Header.message_type" title="Link to this definition"></a></dt>
+<dd><p><a class="reference internal" href="#jeepney.MessageType" title="jeepney.MessageType"><code class="xref py py-class docutils literal notranslate"><span class="pre">MessageType</span></code></a> object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.Header.flags">
+<span class="sig-name descname"><span class="pre">flags</span></span><a class="headerlink" href="#jeepney.Header.flags" title="Link to this definition"></a></dt>
+<dd><p><a class="reference internal" href="#jeepney.MessageFlag" title="jeepney.MessageFlag"><code class="xref py py-class docutils literal notranslate"><span class="pre">MessageFlag</span></code></a> object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.Header.protocol_version">
+<span class="sig-name descname"><span class="pre">protocol_version</span></span><a class="headerlink" href="#jeepney.Header.protocol_version" title="Link to this definition"></a></dt>
+<dd><p>Currently always 1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.Header.body_length">
+<span class="sig-name descname"><span class="pre">body_length</span></span><a class="headerlink" href="#jeepney.Header.body_length" title="Link to this definition"></a></dt>
+<dd><p>The length of the raw message body in bytes.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.Header.serial">
+<span class="sig-name descname"><span class="pre">serial</span></span><a class="headerlink" href="#jeepney.Header.serial" title="Link to this definition"></a></dt>
+<dd><p>Sender’s serial number for this message. This is not necessarily set
+for outgoing messages - see <a class="reference internal" href="#jeepney.Message.serialise" title="jeepney.Message.serialise"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Message.serialise()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.Header.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><a class="headerlink" href="#jeepney.Header.fields" title="Link to this definition"></a></dt>
+<dd><p>Mapping of <a class="reference internal" href="#jeepney.HeaderFields" title="jeepney.HeaderFields"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeaderFields</span></code></a> values to the relevant Python objects.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="jeepney.SizeLimitError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">SizeLimitError</span></span><a class="reference internal" href="../_modules/jeepney/low_level.html#SizeLimitError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.SizeLimitError" title="Link to this definition"></a></dt>
+<dd><p>Raised when trying to (de-)serialise data exceeding D-Bus’ size limit.</p>
+<p>This is currently only implemented for arrays, where the maximum size is
+64 MiB.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="jeepney.DBusErrorResponse">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">DBusErrorResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#DBusErrorResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBusErrorResponse" title="Link to this definition"></a></dt>
+<dd><p>Raised by proxy method calls when the reply is an error message</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.DBusErrorResponse.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#jeepney.DBusErrorResponse.name" title="Link to this definition"></a></dt>
+<dd><p>The error name from the remote end.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.DBusErrorResponse.body">
+<span class="sig-name descname"><span class="pre">body</span></span><a class="headerlink" href="#jeepney.DBusErrorResponse.body" title="Link to this definition"></a></dt>
+<dd><p>Any data fields contained in the error message.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="enums-flags">
+<h2>Enums &amp; Flags<a class="headerlink" href="#enums-flags" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.Endianness">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">Endianness</span></span><a class="reference internal" href="../_modules/jeepney/low_level.html#Endianness"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Endianness" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.Endianness.little">
+<span class="sig-name descname"><span class="pre">little</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#jeepney.Endianness.little" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.Endianness.big">
+<span class="sig-name descname"><span class="pre">big</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#jeepney.Endianness.big" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.HeaderFields">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">HeaderFields</span></span><a class="reference internal" href="../_modules/jeepney/low_level.html#HeaderFields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.HeaderFields" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.HeaderFields.path">
+<span class="sig-name descname"><span class="pre">path</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#jeepney.HeaderFields.path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.HeaderFields.interface">
+<span class="sig-name descname"><span class="pre">interface</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#jeepney.HeaderFields.interface" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.HeaderFields.member">
+<span class="sig-name descname"><span class="pre">member</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#jeepney.HeaderFields.member" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.HeaderFields.error_name">
+<span class="sig-name descname"><span class="pre">error_name</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></span><a class="headerlink" href="#jeepney.HeaderFields.error_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.HeaderFields.reply_serial">
+<span class="sig-name descname"><span class="pre">reply_serial</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></span><a class="headerlink" href="#jeepney.HeaderFields.reply_serial" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.HeaderFields.destination">
+<span class="sig-name descname"><span class="pre">destination</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></span><a class="headerlink" href="#jeepney.HeaderFields.destination" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.HeaderFields.sender">
+<span class="sig-name descname"><span class="pre">sender</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></span><a class="headerlink" href="#jeepney.HeaderFields.sender" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.HeaderFields.signature">
+<span class="sig-name descname"><span class="pre">signature</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></span><a class="headerlink" href="#jeepney.HeaderFields.signature" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.HeaderFields.unix_fds">
+<span class="sig-name descname"><span class="pre">unix_fds</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></span><a class="headerlink" href="#jeepney.HeaderFields.unix_fds" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.MessageFlag">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">MessageFlag</span></span><a class="reference internal" href="../_modules/jeepney/low_level.html#MessageFlag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.MessageFlag" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.MessageFlag.no_reply_expected">
+<span class="sig-name descname"><span class="pre">no_reply_expected</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#jeepney.MessageFlag.no_reply_expected" title="Link to this definition"></a></dt>
+<dd><p>On a method call message, indicates that a reply should not be sent.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.MessageFlag.no_auto_start">
+<span class="sig-name descname"><span class="pre">no_auto_start</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#jeepney.MessageFlag.no_auto_start" title="Link to this definition"></a></dt>
+<dd><p>D-Bus includes a mechanism to start a service on demand to handle
+messages. If this flag is set, it will avoid that, only handling the
+message if the target is already running.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.MessageFlag.allow_interactive_authorization">
+<span class="sig-name descname"><span class="pre">allow_interactive_authorization</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></span><a class="headerlink" href="#jeepney.MessageFlag.allow_interactive_authorization" title="Link to this definition"></a></dt>
+<dd><p>Signals that the recipient may prompt the user for elevated privileges
+to handle the request. The D-Bus specification has more details.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.MessageType">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">MessageType</span></span><a class="reference internal" href="../_modules/jeepney/low_level.html#MessageType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.MessageType" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.MessageType.method_call">
+<span class="sig-name descname"><span class="pre">method_call</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#jeepney.MessageType.method_call" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.MessageType.method_return">
+<span class="sig-name descname"><span class="pre">method_return</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#jeepney.MessageType.method_return" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.MessageType.error">
+<span class="sig-name descname"><span class="pre">error</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#jeepney.MessageType.error" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.MessageType.signal">
+<span class="sig-name descname"><span class="pre">signal</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></span><a class="headerlink" href="#jeepney.MessageType.signal" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="matching-messages">
+<h2>Matching messages<a class="headerlink" href="#matching-messages" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.MatchRule">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">MatchRule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sender</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_namespace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eavesdrop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#MatchRule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.MatchRule" title="Link to this definition"></a></dt>
+<dd><p>Construct a match rule to subscribe to DBus messages.</p>
+<p>e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mr</span> <span class="o">=</span> <span class="n">MatchRule</span><span class="p">(</span>
+    <span class="n">interface</span><span class="o">=</span><span class="s1">&#39;org.freedesktop.DBus&#39;</span><span class="p">,</span>
+    <span class="n">member</span><span class="o">=</span><span class="s1">&#39;NameOwnerChanged&#39;</span><span class="p">,</span>
+    <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;signal&#39;</span>
+<span class="p">)</span>
+<span class="n">msg</span> <span class="o">=</span> <span class="n">message_bus</span><span class="o">.</span><span class="n">AddMatch</span><span class="p">(</span><span class="n">mr</span><span class="p">)</span>
+<span class="c1"># Send this message to subscribe to the signal</span>
+</pre></div>
+</div>
+<p>MatchRule objects are used both for filtering messages internally, and for
+setting up subscriptions in the message bus.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.MatchRule.add_arg_condition">
+<span class="sig-name descname"><span class="pre">add_arg_condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argno</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'string'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#MatchRule.add_arg_condition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.MatchRule.add_arg_condition" title="Link to this definition"></a></dt>
+<dd><p>Add a condition for a particular argument</p>
+<p>argno: int, 0-63
+kind: ‘string’, ‘path’, ‘namespace’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.MatchRule.matches">
+<span class="sig-name descname"><span class="pre">matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#jeepney.Message" title="jeepney.low_level.Message"><span class="pre">Message</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#MatchRule.matches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.MatchRule.matches" title="Link to this definition"></a></dt>
+<dd><p>Returns True if msg matches this rule</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.MatchRule.serialise">
+<span class="sig-name descname"><span class="pre">serialise</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#MatchRule.serialise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.MatchRule.serialise" title="Link to this definition"></a></dt>
+<dd><p>Convert to a string to use in an AddMatch call to the message bus</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="API reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="common_msgs.html" class="btn btn-neutral float-right" title="Common messages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

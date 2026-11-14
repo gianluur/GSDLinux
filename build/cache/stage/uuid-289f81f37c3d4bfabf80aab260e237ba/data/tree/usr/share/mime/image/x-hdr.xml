@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="image/x-hdr">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>HDR image</comment>
+  <comment xml:lang="ar">صورة HDR</comment>
+  <comment xml:lang="ast">Imaxe HDR</comment>
+  <comment xml:lang="az">HDR şəkili</comment>
+  <comment xml:lang="be">HDR-выява</comment>
+  <comment xml:lang="be@latin">HDR-vyjava</comment>
+  <comment xml:lang="bg">HDR изображение</comment>
+  <comment xml:lang="bs">HDR slika</comment>
+  <comment xml:lang="ca">Imatge HDR</comment>
+  <comment xml:lang="ca@valencia">Imatge HDR</comment>
+  <comment xml:lang="cs">HDR obrázek</comment>
+  <comment xml:lang="cy">Delw HDR</comment>
+  <comment xml:lang="da">HDR-billede</comment>
+  <comment xml:lang="de">HDR-Bild</comment>
+  <comment xml:lang="el">Εικόνα HDR</comment>
+  <comment xml:lang="en_GB">HDR image</comment>
+  <comment xml:lang="eo">HDR-bildo</comment>
+  <comment xml:lang="es">Imagen HDR</comment>
+  <comment xml:lang="eu">HDR irudia</comment>
+  <comment xml:lang="fa">تصویر اچ‌دی‌آر</comment>
+  <comment xml:lang="fi">HDR-kuva</comment>
+  <comment xml:lang="fr">Image Haute définition « HDR »</comment>
+  <comment xml:lang="ga">Íomhá HDR</comment>
+  <comment xml:lang="gl">Imaxe de HDR</comment>
+  <comment xml:lang="gu">HDR છબિ</comment>
+  <comment xml:lang="he">תמונת HDR</comment>
+  <comment xml:lang="hi">एचडीआर छवि</comment>
+  <comment xml:lang="hr">HDR slika</comment>
+  <comment xml:lang="hu">HDR-kép</comment>
+  <comment xml:lang="ia">Imagine HDR</comment>
+  <comment xml:lang="id">Citra HDR</comment>
+  <comment xml:lang="ie">Image HDR</comment>
+  <comment xml:lang="is">HDR-mynd</comment>
+  <comment xml:lang="it">Immagine HDR</comment>
+  <comment xml:lang="ja">HDR イメージ</comment>
+  <comment xml:lang="ka">HDR გამოსახულება</comment>
+  <comment xml:lang="ko">HDR 그림</comment>
+  <comment xml:lang="lg">Kifaananyi kya kika kya HDR</comment>
+  <comment xml:lang="lt">HDR paveikslas</comment>
+  <comment xml:lang="lv">HDR attēls</comment>
+  <comment xml:lang="ml">എച്ച് ഡി ആര്‍ ചിത്രം</comment>
+  <comment xml:lang="my">အိပ်ချ်ဒီအာ ပုံရိပ်</comment>
+  <comment xml:lang="nan_TW">HDR 影像</comment>
+  <comment xml:lang="nan_TW@latin">HDR iánn-siōng</comment>
+  <comment xml:lang="nb">HDR-bilde</comment>
+  <comment xml:lang="nl">HDR-image</comment>
+  <comment xml:lang="nn">HDR-bilete</comment>
+  <comment xml:lang="pa">HDR ਚਿੱਤਰ</comment>
+  <comment xml:lang="pl">Obraz HDR</comment>
+  <comment xml:lang="pt">Imagem HDR</comment>
+  <comment xml:lang="pt_BR">imagem HDR</comment>
+  <comment xml:lang="ro">imagine HDR</comment>
+  <comment xml:lang="ru">Изображение HDR</comment>
+  <comment xml:lang="sa">HDR मानसचित्र</comment>
+  <comment xml:lang="sk">Obrázok HDR</comment>
+  <comment xml:lang="sl">Slika HDR</comment>
+  <comment xml:lang="sq">Figurë HDR</comment>
+  <comment xml:lang="sv">HDR-bild</comment>
+  <comment xml:lang="ta">HDR படம்</comment>
+  <comment xml:lang="th">ภาพแบบ HDR</comment>
+  <comment xml:lang="tok">sitelen HDR</comment>
+  <comment xml:lang="tr">HDR görsel</comment>
+  <comment xml:lang="ug">HDR سۈرەت</comment>
+  <comment xml:lang="uk">зображення HDR</comment>
+  <comment xml:lang="vi">ảnh HDR</comment>
+  <comment xml:lang="zh_CN">HDR 图像</comment>
+  <comment xml:lang="zh_TW">HDR 影像</comment>
+  <acronym>HDR</acronym>
+  <expanded-acronym>High Dynamic Range</expanded-acronym>
+  <glob pattern="*.hdr"/>
+  <glob pattern="*.pic"/>
+</mime-type>

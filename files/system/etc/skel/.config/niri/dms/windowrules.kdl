@@ -1,0 +1,41 @@
+// DMS Window Rules - Managed by Dux Shell
+// Do not edit manually - changes may be overwritten
+
+// @id=dms-floating-windows @name=DMS Floating Windows
+window-rule {
+    match app-id="^(dev\\.duxlabs\\.shell|com\\.danklinux\\.dms)$"
+    open-floating true
+}
+
+// @id=wr_1793624512418929009 @name=dev.zed.Zed
+window-rule {
+    match app-id="^dev.zed.Zed$"
+    opacity 0.90
+    background-effect {
+        blur true
+    }
+}
+
+// @id=wr_1793630687162486828 @name=org.kde.dolphin
+window-rule {
+    match app-id="^org.kde.dolphin$"
+    opacity 0.90
+    background-effect {
+        blur true
+    }
+}
+
+// @id=wr_1793630743856224715 @name=org.kde.okular
+window-rule {
+    match app-id="^org.kde.okular$"
+    opacity 0.90
+    background-effect {
+        blur true
+    }
+}
+
+// @id=dms-window-opaque @name=DMS Window Opaque
+window-rule {
+    match app-id="^(dev\\.duxlabs\\.shell|com\\.danklinux\\.dms)$"
+    opacity 1.00
+}

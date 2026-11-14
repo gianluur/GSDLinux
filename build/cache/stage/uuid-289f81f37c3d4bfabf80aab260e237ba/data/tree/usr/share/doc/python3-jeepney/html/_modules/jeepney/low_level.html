@@ -1,0 +1,747 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jeepney.low_level &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">jeepney.low_level</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for jeepney.low_level</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">struct</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">IntEnum</span><span class="p">,</span> <span class="n">IntFlag</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<div class="viewcode-block" id="SizeLimitError">
+<a class="viewcode-back" href="../../api/core.html#jeepney.SizeLimitError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SizeLimitError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when trying to (de-)serialise data exceeding D-Bus&#39; size limit.</span>
+
+<span class="sd">    This is currently only implemented for arrays, where the maximum size is</span>
+<span class="sd">    64 MiB.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Endianness">
+<a class="viewcode-back" href="../../api/core.html#jeepney.Endianness">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Endianness</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">little</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">big</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">struct_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&lt;&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span> <span class="ow">is</span> <span class="n">Endianness</span><span class="o">.</span><span class="n">little</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&gt;&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">dbus_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;l&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span> <span class="ow">is</span> <span class="n">Endianness</span><span class="o">.</span><span class="n">little</span><span class="p">)</span> <span class="k">else</span> <span class="sa">b</span><span class="s1">&#39;B&#39;</span></div>
+
+
+
+<span class="n">endian_map</span> <span class="o">=</span> <span class="p">{</span><span class="sa">b</span><span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="n">Endianness</span><span class="o">.</span><span class="n">little</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="n">Endianness</span><span class="o">.</span><span class="n">big</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="MessageType">
+<a class="viewcode-back" href="../../api/core.html#jeepney.MessageType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MessageType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">method_call</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">method_return</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="mi">4</span></div>
+
+
+
+<div class="viewcode-block" id="MessageFlag">
+<a class="viewcode-back" href="../../api/core.html#jeepney.MessageFlag">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MessageFlag</span><span class="p">(</span><span class="n">IntFlag</span><span class="p">):</span>
+    <span class="n">no_reply_expected</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">no_auto_start</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">allow_interactive_authorization</span> <span class="o">=</span> <span class="mi">4</span></div>
+
+
+
+<div class="viewcode-block" id="HeaderFields">
+<a class="viewcode-back" href="../../api/core.html#jeepney.HeaderFields">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HeaderFields</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">member</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">error_name</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">reply_serial</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">destination</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">sender</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="n">signature</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">unix_fds</span> <span class="o">=</span> <span class="mi">9</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">padding</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+    <span class="n">pad</span> <span class="o">=</span> <span class="n">step</span> <span class="o">-</span> <span class="p">(</span><span class="n">pos</span> <span class="o">%</span> <span class="n">step</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pad</span> <span class="o">==</span> <span class="n">step</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">pad</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FixedType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">struct_code</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">struct_code</span> <span class="o">=</span> <span class="n">struct_code</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="p">()):</span>
+        <span class="n">pos</span> <span class="o">+=</span> <span class="n">padding</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">)</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">endianness</span><span class="o">.</span><span class="n">struct_code</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct_code</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">buf</span><span class="p">[</span><span class="n">pos</span><span class="p">:</span><span class="n">pos</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">val</span><span class="p">,</span> <span class="n">pos</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">pad</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">padding</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">)</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">endianness</span><span class="o">.</span><span class="n">struct_code</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct_code</span>
+        <span class="k">return</span> <span class="n">pad</span> <span class="o">+</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;FixedType(</span><span class="si">{!r}</span><span class="s1">, </span><span class="si">{!r}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct_code</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">is</span> <span class="n">FixedType</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> \
+                <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">struct_code</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">struct_code</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Boolean</span><span class="p">(</span><span class="n">FixedType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">)</span>  <span class="c1"># D-Bus booleans take 4 bytes</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="p">()):</span>
+        <span class="n">val</span><span class="p">,</span> <span class="n">new_pos</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_data</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">new_pos</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;Boolean()&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Boolean</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FileDescriptor</span><span class="p">(</span><span class="n">FixedType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="p">()):</span>
+        <span class="n">idx</span><span class="p">,</span> <span class="n">new_pos</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_data</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fds</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">new_pos</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Sending FDs is not supported or not enabled&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;fileno&#39;</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Cannot use </span><span class="si">{data!r}</span><span class="s2"> as file descriptor. Expected &quot;</span>
+                            <span class="s2">&quot;an int or an object with fileno() method&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File descriptor can&#39;t be negative (</span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="n">fds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">serialise</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fds</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;FileDescriptor()&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">is</span> <span class="n">FileDescriptor</span>
+
+
+<span class="n">simple_types</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">FixedType</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span>  <span class="c1"># unsigned 8 bit</span>
+    <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="n">FixedType</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">),</span>  <span class="c1"># signed 16 bit</span>
+    <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="n">FixedType</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">),</span>  <span class="c1"># unsigned 16 bit</span>
+    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">Boolean</span><span class="p">(),</span>          <span class="c1"># bool (32-bit)</span>
+    <span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="n">FixedType</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">),</span>  <span class="c1"># signed 32-bit</span>
+    <span class="s1">&#39;u&#39;</span><span class="p">:</span> <span class="n">FixedType</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">),</span>  <span class="c1"># unsigned 32-bit</span>
+    <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">FixedType</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">),</span>  <span class="c1"># signed 64-bit</span>
+    <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="n">FixedType</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;Q&#39;</span><span class="p">),</span>  <span class="c1"># unsigned 64-bit</span>
+    <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="n">FixedType</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">),</span>  <span class="c1"># double</span>
+    <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="n">FileDescriptor</span><span class="p">(),</span>   <span class="c1"># file descriptor (uint32 index in a separate list)</span>
+<span class="p">}</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">StringType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length_type</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length_type</span> <span class="o">=</span> <span class="n">length_type</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">alignment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">length_type</span><span class="o">.</span><span class="n">size</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="p">()):</span>
+        <span class="n">length</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length_type</span><span class="o">.</span><span class="n">parse_data</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">length</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="n">pos</span><span class="p">:</span><span class="n">end</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">buf</span><span class="p">[</span><span class="n">end</span><span class="p">:</span><span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">val</span><span class="p">,</span> <span class="n">end</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected str, not </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">encoded</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">len_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length_type</span><span class="o">.</span><span class="n">serialise</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">encoded</span><span class="p">),</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">len_data</span> <span class="o">+</span> <span class="n">encoded</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;StringType(</span><span class="si">{!r}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length_type</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">is</span> <span class="n">StringType</span><span class="p">)</span> \
+               <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length_type</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">length_type</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ObjectPathType</span><span class="p">(</span><span class="n">StringType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">simple_types</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">check_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Object path (</span><span class="si">{</span><span class="n">data</span><span class="si">!r}</span><span class="s2">) must start with /&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Object path (</span><span class="si">{</span><span class="n">data</span><span class="si">!r}</span><span class="s2">) cannot end with /&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;//&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Object path (</span><span class="si">{</span><span class="n">data</span><span class="si">!r}</span><span class="s2">) cannot contain double /&quot;</span><span class="p">)</span>
+        <span class="n">valid_chars</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span> <span class="o">+</span> <span class="s1">&#39;/_&#39;</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_chars</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Object path (</span><span class="si">{</span><span class="n">data</span><span class="si">!r}</span><span class="s2">) can only contain A-Z, a-z, 0-9, / and _&quot;</span>
+            <span class="p">)</span>
+
+
+<span class="n">simple_types</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="n">StringType</span><span class="p">(</span><span class="n">simple_types</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]),</span>  <span class="c1"># String</span>
+    <span class="s1">&#39;o&#39;</span><span class="p">:</span> <span class="n">ObjectPathType</span><span class="p">(),</span>               <span class="c1"># Object path</span>
+    <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="n">StringType</span><span class="p">(</span><span class="n">simple_types</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]),</span>  <span class="c1"># Signature</span>
+<span class="p">})</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Struct</span><span class="p">:</span>
+    <span class="n">alignment</span> <span class="o">=</span> <span class="mi">8</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">DictEntry</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Found dict entry outside array&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="p">()):</span>
+        <span class="n">pos</span> <span class="o">+=</span> <span class="n">padding</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+            <span class="n">v</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">parse_data</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="n">fds</span><span class="p">)</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="n">pos</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected tuple, not </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> entries for </span><span class="si">{}</span><span class="s2"> fields&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span>
+            <span class="p">))</span>
+        <span class="n">pad</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">padding</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">)</span>
+        <span class="n">pos</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pad</span><span class="p">)</span>
+        <span class="n">res_pieces</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">):</span>
+            <span class="n">res_pieces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">serialise</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="n">fds</span><span class="p">))</span>
+            <span class="n">pos</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">res_pieces</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">pad</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res_pieces</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="si">{!r}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DictEntry</span><span class="p">(</span><span class="n">Struct</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Dict entry must have 2 fields, not </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">FixedType</span><span class="p">,</span> <span class="n">StringType</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;First field in dict entry must be simple type, not </span><span class="si">{}</span><span class="s2">&quot;</span>
+                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Array</span><span class="p">:</span>
+    <span class="n">alignment</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">length_type</span> <span class="o">=</span> <span class="n">FixedType</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elt_type</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span> <span class="o">=</span> <span class="n">elt_type</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="p">()):</span>
+        <span class="c1"># print(&#39;Array start&#39;, pos)</span>
+        <span class="n">length</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length_type</span><span class="o">.</span><span class="n">parse_data</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">)</span>
+        <span class="n">pos</span> <span class="o">+=</span> <span class="n">padding</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span><span class="o">.</span><span class="n">alignment</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">length</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span> <span class="o">==</span> <span class="n">simple_types</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]:</span>  <span class="c1"># Array of bytes</span>
+            <span class="k">return</span> <span class="n">buf</span><span class="p">[</span><span class="n">pos</span><span class="p">:</span><span class="n">end</span><span class="p">],</span> <span class="n">end</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="c1"># print(&#39;Array elem&#39;, pos)</span>
+            <span class="n">v</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span><span class="o">.</span><span class="n">parse_data</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="n">fds</span><span class="p">)</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span><span class="p">,</span> <span class="n">DictEntry</span><span class="p">):</span>
+            <span class="c1"># Convert list of 2-tuples to dict</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">,</span> <span class="n">pos</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">data_is_bytes</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span><span class="p">,</span> <span class="n">DictEntry</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span> <span class="o">==</span> <span class="n">simple_types</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+            <span class="n">data_is_bytes</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Not suitable for array: </span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+        <span class="c1"># Fail fast if we know in advance that the data is too big:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span><span class="p">,</span> <span class="n">FixedType</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="o">**</span><span class="mi">26</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">SizeLimitError</span><span class="p">(</span><span class="s2">&quot;Array size exceeds 64 MiB limit&quot;</span><span class="p">)</span>
+
+        <span class="n">pad1</span> <span class="o">=</span> <span class="n">padding</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">)</span>
+        <span class="n">pos_after_length</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">pad1</span> <span class="o">+</span> <span class="mi">4</span>
+        <span class="n">pad2</span> <span class="o">=</span> <span class="n">padding</span><span class="p">(</span><span class="n">pos_after_length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span><span class="o">.</span><span class="n">alignment</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data_is_bytes</span><span class="p">:</span>
+            <span class="n">buf</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_pos</span> <span class="o">=</span> <span class="n">pos_after_length</span> <span class="o">+</span> <span class="n">pad2</span>
+            <span class="n">limit_pos</span> <span class="o">=</span> <span class="n">data_pos</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">26</span>
+            <span class="n">chunks</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span><span class="o">.</span><span class="n">serialise</span><span class="p">(</span>
+                    <span class="n">item</span><span class="p">,</span> <span class="n">data_pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="n">fds</span>
+                <span class="p">))</span>
+                <span class="n">data_pos</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">data_pos</span> <span class="o">&gt;</span> <span class="n">limit_pos</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">SizeLimitError</span><span class="p">(</span><span class="s2">&quot;Array size exceeds 64 MiB limit&quot;</span><span class="p">)</span>
+            <span class="n">buf</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span>
+
+        <span class="n">len_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length_type</span><span class="o">.</span><span class="n">serialise</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span> <span class="n">pos</span><span class="o">+</span><span class="n">pad1</span><span class="p">,</span> <span class="n">endianness</span><span class="p">)</span>
+        <span class="c1"># print(&#39;Array ser: pad1={!r}, len_data={!r}, pad2={!r}, buf={!r}&#39;.format(</span>
+        <span class="c1">#       pad1, len_data, pad2, buf))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">pad1</span><span class="p">)</span> <span class="o">+</span> <span class="n">len_data</span> <span class="o">+</span> <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">pad2</span><span class="p">)</span> <span class="o">+</span> <span class="n">buf</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;Array(</span><span class="si">{!r}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Array</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elt_type</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">elt_type</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Variant</span><span class="p">:</span>
+    <span class="n">alignment</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="p">()):</span>
+        <span class="c1"># print(&#39;variant&#39;, pos)</span>
+        <span class="n">sig</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">simple_types</span><span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">parse_data</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">)</span>
+        <span class="c1"># print(&#39;variant sig:&#39;, repr(sig), pos)</span>
+        <span class="n">valtype</span> <span class="o">=</span> <span class="n">parse_signature</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">sig</span><span class="p">))</span>
+        <span class="n">val</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">valtype</span><span class="o">.</span><span class="n">parse_data</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="n">fds</span><span class="p">)</span>
+        <span class="c1"># print(&#39;variant done&#39;, (sig, val), pos)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">val</span><span class="p">),</span> <span class="n">pos</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">sig</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="n">valtype</span> <span class="o">=</span> <span class="n">parse_signature</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">sig</span><span class="p">))</span>
+        <span class="n">sig_buf</span> <span class="o">=</span> <span class="n">simple_types</span><span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">serialise</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">endianness</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sig_buf</span> <span class="o">+</span> <span class="n">valtype</span><span class="o">.</span><span class="n">serialise</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">pos</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig_buf</span><span class="p">),</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="n">fds</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;Variant()&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Variant</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_signature</span><span class="p">(</span><span class="n">sig</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a symbolic signature into objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Based on http://norvig.com/lispy.html</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Array</span><span class="p">(</span><span class="n">parse_signature</span><span class="p">(</span><span class="n">sig</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s1">&#39;v&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Variant</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">token</span> <span class="o">==</span> <span class="s1">&#39;(&#39;</span><span class="p">:</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">sig</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;)&#39;</span><span class="p">:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parse_signature</span><span class="p">(</span><span class="n">sig</span><span class="p">))</span>
+        <span class="n">sig</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># )</span>
+        <span class="k">return</span> <span class="n">Struct</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">token</span> <span class="o">==</span> <span class="s1">&#39;{&#39;</span><span class="p">:</span>
+        <span class="n">de</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">sig</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;}&#39;</span><span class="p">:</span>
+            <span class="n">de</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parse_signature</span><span class="p">(</span><span class="n">sig</span><span class="p">))</span>
+        <span class="n">sig</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># }</span>
+        <span class="k">return</span> <span class="n">DictEntry</span><span class="p">(</span><span class="n">de</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">token</span> <span class="ow">in</span> <span class="s1">&#39;)}&#39;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unexpected end of struct&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">simple_types</span><span class="p">[</span><span class="n">token</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">calc_msg_size</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
+    <span class="n">endian</span><span class="p">,</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">buf</span><span class="p">[:</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">endian</span> <span class="o">=</span> <span class="n">endian_map</span><span class="p">[</span><span class="n">endian</span><span class="p">]</span>
+    <span class="n">body_length</span><span class="p">,</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">endian</span><span class="o">.</span><span class="n">struct_code</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="n">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">])</span>
+    <span class="n">fields_array_len</span><span class="p">,</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">endian</span><span class="o">.</span><span class="n">struct_code</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="n">buf</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">16</span><span class="p">])</span>
+    <span class="n">header_len</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">+</span> <span class="n">fields_array_len</span>
+    <span class="k">return</span> <span class="n">header_len</span> <span class="o">+</span> <span class="n">padding</span><span class="p">(</span><span class="n">header_len</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="n">body_length</span>
+
+
+<span class="n">_header_fields_type</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">Struct</span><span class="p">([</span><span class="n">simple_types</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">Variant</span><span class="p">()]))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_header_fields</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">endianness</span><span class="p">):</span>
+    <span class="n">l</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">_header_fields_type</span><span class="o">.</span><span class="n">parse_data</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">endianness</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">HeaderFields</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">l</span><span class="p">},</span> <span class="n">pos</span>
+
+
+<span class="n">header_field_codes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">serialise_header_fields</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">endianness</span><span class="p">):</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">header_field_codes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">())]</span>
+    <span class="k">return</span> <span class="n">_header_fields_type</span><span class="o">.</span><span class="n">serialise</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">endianness</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Header">
+<a class="viewcode-back" href="../../api/core.html#jeepney.Header">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Header</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endianness</span><span class="p">,</span> <span class="n">message_type</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">protocol_version</span><span class="p">,</span>
+                 <span class="n">body_length</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A D-Bus message header</span>
+
+<span class="sd">        It&#39;s not normally necessary to construct this directly: use higher level</span>
+<span class="sd">        functions and methods instead.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endianness</span> <span class="o">=</span> <span class="n">endianness</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message_type</span> <span class="o">=</span> <span class="n">MessageType</span><span class="p">(</span><span class="n">message_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">MessageFlag</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol_version</span> <span class="o">=</span> <span class="n">protocol_version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body_length</span> <span class="o">=</span> <span class="n">body_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serial</span> <span class="o">=</span> <span class="n">serial</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;Header(</span><span class="si">{!r}</span><span class="s1">, </span><span class="si">{!r}</span><span class="s1">, </span><span class="si">{!r}</span><span class="s1">, </span><span class="si">{!r}</span><span class="s1">, </span><span class="si">{!r}</span><span class="s1">, </span><span class="si">{!r}</span><span class="s1">, fields=</span><span class="si">{!r}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">endianness</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">message_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">protocol_version</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">body_length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endianness</span><span class="o">.</span><span class="n">struct_code</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;cBBBII&#39;</span>
+        <span class="k">if</span> <span class="n">serial</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">serial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serial</span>
+        <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">endianness</span><span class="o">.</span><span class="n">dbus_code</span><span class="p">(),</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">message_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">protocol_version</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">body_length</span><span class="p">,</span> <span class="n">serial</span><span class="p">)</span> \
+                <span class="o">+</span> <span class="n">serialise_header_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">endianness</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_buffer</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">buf</span><span class="p">):</span>
+        <span class="n">endian</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">pv</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;cBBB&#39;</span><span class="p">,</span> <span class="n">buf</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">endian</span> <span class="o">=</span> <span class="n">endian_map</span><span class="p">[</span><span class="n">endian</span><span class="p">]</span>
+        <span class="n">bodylen</span><span class="p">,</span> <span class="n">serial</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">endian</span><span class="o">.</span><span class="n">struct_code</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;II&#39;</span><span class="p">,</span> <span class="n">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">12</span><span class="p">])</span>
+        <span class="n">fields</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">parse_header_fields</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">endian</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">endian</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">pv</span><span class="p">,</span> <span class="n">bodylen</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">fields</span><span class="p">),</span> <span class="n">pos</span></div>
+
+
+
+<div class="viewcode-block" id="Message">
+<a class="viewcode-back" href="../../api/core.html#jeepney.Message">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Message</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object representing a DBus message.</span>
+
+<span class="sd">    It&#39;s not normally necessary to construct this directly: use higher level</span>
+<span class="sd">    functions and methods instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="n">body</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="si">{!r}</span><span class="s2">, </span><span class="si">{!r}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_buffer</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">buf</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="s1">&#39;Message&#39;</span><span class="p">:</span>
+        <span class="n">header</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">Header</span><span class="o">.</span><span class="n">from_buffer</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+        <span class="n">n_fds</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">unix_fds</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_fds</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">fds</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Message expects </span><span class="si">{</span><span class="n">n_fds</span><span class="si">}</span><span class="s2"> FDs, but only </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fds</span><span class="p">)</span><span class="si">}</span><span class="s2"> were received&quot;</span>
+            <span class="p">)</span>
+        <span class="n">fds</span> <span class="o">=</span> <span class="n">fds</span><span class="p">[:</span><span class="n">n_fds</span><span class="p">]</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="k">if</span> <span class="n">HeaderFields</span><span class="o">.</span><span class="n">signature</span> <span class="ow">in</span> <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+            <span class="n">sig</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">signature</span><span class="p">]</span>
+            <span class="n">body_type</span> <span class="o">=</span> <span class="n">parse_signature</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="n">sig</span><span class="p">))</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">body_type</span><span class="o">.</span><span class="n">parse_data</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">endianness</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="n">fds</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Message</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Message.serialise">
+<a class="viewcode-back" href="../../api/core.html#jeepney.Message.serialise">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert this message to bytes.</span>
+
+<span class="sd">        Specifying *serial* overrides the ``msg.header.serial`` field, so a</span>
+<span class="sd">        connection can use its own serial number without modifying the message.</span>
+
+<span class="sd">        If file-descriptor support is in use, *fds* should be a</span>
+<span class="sd">        :class:`array.array` object with type ``&#39;i&#39;``. Any file descriptors in</span>
+<span class="sd">        the message will be added to the array. If the message contains FDs,</span>
+<span class="sd">        it can&#39;t be serialised without this array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">endian</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">endianness</span>
+
+        <span class="k">if</span> <span class="n">HeaderFields</span><span class="o">.</span><span class="n">signature</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+            <span class="n">sig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">signature</span><span class="p">]</span>
+            <span class="n">body_type</span> <span class="o">=</span> <span class="n">parse_signature</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="n">sig</span><span class="p">))</span>
+            <span class="n">body_buf</span> <span class="o">=</span> <span class="n">body_type</span><span class="o">.</span><span class="n">serialise</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">endian</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="n">fds</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">body_buf</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">body_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">body_buf</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fds</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">unix_fds</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fds</span><span class="p">)</span>
+
+        <span class="n">header_buf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">serialise</span><span class="p">(</span><span class="n">serial</span><span class="o">=</span><span class="n">serial</span><span class="p">)</span>
+        <span class="n">pad</span>  <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">padding</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">header_buf</span><span class="p">),</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">header_buf</span> <span class="o">+</span> <span class="n">pad</span> <span class="o">+</span> <span class="n">body_buf</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Parser">
+<a class="viewcode-back" href="../../api/core.html#jeepney.Parser">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Parser</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse DBus messages from a stream of incoming data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buf</span> <span class="o">=</span> <span class="n">BufferPipe</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fds</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_msg_size</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Parser.add_data">
+<a class="viewcode-back" href="../../api/core.html#jeepney.Parser.add_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="p">()):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Provide newly received data to the parser&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fds</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">fds</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">feed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Feed the parser newly read data.</span>
+
+<span class="sd">        Returns a list of messages completed by the new data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_message</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">bytes_desired</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;How many bytes can be received without going beyond the next message?</span>
+
+<span class="sd">        This is only used with file-descriptor passing, so we don&#39;t get too many</span>
+<span class="sd">        FDs in a single recvmsg call.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">got</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buf</span><span class="o">.</span><span class="n">bytes_buffered</span>
+        <span class="k">if</span> <span class="n">got</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">:</span>  <span class="c1"># The first 16 bytes tell us the message size</span>
+            <span class="k">return</span> <span class="mi">16</span> <span class="o">-</span> <span class="n">got</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_msg_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">next_msg_size</span> <span class="o">=</span> <span class="n">calc_msg_size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buf</span><span class="o">.</span><span class="n">peek</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_msg_size</span> <span class="o">-</span> <span class="n">got</span>
+
+<div class="viewcode-block" id="Parser.get_next_message">
+<a class="viewcode-back" href="../../api/core.html#jeepney.Parser.get_next_message">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Message</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse one message, if there is enough data.</span>
+
+<span class="sd">        Returns None if it doesn&#39;t have a complete message.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_msg_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buf</span><span class="o">.</span><span class="n">bytes_buffered</span> <span class="o">&gt;=</span> <span class="mi">16</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">next_msg_size</span> <span class="o">=</span> <span class="n">calc_msg_size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buf</span><span class="o">.</span><span class="n">peek</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>
+        <span class="n">nms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_msg_size</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">buf</span><span class="o">.</span><span class="n">bytes_buffered</span> <span class="o">&gt;=</span> <span class="n">nms</span><span class="p">:</span>
+            <span class="n">raw_msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buf</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">nms</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">Message</span><span class="o">.</span><span class="n">from_buffer</span><span class="p">(</span><span class="n">raw_msg</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fds</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">next_msg_size</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">fds_consumed</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">unix_fds</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fds</span><span class="p">[</span><span class="n">fds_consumed</span><span class="p">:]</span>
+            <span class="k">return</span> <span class="n">msg</span></div>
+</div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">BufferPipe</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A place to store received data until we can parse a complete message</span>
+
+<span class="sd">    The main difference from io.BytesIO is that read &amp; write operate at</span>
+<span class="sd">    opposite ends, like a pipe.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chunks</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bytes_buffered</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bytes_buffered</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_peek_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">nbytes</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bytes_buffered</span>
+        <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chunks</span><span class="p">:</span>
+            <span class="n">chunk</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[:</span><span class="n">nbytes</span><span class="p">]</span>
+            <span class="n">nbytes</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">chunk</span>
+            <span class="k">if</span> <span class="n">nbytes</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">peek</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get exactly nbytes bytes from the front without removing them&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_peek_iter</span><span class="p">(</span><span class="n">nbytes</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_read_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">nbytes</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bytes_buffered</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">chunk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chunks</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bytes_buffered</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nbytes</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">):</span>
+                <span class="k">break</span>
+            <span class="n">nbytes</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">chunk</span>
+
+        <span class="c1"># Final chunk</span>
+        <span class="n">chunk</span><span class="p">,</span> <span class="n">rem</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[:</span><span class="n">nbytes</span><span class="p">],</span> <span class="n">chunk</span><span class="p">[</span><span class="n">nbytes</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="n">rem</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chunks</span><span class="o">.</span><span class="n">appendleft</span><span class="p">(</span><span class="n">rem</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bytes_buffered</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rem</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">chunk</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Take &amp; return exactly nbytes bytes from the front&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read_iter</span><span class="p">(</span><span class="n">nbytes</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

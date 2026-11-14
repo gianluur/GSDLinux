@@ -23,6 +23,7 @@ modules:
         - docker-compose-plugin
         - freerdp
         - uxplay
+        - podman
 
   - type: script
     snippets:
@@ -41,7 +42,7 @@ modules:
         - virtvboxd.socket
         - virtnetworkd.socket
         - virtstoraged.socket
-        
+
       disabled:
         - NetworkManager-wait-online.service
         - fedora-atomic-desktop-mandb-update.service

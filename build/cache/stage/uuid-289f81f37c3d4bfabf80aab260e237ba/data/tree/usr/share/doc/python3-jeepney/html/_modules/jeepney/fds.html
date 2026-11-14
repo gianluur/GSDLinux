@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jeepney.fds &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">jeepney.fds</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for jeepney.fds</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">array</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+
+
+<div class="viewcode-block" id="NoFDError">
+<a class="viewcode-back" href="../../api/fds.html#jeepney.NoFDError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NoFDError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised by :class:`FileDescriptor` methods if it was already closed/converted</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="FileDescriptor">
+<a class="viewcode-back" href="../../api/fds.html#jeepney.FileDescriptor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FileDescriptor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A file descriptor received in a D-Bus message</span>
+
+<span class="sd">    This wrapper helps ensure that the file descriptor is closed exactly once.</span>
+<span class="sd">    If you don&#39;t explicitly convert or close the FileDescriptor object, it will</span>
+<span class="sd">    close its file descriptor when it goes out of scope, and emit a</span>
+<span class="sd">    ResourceWarning.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_fd&#39;</span><span class="p">,)</span>
+    <span class="n">_CLOSED</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">_CONVERTED</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fd</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">=</span> <span class="n">fd</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">detail</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CLOSED</span><span class="p">:</span>
+            <span class="n">detail</span> <span class="o">=</span> <span class="s1">&#39;closed&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CONVERTED</span><span class="p">:</span>
+            <span class="n">detail</span> <span class="o">=</span> <span class="s1">&#39;converted&#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;FileDescriptor (</span><span class="si">{</span><span class="n">detail</span><span class="si">}</span><span class="s2">)&gt;&quot;</span>
+
+<div class="viewcode-block" id="FileDescriptor.close">
+<a class="viewcode-back" href="../../api/fds.html#jeepney.FileDescriptor.close">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the file descriptor</span>
+
+<span class="sd">        This can safely be called multiple times, but will raise RuntimeError</span>
+<span class="sd">        if called after converting it with one of the ``to_*`` methods.</span>
+
+<span class="sd">        This object can also be used in a ``with`` block, to close it on</span>
+<span class="sd">        leaving the block.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CLOSED</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CONVERTED</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NoFDError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t close FileDescriptor after converting it&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span><span class="p">,</span> <span class="n">fd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CLOSED</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;FileDescriptor (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_fd</span><span class="si">}</span><span class="s1">) was neither closed nor converted&#39;</span><span class="p">,</span>
+                <span class="ne">ResourceWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="bp">self</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">detail</span> <span class="o">=</span> <span class="s1">&#39;closed&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CLOSED</span> <span class="k">else</span> <span class="s1">&#39;converted&#39;</span>
+            <span class="k">raise</span> <span class="n">NoFDError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;FileDescriptor object was already </span><span class="si">{</span><span class="n">detail</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FileDescriptor.fileno">
+<a class="viewcode-back" href="../../api/fds.html#jeepney.FileDescriptor.fileno">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fileno</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the integer file descriptor</span>
+
+<span class="sd">        This does not change the state of the :class:`FileDescriptor` object,</span>
+<span class="sd">        unlike the ``to_*`` methods.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span></div>
+
+
+<div class="viewcode-block" id="FileDescriptor.to_raw_fd">
+<a class="viewcode-back" href="../../api/fds.html#jeepney.FileDescriptor.to_raw_fd">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_raw_fd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to the low-level integer file descriptor::</span>
+
+<span class="sd">            raw_fd = fd.to_raw_fd()</span>
+<span class="sd">            os.write(raw_fd, b&#39;xyz&#39;)</span>
+<span class="sd">            os.close(raw_fd)</span>
+
+<span class="sd">        The :class:`FileDescriptor` can&#39;t be used after calling this. The caller</span>
+<span class="sd">        is responsible for closing the file descriptor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span><span class="p">,</span> <span class="n">fd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CONVERTED</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span>
+        <span class="k">return</span> <span class="n">fd</span></div>
+
+
+<div class="viewcode-block" id="FileDescriptor.to_file">
+<a class="viewcode-back" href="../../api/fds.html#jeepney.FileDescriptor.to_file">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">buffering</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to a Python file object::</span>
+
+<span class="sd">            with fd.to_file(&#39;w&#39;) as f:</span>
+<span class="sd">                f.write(&#39;xyz&#39;)</span>
+
+<span class="sd">        The arguments are the same as for the builtin :func:`open` function.</span>
+
+<span class="sd">        The :class:`FileDescriptor` can&#39;t be used after calling this. Closing</span>
+<span class="sd">        the file object will also close the file descriptor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check</span><span class="p">()</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">buffering</span><span class="o">=</span><span class="n">buffering</span><span class="p">,</span>
+            <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="n">newline</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CONVERTED</span>
+        <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="FileDescriptor.to_socket">
+<a class="viewcode-back" href="../../api/fds.html#jeepney.FileDescriptor.to_socket">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_socket</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to a socket object</span>
+
+<span class="sd">        This returns a standard library :func:`socket.socket` object::</span>
+
+<span class="sd">            with fd.to_socket() as sock:</span>
+<span class="sd">                b = sock.sendall(b&#39;xyz&#39;)</span>
+
+<span class="sd">        The wrapper object can&#39;t be used after calling this. Closing the socket</span>
+<span class="sd">        object will also close the file descriptor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">socket</span><span class="w"> </span><span class="kn">import</span> <span class="n">socket</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check</span><span class="p">()</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">fileno</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CONVERTED</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_ancdata</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ancdata</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="s1">&#39;FileDescriptor&#39;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a list of FileDescriptor from received file descriptors</span>
+
+<span class="sd">        ancdata is a list of ancillary data tuples as returned by socket.recvmsg()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fds</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">)</span>  <span class="c1"># Array of ints</span>
+        <span class="k">for</span> <span class="n">cmsg_level</span><span class="p">,</span> <span class="n">cmsg_type</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">ancdata</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cmsg_level</span> <span class="o">==</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span> <span class="ow">and</span> <span class="n">cmsg_type</span> <span class="o">==</span> <span class="n">socket</span><span class="o">.</span><span class="n">SCM_RIGHTS</span><span class="p">:</span>
+                <span class="c1"># Append data, ignoring any truncated integers at the end.</span>
+                <span class="n">fds</span><span class="o">.</span><span class="n">frombytes</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">%</span> <span class="n">fds</span><span class="o">.</span><span class="n">itemsize</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">cls</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">fds</span><span class="p">]</span></div>
+
+
+
+<span class="n">_fds_buf_size_cache</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fds_buf_size</span><span class="p">():</span>
+    <span class="c1"># If there may be file descriptors, we try to read 1 message at a time.</span>
+    <span class="c1"># The reference implementation of D-Bus defaults to allowing 16 FDs per</span>
+    <span class="c1"># message, and the Linux kernel currently allows 253 FDs per sendmsg()</span>
+    <span class="c1"># call. So hopefully allowing 256 FDs per recvmsg() will always suffice.</span>
+    <span class="k">global</span> <span class="n">_fds_buf_size_cache</span>
+    <span class="k">if</span> <span class="n">_fds_buf_size_cache</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">maxfds</span> <span class="o">=</span> <span class="mi">256</span>
+        <span class="n">fd_size</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">itemsize</span>
+        <span class="n">_fds_buf_size_cache</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">CMSG_SPACE</span><span class="p">(</span><span class="n">maxfds</span> <span class="o">*</span> <span class="n">fd_size</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_fds_buf_size_cache</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-wii-wibn">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Wii save game banner file</comment>
+  <sub-class-of type="application/octet-stream"/>
+  <generic-icon name="application-octet-stream"/>
+</mime-type>

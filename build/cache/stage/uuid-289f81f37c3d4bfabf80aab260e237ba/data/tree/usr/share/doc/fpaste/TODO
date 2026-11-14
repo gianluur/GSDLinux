@@ -1,0 +1,16 @@
+A few things to do, if anybody cares enough about a simple paste util:
+ - generate the manpage from python
+ - fallback to different clipboard methods: xsel, xclip, dbus
+ - Generalize for multiple pastebins, and fallback
+   fpaste.org, dpaste.com, pastie.org, etc.
+ - Keep a cookiejar
+ - Refactor for easier reuse
+ - Change defaults in ~/.fpaste.conf
+ - Possibly add option to support uploading multiple files as *separate*
+   pastes, instead of one long delimited paste.
+
+
+DONE:
+ - Add option to store paste url in the clipboard(s)
+ - Add option to read input directly from the clipboard(s). either the old
+   'primary' X clipboard or the ctrl-v 'clipboard'

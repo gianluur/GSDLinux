@@ -1,0 +1,597 @@
+CHANGES
+-------
+
+  2.224 28 August 2026
+
+      * Remove call to UpDowngradein Makefile.PL
+        Fri Aug 28 11:23:19 2026 +0100
+        310cc13ee3160d1ac5ef1571e07dfbdc632ea1a4
+
+      * Update to version 2.224
+        Fri Aug 28 11:22:54 2026 +0100
+        5b3c59065e088ee4c2ba38b2b3f473d5fbdebd15
+
+      * remove 5.6-specific code and make 5.8 the min versionsupported
+        Wed Aug 26 16:07:08 2026 +0100
+        0f616e0dc15716f1b3eb3fdea36fd016f3548c96
+
+      * Bump actions/checkout from 6 to 7
+        Fri Jul 3 12:05:03 2026 +0100
+        9914e31461e7d275aef351c3bfbebba5802862e5
+
+      * Bump actions/github-script from 8 to 9
+        Mon May 4 18:08:41 2026 +0100
+        5cac74e680c50cf4d75eecbed479a987452c7ea0
+
+  2.218 8 March 2026
+
+      * Version 2.218
+        Sun Mar 8 13:47:17 2026 +0000
+        be6054d7ed1536eec4e5cf04117f251fb4389d59
+
+      * Add SECURITY.md Fixes #18
+        Sun Mar 8 12:14:23 2026 +0000
+        69f9bdebf9fd8b1c5d132e1a423fb7477aa4b347
+
+      * fix spelling typo
+        Tue Feb 24 19:49:03 2026 +0000
+        d8b7ef4eb1507575598430c5e23e2cba95ca410e
+
+  2.217 31 January 2026
+
+      * Update version to 2.217
+        Sat Jan 31 11:52:54 2026 +0000
+        773773f59082a73134212a2d63368683027122ed
+
+  2.214 24 October 2025
+
+      * version 2.214
+        Fri Oct 24 16:15:22 2025 +0100
+        5fd4a5676d0e9a283d55fdf7d2a14957292060dd
+
+      * Add dependbot yml file to police the workflow files
+        Thu Sep 4 16:57:57 2025 +0100
+        af071123f21dbd30cd1c0caab4fd126512007161
+
+      * Add perl 5.42 to workflow files
+        Thu Sep 4 16:57:06 2025 +0100
+        efd6a1b6cb0e2be7a26747b427575d6aa4bee6d6
+
+  2.213 28 August 2024
+
+      * version 2.213
+        Wed Aug 28 15:48:25 2024 +0100
+        63a2ca4e124d88914c000742f082126db9a99c03
+
+      * Use -xc++ when building with C++
+        Mon Jun 17 10:47:25 2024 +0100
+        85daf683caff0fe1b2dafc49998fd6355bdf0da0
+
+      * more fixes
+        Sun Jun 16 11:32:20 2024 +0100
+        3353249cb9e6e25e06aa9ee4d5c74d0cbb45b5a3
+
+      * upstream fixes
+        Sun Jun 16 11:20:58 2024 +0100
+
+      * version 2.213
+        Wed Aug 28 15:48:25 2024 +0100
+        63a2ca4e124d88914c000742f082126db9a99c03
+
+      * Use -xc++ when building with C++
+        Mon Jun 17 10:47:25 2024 +0100
+        85daf683caff0fe1b2dafc49998fd6355bdf0da0
+
+      * more fixes
+        Sun Jun 16 11:32:20 2024 +0100
+        3353249cb9e6e25e06aa9ee4d5c74d0cbb45b5a3
+
+      * upstream fixes
+        Sun Jun 16 11:20:58 2024 +0100
+        f01726f4ab5b1a229d710d45cf310018185ea744
+
+      * rework upstream workflow
+        Sun Jun 16 09:56:02 2024 +0100
+        4c1ba3c333de52e9ec32356c3f720bdccd8f2481
+
+      * rework upstream workflows
+        Sun Jun 16 09:42:05 2024 +0100
+        54cb21c1ac4b795fcd32306c91d07b68b6c8411d
+
+      * no werror for main macos workflow
+        Sun Jun 16 09:36:51 2024 +0100
+        cb9ae2fbec6fa6f0f196cc133ada3e282b80c96f
+
+      * fix  workflows
+        Sun Jun 16 09:33:04 2024 +0100
+        809481c0f36e640c70c24d07401bf2b8b06038a1
+
+      * Merge remote-tracking branch 'origin/master'
+        Sun Jun 16 09:24:46 2024 +0100
+        791d14716523804153a09ffb689b39143807b749
+
+      * Add workflow for perl 5.40
+        Sun Jun 16 09:19:11 2024 +0100
+        e94d2dac2dd3a04e7af5bb8efd461d188d14d21a
+
+      * Merge pull request #15 from haarg-contrib/silence-unused-var
+        Mon Jun 10 21:33:59 2024 +0100
+        a536bcd45bd65a0be8ca8b17fad11ecf0e7d75ef
+
+      * silence unused variable warnings
+        Mon Jun 10 21:15:34 2024 +0200
+        7798ad06a2b184112bffa54a7339771bfeec65c4
+
+  2.213 27 April 2024
+
+      * no functional changes
+
+  2.211 6 April 2024
+
+    * version 2.211
+      Sat Apr 6 14:18:21 2024 +0100
+      f0af7da12a9bdb3860965aab1ad57bca2f5004dc
+
+  2.210 26 February 2024
+
+    * version 2.210
+      Mon Feb 26 09:28:29 2024 +0000
+      f21aa27dc4c434e8dcbb4001767485c99b00c0e2
+
+    * Fix Changes for 2.209
+      Mon Feb 26 09:27:30 2024 +0000
+      25d4f210f7fc4ff6153fff971c01a4f1ce81bddd
+
+  2.209 20 February 2024
+
+    * version 2.209
+      Tue Feb 20 13:14:56 2024 +0000
+      3682e4e48c316dcc6c004578e099377190d0b23b
+
+    * #14 BUILD_BZIP2 default should be true
+      Tue Feb 20 13:12:22 2024 +0000
+      07b8b9549c15eaffd304d6ae1ace4644bc049969
+
+  2.208 19 February 2024
+
+    * fix for READMEmd target
+      Mon Feb 19 09:11:15 2024 +0000
+      b488bed5ffc2acfa076a0018ec08fa72a0cb3882
+
+  2.207 18 February 2024
+
+    * No changes
+
+  2.206 25 July 2023
+
+    * 2.206
+      Tue, 25 Jul 2023 16:21:41 +0100
+      8cb376d21785d7304586cd03d528a9d2d56aeb58
+
+    * drop rt.cpan from SUPPORT section
+      Tue, 18 Jul 2023 09:22:56 +0100
+      4dba5be3e368bc6681a229294a07e34abcae858d
+
+  2.205 8 February 2023
+
+    * 2.205
+      Sun, 16 Jul 2023 16:21:33 +0100
+      62de94af7f8328691abbadbeeb0f2b5effc551b2
+
+    * Test::More::isn't warns in perl 5.38
+      Sun, 9 Jul 2023 21:52:47 +0100
+      cab526b7f1d8fed30e30f3a16c07af66d5b4d4b5
+
+    * Add perl 5.38 & run cron for upstream repos
+      Sun, 9 Jul 2023 21:49:34 +0100
+      6c9f55033f725eab641411a1ac7f54f26250eeef
+
+    * add on workflow_dispatch
+      Fri, 9 Jun 2023 16:32:22 +0100
+      4d3a1d1a261be3599eee48ba28c349a7fc0f1750
+
+    * fix reference to github issue
+      Mon, 22 May 2023 12:37:07 +0100
+      edcb04c0b3bdbc2893654fcc7600474ba090c77a
+
+    * Fix to allow building with C++17 register keyword not allowed in C++17 https://github.com/pmqs/Compress-Raw-Bzip2/issues/11
+      Mon, 22 May 2023 12:29:30 +0100
+      9357289d218d14d64fc31cfa8ae5746a6dcbfca3
+
+    * Silence warnings on HPUX https://github.com/pmqs/Compress-Raw-Bzip2/issues/10
+      Thu, 23 Mar 2023 14:05:43 +0000
+      1418b2afd5b16bb9ddbc19e377c16c6af113d64f
+
+  2.204 8 February 2023
+
+    * Cast isdigit argument as unsigned char
+      https://github.com/pmqs/Compress-Raw-Bzip2/pull/9
+      967696b4fa91768fa4d46163f46982bc063a175e
+
+    * Use GIMME_V instead of GIMME
+      https://github.com/pmqs/Compress-Raw-Bzip2/pull/8
+      54e3c1e18b61f0892056925240bbc80f76e2f038
+
+    * typos
+      12496575c17829506cc9c9fa325e31aab1fcd1c7
+
+    * Trim trailing spaces from bzip2-src
+      https://github.com/pmqs/Compress-Raw-Bzip2/pull/7
+      8728d405e8d805cb88685b82a5e5493b62288046
+
+  2.201 25 June 2022
+
+      * 2.201
+        Sat Jun 25 08:46:32 2022 +0100
+        92a318bb03b85e2dcb4991f4b958fbce6ce9913f
+
+      * Add perl 5.36
+        Sun Jun 5 13:45:55 2022 +0100
+        23064d78dcd14f0898aeb64ce408914dac0805a0
+
+  2.103 3 April 2022
+
+      * Silence uninitialized warnings
+        https://github.com/pmqs/Compress-Raw-Bzip2/pull/5
+        ff3d907325091287ac1525db384b99a968d763d7
+        641a440ec6229c1d368b9ead48f4968b955c0115
+
+  2.101 20 February 2021
+
+      * fix version numbers in meta files
+
+  2.100 7 January 2021
+
+      * trim whitespace
+        f5bb5c5d254f2a9ac6c6e67a5a4823d0f67e7ecb
+
+  2.096 31 July 2020
+
+      * No changes
+
+  2.095 19 July 2020
+
+      * No changes
+
+  2.094 13 July 2020
+
+      * Issue with Append mode & SvOOK
+        https://github.com/pmqs/Compress-Raw-Bzip2/issues/2
+        e6f1fa7d86a4c631b82b7c923a5def3e274925fa
+
+  2.093 7 December 2019
+
+      * No changes
+
+  2.092 4 December 2019
+
+      * No changes
+
+  2.091 23 November 2019
+
+      * Silence compiler warnings
+        https://github.com/pmqs/Compress-Raw-Bzip2/issues/1
+        74756934f3502a0f7ca6b28099fd36057bd958da
+
+  2.089 3 November 2019
+
+      * No Changes
+
+  2.088 31 October 2019
+
+      * Add Support Details
+        37e04fb3dc50287a3512b004282425c6eedb8af6
+
+      * upgrade to Bzip2 1.0.8
+        027a30848ee57731b435d2ea7af09e532bf6fbfd
+
+  2.087 10 August 2019
+
+      * No Changes
+
+  2.086 31 March 2019
+
+      * Moved source to github https://github.com/pmqs/Compress-Raw-Bzip2
+
+      * Add META_MERGE to Makefile.PL
+
+      * Added meta-json.t & meta-yaml.t
+
+  2.084 5 January 2019
+
+      * No Changes
+
+  2.083 30 December 2018
+
+      * No Changes
+
+  2.081 4 April 2018
+
+      * previous release used $^W instead of use warnings. Fixed.
+
+  2.080 2 April 2018
+
+      * No Changes
+
+  2.074 19 Feb 2017
+
+      * Fix bad 2.073 release
+
+  2.072 4 Feb 2017
+      * Makefile.PL
+        #120084: Need Fix for Makefile.PL depending on . in @INC
+
+  2.070 28 Dec 2016
+
+      * #119005: [PATCH] Wrong APPEND_OUTPUT logic
+
+      * #119141: perl-Compress-Raw-Bzip2-2.069 bug report
+
+      * #100817: gcc 4.9.2 warnings
+        Coped fix for same issue from #105647
+
+  2.069 26 Sept 2015
+
+      * reduce compiler warnings and stderr noise
+        [#101340]
+
+      * consting misc tables
+        [#101296]
+
+      * (Ab)use of F<...> for urls/email
+        [#111060]
+
+  2.068 23 Dec 2014
+
+      * No Changes
+
+  2.067 8 Dec 2014
+
+      * Silence compiler warnings
+
+  2.066 21 Sept 2014
+
+      * No Changes
+
+  2.064 1 February 2014
+
+      * [PATCH] Handle non-PVs better
+        [#91558]
+
+  2.063 20 October 2013
+
+      * Compress::Raw::Bzip2 uses AutoLoader for no reason
+        [#88259]
+
+  2.062 11 August 2013
+
+      * No Changes
+
+  2.061 19 May 2013
+
+      * silence compiler warning by making 2nd parameter to
+        DispStream a const char*
+
+  2.060 7 January 2013
+
+      * No Changes
+
+  2.059 24 November 2012
+
+      * Copy-on-write support
+        [#81352]
+
+  2.058 12 November 2012
+
+      * No Changes
+
+  2.057 10 November 2012
+
+      * Compress::Raw::Bzip2 needs to use PERL_NO_GET_CONTEXT
+        [#80318]
+
+      * Install to 'site' instead of 'perl' when perl version is 5.11+
+        [#79811]
+
+      * update to ppport.h that includes SvPV_nomg_nolen
+        [#78080]
+
+  2.055 4 August 2012
+
+      * Fix misuse of magic in API
+        [#78080]
+
+  2.052 29 April 2012
+
+      * No Changes
+
+  2.049 18 February 2012
+
+      * No Changes
+
+  2.048 29 January 2012
+
+      * No Changes
+
+  2.047 28 January 2012
+
+      * Set minimum Perl version to 5.6
+
+  2.045 3 December 2011
+
+      * Moved FAQ.pod to IO::Compress
+
+  2.044 2 December 2011
+
+      * Moved FAQ.pod under the lib directory so it can get installed
+
+  2.043 20 November 2011
+
+      * No Changes
+
+  2.042 17 November 2011
+
+      * No Changes
+
+  2.040 28 October 2011
+
+      * No Changes
+
+  2.039 28 October 2011
+
+      * croak if attempt to freeze/thaw compression object
+        [RT #69985]
+
+  2.037 22 June 2011
+
+      * No Changes
+
+  2.036 18 June 2011
+
+      * No Changes
+
+  2.035 6 May 2011
+
+      * No Changes
+
+  2.033 11 Jan 2011
+      * Fixed typos & spelling errors.
+        [perl# 81782]
+
+  2.032 4 Jan 2011
+
+      * No Changes
+
+  2.031 21 September 2010
+
+      * Updated to use bzip2 1.0.6
+        Version 1.0.6 removes a potential security vulnerability,
+        CVE-2010-0405, so all users are recommended to upgrade immediately.
+
+  2.030 22 July 2010
+
+      * No Changes
+
+  2.027 24 April 2010
+
+      * No Changes
+
+  2.026 7 April 2010
+
+      * No Changes
+
+  2.025 27 March 2010
+
+      * Documented the unused "verbosity" option in
+        Compress::Raw::Bunzip2::new
+        [RT# 54425]
+
+  2.023 9 November 2009
+
+      * Removed redundant bzip2 source files from the bzip2-src directory.
+        [RT# 47225]
+
+      * Fixed instance where $[ should have been $] in t/01bzip2.t
+        Thanks to Robin Barker and zefram [RT #50764] for independently
+        spotting the issue.
+
+  2.021 30 August 2009
+
+      * Changed test harness so that it can cope with PERL5OPT=-MCarp=verbose
+        [RT# 47225]
+
+  2.020 4 June 2009
+
+      * No Changes
+
+  2.019 4 May 2009
+
+      * tidied up Bzip2.xs
+
+  2.018 3 May 2009
+
+      * added linitOutput option
+
+      * Changes to bzip2 source to get the module to build using a C++
+        compiler
+
+  2.017 28 March 2009
+
+      * Minor changes to allow building in perl core.
+
+      * Removed MAN3PODS from Makefile.PL
+
+  2.015 3 September 2008
+
+      * Documented bzlibversion
+
+  2.015 3 September 2008
+
+      * Makefile.PL
+        Backout changes made in 2.014
+
+  2.014 2 September 2008
+
+      * Makefile.PL
+        Updated to check for indirect dependencies.
+
+  2.012 15 July 2008
+
+      * No Changes
+
+  2.011 17 May 2008
+
+      * No Changes
+
+  2.010 5 May 2008
+
+      * No Changes
+
+  2.009 20 April 2008
+
+      * Updated to use bzip2 1.0.5
+
+  2.008 2 November 2007
+
+      * Minor documentation changes in README
+
+  2.006 1 September 2007
+
+      * Added the bzip2 LICENSE file into bzip2-src.
+        [rt.cpan.org #28980]
+
+  2.005 18 June 2007
+
+      * Added patch from Fedora to allow the module to be built with an
+        existing bzip2 library.
+        [rt.cpan.org #25489]
+
+  2.004 3 March 2007
+
+      * Updated to use bzip2 1.0.4
+
+      * Remove redundant code from Bzip2.xs
+
+  2.003 2 January 2007
+
+      * Added explicit version checking
+
+  2.002 29 December 2006
+
+      * Documentation updates.
+
+  2.001 1 November 2006
+
+      * Remove beta status.
+
+  2.000_14 26 October 2006
+
+      * Fixed memory leak on realloc.
+
+  2.000_12 12 May 2006
+
+      * Documentation updates.
+
+  2.000_10 13 March 2006
+
+      * Created Compress::Raw::Bzip2

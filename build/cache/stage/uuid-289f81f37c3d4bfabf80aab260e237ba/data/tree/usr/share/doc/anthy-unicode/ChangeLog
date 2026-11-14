@@ -1,0 +1,1484 @@
+commit 35cb19e6434e25bc7b9e1e4838e4416c972914ba
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2026-02-13 21:32:21 +0900
+
+    meson_dist: Fix typo
+
+M	meson_dist.py
+
+commit 61c8596f81e138362453ad1a476a50fea341707f
+Author: oreo639 <oreo6391@gmail.com>
+Date:   2026-02-03 02:51:03 -0800
+
+    meson: Fix anthy-unicode.conf search path in mkdepgraph
+    
+    Resolves issue where a blank anthy.dep is generated when using
+    the meson build system. This is due to the anthy-unicode.conf
+    path not being adjusted between meson and autotools.
+    
+    BUG=#14
+
+M	depgraph/meson.build
+M	depgraph/mkdepgraph.c
+
+commit 924994eebf13d87022ddcf07eac485f784c4e17d
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2026-01-27 20:42:22 +0900
+
+    Fix some compiler warnings
+    
+    - src-main/context.c: Fix warning[-Waddress]
+      &ce->str will always evaluate as 'true'
+    - mkworddic/mkdic.c: Fix warning[-Wformat-overflow=]
+      '%s' directive argument is null
+
+M	mkworddic/mkdic.c
+M	src-main/context.c
+
+commit 85e3555eb5b7eeb59b0c1f5ca66e495b38515929
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2026-01-27 20:34:07 +0900
+
+    meson: Add meson_dist.py to update ChangeLog and NEWS files
+    
+    You could run the following commands:
+    git tag 1.0.0.`date '+%Y%m%d'`
+    meson setup builddir
+    cd builddir
+    meson dist
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/12
+
+M	meson.build
+A	meson_dist.py
+
+commit 858e6cea59a57cb4f77506ae3c0eeda348aeb207
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2026-01-21 09:24:14 +0900
+
+    meson: Use str.format()
+    
+    Also replace ${prefix} with get_option('prefix').
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/12
+
+M	meson.build
+
+commit c34f33178144b49528f52c7bf487c5ce0b5b9927
+Author: oreo639 <oreo6391@gmail.com>
+Date:   2024-02-08 04:28:42 -0800
+
+    src-diclib: fix crash when getpwuid() returns null
+    
+    This fixes a null pointer dereference when cross-compiling with an exe_wrapper
+    script when the passwd cannot be used.
+    
+    anthy_conf_get_str() will still fallback to getenv().
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/12
+
+M	src-diclib/conf.c
+
+commit 5a9d5e2554d8ef25417c4bbae6da425f628d50d3
+Author: oreo639 <oreo6391@gmail.com>
+Date:   2024-02-08 01:42:04 -0800
+
+    Port to meson
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/12
+
+A	anthy/meson.build
+A	calctrans/meson.build
+A	depgraph/meson.build
+A	meson.build
+A	meson_options.txt
+A	mkanthydic/meson.build
+A	mkworddic/meson.build
+A	src-diclib/meson.build
+A	src-main/meson.build
+A	src-ordering/meson.build
+A	src-splitter/meson.build
+A	src-util/meson.build
+A	src-worddic/meson.build
+A	test/meson.build
+
+commit 9cca8440f089a8bcd9bb5e59c95238be6871ebec
+Author: oreo639 <oreo6391@gmail.com>
+Date:   2025-03-27 17:38:53 -0700
+
+    mkworddic: allow specifying output file from cli args
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/12
+
+M	mkworddic/mkdic.c
+
+commit b8b23ec346c978ad0d1f1abf46258a240178637b
+Author: oreo639 <oreo6391@gmail.com>
+Date:   2025-03-27 17:36:35 -0700
+
+    mkanthydic: allow specifying output file from cli args
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/12
+
+M	mkanthydic/mkfiledic.c
+
+commit 05aae4c27b6dfd5278f57a11d9d9d3bf6e547f43
+Author: oreo639 <oreo6391@gmail.com>
+Date:   2025-03-27 17:34:41 -0700
+
+    depgraph: allow specifying output file from cli args
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/12
+
+M	depgraph/mkdepgraph.c
+
+commit 7b38360e995b2b7a4865edc148656f92af18a4ec
+Author: oreo639 <oreo6391@gmail.com>
+Date:   2025-03-27 17:31:55 -0700
+
+    calctrans: allow specifying output directory from cli args
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/12
+
+M	calctrans/calctrans.c
+
+commit e63d1d67caa95886076ac1f6033469e03b36c990
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2024-05-02 14:12:10 +0900
+
+    Makefile: Add check sum file
+
+M	Makefile.am
+
+commit d6e048916fee926818212e1d9f8dbd37e19f2794
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2024-03-14 20:59:22 +0900
+
+    alt-cannadic: Fix おきのえらぶ in gcanna.ctd
+    
+    BUG=rhbz#2269401
+
+M	alt-cannadic/gcanna.ctd
+
+commit 360c112cff27fe82fff07bb255a48e40ab7a0849
+Author: Rocka <i@rocka.me>
+Date:   2022-10-22 21:06:17 +0800
+
+    src-diclib: implement set logger
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/9
+
+M	src-diclib/logger.c
+
+commit be2f8aa9fff0ffcd0e117fd748ae8970e22ac7cc
+Author: Rocka <i@rocka.me>
+Date:   2022-10-22 21:04:39 +0800
+
+    xchar: fix typo in header guard
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/9
+
+M	anthy/xchar.h
+
+commit be047ce9dcb7bc4c77b600101620c27fa7754122
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2022-07-19 20:26:11 +0900
+
+    travis: Move git master to main branch
+
+M	.travis.yml
+
+commit 754f1c8b18ce0bf9c5e25541f4f4707d8a982811
+Author: Jens Petersen <juhpetersen@gmail.com>
+Date:   2022-06-09 11:47:18 +0800
+
+    word_dic.c: rename master_dic_file to main_dic_file
+
+M	src-worddic/word_dic.c
+
+commit 255323305b3621286cc4025ac59fa7d37fa1e7ce
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2022-05-06 20:33:47 +0900
+
+    src-main/context.c: Code reviews
+
+M	src-main/context.c
+
+commit 8ed7a30c096d6d053a23939393013f1215139943
+Author: Masanari Iida <standby24x7@gmail.com>
+Date:   2022-02-11 12:07:15 +0900
+
+    gcanna.ctd: Update Teisanso
+    
+    This patch fix a word "Teisanso" in gcanna.ctd.
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/7
+
+M	alt-cannadic/gcanna.ctd
+
+commit d9355d3e0fac58eab16684fed2715cc91f68d39e
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2022-02-11 10:28:18 +0900
+
+    src-util: set-face-underline is not available in xemacs Lisp
+
+M	src-util/anthy-unicode.el
+
+commit 8203577deeec5ceefac5665e8773477d9b6ed862
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2021-12-24 21:26:01 +0900
+
+    Update NEWS
+
+M	Makefile.am
+M	configure.ac
+A	m4/Makefile.am
+A	m4/as-version.m4
+
+commit f6c5f4be9f417e751ac1fe259bf3c95a11386d9c
+Author: Masanari Iida <standby24x7@gmail.com>
+Date:   2021-09-27 19:33:57 +0900
+
+    name.t: Remove a word which is not name
+    
+    This patch removed a word from name.t.
+    Because the word is not name.
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/5
+
+M	mkworddic/name.t
+
+commit 2eb4aaef00d93dff862a60976d57dbed4b3f7f8d
+Author: Masanari Iida <standby24x7@gmail.com>
+Date:   2021-09-27 18:22:47 +0900
+
+    compound.t: Fix some mistakes in compound.t
+    
+    This patch fixes some mistakes in dictionary.
+    Such as:
+    Modify 2 spaces to one space,
+    Modify 2 ## to one #,
+    Modify katakana in first entry of the dictionary,
+    and remove ().
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/pull/3
+
+M	mkworddic/compound.t
+
+commit 315269076a6129ce9eabeed1a03a2b07804db486
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2021-12-24 19:38:02 +0900
+
+    Enable travis
+
+A	.travis.yml
+
+commit 3268769dcf9599d0275b82edf88b9f8ac6d51891
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2021-10-26 18:16:12 +0900
+
+    src-util: Fix require in *.el
+    
+    BUG=rhbz#1998727
+
+M	src-util/anthy-unicode-azik.el
+M	src-util/anthy-unicode-conf.el
+M	src-util/anthy-unicode-dic.el
+M	src-util/anthy-unicode-isearch.el
+M	src-util/anthy-unicode-kyuri.el
+M	src-util/anthy-unicode.el
+
+commit 96bac7f6576fad2e3c5937d7e93765736b66de70
+Author: Shinji Tamura <stamura@kvj.biglobe.ne.jp>
+Date:   2021-10-22 11:45:39 +0900
+
+    src-util: Run anthy-agent-unicode with UTF-8 encoding
+    
+    BUG=rhbz#1998727
+
+M	src-util/agent.c
+M	src-util/egg.c
+M	src-util/input.c
+M	src-util/morph-main.c
+
+commit 4493804924ba282445153e0d52d6aa40dbf85305
+Author: Shinji Tamura <stamura@kvj.biglobe.ne.jp>
+Date:   2021-10-22 11:45:37 +0900
+
+    src-util: Call anthy-agent-unicode and anthy-dic-tool-unicode in EL files
+    
+    BUG=rhbz#1998727
+
+M	src-util/anthy-unicode-dic.el
+M	src-util/anthy-unicode.el
+M	src-util/leim-list.el
+
+commit b831814194201341fa211c57891e01d42f91a6e2
+Author: Shinji Tamura <stamura@kvj.biglobe.ne.jp>
+Date:   2021-10-22 11:45:35 +0900
+
+    src-util: Fix Makefile.am to work with renamed EL files
+    
+    BUG=rhbz#1998727
+
+M	src-util/Makefile.am
+
+commit c5a26435be5bec2da2fe62f5ee0d6bce2758aa88
+Author: Shinji Tamura <stamura@kvj.biglobe.ne.jp>
+Date:   2021-10-22 11:45:33 +0900
+
+    src-util: Convert ISO-2022-JP to UTF-8 in *.el
+    
+    iconv -f ISO-2022-JP -o anthy-unicode.el anthy.el
+    
+    BUG=rhbz#1998727
+
+D	src-util/anthy-azik.el
+D	src-util/anthy-conf.el
+D	src-util/anthy-kyuri.el
+A	src-util/anthy-unicode-azik.el
+A	src-util/anthy-unicode-conf.el
+R059	src-util/anthy-dic.el	src-util/anthy-unicode-dic.el
+R091	src-util/anthy-isearch.el	src-util/anthy-unicode-isearch.el
+A	src-util/anthy-unicode-kyuri.el
+R082	src-util/anthy.el	src-util/anthy-unicode.el
+
+commit 1873b393c0b2954173537d1e58320381b0ad60da
+Author: masanari iida <masanari.iida@hpe.com>
+Date:   2021-10-22 11:45:30 +0900
+
+    alt-cannadic: Update gcanna.ctd with Shubitai
+    
+    BUG=rhbz#2007482
+
+M	alt-cannadic/gcanna.ctd
+
+commit 0a55deb4de4756cad555493e7125d72c6ce37429
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2021-07-14 20:55:46 +0900
+
+    Update README to describe kasumi-unicode
+
+M	README
+M	README.en
+
+commit be564451089a6a0b05f25abcc8b6fc98902dbcc4
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2021-07-14 20:55:16 +0900
+
+    Update AUTHORS for anthy-unicode
+
+M	AUTHORS
+
+commit e10880f65a2dee4647f362b7645af014fed6809a
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2021-07-14 20:54:51 +0900
+
+    Code reviews
+
+M	anthy/corpus.h
+M	anthy/logger.h
+M	anthy/matrix.h
+M	calctrans/calctrans.c
+M	calctrans/corpus.c
+M	calctrans/input_set.c
+M	calctrans/input_set.h
+M	configure.ac
+M	depgraph/mkdepgraph.c
+M	mkanthydic/mkfiledic.c
+M	mkworddic/calcfreq.c
+M	mkworddic/mkdic.c
+M	mkworddic/mkdic.h
+M	mkworddic/mkudic.c
+M	mkworddic/writewords.c
+M	src-diclib/conf.c
+M	src-diclib/diclib_inner.h
+M	src-diclib/file_dic.c
+M	src-diclib/filemap.c
+M	src-diclib/logger.c
+M	src-diclib/ruleparser.c
+M	src-diclib/xstr.c
+M	src-main/context.c
+M	src-main/main.c
+M	src-ordering/candswap.c
+M	src-ordering/relation.c
+M	src-splitter/compose.c
+M	src-splitter/depgraph.c
+M	src-splitter/lattice.c
+M	src-splitter/metaword.c
+M	src-splitter/segclass.c
+M	src-splitter/splitter.c
+M	src-util/agent.c
+M	src-util/convdb.c
+M	src-util/dic-tool.c
+M	src-util/egg.c
+M	src-util/input.c
+M	src-util/rkconv.c
+M	src-worddic/dic_util.c
+M	src-worddic/ext_ent.c
+M	src-worddic/feature_set.c
+M	src-worddic/matrix.c
+M	src-worddic/priv_dic.c
+M	src-worddic/record.c
+M	src-worddic/textdict.c
+M	src-worddic/texttrie.c
+M	src-worddic/word_dic.c
+M	src-worddic/word_lookup.c
+M	test/check.c
+M	test/main.c
+M	test/test-matrix.c
+
+commit f59ccfd7a3ff0c78f9e261938b6c93e1aa979e9d
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2020-11-09 16:34:57 +0900
+
+    src-worddic: Replace mkdir() with anthy_mkdir_with_parents()
+    
+    anthy_check_user_dir() creates a user directory and needs
+    "mkdir -p" function to create dicrectories recursively.
+
+M	src-util/dic-tool.c
+M	src-worddic/priv_dic.c
+
+commit 4d0c11d301e7f312c870529a9f145a3f527b131e
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2020-11-09 16:32:19 +0900
+
+    src-diclib: Add anthy_mkdir_with_parents()
+    
+    Implement anthy_mkdir_with_parents() from GLib2 g_mkdir_with_parents()
+
+M	anthy/diclib.h
+M	src-diclib/diclib_inner.h
+M	src-diclib/file_dic.c
+
+commit 0e423326e5429218531a1d8187610fd3cfb5575c
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2020-11-06 20:05:09 +0900
+
+    src-util: Enable anthy-dic-tool-unicode --append --text
+
+M	src-util/Makefile.am
+R100	src-util/dic-tool-input.txt	src-util/dic-tool-input
+A	src-util/dic-tool-result
+M	src-util/dic-tool.c
+
+commit db4f4b47d84731537b292e4e5de76454758f54d9
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2020-11-04 19:48:51 +0900
+
+    src-util: Add anthy-dic-tool-unicode --migrate option
+    
+    anthy-dic-tool-unicode --migrate command can merge
+    $HOME/.anthy/private_words_default to
+    $HOME/.config/anthy/private_words_default to migrate the Anthy
+    private dictionary to the Anthy-Unicode private dictionary.
+
+M	src-util/dic-tool.c
+
+commit 7f63b39c0168623993c02d6e5941e7b27c9c5e35
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2020-11-04 19:35:17 +0900
+
+    src-util: Fix anthy-dic-tool-unicode to work with UTF-8 files
+
+M	src-util/Makefile.am
+A	src-util/dic-tool-input.txt
+M	src-util/dic-tool.c
+
+commit 15c138aa9cfe38ae6c618262bc077b3ee8e607e8
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2020-11-04 19:19:00 +0900
+
+    src-util: Convert Shift-JIS typetab to UTF-8
+
+M	src-util/typetab
+
+commit 686845b1e40e51a543fd24284ba4f5cbc3df643b
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-10-21 17:07:25 +0900
+
+    test: Fix to run check in build
+    
+    When I tried to fix an unused return variable, I deleted anthy_get_stat()
+    by mistake and revert it now.
+    Also set a local DIC_FILE for the build.
+
+M	test/check.c
+
+commit c7039a1834adb4e1a3dd2b6b93f5f124a5991b5f
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-10-21 16:26:10 +0900
+
+    src-worddic: Fix buffer overflow in record_stat.base_fn
+    
+    test/anthy causes a buffer overflow in anthy_quit() in Fedora build
+    because ENCODING_SUFFIX will be appended to base_fn.
+
+M	src-worddic/record.c
+
+commit 0d057d4927820e1138af9045be98eddff99fb43f
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-10-21 15:14:39 +0900
+
+    test: Add prediction and test-matrix in Makefile
+
+M	test/Makefile.am
+M	test/prediction.c
+
+commit ff706dc576670d4a932f72b7314296bb924377e1
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-10-15 20:17:45 +0900
+
+    mkworddic: Fix a SEGV of mkworddic when alt-cannadic data is less than 100
+
+M	mkworddic/calcfreq.c
+
+commit 5271219b718de29143f595dfb38f66d95bf291e7
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-10-15 20:16:41 +0900
+
+    alt-cannadic: Update gcanna.ctd
+
+M	alt-cannadic/gcanna.ctd
+
+commit 24139f8a078f9bbac6adb9085ec71d107f152335
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-10-15 20:06:46 +0900
+
+    depgraph: Convert mkdepgraph program to UTF-8
+
+M	depgraph/mkdepgraph.c
+
+commit b14a0a579917f0db3684c5a0d0dadf818065d94c
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-10-15 20:05:40 +0900
+
+    depgraph: Convert depword data to UTF-8
+
+M	depgraph/a.depword
+M	depgraph/ajv.depword
+M	depgraph/av.depword
+M	depgraph/conjugate.depword
+M	depgraph/conjugate.table
+M	depgraph/fix.depword
+M	depgraph/indepword.txt
+M	depgraph/master.depword
+M	depgraph/noun-variant.depword
+M	depgraph/noun.depword
+M	depgraph/v.depword
+
+commit bcf7f39b6dfcfc91adbdfba9888683072160c587
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-10-15 19:54:13 +0900
+
+    calctrans: Convert proccorpus program to UTF-8
+
+M	calctrans/proccorpus.c
+
+commit 1ee6feefa7157f89713c0ddc79cf8a599dade9f2
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-10-15 19:50:00 +0900
+
+    calctrans: Convert corpus data to UTF-8
+    
+    corpus.3.txt includes 0xa1c1 which should be converted to U+FF5E
+    but not U+301C and used EUC-JP-MS encoding instead of EUC-JP.
+
+M	calctrans/corpus.0.txt
+M	calctrans/corpus.1.txt
+M	calctrans/corpus.2.txt
+M	calctrans/corpus.3.txt
+M	calctrans/corpus.4.txt
+M	calctrans/corpus.5.txt
+M	calctrans/corpus_info
+M	calctrans/weak_words
+
+commit 9faafdfae1ade62227bb1151eab5d22cfa96276e
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-10-15 19:42:48 +0900
+
+    src-worddic: Fix ptab.h to stop the warning "Failed to find wtype"
+    
+    test/anthy causes the warning after the test data is changed to UTF-8.
+
+M	src-worddic/ptab.h
+
+commit a6151968b3a27b0b59bc613c8d7d4a655eaef987
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-10-15 19:41:17 +0900
+
+    test: Change test programs to UTF-8
+
+M	src-main/main.c
+M	test/check.c
+M	test/main.c
+
+commit f2a166a68baae61f6eac8308c68b5fd88aa4f5f6
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-10-15 19:39:05 +0900
+
+    test: Convert test data to UTF-8
+
+M	test/test.exp
+M	test/test.txt
+
+commit 4c618b8d3c41d7c43d30050bec96cdea2dbae6be
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-07-30 20:09:17 +0900
+
+    src-diclib: Fix rpmlint shared-lib-calls-exit
+    
+    The memory errors should be abort instead of exit.
+
+M	src-diclib/alloc.c
+
+commit 4f737e08a1366c4a19911d48f9b41cc76c64133b
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-06-04 13:33:21 +0900
+
+    src-util: Fix some obsolete warnings in emacs batch-byte-compile
+    
+    When emacs batch-byte-compile runs, some obsolete warnings are output.
+    
+    anthy.el:74:2:Warning: ‘set-face-underline-p’ is an obsolete function
+    (as of 24.3); use ‘set-face-underline’ instead.
+    
+    anthy.el:163:1:Warning: !! The file uses old-style backquotes !!
+    This functionality has been obsolete for more than 10 years already
+    and will be removed soon.  See (elisp)Backquote in the manual.
+    
+    anthy.el:246:4:Warning: ‘mapcar’ called for effect; use ‘mapc’ or ‘dolist’
+    instead
+    
+    https://stackoverflow.com/questions/8109665/how-fix-emacs-error-old-style-backquotes-detected
+
+M	src-util/anthy.el
+
+commit 73357bab97442330557683e9de01741257d2b047
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-06-04 12:55:00 +0900
+
+    src-worddic: Revert ptab.h to EUC-JP
+    
+    Changing depgraph/indepword.txt to UTF-8 has problems in the
+    conversion and now ptab.h is reverted to EUC-JP at the moment.
+    
+    BUG=https://github.com/fujiwarat/anthy-unicode/issues/1
+
+M	src-worddic/ptab.h
+
+commit 85465940ffc23f70a8202aa13fb0e2a5ee9a1fc9
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-06-04 12:34:05 +0900
+
+    mkworddic: Make parse_modify_freq_command() for UTF-8
+    
+    Now mkworddic/adjust.t is UTF-8 file and need to update
+    parse_modify_freq_command() to handle UTF-8 strings.
+
+M	mkworddic/mkdic.c
+
+commit 0b21c7d45fce7ce98fcb85e1454a9d7c2d50fb84
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-06-03 12:30:25 +0900
+
+    Update COPYING with the latest LGPL 2.1
+
+M	COPYING
+
+commit 703f5a7155b0c2585da8654492e59545bd880877
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-12 19:22:52 +0900
+
+    src-worddic: Warning when user dict is found in the old path .anthy
+
+M	src-worddic/textdict.c
+
+commit 08a7cf559c00511581984f8f08d771ad03de550f
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-11 20:02:04 +0900
+
+    Release 1.0.0.20190411
+
+M	configure.ac
+
+commit 2ad2f361fd150d4bb507ece1f11723a74676f9aa
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-11 20:01:37 +0900
+
+    ChangeLog: Update from git log
+
+M	ChangeLog
+A	ChangeLog-old
+M	Makefile.am
+
+commit fe96e442f4f2bce79a6c548ec0d714cf34812210
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-11 19:31:11 +0900
+
+    src-worddic: infinite loop if the end of anthy journal file is broken
+    
+    Normally the end of anthy journal file, $CONFIG/last-record2_default.utf8,
+    should be '\n' when we check it with 'od' command.
+    But if that file is broken, the end of file would not be '\n'
+    and anthy_do_create_context() could go into an infinite loop.
+    
+    The solution is to check EOF besides '\n' in record.c:read_1_token().
+    
+    BUG=https://ja.osdn.net/projects/anthy/ticket/33075
+    BUG=https://groups.google.com/forum/#!topic/ibus-user/eRr0Ix4GbgE
+
+M	src-worddic/record.c
+
+commit 8087af2ef2fa3eabf0edfb036a14df813c63e596
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-11 18:07:11 +0900
+
+    src-worddic: Move $HOME/.anthy to $HOME/.config/anthy
+
+M	src-diclib/conf.c
+M	src-worddic/dic_main.h
+M	src-worddic/priv_dic.c
+M	src-worddic/record.c
+
+commit f24c658c19c287cc59ec92eaa922a937c0779a8a
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-09 15:08:31 +0900
+
+    alt-cannadic: Add new era "Reiwa"
+    
+    https://www.unicode.org/L2/L2018/18007.htm#154-A15
+
+M	alt-cannadic/extra/gt-tankanji_hikanji-34.t
+M	alt-cannadic/gcanna.ctd
+
+commit 51b7836b560bc89e08560cdd1b583cd7bb5bc0a1
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-05 17:35:52 +0900
+
+    anthy-unicode.conf: s/anthy/@PACKAGE@/
+
+M	anthy-unicode.conf.in
+
+commit 90b7acff0567d0a23563582baff780a62cc2b32e
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 21:27:48 +0900
+
+    Move public header files to /usr/include/anthy-unicode-*/anthy
+
+M	anthy-unicode.pc.in
+M	anthy/Makefile.am
+
+commit 4b9d51ae57e896515b90226c63324ef627efa572
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:49:10 +0900
+
+    Rename libanthy*.so to libanthy-unicode*.so
+
+M	calctrans/Makefile.am
+M	depgraph/Makefile.am
+M	mkworddic/Makefile.am
+M	src-main/Makefile.am
+M	src-util/Makefile.am
+M	src-worddic/Makefile.am
+M	test/Makefile.am
+
+commit 4d56b755a78fc75239c05d5324a60f544992c7f3
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:28:56 +0900
+
+    Rename loaded anthy-conf to anthy-unicode.conf in libraries
+
+M	calctrans/proccorpus.c
+M	depgraph/mkdepgraph.c
+M	src-diclib/conf.c
+M	test/main.c
+M	test/prediction.c
+
+commit 09fb3ce7973397d74a447546f61787c88e413bcd
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:28:25 +0900
+
+    Rename anthy-conf to anthy-unicode.conf
+
+M	Makefile.am
+R100	anthy-test-conf.in	anthy-unicode-test.conf.in
+R100	anthy-conf.in	anthy-unicode.conf.in
+R100	anthy.pc.in	anthy-unicode.pc.in
+R100	anthy.spec.in	anthy-unicode.spec.in
+M	configure.ac
+
+commit da60f6f48c4cdb9ecdc766bb2285ab1994928b74
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:27:33 +0900
+
+    configure.ac: Rename anthy to anthy-unicode
+
+M	configure.ac
+
+commit f8d77b07e84963f02e2755a5ef175d86510ec428
+Author: Akira TAGOH <tagoh@redhat.com>
+Date:   2019-04-04 20:26:15 +0900
+
+    alt-cannadic/extra: Normalize dictionaries
+
+M	alt-cannadic/extra/g-jiritu-34.t
+M	alt-cannadic/extra/gc-fullname-34.t
+M	alt-cannadic/extra/gf-fuzoku-34.t
+M	alt-cannadic/extra/gt-tankanji_hikanji-34.t
+M	alt-cannadic/extra/gt-tankanji_kanji-34.t
+M	mkworddic/dict.args.in
+
+commit 81b0765cacb71b124a3930a07d8231c247c0018a
+Author: Akira TAGOH <tagoh@redhat.com>
+Date:   2019-04-04 20:26:05 +0900
+
+    src-diclib: Fix a segfault issue (#973127)
+
+M	src-diclib/xstr.c
+
+commit c53874a0a3b9843cc1c8b138be193c0903bba7b6
+Author: Mike FABIAN <mfabian@redhat.com>
+Date:   2019-04-04 20:25:56 +0900
+
+    anthy.el: working back on Emacs 24.3.1
+
+M	src-util/anthy.el
+
+commit 6e2580ff5a5358892d8ae13b4da83dca570defb8
+Author: Akira TAGOH <tagoh@redhat.com>
+Date:   2019-04-04 20:25:41 +0900
+
+    Update the corpus
+
+M	calctrans/corpus_info
+M	calctrans/weak_words
+
+commit 563106aef771cd0023061b123079f08cb04bfe6f
+Author: Akira TAGOH <tagoh@redhat.com>
+Date:   2019-04-04 20:25:27 +0900
+
+    Fix typos in dictionary (#509534)
+    
+    - Fix typos in dictionary. (#509534)
+    - Fix more typos in dictionary. (#519769)
+    - Fix more typos in dictionary. (#548078)
+    - Fix a typo in the dictionary (#629908)
+
+M	alt-cannadic/g_fname.t
+M	mkworddic/compound.t
+M	mkworddic/name.t
+M	mkworddic/udict
+
+commit 5bbb8fb4f129ad819a93a9c8e8274412e23ed84e
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:24:41 +0900
+
+    Convert EUC-JP to UTF-8 in dicsts
+
+M	alt-cannadic/gcanna.ctd
+M	alt-cannadic/gcannaf.ctd
+M	alt-cannadic/gtankan.ctd
+M	alt-cannadic/sample/dict.args.in.euc
+M	alt-cannadic/sample/dict.args.in.utf8
+M	mkworddic/adjust.t
+M	mkworddic/base.t
+M	mkworddic/compound.t
+M	mkworddic/dict.args.in
+M	mkworddic/extra.t
+M	mkworddic/name.t
+M	mkworddic/tankanji.t
+M	mkworddic/udict
+M	mkworddic/zipcode.t
+
+commit 533159c9230fcc0bffd8a8eeeb6cb0df27d75509
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:24:12 +0900
+
+    Add autogen.sh
+
+A	autogen.sh
+
+commit 72570197264f758dc393c00d6c42646b21f7e5a7
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:23:31 +0900
+
+    Convert EUC-JP to UTF-8 for document files and C source files
+
+M	INSTALL
+M	NEWS
+M	alt-cannadic/Changes.txt
+M	alt-cannadic/How-to-use.txt
+M	alt-cannadic/Makefile.am
+D	alt-cannadic/README_euc.txt
+A	alt-cannadic/README_utf.txt
+M	alt-cannadic/orig-README.ja
+M	calctrans/calctrans.c
+M	calctrans/corpus.c
+M	calctrans/input_set.c
+M	calctrans/proccorpus.c
+M	depgraph/mkdepgraph.c
+M	doc/GUIDE
+M	mkanthydic/mkfiledic.c
+M	mkworddic/mkdic.c
+M	mkworddic/mkdic.h
+M	mkworddic/mkudic.c
+M	mkworddic/writewords.c
+M	src-diclib/xstr.c
+M	src-util/dic-tool-usage.txt
+M	test/check.c
+M	test/main.c
+M	test/test-matrix.c
+
+commit b1a320dc6705dd143c812f15bfe2a2ef286ec297
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:22:46 +0900
+
+    Delete Makefile
+
+M	alt-cannadic/Makefile.am
+D	alt-cannadic/Makefile.orig
+D	doc/Makefile
+M	test/Makefile.am
+
+commit 8541a07a018961f7202be214a6e380494cf1a725
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:22:04 +0900
+
+    Delete elisp-comp
+
+D	elisp-comp
+
+commit 982b2142518a2424279c3043dcaf7bb750ecbf7e
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:21:37 +0900
+
+    configure.ac: Replace -Werror with -Werror=format-security
+
+M	configure.ac
+
+commit 1358abdcc982ce16c886563ccb29e70f79378652
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:21:09 +0900
+
+    configure.ac: Add AC_CONFIG_MACRO_DIR
+
+M	configure.ac
+
+commit b1f5cf54a9fa4845019fcb7484949dfe2a47d275
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:20:39 +0900
+
+    Delete aclocal.m4
+
+D	aclocal.m4
+
+commit d78e361f1a2105c39459e4530339b083235cb5a6
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:20:06 +0900
+
+    Delete ltmain.sh
+
+D	compile
+D	depcomp
+D	install-sh
+D	ltmain.sh
+D	missing
+D	mkinstalldirs
+
+commit de671f30fb0387ca8da023ce91a5397c62fd675a
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:19:23 +0900
+
+    Delete configure
+
+D	config.guess
+D	config.h.in
+D	config.sub
+D	configure
+
+commit aaf019da1d6978bd146975cd3fa41093f7243b83
+Author: fujiwarat <takao.fujiwara1@gmail.com>
+Date:   2019-04-04 20:18:27 +0900
+
+    Delete Makefile.in
+
+D	Makefile.in
+D	alt-cannadic/Makefile.in
+D	anthy/Makefile.in
+D	calctrans/Makefile.in
+D	depgraph/Makefile.in
+D	doc/Makefile.in
+D	mkanthydic/Makefile.in
+D	mkworddic/Makefile.in
+D	src-diclib/Makefile.in
+D	src-main/Makefile.in
+D	src-ordering/Makefile.in
+D	src-splitter/Makefile.in
+D	src-util/Makefile.in
+D	src-worddic/Makefile.in
+D	test/Makefile.in
+
+commit f02b9b1f6534f7555ee83845324438c82ba9a1b8
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   2013-07-27 22:45:26 -0400
+
+    fix newline error in configure.ac
+
+M	configure.ac
+
+commit 8bfbc759ed67d26e636b96c5e85b32e8ab88058e
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   2013-07-27 20:49:49 -0400
+
+    Add -Werror and -Wextra to configure.ac
+
+M	configure.ac
+
+commit b5bdd61f1504ffc3c8b71a3e8ab25d8f085d80ad
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   2013-07-27 20:12:00 -0400
+
+    Add -Werror and -Wextra to the gcc arguments for good measure.
+
+M	configure
+
+commit 06d2620c4aa1362e64a3a5fd1d4f7995398f497e
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   2013-07-27 19:44:03 -0400
+
+    Resolve compile-time warnings.
+
+M	anthy/textdict.h
+M	config.h.in
+M	configure
+M	depgraph/mkdepgraph.c
+M	doc/Makefile
+M	src-diclib/xstr.c
+M	src-util/input.c
+M	src-worddic/matrix.c
+M	src-worddic/priv_dic.c
+M	src-worddic/record.c
+M	src-worddic/textdict.c
+M	src-worddic/word_lookup.c
+M	test/check.c
+M	test/main.c
+
+commit 1ce9673587a26c1ed2d9469532752b04095d8628
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   2013-06-30 15:02:09 -0400
+
+    convert next wave of files I've found
+
+M	AUTHORS
+M	DIARY
+
+commit 1133481baffa5cbf770efc70b710a060e661cedb
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   2013-06-30 13:20:27 -0400
+
+    more encoding conversion, maybe some more EUC lurks still
+
+M	src-splitter/compose.c
+M	src-splitter/depgraph.c
+M	src-splitter/evalborder.c
+M	src-splitter/lattice.c
+M	src-splitter/metaword.c
+M	src-splitter/segclass.c
+M	src-splitter/splitter.c
+M	src-splitter/wordborder.h
+M	src-splitter/wordlist.c
+M	src-util/agent.c
+M	src-util/convdb.c
+M	src-util/dic-tool.c
+M	src-util/input.c
+M	src-util/morph-main.c
+M	src-util/rkconv.c
+M	src-util/rkhelper.c
+M	src-util/rkhelper.h
+M	src-util/rkmap.h
+
+commit 7c95c519f199ec8f85e2535219fa06f3c1d0cfed
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   2013-06-30 13:05:23 -0400
+
+    remove trailing whitespace
+
+M	src-diclib/alloc.c
+M	src-diclib/file_dic.c
+M	src-diclib/ruleparser.c
+M	src-diclib/xstr.c
+M	src-main/context.c
+M	src-main/main.c
+M	src-ordering/candhistory.c
+M	src-ordering/commit.c
+M	src-ordering/relation.c
+M	src-splitter/compose.c
+M	src-splitter/depgraph.c
+M	src-splitter/evalborder.c
+M	src-splitter/lattice.c
+M	src-splitter/metaword.c
+M	src-splitter/splitter.c
+M	src-splitter/wordlist.c
+M	src-util/agent.c
+M	src-util/egg.c
+M	src-util/input.c
+M	src-util/morph-main.c
+M	src-util/rkconv.c
+M	src-util/rkhelper.c
+M	src-worddic/ext_ent.c
+M	src-worddic/feature_set.c
+M	src-worddic/mem_dic.c
+M	src-worddic/record.c
+M	src-worddic/use_dic.c
+M	src-worddic/word_dic.c
+M	src-worddic/word_lookup.c
+
+commit f5c6f237d4a96e5d3294abf9451f0be528d4968f
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   2013-06-30 12:37:23 -0400
+
+    converted docs
+
+M	doc/00INDEX
+M	doc/DICLIB
+M	doc/DICUTIL
+M	doc/ELISP
+M	doc/GLOSSARY
+M	doc/GRAMMAR
+M	doc/GUIDE
+M	doc/ILIB
+M	doc/LEARNING
+M	doc/LIB
+M	doc/MISC
+A	doc/Makefile
+M	doc/POS
+M	doc/SPLITTER
+M	doc/TESTING
+M	doc/protocol.txt
+
+commit ab4186bb1ad44d6bc87f073a44de198b35cbfd3e
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   2013-06-30 12:34:50 -0400
+
+    converted readme
+
+M	README
+
+commit 356e9c73814f33c986e9f431e595a88bf144294e
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   2013-06-30 12:32:32 -0400
+
+    reencode header files
+
+M	anthy/alloc.h
+M	anthy/anthy.h
+M	anthy/convdb.h
+M	anthy/corpus.h
+M	anthy/depgraph.h
+M	anthy/dic.h
+M	anthy/diclib.h
+M	anthy/dicutil.h
+M	anthy/feature_set.h
+M	anthy/filemap.h
+M	anthy/input.h
+M	anthy/logger.h
+M	anthy/matrix.h
+M	anthy/ordering.h
+M	anthy/prediction.h
+M	anthy/record.h
+M	anthy/ruleparser.h
+M	anthy/segclass.h
+M	anthy/segment.h
+M	anthy/splitter.h
+M	anthy/word_dic.h
+M	anthy/wtype.h
+M	anthy/xchar.h
+M	anthy/xstr.h
+
+commit d2f821afea02805c6267af0b6f5810af6ae9587e
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   2013-06-30 12:17:51 -0400
+
+    Change encoding of source code files to UTF-8 from EUC-JISX0213 and SJIS-WIN
+
+M	src-diclib/alloc.c
+M	src-diclib/conf.c
+M	src-diclib/file_dic.c
+M	src-diclib/filemap.c
+M	src-diclib/logger.c
+M	src-diclib/ruleparser.c
+M	src-diclib/xchar.c
+M	src-main/context.c
+M	src-main/main.c
+M	src-main/main.h
+M	src-ordering/candhistory.c
+M	src-ordering/candsort.c
+M	src-ordering/candswap.c
+M	src-ordering/commit.c
+M	src-ordering/infosort.c
+M	src-ordering/relation.c
+M	src-ordering/sorter.h
+M	src-worddic/dic_ent.h
+M	src-worddic/dic_main.h
+M	src-worddic/dic_personality.h
+M	src-worddic/dic_util.c
+M	src-worddic/ext_ent.c
+M	src-worddic/feature_set.c
+M	src-worddic/matrix.c
+M	src-worddic/mem_dic.c
+M	src-worddic/mem_dic.h
+M	src-worddic/priv_dic.c
+M	src-worddic/ptab.h
+M	src-worddic/record.c
+M	src-worddic/textdict.c
+M	src-worddic/use_dic.c
+M	src-worddic/word_dic.c
+M	src-worddic/word_lookup.c
+M	src-worddic/wtab.h
+M	src-worddic/wtype.c
+
+commit 30cb1a16900a2e154a409c3c9c6495540d819c07
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   2013-06-30 11:09:24 -0400
+
+    Move into git
+
+A	AUTHORS
+A	COPYING
+A	ChangeLog
+A	DIARY
+A	Doxyfile
+A	INSTALL
+A	Makefile.am
+A	Makefile.in
+A	NEWS
+A	README
+A	README.en
+A	aclocal.m4
+A	alt-cannadic/COPYING
+A	alt-cannadic/Changes.txt
+A	alt-cannadic/How-to-use.txt
+A	alt-cannadic/Makefile.am
+A	alt-cannadic/Makefile.in
+A	alt-cannadic/Makefile.orig
+A	alt-cannadic/README_euc.txt
+A	alt-cannadic/extra/README
+A	alt-cannadic/extra/g-jiritu-34.t
+A	alt-cannadic/extra/gc-fullname-34.t
+A	alt-cannadic/extra/gf-fuzoku-34.t
+A	alt-cannadic/extra/gt-tankanji_hikanji-34.t
+A	alt-cannadic/extra/gt-tankanji_hikanji-uni.t
+A	alt-cannadic/extra/gt-tankanji_kanji-34.t
+A	alt-cannadic/extra/gt-tankanji_okuri-std.t
+A	alt-cannadic/g_fname.t
+A	alt-cannadic/gcanna.ctd
+A	alt-cannadic/gcannaf.ctd
+A	alt-cannadic/gtankan.ctd
+A	alt-cannadic/orig-README.ja
+A	alt-cannadic/sample/dict.args.in.euc
+A	alt-cannadic/sample/dict.args.in.utf8
+A	anthy-conf.in
+A	anthy-test-conf.in
+A	anthy.pc.in
+A	anthy.spec.in
+A	anthy/Makefile.am
+A	anthy/Makefile.in
+A	anthy/alloc.h
+A	anthy/anthy.h
+A	anthy/conf.h
+A	anthy/convdb.h
+A	anthy/corpus.h
+A	anthy/depgraph.h
+A	anthy/dic.h
+A	anthy/diclib.h
+A	anthy/dicutil.h
+A	anthy/feature_set.h
+A	anthy/filemap.h
+A	anthy/input.h
+A	anthy/logger.h
+A	anthy/matrix.h
+A	anthy/ordering.h
+A	anthy/prediction.h
+A	anthy/record.h
+A	anthy/ruleparser.h
+A	anthy/segclass.h
+A	anthy/segment.h
+A	anthy/splitter.h
+A	anthy/textdict.h
+A	anthy/texttrie.h
+A	anthy/word_dic.h
+A	anthy/wtype.h
+A	anthy/xchar.h
+A	anthy/xstr.h
+A	calctrans/Makefile.am
+A	calctrans/Makefile.in
+A	calctrans/calctrans.c
+A	calctrans/corpus.0.txt
+A	calctrans/corpus.1.txt
+A	calctrans/corpus.2.txt
+A	calctrans/corpus.3.txt
+A	calctrans/corpus.4.txt
+A	calctrans/corpus.5.txt
+A	calctrans/corpus.c
+A	calctrans/corpus_info
+A	calctrans/input_set.c
+A	calctrans/input_set.h
+A	calctrans/proccorpus.c
+A	calctrans/weak_words
+A	compile
+A	config.guess
+A	config.h.in
+A	config.sub
+A	configure
+A	configure.ac
+A	depcomp
+A	depgraph/Makefile.am
+A	depgraph/Makefile.in
+A	depgraph/a.depword
+A	depgraph/ajv.depword
+A	depgraph/av.depword
+A	depgraph/conjugate.depword
+A	depgraph/conjugate.table
+A	depgraph/fix.depword
+A	depgraph/indepword.txt
+A	depgraph/master.depword
+A	depgraph/mkdepgraph.c
+A	depgraph/noun-variant.depword
+A	depgraph/noun.depword
+A	depgraph/v.depword
+A	doc/00INDEX
+A	doc/DICLIB
+A	doc/DICUTIL
+A	doc/ELISP
+A	doc/GLOSSARY
+A	doc/GRAMMAR
+A	doc/GUIDE
+A	doc/GUIDE.english
+A	doc/ILIB
+A	doc/LEARNING
+A	doc/LIB
+A	doc/MISC
+A	doc/Makefile.am
+A	doc/Makefile.in
+A	doc/POS
+A	doc/SPLITTER
+A	doc/TESTING
+A	doc/protocol.txt
+A	elisp-comp
+A	install-sh
+A	ltmain.sh
+A	missing
+A	mkanthydic/Makefile.am
+A	mkanthydic/Makefile.in
+A	mkanthydic/mkfiledic.c
+A	mkinstalldirs
+A	mkworddic/Makefile.am
+A	mkworddic/Makefile.in
+A	mkworddic/adjust.t
+A	mkworddic/base.t
+A	mkworddic/calcfreq.c
+A	mkworddic/compound.t
+A	mkworddic/dict.args.in
+A	mkworddic/extra.t
+A	mkworddic/mkdic.c
+A	mkworddic/mkdic.h
+A	mkworddic/mkudic.c
+A	mkworddic/name.t
+A	mkworddic/tankanji.t
+A	mkworddic/udict
+A	mkworddic/utf8.t
+A	mkworddic/writewords.c
+A	mkworddic/zipcode.t
+A	src-diclib/Makefile.am
+A	src-diclib/Makefile.in
+A	src-diclib/alloc.c
+A	src-diclib/conf.c
+A	src-diclib/diclib.c
+A	src-diclib/diclib_inner.h
+A	src-diclib/e2u.h
+A	src-diclib/file_dic.c
+A	src-diclib/filemap.c
+A	src-diclib/logger.c
+A	src-diclib/ruleparser.c
+A	src-diclib/u2e.h
+A	src-diclib/xchar.c
+A	src-diclib/xstr.c
+A	src-main/Makefile.am
+A	src-main/Makefile.in
+A	src-main/context.c
+A	src-main/main.c
+A	src-main/main.h
+A	src-ordering/Makefile.am
+A	src-ordering/Makefile.in
+A	src-ordering/candhistory.c
+A	src-ordering/candsort.c
+A	src-ordering/candswap.c
+A	src-ordering/commit.c
+A	src-ordering/infosort.c
+A	src-ordering/relation.c
+A	src-ordering/sorter.h
+A	src-splitter/Makefile.am
+A	src-splitter/Makefile.in
+A	src-splitter/compose.c
+A	src-splitter/depgraph.c
+A	src-splitter/evalborder.c
+A	src-splitter/lattice.c
+A	src-splitter/metaword.c
+A	src-splitter/segclass.c
+A	src-splitter/splitter.c
+A	src-splitter/wordborder.h
+A	src-splitter/wordlist.c
+A	src-util/Makefile.am
+A	src-util/Makefile.in
+A	src-util/agent.c
+A	src-util/anthy-azik.el
+A	src-util/anthy-conf.el
+A	src-util/anthy-dic.el
+A	src-util/anthy-isearch.el
+A	src-util/anthy-kyuri.el
+A	src-util/anthy.el
+A	src-util/anthy.i
+A	src-util/convdb.c
+A	src-util/dic-tool-usage.txt
+A	src-util/dic-tool.c
+A	src-util/egg.c
+A	src-util/input.c
+A	src-util/leim-list.el
+A	src-util/morph-main.c
+A	src-util/rkconv.c
+A	src-util/rkconv.h
+A	src-util/rkhelper.c
+A	src-util/rkhelper.h
+A	src-util/rkmap.h
+A	src-util/typetab
+A	src-worddic/Makefile.am
+A	src-worddic/Makefile.in
+A	src-worddic/dic_ent.h
+A	src-worddic/dic_main.h
+A	src-worddic/dic_personality.h
+A	src-worddic/dic_util.c
+A	src-worddic/ext_ent.c
+A	src-worddic/feature_set.c
+A	src-worddic/matrix.c
+A	src-worddic/mem_dic.c
+A	src-worddic/mem_dic.h
+A	src-worddic/priv_dic.c
+A	src-worddic/ptab.h
+A	src-worddic/record.c
+A	src-worddic/textdict.c
+A	src-worddic/texttrie.c
+A	src-worddic/use_dic.c
+A	src-worddic/word_dic.c
+A	src-worddic/word_lookup.c
+A	src-worddic/wtab.h
+A	src-worddic/wtype.c
+A	test/Makefile.am
+A	test/Makefile.in
+A	test/check.c
+A	test/main.c
+A	test/prediction.c
+A	test/test-matrix.c
+A	test/test.exp
+A	test/test.txt

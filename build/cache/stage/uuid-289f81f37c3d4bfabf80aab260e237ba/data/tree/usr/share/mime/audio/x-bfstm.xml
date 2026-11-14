@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="audio/x-bfstm">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Nintendo Wii U BFSTM audio</comment>
+  <generic-icon name="audio-x-generic"/>
+  <glob pattern="*.bfstm"/>
+</mime-type>

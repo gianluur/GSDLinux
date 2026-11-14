@@ -1,0 +1,23 @@
+Libntlm AUTHORS -- information about the authors
+Copyright (C) 2002-2024 Simon Josefsson
+See the end for copying conditions.
+
+Please do not send general e-mail about the library to the addresses
+below.  Use the mailing list instead, see README.
+
+Grant Edwards <grante@visi.com>
+Original author of libntlm
+
+Andrew Tridgell
+Wrote functions borrowed from Samba.
+
+Simon Josefsson <simon@josefsson.org>
+Build environment, maintainer.
+
+Frediano Ziglio
+Contributed LGPL versions of some of the GPL'd Samba files.
+
+----------------------------------------------------------------------
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.

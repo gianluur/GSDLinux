@@ -1,0 +1,993 @@
+CHANGES
+-------
+
+  2.224 28 Auguat 2026
+
+    * Remove call to UpDowngrade in Makefile.PL
+      Fri Aug 28 11:10:08 2026 +0100
+      33f1a3770079af3bbe63979beb03bbb955f6e3e5
+
+    * Update to version 2.224
+      Fri Aug 28 10:55:27 2026 +0100
+      8fcad9c1a403679f4922deb01b774f393744c65e
+
+    * remove 5.6-specific code and make 5.8 the min versionsupported
+      Wed Aug 26 16:07:04 2026 +0100
+      cb71d9a683955fc2fce9e5229249ba5b0ca2c58c
+
+    * Fix typos in Changes file
+      Fri Jul 3 12:01:10 2026 +0100
+      8cffb22f0461390e7d7591034575ee29c5cf5f84
+
+    * Merge pull request #43 from pmqs/dependabot/github_actions/actions/cache-6
+      Fri Jul 3 11:59:57 2026 +0100
+      372ca65d5736d7e42b6db8c97974f94b9a01f8d3
+
+    * Merge pull request #42 from pmqs/dependabot/github_actions/actions/checkout-7
+      Fri Jul 3 11:59:49 2026 +0100
+      96a80f268da2ab28b17635c93eb03bba2c760153
+
+    * Bump actions/cache from 5 to 6
+      Wed Jul 1 08:10:05 2026 +0000
+      19b07df4424d7d55137bea4a30fe52d3a05d1a0b
+
+    * Bump actions/checkout from 6 to 7
+      Wed Jul 1 08:10:00 2026 +0000
+      caf11eb8b615c65aeec2338ec02fd61ab800d4ff
+
+
+  2.222 27 February 2026
+
+    * Add SECURITY.md. Fixes #40
+      Sun Mar 8 12:02:45 2026 +0000
+      c637bc61cbc91eb9b7064491c4ea56b5ce810b30
+
+    * Fix spelling typos
+      Sun Mar 8 11:06:36 2026 +0000
+      26fdd596d867bbbfd35de32c8efe5267a9c52545
+
+  2.221 27 February 2026
+
+    * Merge remote-tracking branch 'refs/remotes/origin/master'
+      Fri Feb 27 12:57:24 2026 +0000
+      34f0318c9687924347284704c6f3b9b2566e07fd
+
+    * Merge pull request #39 from jkeenan/correct-changes-date-20260227
+      Fri Feb 27 12:50:53 2026 +0000
+      e879453ec96d85b2917ed903a3f03cf8264238f1
+
+    * Update to 2.221
+      Fri Feb 27 12:44:53 2026 +0000
+      17f707ed1986acf6773d91ebf6b5c7d6ba6d32be
+
+    * Version number wrong in Changes file. Fixes #38
+      Fri Feb 27 12:38:32 2026 +0000
+      2c10524538077d20779c483c667e2ead4c65a87a
+
+  2.220 27 February 2026
+
+    * Update to version 2.220
+      Wed Feb 25 13:50:23 2026 +0000
+      f9ac640e71a54ad2f8156a075127f8f99ad45586
+
+    * zlib 1.3.2: Update references to zlib 1.3.1 to use zlib 1.3.2
+      Wed Feb 25 13:45:59 2026 +0000
+      16b5fc92e830af8b10c37e6a3e66806cc0db937f
+
+    * zlib 1.3.2: Add "Perl_crz" prefix to "z_errmsg". Fixes #32
+      Wed Feb 25 13:41:07 2026 +0000
+      36b42f013ed5d3e6b27ce956c97b8ce5733cfe24
+
+    * Fix spelling typo
+      Tue Feb 24 19:46:13 2026 +0000
+      f73b8114faad246cf5c615c7e77e36d8978393bd
+
+  2.219 23 February 2026
+
+      * Update to version 2.219
+        Mon Feb 23 15:19:30 2026 +0000
+        c257a0b73e5f925549e20602cd42f9beea9db51e
+
+      * zlib 1.3.2:  Add a few casts to allow zlib sources to build with C++
+        Mon Feb 23 14:29:02 2026 +0000
+        0049fc058a9b9c1de250b00af38edf3e91cb15eb
+
+      * Test workflows with upstream zlib 1.32
+        Mon Feb 23 14:15:02 2026 +0000
+        d3b865abdb11c0479d04f8b66a6350b7aad9d5b3
+
+        * zlib 1.3.2: Add "Perl_crz_" prefix  to exported symbols
+        Mon Feb 23 14:02:50 2026 +0000
+        37cec4a39cc6080a29060944db89f90c614c1cd4
+
+      * zlib-1.3.2: Force include of <stddef.h> to get definition for NULL
+        Mon Feb 23 13:38:39 2026 +0000
+        8907f13c905eb3a9e65514bfbbf35304a92fa76a
+
+      * Refresh zlib-src directory with unmodified zlib-1.3.2 files
+        Mon Feb 23 13:31:42 2026 +0000
+        48a5180b706c1066af212656e32d73c74850c408
+
+  2.218 3 February 2026
+
+      * Update version to 2.218
+        Tue Feb 3 10:29:39 2026 +0000
+        ad08cfc854823793fb1fa4f6f5e2dda644f4c581
+
+      * Fix for regression of #34
+        Tue Feb 3 10:17:49 2026 +0000
+        4133174c92633fb7d8562f514746d08baf667ad3
+
+  2.217 31 January 2026
+
+      * Update version to 2.217
+        Sat Jan 31 11:52:15 2026 +0000
+        937b7c2da2052fa09483b7c5db3eca86e74fee52
+
+  2.214 28 October 2025
+
+      * version 2.214
+        Fri Oct 24 16:14:17 2025 +0100
+        8d4865a68fa3ed38627a9f11477b9b494aa84d5f
+
+      * remove 1.2.13 from mac upstream zlib build
+        Sun Sep 7 14:54:01 2025 +0100
+        2cd55f3ed1d37999fbdb52d6d16e31cb2ed6a4bb
+
+      * Disable some older zlib versions
+        Sun Sep 7 14:44:55 2025 +0100
+        faf8fb36de808ca74bc8e9074627851ebee79ef7
+
+      * Bump actions/checkout from 1 to 5
+        Sun Sep 7 14:36:39 2025 +0100
+        403e03af996851df6875d634ea98159138b6c843
+
+      * remove target-branch from dependabot
+        Sun Sep 7 11:50:10 2025 +0100
+
+      * Add dependabot.yml to police workflow files
+        Thu Sep 4 17:16:28 2025 +0100
+        9c497340afa0fc5727efc4d91cfbb603ee07e230
+
+      * disable push & pull_request
+        Thu Sep 4 17:15:47 2025 +0100
+        f2d9aa48d32f818c92a775fa51af7c851d2557a2
+
+      * disable push & pull_request
+        Thu Sep 4 17:14:47 2025 +0100
+        3db6fd5a8d102de5bf1125d2db552a3e5ed7c392
+
+      * Add perl 5.42 to workflow files
+        Thu Sep 4 17:06:15 2025 +0100
+        ca5b472df99022182dc5b3bf80d3bc04ddb3e56b
+
+      * Add support for zlib-ng 2.2.5
+        Thu Sep 4 17:05:26 2025 +0100
+        8034efa99464af12588d2942d1d69979bfc850e5
+
+      * get_Bufsize is correct, but the document says get_BufSize - Fixes #34
+        Sat Aug 30 19:15:20 2025 +0100
+        747f25842cc78a544973eff115d0e17145bf3812
+
+      * add zlib-ng 2.2.4 to workflow
+        Tue Feb 11 11:07:18 2025 +0000
+        d8a2e7581baa11dcc5ad8c71b6252f553478e4d0
+
+      * add zlib-ng 2.2.3
+        Wed Jan 1 13:24:05 2025 +0000
+        3ade504992471025b61ab024db57dfabd953df48
+
+      * More updates for zlib-ng 2.2.2 & 2.1.8
+        Tue Sep 17 15:02:20 2024 +0100
+        169e6a371e8f9f0be34561fb2121bed1a14980bd
+
+      * Add zlib-ng 2.2.2 and 2.18 to GitHub workflows
+        Tue Sep 17 14:52:23 2024 +0100
+        83be37e0a911eb374ea18737c4fa77550d501354
+
+  2.213 28 August 2024
+
+      * version 2.213
+        Wed Aug 28 15:42:15 2024 +0100
+        6db34434df59999e57aacfcb52a9cc8cb5161155
+
+      * Add zlib-ng 2.2.1 to workflow
+        Tue Jul 2 15:28:39 2024 +0100
+        fe3cd4a98c1e432fa06aed1617599424048d6ac8
+
+      * add zlib-ng 2.1.7 & 2.2.0
+        Wed Jun 19 17:07:02 2024 +0100
+        293d041abfa7763d3e8c4be8fa41024a80cd9a4b
+
+      * Add zlib-ng 2.1.7 & 2.2.0 to github workflow
+        Wed Jun 19 16:57:56 2024 +0100
+        2db84c21e4441a23d289e593f201597f0d863fe4
+
+      * remove Werror from clang legacy builds
+        Mon Jun 17 10:41:34 2024 +0100
+        d6440a3e08254c64bb8e5d8d805697d19895745b
+
+      * use -xc++ when building with C++
+        Mon Jun 17 08:04:20 2024 +0100
+        da8e6b716f81148e9720257414e41c724dc43cc0
+
+      * Add perl 5.40 to workflows
+        Sun Jun 16 17:42:29 2024 +0100
+        f7d1764f4e5a944c35ae3d27ae488c707e21784b
+
+  2.212 27 April 2024
+
+      * no functional changes
+
+  2.211 6 April 2024
+
+      * version 2.211
+        Sat Apr 6 14:17:42 2024 +0100
+        f14a09ae54eb45c7904aa0b1c22ff3314f8d18a1
+
+  2.209 26 February 2024
+
+      * version 2.209
+        Mon Feb 26 15:54:39 2024 +0000
+        b8c062949b7e89a2f1643825f6b66f79b2ba3b68
+
+      * #31 Fix build failure with "c++-compat" warnings
+        Mon Feb 26 15:20:07 2024 +0000
+        d9af6f896accf755fa1ef486cf128fdf66314213
+
+  2.208 18 February 2024
+
+      * #30 Fix for READMEmd target
+        Mon Feb 19 09:09:05 2024 +0000
+        6945e13819aa525ab1e5d61362e171011aae9e7b
+
+  2.207 18 February 2024
+
+      * #28 use zlib 1.3.1 in examples
+        Tue Feb 13 09:34:23 2024 +0000
+        4292a3b6e2151404b8b544c20b7e54512ca2852f
+
+      * #28 include zlib-1.3.1 source
+        Tue Feb 13 09:31:12 2024 +0000
+        e2bd28778a465ce8205233a3ec0e8c2f4c28f705
+
+      * #29 Add author & abstract to Makefile.PL & meta.*
+        Sat Feb 10 16:17:15 2024 +0000
+        0d4b451e1788300f3ffa21b3bf76e0ac26bcc32c
+
+      * #28 upgrade to zlib 1.3.1 for upstream testing
+        Thu Jan 25 09:56:35 2024 +0000
+        6c0ab334eacaf26203efccbb491d1ae86221cf3e
+
+  2.206 25 July 2023
+
+      * 2.206
+        Tue, 25 Jul 2023 16:18:52 +0100
+        b74db6a4557769233f1504bc94fbc4bafb0efc8a
+
+      * drop rt.cpan from SUPPORT section
+        Tue, 18 Jul 2023 09:22:34 +0100
+        a2c231b7e3e178c150c614bad7dc4d8a91fa4b8a
+
+  2.205 16 July 2023
+
+      * 2.205
+        Sun, 16 Jul 2023 16:11:31 +0100
+        3effdb9dbaa9bedfff3cad44902e515409ffae78
+
+      * Test::More::isn't warns in perl 5.38
+        Sun, 9 Jul 2023 21:38:15 +0100
+        928bbc6ddc5178621fb477b38a1b4b4de38866cf
+
+      * add zlib-ng 2.1.3
+        Thu, 29 Jun 2023 19:51:58 +0100
+        b1aa2583b4c114c2194890a0e015fdc439928c31
+
+      * add zlib-ng 2.1.2
+        Fri, 9 Jun 2023 14:51:17 +0100
+        0d505d9156ca7e9cac15e2d6e574099300f91a14
+
+      * Change storage of ZLIBNG_VER_STATUS from IV to PV https://github.com/pmqs/Compress-Raw-Zlib/issues/24
+        Fri, 9 Jun 2023 14:30:36 +0100
+        0a8fb7141a43b8e49609fb06f05fad5150a97c2a
+
+      * Fix to allow building with C++17 register keyword not allowed in C++17 https://github.com/pmqs/Compress-Raw-Zlib/issues/23
+        Mon, 22 May 2023 12:42:51 +0100
+        a7c12acdd4ce7fdc070f50ac78e68e04c8699c81
+
+      * Change while loop for `LimitOutput`  example https://github.com/pmqs/Compress-Raw-Zlib/issues/21
+        Sun, 21 May 2023 21:32:19 +0100
+        972f03b5b0bf06d44991bbee2d2c9216e4175154
+
+      * [doc] zlib.h: Remove duplicate "the" (#22)
+        Mon, 1 May 2023 22:46:39 +0200
+        89b43e6978d8e9b16801f48881cadf822585be0d
+
+      * Add zlib compat version for 2.0.7
+        Sat, 18 Mar 2023 08:42:59 +0000
+        e7d79cbd5924fbdcd3515fb3b0ad171c7720105c
+
+  2.204 8 February 2023
+      * Update zlib sources to zlib-1.2.13
+        https://github.com/pmqs/Compress-Raw-Zlib/issues/20
+        eafe29c85437582d16c6bda16449ea2dea534266
+
+      * Use GIMME_V instead of the deprecated GIMME
+        https://github.com/pmqs/Compress-Raw-Zlib/pull/19
+        7a7b045d9d8729a6c82a78039dab5decf7e65907
+
+
+  2.202 27 June 2022
+
+      * Z_NULL should be 'UV' rather than 'PV'
+        https://github.com/pmqs/Compress-Raw-Zlib/issues/17
+        Sun Jun 26 22:02:04 2022 +0100
+        de28f0335d3d605d696b19d43fc48de42272455c
+
+  2.201 25 June 2022
+
+      * 2.021
+        Sat Jun 25 08:42:46 2022 +0100
+        85416cab509c18c5fa3f923de7b45b6c7c0f7a6f
+
+      * 2.201
+        Sat Jun 25 08:39:26 2022 +0100
+        b3d63862b2ff4ac9d28e23be500c0d32ad69dd11
+
+      * More zlib-ng updates
+        Thu Jun 23 22:42:13 2022 +0100
+        313f626425181702b5fc80af2b6ea7eed41d5a9d
+
+      * Fix test count regression in t/07bufsize.t (#16)
+        Wed Jun 22 09:45:11 2022 +0100
+        98dc5b4a2b30c26752b6f686462b06b8db72a5e4
+
+  2.200 21 June 2022
+
+      * Added zlib-ng support
+        https://github.com/pmqs/Compress-Raw-Zlib/issues/9
+
+      * Only set Z_SOLO when building zlib sources https://github.com/pmqs/Compress-Raw-Zlib/issues/12
+        Tue Jun 7 10:13:00 2022 +0100
+        c44e0b732e214b7f77d42a3af6ae64ef944cee90
+
+  2.105 14 April 2022
+
+      * Add Compress::Raw::Zlib::VERSION to output
+        Sat May 14 15:16:57 2022 +0100
+        3e22c93169a67986017f64d9a2e5085c417d8624
+
+      * Dump version info when running test harness
+        Sat May 14 15:10:17 2022 +0100
+        ca9f33ba0323d0abc91a83800636f180b2b44162
+
+      * Fix use of ZLIB_INCLUDE/LIB
+        Sat May 14 09:01:38 2022 +0100
+        8a7d4a97d7441b61a8a888342766419044fa5a33
+
+      * More fixes for BUILD_ZLIB off
+        Sat May 14 08:54:04 2022 +0100
+        2d9650094dab90858ef58bfbda62f3bc60e159e4
+
+      * Add BUILD_ZLIB to the matrix
+        Sat May 14 08:31:54 2022 +0100
+        b61b92fc9d06bf04f1adec337357ffbd39535901
+
+      * Merge branch 'master' of https://github.com/pmqs/Compress-Raw-Zlib
+        Sat May 14 08:27:14 2022 +0100
+        3ac7d0d3d45ae263402fab1ebb3835e2ae16c5a6
+
+      * Fix for BUILD_ZLIB disabled
+        Sat May 14 08:25:34 2022 +0100
+        b0f04e37fb58a34ef01767ad16a8f63ca868eec6
+
+      * Add BUILD_ZLIB to the matrix
+        Sat May 14 08:22:56 2022 +0100
+        aa8f5ff981c7305c995d4e2f798ae0d7d45866a5
+
+  2.104 13 April 2022
+
+      * Merge pull request #11 from monkburger/symbol_fix_2
+        Fri May 13 07:17:19 2022 +0100
+        64aea2d3f78946d7df4096eadfa0d7267f4439a5
+
+      * perl_crz -> Perl_crz
+        Tue May 3 18:19:24 2022 +0000
+        20502e6c2eba8ddcad80b20574e840457c0cb369
+
+      * This is a slightly different way to fix https://github.com/pmqs/Compress-Raw-Zlib/issues/8
+        Tue May 3 18:06:48 2022 +0000
+        d9cd27fb212da7455b6ba44729ca11bb441f3950
+
+      * add tests for crc32/adler32_combine
+        Mon May 2 16:18:13 2022 +0100
+        dcfe9ef439790f1a4fae81cf3eac38cfeb848294
+
+  2.103 3 April 2022
+
+      * Sync upstream fix for CVE-2018-25032
+        https://github.com/advisories/GHSA-jc36-42cf-vqwj
+
+        Update to Zlib 1.2.12
+        d507f527768f6cbab5831ed3ec17fe741163785c
+
+        Fix for inflateSync return code change
+        f47ea5f36c40fe19efe404dd75fd790b115de596
+
+        Fix for incorrect CRC from zlib 1.2.12.1
+        https://github.com/madler/zlib/commit/ec3df00224d4b396e2ac6586ab5d25f673caa4c2
+        60104e3a162a116548303861ae0811fb850e65fd
+
+      * AUTHOR doesn't contain the stated information
+        bf5a03c1b440c8d9e41cffb344bf889794cc532b
+
+
+  2.101 20 February 2021
+
+      * fix version numbers in meta files
+
+  2.100 7 January 2021
+
+      * trim whitespace
+        5de62cd3987c736c14d1aa804936808fbc1fe9cb
+
+  2.096 31 July 2020
+
+      * No changes
+
+  2.095 19 July 2020
+
+      * No changes
+
+  2.094 13 July 2020
+
+      * Issue with Append mode & SvOOK
+        https://github.com/pmqs/Compress-Raw-Zlib/issues/3
+        80ee0524012f46c5984c2d57649af0b07f82c750
+
+  2.093 7 December 2019
+
+      * No Changes
+
+  2.092 4 December 2019
+
+      * No Changes
+
+  2.091 23 November 2019
+
+      * Silence "macro expands to multiple statements" warning
+        Change sourced upstream from https://github.com/Perl/perl5/issues/17013
+        https://github.com/pmqs/Compress-Raw-Zlib/issues/2
+        da2bd1fc765b80d01ed10a79b6c4a035e5095ed8
+
+  2.090 9 November 2019
+
+      * No Changes
+
+  2.089 3 November 2019
+
+      * No Changes
+
+  2.088 31 October 2019
+
+      * Add SUPPORT section
+        d348ad76c2073a2973d094891fbd0c2e24bf397d
+
+      * 000prereq.t: dump Perl version
+        e1afe502818cb1ccf5bad917b14b029b408f47f1
+
+  2.087 10 August 2019
+
+      * clang warning in ppport.h
+        update to latest ppport.h
+        https://github.com/pmqs/Compress-Raw-Zlib/issues/1
+        664a5fbacf778acdd4cfbcc571997f3df5ee43d3
+
+  2.086 31 March 2019
+
+      * Moved source to github https://github.com/pmqs/Compress-Raw-Zlib
+
+      * Add META_MERGE to Makefile.PL
+
+      * Added meta-json.t & meta-yaml.t
+
+  2.084 5 January 2019
+
+      * No Changes
+
+  2.083 30 December 2018
+
+      * No Changes
+
+  2.081 4 April 2018
+
+      * previous release used $^W instead of use warnings. Fixed.
+
+  2.080 2 April 2018
+
+      * No Changes
+
+  2.076 21 Nov 2017
+
+      * Zlib.xs
+        Silence gcc compiler warnings when -Wsign-compare is enabled
+        #123688: Compilation warnings with clang
+
+      * zlib-src/inflate.c and zlib-src/infback.c
+        Silence gcc compiler warnings when -Wimplicit-fallthrough is enabled
+        #123358: Compilation warnings with gcc-7.*
+
+      * Makefile.PL
+        Windows uses -lzlib. Linux uses -lz
+        #123699: wrong external zlib name used on Windows
+
+  2.075 14 Nov 2017
+
+      * Update zlib-src directory to use zlib 1.2.11
+        #123245: perl 5.26.1 is vulnerable to CVE-2016-9843, CVE-2016-9841, CVE-2016-9840, CVE-2016-9842
+
+      * Zlib.xs
+        Don't allow offset to be greater than length of buffer in crc32.
+
+      * Zlib.xs
+        Change my_zcalloc to use safecalloc.
+        The link, https://github.com/madler/zlib/issues/253, is the upstream report for the remaining
+        valgrind errors not already dealt with by 1.2.11. Using calloc in Zlib.xs for now as a workaround.
+        #121074: valgrind errors in the test suite
+
+  2.074 19 Feb 2017
+
+      * Fix bad 2.073 release
+
+  2.073 18 Feb 2017
+
+      * Zlib.xs
+        Comment out unused variables & remove C++-ism
+        #120272: [PATCH] Unbreak compilation
+
+  2.072 12 Feb 2017
+
+      * Makefile.PL
+        #120084: Need Fix for Makefile.PL depending on . in @INC
+
+      * zlib-src
+        #120207: inflateUndermine: subvert arg conditionally used/unused
+
+      * zlib-src
+        #112829: two gcc6-found problems
+
+      * fix deflateParams for zlib > 1.2.8
+        #119762: Tests broken with zlib-1.2.10
+
+  2.071 30 Dec 2016
+
+      * #119580 (inflate.c: One (last?) compilation warning)
+        Identical issue reeported in upstream zlib
+             https://github.com/madler/zlib/issues/111
+
+        Fix checked into zlib dev codeline via
+            https://github.com/madler/zlib/commit/2edb94a3025d288dc251bc6cbb2c02e60fbd7438
+
+  2.070 28 Dec 2016
+
+      * #107642: compilation warning from inflate.c
+
+      * #119007: [PATCH] Wrong FLAG_APPEND logic analog to Bzip2
+
+  2.069 26 Sept 2015
+
+      * reduce compiler warnings and stderr noise
+        [#101341]
+
+      * amigaos4: cpan/Compress-Raw-Zlib: also __amigaos4__
+        [#106799]
+
+      * const all global data
+        https://github.com/madler/zlib/commit/82e9dc60932bf2ce5422a5e76e66e5a05abd26e3
+        [#101298]
+
+      * Coverity finding: Unused value
+        https://github.com/madler/zlib/commit/9859a94c1002484ee5f824c05683a5b2484cbf49
+        [105414]
+
+      * Coverity findings
+        [102399]
+
+      * Coverity finding: Overlapping buffer in memory copy
+        [105413]
+
+  2.068 10 Dec 2014
+
+      * Silence more compiler warnings
+
+      * Disable running of 07bufsize.y by default.
+        COMPRESS_ZLIB_RUN_MOST needs set to run them. Makes life more
+        bearable on legacy platforms
+
+
+  2.067 8 Dec 2014
+
+      * Silence compiler warnings
+
+  2.066 21 Sept 2014
+
+      * Another COW violation
+        [#98069]
+
+      * misleading nesting/indentation (found by Coverity)
+        [#95405]
+
+  2.065 3 February 2014
+
+      * [PATCH] resolve c++ build failure in core
+        [#92657]
+
+      * gcc -g3: final link failed: Memory exhausted
+        [#88936]
+
+  2.064 1 February 2014
+
+      * [PATCH] Handle non-PVs better
+        [#91558]
+
+      * Z_OK instead of Z_BUF_ERROR
+        [#92521]
+
+  2.063 23 October 2013
+
+      * gcc -g3: final link failed: Memory exhausted
+        [#88936]
+
+      * Compress::Raw::Zlib uses AutoLoader for no reason
+        [#88260]
+
+      * Typo in Compress::Zlib _combine function documentation
+        [#89305]
+
+  2.062 11 August 2013
+
+      * typo fix
+        [#86417]
+
+  2.061 19 May 2013
+
+      * Include zlib 1.2.8 source.
+
+      * typo fix
+        [#85431]
+
+      * silence compiler warning by making 2nd parameter to
+        DispStream a const char*
+
+      * Mishandling of BUILD_ZLIB=0 option
+        [#85492]
+
+  2.060 7 January 2013
+
+      * Mention SimpleZip in POD
+
+  2.059 24 November 2012
+
+      * Copy-on-write support
+        [#81353]
+
+  2.058 12 November 2012
+
+      * No Changes
+
+  2.057 10 November 2012
+
+      * Compress::Raw::Zlib needs to use PERL_NO_GET_CONTEXT
+        [#80319]
+
+      * Install to 'site' instead of 'perl' when perl version is 5.11+
+        [#79812]
+
+      * update to ppport.h that includes SvPV_nomg_nolen
+        [#78079]
+
+  2.056 10 August 2012
+
+      * Fix C++ build issue
+        Thanks to Karl Williamson for supplying the patch.
+
+  2.055 4 August 2012
+
+      * Fix misuse of magic in API
+        [#78079]
+
+  2.054 8 May 2012
+
+      * Build issue on Win32
+        [#77030]
+
+  2.053 6 May 2012
+
+      * Include zlib 1.2.7 source.
+
+  2.052 29 April 2012
+
+      * Fixed build issue when Perl is built with C++
+
+  2.051 20 February 2012
+
+      * Bug in Compress::Raw::Zlib on Windows
+        [#75222]
+
+  2.050 20 February 2012
+
+      * Build failure on Irix & Solaris.
+        [RT #69985]
+
+  2.049 18 February 2012
+
+      * Include zlib 1.2.6 source.
+
+  2.048 29 January 2012
+
+      * Set minimum zlib version to 1.2.0
+
+  2.047 28 January 2012
+
+      * Allow flush to be called multiple times without any intermediate
+        call to deflate and still return Z_OK.
+        In the code below $status was Z_BUF_ERROR before this change.
+
+          $def->flush(...);
+          $status = $def->flush(...);
+
+      * Added support for zlibCompileFlags
+
+      * Set minimum Perl version to 5.6
+
+  2.045 3 December 2011
+
+      * Moved FAQ.pod into Zlib.pm
+
+  2.044 2 December 2011
+
+      * Moved FAQ.pod under the lib directory so it can get installed
+
+  2.043 20 November 2011
+
+      * No Changes
+
+  2.042 17 November 2011
+
+      * No Changes
+
+  2.040 28 October 2011
+
+      * No Changes
+
+  2.039 28 October 2011
+
+      * croak if attempt to freeze/thaw compression object
+        [RT #69985]
+
+  2.037 22 June 2011
+
+      * No Changes
+
+  2.036 6 May 2011
+
+      * Added offset parameter to CRC32
+
+  2.035 6 May 2011
+
+      * No Changes
+
+  2.033 11 Jan 2011
+      * Fixed typos & spelling errors.
+        [perl# 81782]
+
+  2.032 4 Jan 2011
+
+      * Document inflateReset
+        [RT #61082]
+
+  2.030 22 July 2010
+
+      * Ran the zlib2ansi script against the files in zlib-src.
+        Thanks to Nicholas Clark for the reminder.
+
+      * Added "-DNO_VIZ" to DEFINE in Makefile.PL
+        [RT #65293]
+
+  2.027 24 April 2010
+
+      * Updated to include zlib 1.2.5
+
+  2.026 7 April 2010
+
+      * Fixed definition of Z_TREES in Makefile.PL
+        [RT #65293]
+
+      * Fixed build issue with definition of off64_t not found on Solaris
+        by modifying the zlib source - changed the symbol
+        _LARGEFILE64_SOURCE to _LARGEFILE64_SOURCE_dummy in zconf.h,
+        zlib.h and zutil.h
+        [RT #56108]
+
+  2.025 27 March 2010
+
+      * Updated to include zlib 1.2.4
+
+      * Allow zlib version check to be disabled by setting
+        TEST_SKIP_VERSION_CHECK environment variable.
+        [RT #54510]
+
+  2.023 9 November 2009
+
+      * fixed instance where $[ should have been $] in t/02zlib.t
+        Thanks to Robin Barker and zefram [RT #50765] for independently
+        spotting the issue.
+
+  2.021 30 August 2009
+
+      * Changed test harness so that it can cope with PERL5OPT=-MCarp=verbose
+        [RT# 47225]
+
+  2.020 3 June 2009
+
+      * Minor documentation update.
+
+  2.019 4 May 2009
+
+      * No Changes
+
+  2.018 3 May 2009
+
+      * No Changes
+
+  2.017 28 March 2009
+
+      * Added 'LimitOutput' option
+
+      * Removed MAN3PODS from Makefile.PL
+
+      * Fixed coring issue when LimitOutput was used.
+
+      * Documented Compress::Raw::Zlib::zlib_version()
+
+      * Documented Compress::Raw::Zlib::deflateReset()
+        [RT #40566]
+
+  2.015 3 September 2008
+
+      * Makefile.PL
+        Backout changes made in 2.014
+
+  2.014 2 September 2008
+
+      * Makefile.PL
+        Updated to check for indirect dependencies.
+
+  2.012 15 July 2008
+
+      * Document the gzip flags that WindowBits can take.
+
+      * Allow a dictionary to be used with a raw inflate.
+        Needs zlib 1.2.2.1 or better.
+        [RT #36046]
+
+  2.011 5 May 2008
+
+      * A C++-style comment sneaked in with the last update. Fixed.
+        [core patch #33828]
+
+  2.010 5 May 2008
+
+      * No Changes
+
+  2.009 20 April 2008
+
+      * No Changes
+
+  2.008 2 November 2007
+
+      * Minor documentation changes in README
+
+  2.006 1 September 2007
+
+      * Makefile.PL
+        Added INSTALLDIRS directive to install as a core module when built
+        on a perl >= 5.9.
+
+  2.005 18 June 2007
+
+      * Only include ppport.h when not being built with perl.
+        [core patch #30655]
+
+  2.004 3 March 2007
+
+      * Fixed lvalue substr issue
+
+      * Remove redundant code from Zlib.xs
+
+  2.003 2 January 2007
+
+      * Added explicit version checking
+
+  2.002 29 December 2006
+
+      * Documentation updates.
+
+  2.001 1 November 2006
+
+      * Remove beta status.
+
+  2.000_14 26 October 2006
+
+      * Fixed memory leak on realloc.
+
+      * Ticket #18986 says that ExtUtils::Install 1.39 fixes the in-use
+        issue on win32/cygwin, so make the code that checks whether trying
+        to install via the cpan shell conditional on the version of
+        ExtUtils::Install.
+        http://rt.cpan.org/Ticket/Display.html?id=18986
+
+  2.000_10 13 March 2006
+
+      * Fixed a potential NULL pointer dereference problem in
+        Compress::Raw::Zlib::resetLastBlockByte.
+        Issue highlighted by David Dyck and reproduced by Marcus Holland-Moritz.
+
+  2.000_09 3 March 2006
+
+      * Released onto CPAN
+
+      * Documentation updates.
+
+  2.000_08 2 March 2006
+
+      * Moved the IO::* modules out into their own distributions.
+
+      * Breakout zlib specific code into separate modules.
+
+      * Limited support for reading/writing zip files added.
+
+  2.000_06 5 October 2005
+
+      * Added eof parameter to Compress::Zlib::inflate method.
+
+      * Fixed issue with 64-bit
+
+  2.000_05 4 October 2005
+
+      * Renamed IO::* to IO::Compress::* & IO::Uncompress::*
+
+  2.000_04 23 September 2005
+
+      * Fixed some more non-portable test that were failing on VMS.
+
+      * fixed problem where error messages in the oneshot interface were
+        getting lost.
+
+  2.000_03 12 September 2005
+
+      * Fixed some non-portable test that were failing on VMS.
+
+      * Fixed export of zlib constants from the IO::* classes
+
+  2.000_02 6 September 2005
+
+      * Split Append mode into Append and Merge
+
+      * Fixed typos in the documentation.
+
+      * Added pod/FAQ.pod
+
+      * Added libscan to Makefile.PL
+
+      * Added InputLength for IO::Gunzip et al
+
+  2.000_01 22 August 2005
+
+      * Fixed VERSION in Compress::Gzip::Constants
+
+      * Removed Compress::Gzip::Info from the distribution.
+
+  2.000_00 21 August 2005
+
+      * First Beta relase of Compress::zlib rewrite.

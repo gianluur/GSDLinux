@@ -1,0 +1,241 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+"dtd/kdedbx45.dtd" [
+<!ENTITY % addindex "IGNORE">
+<!ENTITY % Russian "INCLUDE"
+> <!-- change language only here -->
+]>
+
+<article id="workspaceoptions" lang="&language;">
+<articleinfo>
+<title
+>Основные параметры</title>
+<authorgroup>
+<author
+>&Burkhard.Lueck; &Burkhard.Lueck.mail;</author>
+<author
+><firstname
+>Natalie</firstname
+><surname
+>Clarius</surname
+><email
+>natalie_clarius@yahoo.de</email
+></author>
+<othercredit role="translator"
+><firstname
+>Мария</firstname
+><surname
+>Шикунова</surname
+><affiliation
+><address
+><email
+>translation-team@basealt.ru</email
+></address
+></affiliation
+><contrib
+>Перевод на русский</contrib
+></othercredit
+> 
+</authorgroup>
+
+<date
+>2023-01-30</date>
+
+<releaseinfo
+>&plasma; 5.27</releaseinfo>
+
+<keywordset>
+<keyword
+>параметры системы</keyword>
+<keyword
+>рабочий стол</keyword>
+<keyword
+>рабочая среда</keyword>
+</keywordset>
+
+</articleinfo>
+
+<para
+>Данный модуль позволяет настроить основные параметры рабочей среды. </para>
+
+<variablelist>
+
+<varlistentry>
+<term
+><guilabel
+>Разрешить Plasma показывать всплывающие подсказки для панели и виджетов</guilabel
+></term>
+<listitem>
+<para
+>Установите этот флажок, чтобы всплывающие подсказки показывались на панели или на рабочем столе.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Показывать OSD-уведомления при изменении состояния</guilabel
+></term>
+<listitem>
+<para
+>Установите этот флажок, чтобы все виджеты Plasma могли показывать всплывающие экранные уведомления (OSD) при изменении громкости, яркости или переключении аудиоустройств.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Скорость анимации</guilabel
+></term>
+<listitem>
+    <para
+>Позволяет указать скорость анимации эффектов рабочего стола (от <guilabel
+>Медленнее</guilabel
+> до <guilabel
+>Быстрее</guilabel
+>).</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Щелчок по файлу или папке</guimenu
+><guimenuitem
+>Открывает объект</guimenuitem
+></menuchoice
+></term>
+<listitem>
+<para
+>Если этот параметр включён, файлы и папки открываются одним щелчком <mousebutton
+>левой</mousebutton
+> кнопки мыши. Чтобы выделить файлы и папки, можно щёлкнуть <mousebutton
+>левой</mousebutton
+> кнопкой мыши по их маркерам выделения, обвести их прямоугольником выделения или щёлкнуть, удерживая клавишу &Ctrl;. Это поведение по умолчанию, и оно согласуется с тем, как вы щёлкаете по ссылкам в веб-браузерах.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Щелчок по файлу или папке</guimenu
+><guimenuitem
+>Выделяет объект</guimenuitem
+></menuchoice
+></term>
+<listitem>
+<para
+>Включает поведение, при котором файлы и папки открываются двойным щелчком, а одиночный щелчок выделяет их. Такое поведение используется в других окружениях рабочего стола и операционных системах.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Щелчок по полосе прокрутки</guimenu
+><guimenuitem
+>Прокручивает на одну страницу вверх или вниз</guimenuitem
+></menuchoice
+></term>
+<listitem>
+<para
+>Это параметр по умолчанию. Щелчок левой кнопкой мыши по полосе прокрутки приводит к перемещению на одну страницу.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Щелчок по полосе прокрутки</guimenu
+><guimenuitem
+>Прокручивает в указанное положение</guimenuitem
+></menuchoice
+></term>
+<listitem>
+<para
+>Включает поведение, при котором щелчок по полосе прокрутки приводит к перемещению на соответствующее место в документе. Такое поведение используется в других окружениях рабочего стола и операционных системах.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Щелчок средней кнопкой</guimenu
+><guimenuitem
+>Вставка выделенного текста</guimenuitem
+></menuchoice
+></term>
+<listitem>
+<para
+>Установите этот флажок, чтобы вставка из буфера обмена происходила по средней кнопке мыши в текстовом поле, аналогично комбинации <keycombo action="simul"
+>&Ctrl; <keysym
+>V</keysym
+></keycombo
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Режим планшета</guimenuitem
+></term>
+<listitem>
+<para
+>В режиме планшета виртуальная клавиатура появляется при необходимости.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Режим планшета</guimenu
+><guimenuitem
+>Автоматически</guimenuitem
+></menuchoice
+></term>
+<listitem>
+<para
+>Если этот параметр выбран, режим планшета будет автоматически включён, когда система обнаруживает сенсорный экран, но не обнаруживает мышь или сенсорную панель. Например: когда клавиатура ноутбука-трансформера перевёрнута или отсоединена.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Режим планшета</guimenu
+><guimenuitem
+>Использовать всегда</guimenuitem
+></menuchoice
+></term>
+<listitem>
+<para
+>Выберите этот параметр, чтобы режим планшета был всегда включён. Используйте его, если вы работаете с &plasma; в основном с помощью сенсорного экрана.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Режим планшета</guimenu
+><guimenuitem
+>Никогда не использовать</guimenuitem
+></menuchoice
+></term>
+<listitem>
+<para
+>При выборе этого варианта режим планшета всегда отключён. Используйте его, если режим планшета на устройстве не нужен.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</article>

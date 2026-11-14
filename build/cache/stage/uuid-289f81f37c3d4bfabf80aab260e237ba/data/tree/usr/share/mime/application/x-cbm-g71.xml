@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-cbm-g71">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Commodore 1571 GCR disk image</comment>
+  <sub-class-of type="application/x-raw-disk-image"/>
+  <alias type="application/x-g71"/>
+  <glob pattern="*.g71"/>
+</mime-type>

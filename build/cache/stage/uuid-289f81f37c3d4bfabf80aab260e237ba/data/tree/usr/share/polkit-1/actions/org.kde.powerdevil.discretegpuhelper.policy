@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE policyconfig PUBLIC
+"-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+"http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+<policyconfig>
+<vendor>KDE</vendor>
+<icon_name>kde</icon_name>
+   <action id="org.kde.powerdevil.discretegpuhelper.hasdualgpu" >
+      <description xml:lang="ar">تأكد من وجود وحدة معالجة الرسومات المنفصلة</description>
+      <description xml:lang="az">Diskret qrafik kartının varlığını yoxlayın</description>
+      <description xml:lang="be">Праверыць наяўнасць дыскрэтнай відэакарты</description>
+      <description xml:lang="bg">Проверка за наличност на отделен графичен процесор</description>
+      <description xml:lang="ca">Comprova l'existència d'una GPU dedicada</description>
+      <description xml:lang="cs">Zkontrolovat přítomnost diskrétní GPU</description>
+      <description xml:lang="da">Tjek om diskret GPU findes</description>
+      <description xml:lang="de">Auf Vorhandensein einer dedizierten GPU prüfen</description>
+      <description>Check for existence of discrete GPU</description>
+      <description xml:lang="en_GB">Check for existence of discrete GPU</description>
+      <description xml:lang="eo">Kontroli pri ekzisto de diskreta GPU</description>
+      <description xml:lang="es">Comprobar la existencia de una GPU discreta</description>
+      <description xml:lang="eu">Egiaztatu bereizitako GPUrik dagoen</description>
+      <description xml:lang="fi">Tarkista erillisen grafiikkasuorittimen olemassaolo</description>
+      <description xml:lang="fr">Vérifier l'existence d'une puce dédiée au traitement graphique (GPU)</description>
+      <description xml:lang="gl">Comprobar se se dispón dun procesador gráfico discreto</description>
+      <description xml:lang="he">בדיקת הימצאות מעבד גרפי נפרד</description>
+      <description xml:lang="hu">Diszkrét GPU meglétének ellenőrzése</description>
+      <description xml:lang="ia">Verifica existentia de gpu discrete.</description>
+      <description xml:lang="is">Kanna hvort aðskilið skjákort sé til staðar</description>
+      <description xml:lang="it">Verifica l'esistenza di una GPU discreta</description>
+      <description xml:lang="ka">დისკრეტული GPU-ის არსებობის შემოწმება</description>
+      <description xml:lang="ko">외장 GPU 존재 확인</description>
+      <description xml:lang="lt"></description>
+      <description xml:lang="lv"></description>
+      <description xml:lang="nb">Kontroller om det finnes separat skjermkort</description>
+      <description xml:lang="nl">Bestaan van aparte GPU controleren</description>
+      <description xml:lang="nn">Kontroller om det finst separat skjermkort</description>
+      <description xml:lang="pa">ਡਿਸਕਰੀਟ GPU ਦੀ ਮੌਜੂਦਗੀ ਜਾਂਚੋ</description>
+      <description xml:lang="pl">Sprawdź czy jest podłączony dodatkowy GPU</description>
+      <description xml:lang="pt">Verificar a existência de uma placa gráfica dedicada</description>
+      <description xml:lang="pt_BR">Verificar existência de gpu discreto</description>
+      <description xml:lang="ro">Verifică existența unei plăci grafice discrete</description>
+      <description xml:lang="ru">Проверка наличия дискретной видеокарты</description>
+      <description xml:lang="sa">असततस्य GPU इत्यस्य अस्तित्वं पश्यन्तु</description>
+      <description xml:lang="sk">Skontrolovať existenciu diskrétnej GPU</description>
+      <description xml:lang="sl">Preveri obstoj ločenega grafičnega procesorja</description>
+      <description xml:lang="sr">Провери постојање дискретног ГПУ‑а</description>
+      <description xml:lang="sv">Kontrollera om diskret grafikprocessor finns</description>
+      <description xml:lang="ta">பிரிநிலை GPU உள்ளதா என பார்</description>
+      <description xml:lang="tr">Ayrı GPU’nun Varlığı Denetle</description>
+      <description xml:lang="ug">مۇستەقىل كۆرسىتىش كارتىسى (GPU) نىڭ مەۋجۇتلۇقىنى تەكشۈرىدۇ</description>
+      <description xml:lang="uk">Перевірка наявності дискретного GPU</description>
+      <description xml:lang="zh_CN">检查是否存在独立 GPU</description>
+      <description xml:lang="zh_TW">檢查是否有獨立顯示卡</description>
+      <message xml:lang="ar">الاستيثاق للتأكد من وحدة معالجة الرسومات المنفصلة.</message>
+      <message xml:lang="az">Diskret qrafik kartının varlığını yoxlamaq üçün kimlik doğrulamasından keçin.</message>
+      <message xml:lang="be"></message>
+      <message xml:lang="bg"></message>
+      <message xml:lang="ca">Autenticació per a comprovar l'existència d'una GPU dedicada.</message>
+      <message xml:lang="cs">Ověřte totožnost abyste zkonstrolovali existenci dedikované grafické karty.</message>
+      <message xml:lang="da">Autentificer for at tjekke om diskret GPU findes.</message>
+      <message xml:lang="de"></message>
+      <message>Authenticate to check for the existence of a discrete GPU.</message>
+      <message xml:lang="en_GB">Authenticate to check for the existence of a discrete GPU.</message>
+      <message xml:lang="eo">Aŭtentiĝu por kontroli pri la ekzisto de diskreta GPU.</message>
+      <message xml:lang="es">Debe autenticarse para comprobar la existencia de una GPU discreta.</message>
+      <message xml:lang="eu">Kautotu bereizitako GPUrik dagoen egiaztatzeko.</message>
+      <message xml:lang="fi">Tunnistaudu tarkistaaksesi erillisen grafiikkasuorittimen olemassaolon.</message>
+      <message xml:lang="fr">S'authentifier pour vérifier l'existence d'une puce dédiée au traitement graphique (GPU)</message>
+      <message xml:lang="gl">Autentíquese para comprobar se dispón dun procesador gráfico discreto.</message>
+      <message xml:lang="he">יש לעבור אימות כדי לבדוק אם יש מעבד גרפי נפרד.</message>
+      <message xml:lang="hu">Hitelesítés szükséges a diszkrét GPU meglétének ellenőrzéséhez.</message>
+      <message xml:lang="ia">Authentica per verificar le existentia de gpu discrete.</message>
+      <message xml:lang="is">Auðkenndu þig til að kanna hvort aðskilið (e. discrete) skjákort sé til staðar.</message>
+      <message xml:lang="it">Autenticati per verificare l'esistenza di una GPU discreta.</message>
+      <message xml:lang="ka">გაიარეთ ავთენტიკაცია დისკრეტული GPU-ის არსებობის შესამოწმებლად.</message>
+      <message xml:lang="ko">외장 GPU 존재 여부를 확인하려면 인증하십시오.</message>
+      <message xml:lang="lt"></message>
+      <message xml:lang="lv"></message>
+      <message xml:lang="nb">Autentiser for å kontrollere om det finnes separat skjermkort.</message>
+      <message xml:lang="nl">Authenticeren om het bestaan van een aparte GPU te controleren.</message>
+      <message xml:lang="nn">Autentiser for å kontrollera om det finst separat skjermkort.</message>
+      <message xml:lang="pa">ਡਿਸਕਰੀਟ GPU ਦੀ ਮੌਜੂਦੀ ਜਾਂਚਣ ਲਈ ਪਰਮਾਣਿਤ ਕਰੋ।</message>
+      <message xml:lang="pl"></message>
+      <message xml:lang="pt">Faça a autenticação para verificar a existência de uma placa gráfica dedicada.</message>
+      <message xml:lang="pt_BR">Autentique primeiro para verificar a existência de GPU discreta.</message>
+      <message xml:lang="ro">Autentificați-vă pentru a verifica existența unei plăci grafice discrete.</message>
+      <message xml:lang="ru">Аутентификация для проверки наличия дискретной видеокарты.</message>
+      <message xml:lang="sa">असततस्य GPU इत्यस्य अस्तित्वं परीक्षितुं प्रमाणीकरणं कुर्वन्तु ।</message>
+      <message xml:lang="sk">Overenie totožnosti na zistenie existencie samostatnej grafiky.</message>
+      <message xml:lang="sl"></message>
+      <message xml:lang="sr">Аутентификујте се да бисте проверили постојање дискретног ГПУ‑а.</message>
+      <message xml:lang="sv">Ange behörighet för att se om diskret grafikprocessor finns.</message>
+      <message xml:lang="ta">பிரிநிலை வரைகலை அட்டை உள்ளதா என பார்க்க சான்றளிக்கவும்.</message>
+      <message xml:lang="tr">Ayrı bir GPU’nun varlığını denetlemek için kimliğinizi doğrulayın.</message>
+      <message xml:lang="ug">مۇستەقىل كۆرسىتىش كارتىسى (GPU) نىڭ مەۋجۇتلۇقىنى تەكشۈرۈشتە كىملىك دەلىللەش كېرەك.</message>
+      <message xml:lang="uk"></message>
+      <message xml:lang="zh_CN">请进行身份验证以检查是否存在独立 GPU。</message>
+      <message xml:lang="zh_TW">認證以檢查是否有獨立顯示卡。</message>
+      <defaults>
+         <allow_inactive>no</allow_inactive>
+         <allow_active>yes</allow_active>
+      </defaults>
+   </action>
+</policyconfig>

@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jeepney.auth &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">jeepney.auth</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for jeepney.auth</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">binascii</span><span class="w"> </span><span class="kn">import</span> <span class="n">hexlify</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<div class="viewcode-block" id="make_auth_external">
+<a class="viewcode-back" href="../../api/auth.html#jeepney.auth.make_auth_external">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_auth_external</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare an AUTH command line with the current effective user ID.</span>
+
+<span class="sd">    This is the preferred authentication method for typical D-Bus connections</span>
+<span class="sd">    over a Unix domain socket.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hex_uid</span> <span class="o">=</span> <span class="n">hexlify</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">())</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;AUTH EXTERNAL %b</span><span class="se">\r\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">hex_uid</span></div>
+
+
+<div class="viewcode-block" id="make_auth_anonymous">
+<a class="viewcode-back" href="../../api/auth.html#jeepney.auth.make_auth_anonymous">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_auth_anonymous</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Format an AUTH command line for the ANONYMOUS mechanism</span>
+
+<span class="sd">    Jeepney&#39;s higher-level wrappers don&#39;t currently use this mechanism,</span>
+<span class="sd">    but third-party code may choose to.</span>
+
+<span class="sd">    See &lt;https://tools.ietf.org/html/rfc4505&gt; for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">hexlify</span><span class="p">((</span><span class="s1">&#39;Jeepney </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">__version__</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;AUTH ANONYMOUS </span><span class="si">%s</span><span class="se">\r\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">trace</span></div>
+
+
+<span class="n">BEGIN</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;BEGIN</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+<span class="n">NEGOTIATE_UNIX_FD</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;NEGOTIATE_UNIX_FD</span><span class="se">\r\n</span><span class="s1">&#39;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ClientState</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="c1"># States from the D-Bus spec (plus &#39;Success&#39;). Not all used in Jeepney.</span>
+    <span class="n">WaitingForData</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">WaitingForOk</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">WaitingForReject</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">WaitingForAgreeUnixFD</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">Success</span> <span class="o">=</span> <span class="mi">5</span>
+
+<div class="viewcode-block" id="AuthenticationError">
+<a class="viewcode-back" href="../../api/auth.html#jeepney.auth.AuthenticationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AuthenticationError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when DBus authentication fails&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;Authentication failed&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">msg</span><span class="si">}</span><span class="s2">. Bus sent: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="si">!r}</span><span class="s2">&quot;</span></div>
+
+
+<div class="viewcode-block" id="FDNegotiationError">
+<a class="viewcode-back" href="../../api/auth.html#jeepney.auth.FDNegotiationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FDNegotiationError</span><span class="p">(</span><span class="n">AuthenticationError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when file descriptor support is requested but not available&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;File descriptor support not available&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Authenticator">
+<a class="viewcode-back" href="../../api/auth.html#jeepney.auth.Authenticator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Authenticator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Process data for the SASL authentication conversation</span>
+
+<span class="sd">    If enable_fds is True, this includes negotiating support for passing</span>
+<span class="sd">    file descriptors. If inc_null_byte is True, sends the &#39;\0&#39; byte</span>
+<span class="sd">    at the beginning of the negotiations, which was the past behavior,</span>
+<span class="sd">    but which prevents sending the SCM_CREDS ancillary data over the socket,</span>
+<span class="sd">    breaking authentication on *BSD; the caller should rather send that</span>
+<span class="sd">    null byte and ancillary data and pass inc_null_byte=False to prevent</span>
+<span class="sd">    it being done here.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable_fds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inc_null_byte</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enable_fds</span> <span class="o">=</span> <span class="n">enable_fds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">inc_null_byte</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_to_send</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">make_auth_external</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_to_send</span> <span class="o">=</span> <span class="n">make_auth_external</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">ClientState</span><span class="o">.</span><span class="n">WaitingForOk</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">authenticated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="ow">is</span> <span class="n">ClientState</span><span class="o">.</span><span class="n">Success</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_to_send</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Authenticator.data_to_send">
+<a class="viewcode-back" href="../../api/auth.html#jeepney.auth.Authenticator.data_to_send">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data_to_send</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a line of data to send to the server</span>
+
+<span class="sd">        The data returned should be sent before waiting to receive data.</span>
+<span class="sd">        Returns empty bytes if waiting for more data from the server, and None</span>
+<span class="sd">        if authentication is finished (success or error).</span>
+
+<span class="sd">        Iterating over the Authenticator object will also yield these lines;</span>
+<span class="sd">        :meth:`feed` should be called with received data inside the loop.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticated</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_to_send</span><span class="p">,</span> <span class="n">to_send</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_send</span>
+        <span class="k">return</span> <span class="n">to_send</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">process_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="ow">is</span> <span class="n">ClientState</span><span class="o">.</span><span class="n">WaitingForOk</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;OK &#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_fds</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">NEGOTIATE_UNIX_FD</span><span class="p">,</span> <span class="n">ClientState</span><span class="o">.</span><span class="n">WaitingForAgreeUnixFD</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">BEGIN</span><span class="p">,</span> <span class="n">ClientState</span><span class="o">.</span><span class="n">Success</span>
+            <span class="c1"># We only support EXTERNAL authentication, but if we allow others,</span>
+            <span class="c1"># &#39;REJECTED &lt;mechs&gt;&#39; would tell us to try another one.</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="ow">is</span> <span class="n">ClientState</span><span class="o">.</span><span class="n">WaitingForAgreeUnixFD</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;AGREE_UNIX_FD&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">BEGIN</span><span class="p">,</span> <span class="n">ClientState</span><span class="o">.</span><span class="n">Success</span>
+            <span class="c1"># The protocol allows us to continue if FD passing is rejected,</span>
+            <span class="c1"># but Jeepney assumes that if you enable FD support you need it,</span>
+            <span class="c1"># so we fail rather</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">line</span>
+            <span class="k">raise</span> <span class="n">FDNegotiationError</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">line</span>
+        <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Authenticator.feed">
+<a class="viewcode-back" href="../../api/auth.html#jeepney.auth.Authenticator.feed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">feed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process received data</span>
+
+<span class="sd">        Raises AuthenticationError if the incoming data is not as expected for</span>
+<span class="sd">        successful authentication. The connection should then be abandoned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">+=</span> <span class="n">data</span>
+        <span class="k">if</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">:</span>
+            <span class="n">line</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">:</span>
+                <span class="c1"># We only expect one line before we reply</span>
+                <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">,</span> <span class="s2">&quot;Unexpected data received&quot;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_to_send</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+        <span class="c1"># Avoid consuming lots of memory if the server is not sending what we</span>
+        <span class="c1"># expect. There doesn&#39;t appear to be a specified maximum line length,</span>
+        <span class="c1"># but 8192 bytes leaves a sizeable margin over all the examples in the</span>
+        <span class="c1"># spec (all &lt; 100 bytes per line).</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">8192</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">,</span> <span class="s2">&quot;Too much data received without line ending&quot;</span>
+            <span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># Old name (behaviour on errors has changed, but should work for standard case)</span>
+<span class="n">SASLParser</span> <span class="o">=</span> <span class="n">Authenticator</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

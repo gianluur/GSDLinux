@@ -1,0 +1,460 @@
+media-player-info 23 (2017-09-15)
+=================================
+Bastien Nocera:
+      mpi2hwdb.py: Export the icon through hwdb to udev (#102731)
+      mpi2hwdb.py: Force default icon to be multimedia-player (GNOME #759042)
+
+Reiner Herrmann:
+      Sort list of mpi files to get reproducible rules/hwdb (Debian #828628)
+
+media-player-info 22 (2014-10-07)
+=================================
+Martin Pitt:
+      Terminate udev rules with an empty line (LP #1364747)
+      Add Sandisk Sansa Clip Sport (LP #1296418)
+      Remove ZTE Score (Debian #748647)
+
+media-player-info 21 (2013-07-24)
+=================================
+Martin Pitt (6):
+      Fix build under non-UTF8 locales (#67242)
+      Fix build in separate build tree
+
+media-player-info 19 (2013-07-23)
+=================================
+Martin Pitt (5):
+      Drop obsolete fdi2mpi.py
+      Port generator tools to Python 3
+      Rename mpi files with overly long names
+      Add Motorola Droid 4
+
+Tom Gundersen (1):
+      Create udev hwdb when building with udev >= 196
+
+media-player-info 18 (2013-07-05)
+=================================
+Dan Williams (1):
+      Add HP Veer
+
+Markus Ottensmann (1):
+      Add Archos 5 Internet Tablet
+
+Martin Pitt (3):
+      Add ZTE Score
+      Add LG Optimus One P500
+      Drop newer kindles
+
+Pavol Babincak (1):
+      Fix playlist path for Sony Ericsson Xperia mini pro
+
+media-player-info 17 (2012-05-30)
+=================================
+Jason Leonard (1):
+      Add Creative Zen MX
+
+Jonathan Ernst (6):
+      Xperia X12 is better known as Xperia arc
+      Add Nec LifeTouch Note
+      Galaxy Gio (GT-S5660) shares same is as Ace
+      Add a third ID for Acer Liquid (MT)
+      Add Nokia C7-00
+      Add Sony Ericsson Xperia Mini
+
+Linus Walleij (1):
+      Add support for iBeat Jess
+
+Martin Pitt (3):
+      Add Nokia N9
+      Add playlist format to Android devices
+      Add alternative product ID for Sony Ericsson Xperia X10
+
+media-player-info 16 (2012-01-24)
+=================================
+Alex Fiestas (1):
+      Add Nokia N950
+
+Martin Pitt (8):
+      Fix Nokia N950
+      Add Sandisk Sansa Clip ZIP
+      Add Sony Walkman NWZ-S765
+      Generalize Sony NWZ-S76x
+      Add Sony Walkman S-750 series
+      Add Sony Walkman NWZ-S545
+      Add Archos Key
+      Add Sony Walkman NWZ-A800 series
+
+media-player-info 15 (2011-10-04)
+=================================
+Alejandro Mery (1):
+      Add another product ID for Sansa Clip+
+
+Bernd Schlapsi (1):
+      Add audio folder for Sony Walkman NWZ-S638F
+
+Jo Shields (2):
+      Add HP Pre 3
+      Add HP Touchpad
+
+Jonathan Ernst (21):
+      Add Sony Ericsson W705
+      Add Vodafone 845 aka Huawei U8120 Android phone
+      Add LG Optimus S Android phone
+      Add Sharp IS03 Android phone
+      Add Sony Ericsson Xperia X12 (Arc) Android phone
+      Add Samsung Galaxy S2
+      Add Samsung Reality
+      0x05c6_0x1000 is also used by Samsung Freeform II not only LG phones
+      Add another ID for Samsung Galaxy S2 (thanks kazken3) for the hint
+      Add GoGear Vibe 4Gb (Modelo SA2VBE)
+      Add Nokia 6730 Classic
+      Add Philips GoGear Raga MP3 player
+      Add Sony Ericsson Vivaz
+      Add Barnes and Noble Nook eReaders
+      Add Motorola Atrix
+      Add Archos A43 Internet Tablet
+      Add Notion Ink Adam Android Tablet
+      Add Samsung Galaxy Ace
+      Add Acer Liquid
+      Add Cowon iAUDIO E2
+      Fix typo
+
+Martin Pitt (10):
+      Add TrekStor i.Beat rock
+      Add playlist path to all Android devices
+      Remove %File references
+      SanDisk Sansa Clip+: Add alternate podcasts directory
+      Add Samsung Galaxy SII
+      Add Palm Pre 2
+      Define "FolderSeparator" and "LineEnding" properties
+      Sandisk Sansa Fuze: Set FolderSeparator
+      Use symbolic names for FolderSeparator
+      Add Creative Zen Style 300
+
+Pavol Babinčák (1):
+      Add Sony Ericsson Xperia mini pro
+
+Shishir Joshi (1):
+      Add MicroMax A60 (Android based)
+
+William Witt (2):
+      Add Galaxy S 2
+      sandisk_sansa-fuze-plus: Add MSC mode Device ID
+
+Wojciech Zylinski (1):
+      Add Sony Ericsson Xperia Play
+
+media-player-info 14 (2011-04-19)
+=================================
+Alejandro Mery (1):
+      Add Sandisk Sansa Fuze+
+
+Jonathan Ernst (4):
+      HTC legend uses same ID as desire/hero/evo-4g in debug mode
+      Add Pantech SIRIUS alpha
+      Add Sharp IS01
+      Add Sony Ericsson C905
+
+Martin Pitt (2):
+      Fix product ID of Sandisk Sansa Fuze.
+      Add Creative Zen X-Fi Style
+
+media-player-info 13 (2011-03-15)
+=================================
+Jonathan Ernst (18):
+      HTC Evo uses same ID as Desire/Hero in non debug mode -> merging
+      Vortex uses same ID (in debug mode) as Ally -> merge
+      Add playlist format to HTC Desire and friends
+      Improve LG 0x6018 phones m-p-i file
+      Improve Sony Ericsson Xperia X10 mini Pro m-p-i
+      Add Sony Ericsson XPERIA X1
+      Add Motorola Droid 2 Android phone
+      Rename Motorola Droid X mpi file
+      Fix USB id of sony-ericsson K800i (was phone mode instead of mass storage mode)
+      Add storage folder to Sony Ericsson K800i
+      Add Huawei Ideos non-debug mode
+      Add Samsung Galaxy S debug ID
+      Add Desire HD debug ID
+      Don't generate icon rules as it is currently broken (see LP #657609)
+      Add 5 Coby players
+      Add FolderDepth=2 for the Zen Stone
+      Add RCA H100a
+      Add informations about bug reporting
+
+Martin Pitt (1):
+      Add Samsung U6.
+
+Philippe Gauthier (1):
+      Add Sony Walkman NWZ-E355.
+
+media-player-info 12 (2011-01-08)
+=================================
+Jonathan Ernst (19):
+      Improve Blackberries definition
+      Add Playlist formats supported by the Samsung Galaxy
+      Add ID for Blackberry 8130 Pearl
+      Add new blackberries     Merge all blackberries as the ID depends not on t
+      Add Samsung YP-P2
+      Add newer Kindles
+      Add Nokia 6700
+      Add Samsung GT-S8000 Jet
+      Add LG Ally
+      Use friendly vendor name for LG
+      Add non debug USB ID for Ally and improve mpi
+      Fix typo in Philips GoGear Opus mpi
+      Add Philips GoGear Aria
+      Merge LG Ally and Optimus One as they use the same usb id.
+      Use naming convention for apple-video-ipod.mpi file
+      Add LG Vortex
+      Add HTC EVO 4G
+      Add Google Nexus S
+      Add Google Nexus S's debug mode usb id
+
+Luca Ferretti (1):
+      Add Sony Ericsson Xperia X8
+
+Martin Pitt (6):
+      bump version in configure.ac, forgot to commit
+      Add Philips GoGear RaGa (SA2RGA)
+      Add Cowon J3
+      Add Samsung YP-U4 (product ID 5093)
+      Add LG Optimus One
+      Revert "Add Samsung YP-U4 (product ID 5093)"
+
+Philippe Gauthier (1):
+      Add a new USB ID for iRiver T30
+
+Ryan Blue (1):
+      Update video capable Apple iPods
+
+media-player-info 11 (2010-11-10)
+================================
+Christophe Fergeau (3):
+      Revert "Mark android devices as such"
+      Revert "Mark the n900 as a maemo device"
+      Revert "Mark the Palm Pre as a WebOS device"
+
+Jonathan Ernst (83):
+      Add Sony Ericsson W995
+      Add Sony Ericsson K610i
+      Add Sony Ericsson W580i
+      Add Nokia N97
+      Add Nokia E71 (it's an S60 phone but has USBModel!=S60)
+      Add Sansa Clip
+      Fix usb id (the previous one was MTP mode)
+      Add the official/european phone name for Motorola Droid and fix folder name
+      Rename mpi file to reflect device name change
+      Don't need to specify the OS in the phone's name
+      Add HTC Legend phone
+      Add reference to Nokia N900 icon (found in banshee icons)
+      Add HTC Snap (music can be stored anywhere)
+      Fix HTC Diamond file to not include other phones IDs
+      Add HTC Dream/ADP1/G1/Magic/Tattoo
+      Add HTC Desire/Hero Phones
+      Add Philips GoGear Mix
+      Add Sony Walkman NWZ-E443
+      Split Sony Ericsson phones
+      Add some LG Electronics devices
+      Add Motorola Droid X phone
+      Add Dane-Elec Music Mediatouch
+      Split USB ID 6601 from the other Galaxy Ids as it is used by many other phones
+      Cleanup Sandisk devices
+      Separate Blackberry Bold from the rest of the Blackberries
+      Split Samsung music players
+      Add Cowon iAudio 9
+      Add Cowon iAUDIO 7
+      Fix Cowon iAudio 7 mpi file
+      Add Sony Ericsson W660i
+      Really add Sony Ericsson W660i
+      Add Nokia 5800
+      Improve Nokia 5310 definition
+      Improve HTC Desire definition
+      Add supported audio formats for HTC Desire/Hero
+      Add Sony Ericsson W810i
+      Cleanup Sony Ericsson phones
+      Add Sony Ericsson W595
+      0x6018 is used by at least GM360/GD510/GW520/KP501 phones
+      Add Nokia N95
+      Add Nokia 6110 Navigator
+      Add Cowon iAUDIO X5
+      071b:3203 matches at least Archos 1 Vision, Archos Vision 18 and Rockchip ROCK MP3
+      Delete unused files
+      Add Archos 5 Tablet
+      0x1100 and 0x1101 is used by at many Media Players
+      Add Acer Liquid (Android phone)
+      Add Creative Zen X-Fi 2
+      Add Philips GoGear Opus
+      Add Archos 32 IT
+      Improve Nokia 5800 definition
+      Add Sony Ericsson Xperia X10 mini pro
+      Add Motorola i1
+      Cowon iAUDIO G2 uses same id as iAUDIO U5
+      Add music location for YP-T9
+      Add Samsung YP-T10 which has MTP and MSC firmware/modes available
+      Improve 071b:3203 mpi file for better Archos Vision 3 support
+      Add Sony Ericsson Xperia X10 Mini Pro USB debug ID
+      Add Huawei Ideos
+      Add Philips media player (with yet unknown name)
+      Add definition of storage section
+      Add myself to the AUTHORS file ;-)
+      Add Cowon D2
+      Add Sandisk Sansa View (msc mode)
+      Improve README file
+      Add LG phones
+      Add Samsung Galaxy Icon reference as found in gnome-icon-theme-extras
+      Add Samsung YP S3 (UMS firmware) and YP T7
+      Add iRiver T60
+      Add alternate directory for playlists
+      Add two Ali MP3 players
+      Cleanup product names for jetflash and teac players
+      Add Nokia N91
+      Add Samsung YP-F2R
+      Specify the name of Philips 0x0163 media player
+      Add three Nokia phones (6120,6303,6600i)
+      Add three Sony Ericsson phones (W200,V630i,V640i)
+      Rename and simplify iriver S10
+      Cleanup Motorola phones
+      Filenames uniformization and naming convention
+      Add Samsung YP-Q2     Thanks Oleg Andreych for the infos
+      Add HTC Vision (Android phone)
+      Add HTC Incredible (Android Phone)
+
+Martin Pitt (2):
+      clean up RIM blackberry MPIs
+      Samsung U5: Use storage AccessProtocol
+
+Stephane BARON (1):
+      Fix typo in archos-vision_18.mpi
+
+
+media-player-info 10 (2010-09-21)
+================================
+Martin Pitt (5):
+      fix copy&paste errors in tools copyright headers
+      mpi2udev.py: Add missing comma in rules with icons
+      sanitize name of iRiver T30
+      sanitize name of hama T30
+      Add automatic syntax checking
+
+Stephane BARON (1):
+      Add Archos Vision 18
+
+media-player-info 9 (2010-09-20)
+================================
+Christophe Fergeau (8):
+      Give user-readable name to HTC Diamond mpi file
+      Add one more ID to htc-diamond.mpi
+      Add another Samsung Galaxy ID
+      Fix Xperia X10 usb ID
+      Add mpi file for Motorola CLIQ
+      Mark android devices as such
+      Mark the n900 as a maemo device
+      Mark the Palm Pre as a WebOS device
+
+Jonathan Ernst (3):
+      Alternative ID and icon for Motorola Droid
+      Add Sony Xperia X10 Mini
+      Add Samsung YP-M1
+
+Martin Pitt (5):
+      Fix Xperia X10 device ID
+      Add Motorola Dext
+      Add iRiver E30
+      Fix Apple video player detection
+      Motorola Cliq has its own mpi now
+
+media-player-info 8 (2010-09-13)
+================================
+Florian Boucault (2):
+      Fix OutputFormats syntax
+      Add audio/flac as output format for the Samsung Galaxy
+
+media-player-info 7 (2010-08-24)
+================================
+Angel Abad (2):
+      Add Sony Ericsson Xperia X10
+      Update Sony Ericsson Xperia X10
+
+Bastien Nocera (1):
+      Add parser tools to the distribution
+
+Bertrand Lorentz (1):
+      Add Sony Ericsson Xperia X10
+
+Christophe Fergeau (1):
+      Add another Samsung Galaxy ID
+
+Martin Pitt (8):
+      Dual-license fdi2mpi.py under X11, too
+      fdi2mpi.py: fix copy&paste typo in license
+      Rebuild udev rules on changes of mpi2udev.py
+      mpi2udev.py: Add matching to USB product and manufacturer name
+      README: Improve description of detection
+      Add Rockbox players
+      Add Archos 5 IMT
+      Revert "Add Sony Ericsson Xperia X10"
+
+bugzilla-daemon@freedesktop.org (1):
+      Add TEAC MP3 Player MP-375SD
+
+media-player-info 6 (2010-04-08)
+================================
+Bastien Nocera (8):
+      Add icon for HTC G1 phone
+      Add Palm Prē
+      Add Samsung Galaxy
+      Add Nokia N900 phone
+      Add MP3 support to the Samsung Galaxy
+      Add Google Nexus One
+      Add Huawei Pulse phone
+      Add icon for Google Nexus One phone
+
+Christophe Fergeau (3):
+      fix name of iPod icon name
+      fix format of DeviceMatch entries in new mpi files
+      add mpi file for Sansa Clip+
+
+Martin Pitt (1):
+      Fix udev rules to catch MTP devices, too
+
+Reinout van Schouwen (1):
+      Add Cowon S9
+
+media-player-info 5 (2010-03-18)
+================================
+Dallen Wilson (1):
+      add iRiver H320, H340 (LP: #487963)
+
+Jonathan Matthew (1):
+      add Amazon Kindle 2
+
+Martin Pitt (8):
+      Move udev rules to a much earlier place
+      Add Motorola Droid (LP: #495764)
+      Add Philips GoGear RaGa (SA1942/02) (LP: #528948)
+      Add Creative Zen Touch. (LP: #478789)
+      add .gitignore
+      Add Samsung U5
+      Add support for per-device icons
+      apple-ipod.mpi: Set "multimedia-player-ipod" icon
+
+media-player-info 4
+===================
+- Fix udev rules for change events. (LP #454654)
+- Take USBProduct into account when generating udev rules, to avoid overly
+  generic rules. (LP #477976)
+- Sync with current hal-info to get the latest music players.
+
+media-player-info 3
+===================
+
+- fix copyright holders in COPYING
+
+media-player-info 2
+===================
+
+- rename to media-player-info
+
+media-player-id 1
+=================
+
+- initial release of media-player-id

@@ -1,0 +1,200 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeepney 0.9.0 &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Connecting to DBus and sending messages" href="integrate.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Jeepney 0.9.0</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="jeepney-version">
+<h1>Jeepney 0.9.0<a class="headerlink" href="#jeepney-version" title="Link to this heading"></a></h1>
+<p>Jeepney is a pure Python interface to D-Bus, a protocol for interprocess
+communication on desktop Linux (mostly). See <a class="reference internal" href="dbus-background.html"><span class="doc">What is D-Bus?</span></a> for more
+background on what it can do.</p>
+<p>The core of Jeepney is <a class="reference external" href="https://sans-io.readthedocs.io/">I/O free</a>, and the
+<code class="docutils literal notranslate"><span class="pre">jeepney.io</span></code> package contains bindings for different event loops to
+handle I/O. Jeepney tries to be <em>non-magical</em>, so you may have to write a bit
+more code than with other interfaces such as <a class="reference external" href="https://pypi.python.org/pypi/dbus-python">dbus-python</a>
+or <a class="reference external" href="https://github.com/LEW21/pydbus">pydbus</a>.</p>
+<p>Jeepney doesn’t rely on libdbus or other compiled libraries, so it’s easy
+to install with Python tools like <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">jeepney</span>
+</pre></div>
+</div>
+<p>For most use cases, the D-Bus daemon needs to be running on your computer;
+this is a standard part of most modern Linux desktops.</p>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="integrate.html">Connecting to DBus and sending messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="integrate.html#connections-and-routers">Connections and Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrate.html#message-generators-and-proxies">Message generators and proxies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrate.html#sending-receiving-file-descriptors">Sending &amp; receiving file descriptors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Making and parsing messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="messages.html#making-messages">Making messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bindgen.html">Generating D-Bus wrappers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bindgen.html#bindgen-command-options">Bindgen command options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html">Core API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/common_msgs.html">Common messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/auth.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/fds.html">File descriptor support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/blocking.html">Blocking I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/threading.html">Blocking I/O with threads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/trio.html">Trio integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/asyncio.html">Asyncio integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/io_exceptions.html">I/O Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Design &amp; Limitations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="design.html#non-goals">Non-goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html#alternatives">Alternatives</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dbus-background.html">What is D-Bus?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dbus-background.html#methods-signals">Methods &amp; signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dbus-background.html#names">Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dbus-background.html#message-buses">Message buses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dbus-background.html#special-features">Special features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release-notes.html#id1">0.9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release-notes.html#id2">0.8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release-notes.html#id3">0.7.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release-notes.html#id4">0.7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release-notes.html#id5">0.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release-notes.html#id6">0.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release-notes.html#id7">0.4.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release-notes.html#id8">0.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release-notes.html#id9">0.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release-notes.html#id10">0.4</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://wiki.gnome.org/Apps/DFeet">D-Feet</a></dt><dd><p>App for exploring available D-Bus services on your machine.</p>
+</dd>
+<dt><a class="reference external" href="https://dbus.freedesktop.org/doc/dbus-specification.html">D-Bus Specification</a></dt><dd><p>Technical details about the D-Bus protocol.</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="integrate.html" class="btn btn-neutral float-right" title="Connecting to DBus and sending messages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

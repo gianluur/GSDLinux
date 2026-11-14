@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+    <name>Watch Bugzilla Bug</name>
+    <name xml:lang="as">Bugzilla বাগক চাওক</name>
+    <name xml:lang="ca">Observa l'error de programari Bugzilla</name>
+    <name xml:lang="cs">Sledování chyb v Bugzille</name>
+    <name xml:lang="da">Vis Bugzilla bug</name>
+    <name xml:lang="de">Bugzilla Bug anschauen</name>
+    <name xml:lang="es">Suscribirse al error en Bugzilla</name>
+    <name xml:lang="fi">Katso Bugzilla-vika</name>
+    <name xml:lang="fr">Consulter Bogue Bugzilla</name>
+    <name xml:lang="gu">બગઝીલા ભૂલને જુઓ</name>
+    <name xml:lang="hu">A Bugzilla hiba figyelése</name>
+    <name xml:lang="ja">Bugzilla バグを参照する</name>
+    <name xml:lang="kn">ಬಗ್‌ಝಿಲ್ಲಾ ಬಗ್ ಅನ್ನು ಗಮನಿಸಿ</name>
+    <name xml:lang="ko">버그질라 결점을 봅니다</name>
+    <name xml:lang="mr">Bugzilla बगवर नजर ठेवा</name>
+    <name xml:lang="nl">Bekijk Bugzilla Bug</name>
+    <name xml:lang="pl">Obserwuje błąd w Bugzilli</name>
+    <name xml:lang="pt_BR">Ver Bugzilla Bug</name>
+    <name xml:lang="ru">Наблюдать за сообщением об ошибке в Bugzilla</name>
+    <name xml:lang="sv">Betrakta Bugzilla-fel</name>
+    <name xml:lang="ta">Bugzilla வழுக்களைக் கவனி</name>
+    <name xml:lang="tr">Bugzilla Hatasını İzle</name>
+    <name xml:lang="uk">Спостерігати за звітом</name>
+    <name xml:lang="zh_CN">关注 Bugzilla Bug</name>
+    <name xml:lang="zh_TW">關注 Bugzilla 臭蟲</name>
+    <description>Adds your e-mail to CC List of Bugzilla bug</description>
+    <description xml:lang="as">আপোনাৰ ই-মেইলক Bugzilla বাগৰ CC তালিকালৈ যোগ কৰে</description>
+    <description xml:lang="ca">Afegeix el vostre correu electrònic a la llista CC de l'error de programari de Bugzilla</description>
+    <description xml:lang="cs">Přidá váš e-mail do seznamu CC chyby v Bugzille</description>
+    <description xml:lang="da">Tilføjer din e-mail til CC-liste af Bugzilla bug</description>
+    <description xml:lang="de">Fügt ihre E-Mail Adresse zur CC Liste des Bugzilla Bugs hinzu</description>
+    <description xml:lang="es">Agrega su dirección de correo a la lista CC del error en Bugzilla</description>
+    <description xml:lang="fi">Lisää sähköpostiosoitteesi Bugzilla-vian CC-listaan</description>
+    <description xml:lang="fr">Ajoute votre adresse électronique à la liste de CC du bogue Bugzilla</description>
+    <description xml:lang="gu">બગઝીલા ભૂલની CC યાદીમાં તમારાં ઇમેઇલને ઉમેરે છે</description>
+    <description xml:lang="hu">Hozzáadja az e-mail címét a Bugzilla hiba CC listájához</description>
+    <description xml:lang="it">Aggiungere il proprio indirizzo email alla lista CC del bug Bugzilla</description>
+    <description xml:lang="ja">Bugzilla バグの CC リストにお使いのメールアドレスを追加する</description>
+    <description xml:lang="kn"> ನಿಮ್ಮ ವಿ-ಅಂಚೆಯನ್ನು Bugzilla ದೋಷದ CC ಪಟ್ಟಿಗೆ ಸೇರಿಸುತ್ತದೆ</description>
+    <description xml:lang="ko">버그질라 결점의 CC 목록에 당신의 전자우편을 추가합니다</description>
+    <description xml:lang="mr">बगजिला बगच्या सूचीमध्ये तुमचे ईमेल समाविष्ट करते</description>
+    <description xml:lang="nl">Voegt je mailadres toe aan de CC lijst van Bugzilla bug</description>
+    <description xml:lang="pl">Dodaje adres e-mail do listy CC błędu w Bugzilli</description>
+    <description xml:lang="pt_BR">Adiciona seu e-mail para CC Lista do Bugzilla bug</description>
+    <description xml:lang="ru">Добавляет ваш адрес электронной почты к списку рассылки копий сообщений об ошибках Bugzilla</description>
+    <description xml:lang="sv">Lägger till din e-postadress till CC-listan i ett Bugzilla-fel</description>
+    <description xml:lang="ta">உங்கள் மின்னஞ்சலை Bugzilla வழுக்களின் CC பட்டியலில் சேர்க்கும்</description>
+    <description xml:lang="tr">E-posta adresinizi Bugzilla hatasının CC Listesine ekler</description>
+    <description xml:lang="uk">Додає вашу адресу електронної пошти до списку надсилання повідомлень щодо звіту про ваду.</description>
+    <description xml:lang="zh_CN">添加您的电邮到 Bugzilla Bug 抄送列表</description>
+    <description xml:lang="zh_TW">將您的電子郵件加入 Bugzilla 臭蟲的寄件副本清單中</description>
+
+    <requires-items>reported_to</requires-items>
+    <exclude-items-by-default>coredump,count,event_log,reported_to,vmcore</exclude-items-by-default>
+    <exclude-items-always/>
+    <exclude-binary-items>no</exclude-binary-items>
+    <include-items-by-default/>
+    <minimal-rating>0</minimal-rating>
+    <gui-review-elements>no</gui-review-elements>
+
+    <options>
+        <import-event-options event="report_Bugzilla"/>
+    </options>
+</event>

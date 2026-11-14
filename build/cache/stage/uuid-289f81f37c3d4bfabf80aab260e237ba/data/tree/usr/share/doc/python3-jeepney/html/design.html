@@ -1,0 +1,182 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design &amp; Limitations &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="What is D-Bus?" href="dbus-background.html" />
+    <link rel="prev" title="I/O Exceptions" href="api/io_exceptions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Design &amp; Limitations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#non-goals">Non-goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alternatives">Alternatives</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Design &amp; Limitations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/design.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="design-limitations">
+<h1>Design &amp; Limitations<a class="headerlink" href="#design-limitations" title="Link to this heading"></a></h1>
+<p>There are two parts to Jeepney:</p>
+<p>The <strong>core</strong> is all about creating D-Bus messages, serialising them to bytes,
+and deserialising bytes into <a class="reference internal" href="api/core.html#jeepney.Message" title="jeepney.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> objects.
+It aims to be a complete &amp; reliable implementation of the D-Bus wire protocol.
+It follows the idea of <a class="reference external" href="https://sans-io.readthedocs.io/">“Sans-I/O”</a>,
+implementing the D-Bus protocol independent of any means of sending or receiving
+the data.</p>
+<p>The second part is <strong>I/O integration</strong>. This supports the typical use case for
+D-Bus - connecting to a message bus on a Unix socket - with various I/O
+frameworks. There is one integration module for each framework, and they provide
+similar interfaces (<a class="reference internal" href="integrate.html#connections-and-routers"><span class="std std-ref">Connections and Routers</span></a>), but differ as much as
+necessary to fit in with the different frameworks - e.g. the Trio integration
+uses channels where the asyncio integration uses queues.</p>
+<p>Jeepney also allows for a similar split in code using it. If you want to wrap
+the desktop notifications service, for instance, you can write (or generate) a
+<a class="reference internal" href="integrate.html#msggen-proxies"><span class="std std-ref">message generator</span></a> class for it.
+The same message generator class can then be wrapped in a <em>proxy</em> for any of
+Jeepney’s I/O integrations.</p>
+<section id="non-goals">
+<h2>Non-goals<a class="headerlink" href="#non-goals" title="Link to this heading"></a></h2>
+<p>Jeepney does not (currently) aim for:</p>
+<ul class="simple">
+<li><p>Very high performance. Parsing binary messages in pure Python code is not
+the fastest way to do it, but for many use cases of D-Bus it’s more than fast
+enough.</p></li>
+<li><p>Supporting all possible D-Bus transports. The I/O integration layer only works
+with Unix sockets, the most common way to use D-Bus. If you need to use
+another transport, you can still use <a class="reference internal" href="api/core.html#jeepney.Message.serialise" title="jeepney.Message.serialise"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Message.serialise()</span></code></a> and
+<a class="reference internal" href="api/core.html#jeepney.Parser" title="jeepney.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a>, and deal with sending &amp; receiving data yourself.</p></li>
+<li><p>Supporting all authentication options. The <a class="reference internal" href="api/auth.html"><span class="doc">auth module</span></a>
+only provides what the I/O integration layer uses.</p></li>
+<li><p>High-level server APIs. Jeepney’s API for D-Bus servers is on a low-level,
+sending and receiving messages, not registering handler methods. See
+<a class="reference external" href="https://github.com/FFY00/dbus-objects">dbus-objects</a> for a server API
+built on top of Jeepney.</p></li>
+<li><p>‘Magic’ introspection. Some D-Bus libraries use introspection at runtime to
+discover available methods, but Jeepney does not. Instead, it uses
+introspection during development to write message generators (<a class="reference internal" href="bindgen.html"><span class="doc">Generating D-Bus wrappers</span></a>).</p></li>
+</ul>
+</section>
+<section id="alternatives">
+<h2>Alternatives<a class="headerlink" href="#alternatives" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>GTK applications can use <a class="reference external" href="https://lazka.github.io/pgi-docs/#Gio-2.0/classes/DBusConnection.html">Gio.DBusConnection</a>
+or a higher-level wrapper like <a class="reference external" href="https://github.com/rhinstaller/dasbus">dasbus</a>
+or <a class="reference external" href="https://github.com/LEW21/pydbus">pydbus</a>.
+There are also GObject wrappers for specific D-Bus services, e.g.
+<a class="reference external" href="https://lazka.github.io/pgi-docs/#Secret-1">secret storage</a> and
+<a class="reference external" href="https://lazka.github.io/pgi-docs/#Notify-0.7">desktop notifications</a>.</p></li>
+<li><p>PyQt applications can use the <a class="reference external" href="https://doc.qt.io/qt-5/qtdbus-index.html">Qt D-Bus module</a>. This has been available <a class="reference external" href="https://www.riverbankcomputing.com/static/Docs/PyQt5/api/qtdbus/qtdbus-module.html">in PyQt</a>
+for many years, and <a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtDBus/index.html#module-PySide6.QtDBus">in PySide</a>
+from version 6.2 (released in 2021).</p></li>
+<li><p><a class="reference external" href="https://github.com/ldo/dbussy">DBussy</a> works with asyncio. It is a Python
+binding to the libdbus reference implementation in C, whereas Jeepney
+reimplements the D-Bus protocol in Python.</p></li>
+<li><p><a class="reference external" href="https://dbus.freedesktop.org/doc/dbus-python/">dbus-python</a> is the original
+Python binding to libdbus. It is very complete and well tested, but may be
+trickier to install and to integrate with event loops and async frameworks.</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://www.freedesktop.org/wiki/Software/DBusBindings/#python">D-Bus Python bindings on the Freedesktop wiki</a></p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/io_exceptions.html" class="btn btn-neutral float-left" title="I/O Exceptions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dbus-background.html" class="btn btn-neutral float-right" title="What is D-Bus?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

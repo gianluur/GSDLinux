@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-ps1-save">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>PlayStation save file</comment>
+  <sub-class-of type="application/octet-stream"/>
+  <generic-icon name="application-octet-stream"/>
+  <glob pattern="*.psv"/>
+  <glob pattern="*.mcb"/>
+  <glob pattern="*.mcx"/>
+  <glob pattern="*.psx"/>
+  <glob pattern="*.mcs"/>
+</mime-type>

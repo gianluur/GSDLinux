@@ -7,7 +7,6 @@ set -euo pipefail
 
 # === CONFIGURAZIONE ===
 RECIPE="recipes/recipe.yaml"
-BLUEPRINT="blueprint.toml"
 BUILD_DIR="build"
 CONTAINER_DIR="${BUILD_DIR}/container"
 ISO_DIR="${BUILD_DIR}/iso"
@@ -15,7 +14,7 @@ IMAGE_BUILDER_IMAGE="ghcr.io/osbuild/image-builder-cli:latest"
 BLUEBUILD_BIN="$(command -v bluebuild)"
 
 # === VERIFICA PREREQUISITI ===
-for f in "${RECIPE}" "${BLUEPRINT}"; do
+for f in "${RECIPE}"; do
   if [[ ! -f "$f" ]]; then
     echo "ERRORE: file non trovato: $f" >&2
     exit 1
@@ -61,9 +60,6 @@ sudo podman build -t "${IMAGE_TAG}" -f "${CONTAINER_DIR}/Containerfile" .
 # Nota il mount di /var/lib/containers/storage: permette a image-builder
 # di leggere l'immagine locale 'localhost/...' che è nello storage di root
 # (coerente con l'uso di sudo su podman build).
-mkdir -p "${BUILD_DIR}/osbuild-tmp"
-mkdir -p "${BUILD_DIR}/osbuild-var-tmp"
-mkdir -p "${BUILD_DIR}/osbuild-cache"
 
 echo ">>> [3/3] Generazione ISO in ${ISO_DIR}..."
 # sudo podman run --rm --privileged \
@@ -79,7 +75,15 @@ echo ">>> [3/3] Generazione ISO in ${ISO_DIR}..."
 #   --blueprint /blueprint.toml \
 #   bootc-generic-iso
 #
-sudo image-builder build --bootc-ref "${IMAGE_TAG}" --bootc-default-fs btrfs bootc-generic-iso
+sudo image-builder build \
+  --output-name gsdlinux \
+  --cache ./build/cache \
+  --output-dir ./build/iso \
+  --bootc-ref "${IMAGE_TAG}" \
+  --bootc-installer-payload-ref localhost/gsdlinux:latest \
+  --bootc-default-fs btrfs bootc-generic-iso
+
+
 
 echo
 echo ">>> Fatto. ISO disponibile in: $(realpath "${ISO_DIR}")"

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-dummy-rom-properties-thumbnailer-kde">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>ROM Propreties Page GTK thumbnailer (don't enable on KDE!)</comment>
+  <glob pattern="*.donotusethismimetype"/>
+</mime-type>

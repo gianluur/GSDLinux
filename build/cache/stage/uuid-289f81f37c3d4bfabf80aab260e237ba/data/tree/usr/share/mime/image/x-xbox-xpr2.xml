@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="image/x-xbox-xpr2">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Microsoft Xbox XPR2 texture archive</comment>
+  <acronym>XPR</acronym>
+  <expanded-acronym>Xbox Packed Resource</expanded-acronym>
+  <sub-class-of type="image/x-generic"/>
+  <generic-icon name="image-x-generic"/>
+  <glob pattern="*.xpr"/>
+</mime-type>

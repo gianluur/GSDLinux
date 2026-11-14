@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="image/x-gtk-path-animation">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <sub-class-of type="image/svg+xml"/>
+  <comment>GTK path animation</comment>
+  <glob pattern="*.gpa"/>
+</mime-type>

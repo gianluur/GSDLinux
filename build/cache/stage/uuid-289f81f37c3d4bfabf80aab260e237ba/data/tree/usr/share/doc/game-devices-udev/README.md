@@ -1,0 +1,262 @@
+# game-devices-udev
+This repo contains udev rules to make supported controllers available with user-grade permissions.
+
+## How to set it up?
+
+### Arch Linux
+There is an [AUR package](https://aur.archlinux.org/packages/game-devices-udev/).
+
+### NixOS
+Install the rules under `services.udev.packages` in the `configuration.nix` file.
+1. Add the following to your `configuration.nix`:
+   ```nix
+   services = {
+     udev = {
+       packages = with pkgs; [
+         game-devices-udev-rules
+       ];
+     };
+   };
+   ```
+2. (Optional) Add the following to your `configuration.nix`:
+   ```nix
+   hardware.uinput.enable = true;
+   ```
+3. Rebuild the system with `nixos-rebuild`.
+
+### Others:
+1. Download the [archive](https://codeberg.org/fabiscafe/game-devices-udev/archive/main.zip).
+2. Extract the archive.
+3. Copy all the rule files (you need) from src to `/etc/udev/rules.d`.
+4. Create another file: `/etc/modules-load.d/uinput.conf`.
+5. Put `uinput` into that file.
+6. Reboot.
+
+If everything was done correctly, it should work now!
+
+## Add My Device!
+### Create a Pull/Merge Request! (PR)
+Please create a PR with your verified, working rule. Every device should have its own PR. Do not forget to add your device to the README.md in this format:
+```
+# [VENDOR] [MARKETING-DEVICE-NAME]; {CONNECTION-TYPE}; {CONNECTION-TYPE} (VendorID:ProductID)
+```
+### Need Help Writing a Rule?
+If you're having trouble, consider reaching out to a Linux community for assistance. Here are some helpful steps to gather information:
+
+1. **Device Information**: Provide the exact (marketing) name and model number of your device; this is also needed for the README.md.
+2. **Monitor Device Events**: Run the following command before connecting or disconnecting your device to capture its information:
+   ```bash
+   udevadm monitor --property
+   ```
+3. **Device Details**: Use the following command to get detailed information about your device:
+   ```bash
+   udevadm info --query=all --attribute-walk --name=/dev/input/js0
+   # /dev/input/js0 is the path of your device; it could also be /dev/input/js1 or something else.
+   ```
+
+## Supported Devices
+
+### 8BitDo (2dc8)
+* 8BitDo Generic Device; (2dc8:3106)
+* 8BitDo F30 P1
+* 8BitDo F30 P2
+* 8BitDo N30
+* 8BitDo SF30
+* 8BitDo SN30
+* 8BitDo F30 Pro
+* 8BitDo N30 Pro
+* 8BitDo SF30 Pro
+* 8BitDo SN30 Pro
+* 8BitDo SN30 Pro+; Bluetooth; USB
+* 8BitDo F30 Arcade
+* 8BitDo N30 Arcade
+* 8BitDo ZERO
+* 8BitDo Retro-Bit xRB8-64
+* 8BitDo Pro 2; Bluetooth; USB (2dc8:6003)
+* 8BitDo Pro 3; Bluetooth; USB/2.4Ghz (2dc8:6009)
+* 8BitDo Pro 2 Wired; USB (2dc8:3010) (Setup instructions in 'Known Issues')
+* 8BitDo Ultimate Wired Controller for Xbox; USB (2dc8:2003)
+* 8BitDo Ultimate 2.4G Wireless Controller; USB/2.4GHz (2dc8:3012)
+* 8BitDo Ultimate 2C Wireless Controller; USB/2.4GHz (2dc8:310a)
+* 8BitDo Arcade Stick; Bluetooth (X-mode)
+* 8BitDo Ultimate 2 Wireless Controller; Bluetooth; USB/2.4GHz (2dc8:310b)
+
+### Alpha Imaging Technology Corp. (114d)
+* VR Set (114d:8a12)
+
+### ASTRO Gaming (9886)
+* ASTRO Gaming C40 Controller; USB (9886:0025)
+
+### Betop (11c0)
+* Betop PS4 Fun Controller (11c0:4001)
+
+### Bigscreen, Inc. (35bd)
+* Bigscreen Beyond (35bd:0101)
+* Bigscreen Beyond Audio Strap (35bd:0105)
+* Bigscreen Bigeye (35bd:0202)
+* Bigscreen Beyond Firmware Mode (35bd:4004) #EXPERIMENTAL
+
+### Cypress Semiconductor Corp. [+Flydigi] (04b4)
+* Flydigi Apex 4 Controller; Bluetooth; USB (04b4:2412)
+
+### Google (18d1)
+* Google Stadia Controller; Bluetooth; USB (18d1:9400)
+
+### Hori Co., Ltd (0f0d)
+* Hori HORIPAD 4 FPS; USB (0f0d:0055)
+* Hori HORIPAD 4 FPS Plus; USB (0f0d:0066)
+* Hori RAP4; USB (0f0d:008a)
+* Hori Pokkén Tournament DX Pro Pad for Nintendo Switch; USB (0f0d:0092)
+* Hori Nintendo Switch HORIPAD Wired Controller; USB (0f0d:00c1)
+* HORIPAD mini 4; USB (0f0d:00ee)
+* HORI Alpha for PS5 (PS4 Mode); USB (0f0d:011c)
+* HORI Alpha for PS5 (PC Mode); USB (0f0d:011e)
+* HORI Wireless Pad ONYX PLUS; Bluetooth (0f0d:012d)
+* HORI Wireless Pad ONYX PLUS; USB (0f0d:012d)
+* HORI Alpha for PS5 (PS5 Mode); USB (0f0d:0184)
+* Hori Wireless HORIPAD for Steam; USB (0f0d:01ab)
+
+### HTC (0bb4)
+* Unknown (0bb4:2c87)
+* Unknown (0bb4:0306)
+* Unknown (0bb4:0309)
+* Unknown (0bb4:030a)
+* Unknown (0bb4:030b)
+* Unknown (0bb4:030c)
+* Unknown (0bb4:030e)
+* HTC VIVE Cosmos; USB (0bb4:030e)(057e:0315)(057e:0323)
+
+### Logitech (046d)
+* Logitech F310 Gamepad; USB (046d:c216)
+* Logitech F710 Wireless Gamepad; USB (046d:c21f) #EXPERIMENTAL
+
+### Mad Catz (0738)
+* Mad Catz Street Fighter V Arcade FightPad PRO (0738:8250)
+* Mad Catz Street Fighter V Arcade FightStick TE S+ (0738:8384)
+
+### Microsoft (045e)
+* Microsoft Xbox 360 Controller; USB (045e:028e) #EXPERIMENTAL
+* Microsoft Xbox 360 Wireless Receiver for Windows; USB (045e:0719)
+* Microsoft Xbox One S Controller; Bluetooth; USB (045e:02ea) #EXPERIMENTAL
+* Microsoft Xbox One Controller; Bluetooth; USB (045e:02fd)
+* Microsoft Xbox One Elite 2 Controller; Bluetooth (045e:0b22)
+
+### Nacon (146b)
+* Nacon PS4 Revolution Pro Controller (146b:0d01)
+
+### Nintendo (057e)
+* Mayflash Wireless Sensor DolphinBar (057e:0306)
+* Nintendo GameCube Controller / Adapter; USB (057e:0337)
+* Nintendo Switch Joy-Con (L); Bluetooth (057e:2006)
+* Nintendo Switch Joy-Con (R); Bluetooth (057e:2007)
+* Nintendo Switch Pro Controller; Bluetooth; USB (057e:2009)
+* Nintendo Switch Joy-Con Charging Grip (057e:200e)
+* Nintendo Switch 2 GameCube Controller; USB (057e:2073)
+
+### NVIDIA (0955)
+* NVIDIA Shield Portable (2013 - NVIDIA_Controller_v01.01 - In-Home Streaming only) (0955:7203)
+* NVIDIA Shield Controller (2017 - NVIDIA_Controller_v01.04); Bluetooth (0955:7214)
+* NVIDIA Shield Controller (2015 - NVIDIA_Controller_v01.03); USB (0955:7210)
+
+### Performance Designed Products LLC [PDP] (0e6f)
+* PDP Nintendo Switch Faceoff Wired Pro Controller; USB (0e6f:0180)
+* PDP Faceoff Deluxe+ Audio Wired Pro Controller for Nintendo Switch (0e6f:0184)
+* PDP Wired Fight Pad Pro for Nintendo Switch; USB (0e6f:0185)
+* Logic3 Rock Candy Wired Controller for Nintendo Switch (0e6f:0187)
+* PDP Afterglow Deluxe+ Wired Controller; USB (0e6f:0188)
+* PDP Victrix Pro FS-12 for PS4 & PS5; USB (0e6f:020c)
+
+### Personal Communication Systems, Inc. (0810)
+* Personal Communication Systems, Inc. Twin USB Gamepad; USB (0810:e301)
+
+### Pid.Codes (1209)
+* EdgeTX, OpenTX Generic [radio controller] Joystick; USB (1209:4f54)
+
+### PowerA (20d6)
+* PowerA GameCube Style Wired Controller for Nintendo Switch; USB (20d6:a711)
+* PowerA Nintendo Switch Enhanced Wireless Controller; USB (20d6:a711)
+* PowerA Wireless Controller for Nintendo Switch; Bluetooth (NA:NA)
+* PowerA Zelda Wired Controller for Nintendo Switch; USB (20d6:a713)
+
+### Raspberry Pi, Ltd. (2e8a)
+* Hand Held Legend Generic SInput Device; Bluetooth; USB (2e8a:10c6)
+* Hand Held Legend ProGCC in SInput Mode; Bluetooth; USB (2e8a:10df)
+* Hand Held Legend GC Ultimate in SInput Mode; Bluetooth; USB (2e8a:10dd)
+* Bonjiri Channel Firebird in SInput Mode; USB (2e8a:10e0)
+
+### Razer (1532)
+* Razer Panthera Arcade Stick (1532:0401)
+* Razer Raiju PS4 Controller (1532:1000)
+* Razer Raiju Ultimate; USB (1532:1004)
+* Razer Raiju 2 Tournament Edition (1532:1007)
+* Razer Panthera EVO Arcade Stick (1532:1008)
+* Razer Raiju Ultimate; Bluetooth (1532:1009)
+* Razer Raiju PS4 Controller Tournament Edition; Bluetooth (1532:100A)
+* Razer Wolverine V2 Pro PS5 Mode; USB (1532:100B)
+* Razer Raion PS4 Fightpad (1532:1100)
+
+### Sony (054c)
+* Sony PlayStation Strikepack; USB (054c:05c5)
+* Sony PlayStation DualShock 3; Bluetooth; USB + Motion Sensors (054c:0268)
+* Sony PlayStation DualShock 4; Bluetooth; USB (054c:05c4)
+* Sony PlayStation DualShock 4 Slim; Bluetooth; USB (054c:09cc)
+* Sony PlayStation DualShock 4 Wireless Adapter; USB (054c:0ba0)
+* Sony DualSense Wireless-Controller; Bluetooth; USB (054c:0ce6)
+* Sony DualSense Edge Wireless-Controller; Bluetooth; USB (054c:0df2)
+* PlayStation VR (054c:09af)
+
+### ThrustMaster, Inc. (044f)
+* Thrustmaster T.16000M Joystick (044f:b10a)
+* Thrustmaster TFRP Rudder (044f:b679)
+* Thrustmaster TWCS Throttle (044f:b687)
+* Thrustmaster eSwap Pro (044f:d00e)
+
+### Valve (28de)
+* Valve USB devices (28de:*)
+* Valve Steam Controller (28de:*)
+* Valve HID devices; Bluetooth; USB (28de:*)
+* Unknown-VR (28de:1043)
+* Unknown-VR (28de:1142)
+* Unknown-VR (28de:2000)
+* Unknown-VR (28de:2010)
+* Unknown-VR (28de:2011)
+* Unknown-VR (28de:2012)
+* Unknown-VR (28de:2021)
+* Unknown-VR (28de:2022)
+* Unknown-VR (28de:2050)
+* Unknown-VR (28de:2101)
+* Unknown-VR (28de:2102)
+* Unknown-VR (28de:2150)
+* Unknown-VR (28de:2300)
+* Unknown-VR (28de:2301)
+
+### VKBSim (231d)
+* VKBsim Gladiator NXT R; USB (231d:0200)
+
+### Zeroplus Technology Corporation (0c12)
+* Brooks Universal Fighting Board; USB (0c12:0c30)
+* Armor PS4 Armor 3 Pad; USB (0c12:0e10)
+* Hit Box Arcade HIT BOX PS4/PC version; USB (0c12:0ef6)
+* EMiO PS4 Elite Controller; USB (0c12:1cf6)
+* Nyko Xbox Controller; USB (0c12:8801)
+* Unknown-Brand Xbox Controller; USB (0c12:8802)
+* Unknown-Brand Xbox Controller; USB (0c12:8810)
+
+## Known Issues
+### 8BitDo Pro 3
+X-Mode keeps forcing S-mode (Nintendo Switch Pro Controller emulation) for some reason, recommended to use D-Mode with Bluetooth instead.
+
+### 8BitDo SN30 Pro+
+In Android mode (START+B), if connected via cable the controller starts up, but gets removed by the kernel in most cases again. This does not happen all the time and there is nothing udev can do about.
+
+### 8BitDo Pro 2 Wired
+#### B-Mode
+This is the only working mode on Linux. To use it you need to hold "B" **every time** you connect the controller or reboot the PC. Otherwise it'll start in Y-Mode and wont work.
+
+#### Steam
+B-Mode works with steam-input. It is however **important** that you set up the controller as **Generic Gamepad**
+It will ***not*** work if it's set up as X-Box Controller (thats default)
+
+## Related Projects
+* [udev-joystick-blacklist](https://github.com/denilsonsa/udev-joystick-blacklist) - Fix for keyboard/mouse/tablet being detected as joystick in Linux.
+* [steam-devices](https://github.com/ValveSoftware/steam-devices) (Last Import: 2026-04-19) - List of devices Steam and SteamVR expects read/write permissions on.

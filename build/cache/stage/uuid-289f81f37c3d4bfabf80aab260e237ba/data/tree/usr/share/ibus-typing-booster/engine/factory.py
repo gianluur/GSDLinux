@@ -1,0 +1,134 @@
+# vim:et sw=4 sts=4 sw=4
+#
+# ibus-typing-booster - A completion input method for IBus
+#
+# Copyright (c) 2011-2013 Anish Patil <apatil@redhat.com>
+# Copyright (c) 2012-2018 Mike FABIAN <mfabian@redhat.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+'''
+TypingBoosterEngine Factory
+'''
+import gettext
+import logging
+import os
+import re
+from typing import Optional
+
+from gi import require_version
+
+# pylint: disable=wrong-import-position
+require_version('IBus', '1.0')
+from gi.repository import IBus  # ty: ignore[unresolved-import]
+# pylint: enable=wrong-import-position
+import hunspell_table
+import itb_util_core
+import tabsqlitedb
+
+LOGGER = logging.getLogger('ibus-typing-booster')
+
+DEBUG_LEVEL = 0
+
+DOMAINNAME = 'ibus-typing-booster'
+
+def _(text: str) -> str:
+    '''Gettext translation function.'''
+    return gettext.dgettext(DOMAINNAME, text)
+
+def N_(text: str) -> str: # pylint: disable=invalid-name
+    '''Mark string for translation without actually translating.
+
+    Used by gettext tools to extract strings that need translation.
+    '''
+    return text
+
+class EngineFactory(IBus.Factory):
+    """Table IM Engine Factory"""
+    def __init__(self, bus: IBus.Bus) -> None:
+        global DEBUG_LEVEL # pylint: disable=global-statement
+        try:
+            DEBUG_LEVEL = int(
+                str(os.getenv('IBUS_TYPING_BOOSTER_DEBUG_LEVEL')))
+        except (TypeError, ValueError):
+            DEBUG_LEVEL = 0
+        if DEBUG_LEVEL > 1:
+            LOGGER.debug('EngineFactory.__init__(bus=%s)\n', bus)
+        self.database: Optional[tabsqlitedb.TabSqliteDb] = None
+        self.database_dict: dict[str, tabsqlitedb.TabSqliteDb] = {}
+        self.enginedict: dict[str, hunspell_table.TypingBoosterEngine] = {}
+        self.bus = bus
+        #engine.Engine.CONFIG_RELOADED(bus)
+        super().__init__(
+            connection=bus.get_connection(), object_path=IBus.PATH_FACTORY)
+        self.engine_id = 0
+
+    def do_create_engine( # pylint: disable=arguments-differ
+            self, engine_name: str) -> hunspell_table.TypingBoosterEngine:
+        if DEBUG_LEVEL > 1:
+            LOGGER.debug(
+                'EngineFactory.do_create_engine(engine_name=%s)\n',
+                engine_name)
+        engine_path = ('/com/redhat/IBus/engines/typing_booster/'
+                       f"{re.sub(r'[^a-zA-Z0-9_/]', '_', engine_name)}"
+                       '/engine/')
+        try:
+            if engine_name in self.database_dict:
+                self.database = self.database_dict[engine_name]
+            else:
+                user_db_file = 'user.db'
+                if engine_name != 'typing-booster':
+                    match = itb_util_core.M17N_ENGINE_NAME_PATTERN.search(
+                            engine_name)
+                    if not match:
+                        raise ValueError('Invalid engine name.')
+                    m17n_ime_lang = match.group('lang')
+                    m17n_ime_name = match.group('name')
+                    user_db_file = f'user-{m17n_ime_lang}-{m17n_ime_name}.db'
+                self.database = tabsqlitedb.TabSqliteDb(
+                    user_db_file=user_db_file)
+                self.database_dict[engine_name] = self.database
+            if engine_name in self.enginedict:
+                engine = self.enginedict[engine_name]
+            else:
+                engine = hunspell_table.TypingBoosterEngine(
+                    self.bus,
+                    engine_path + str(self.engine_id),
+                    self.database,
+                    engine_name=engine_name)
+                self.enginedict[engine_name] = engine
+                self.engine_id += 1
+            return engine
+        except Exception: # pylint: disable=broad-except
+            LOGGER.exception('Failed to create engine %s', engine_name)
+            raise
+
+    def do_destroy(self) -> None:  # pylint: disable=arguments-differ
+        '''Destructor, which finish some task for IME'''
+        # It is necessary to call the do_destroy() function here to
+        # get finish stuff properly, for example do_focus_out() needs
+        # to be called because it calls
+        # _revert_autosettings(). Without that, applied autosettings
+        # survive a “ibus restart” if the autosettings are written go
+        # gsettings when they are applied. I an not sure yet whether
+        # writing applied autosettings to gsettings is a good idea,
+        # but calling do_destroy() here is a good idea anyway to make
+        # sure everything is properly finished.
+        for key, engine in self.enginedict.items():
+            LOGGER.info('Destroying engine %s %s', key, engine)
+            engine.do_destroy()
+        LOGGER.info('Syncing user database(s)')
+        for key, database in self.database_dict.items():
+            LOGGER.info('Syncing %s %s', key, database)
+            database.sync_usrdb()
+        super().destroy()

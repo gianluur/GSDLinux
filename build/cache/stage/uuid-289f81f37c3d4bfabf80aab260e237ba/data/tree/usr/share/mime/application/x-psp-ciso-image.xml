@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-psp-ciso-image">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>PlayStation Portable CISO disc image</comment>
+  <sub-class-of type="application/x-cd-image"/>
+  <generic-icon name="application-x-cd-image"/>
+  <glob pattern="*.cso"/>
+</mime-type>

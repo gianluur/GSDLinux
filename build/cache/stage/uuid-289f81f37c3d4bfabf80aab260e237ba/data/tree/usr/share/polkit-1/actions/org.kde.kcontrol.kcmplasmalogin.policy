@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE policyconfig PUBLIC
+"-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+"http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+<policyconfig>
+<vendor>PlasmaLogin</vendor>
+<vendor_url>https://invent.kde.org/plasma/plasma-login-manager</vendor_url>
+<icon_name>kauth-example</icon_name>
+   <action id="org.kde.kcontrol.kcmplasmalogin.reset" >
+      <description xml:lang="ar">صفّر اﻹعدادات</description>
+      <description xml:lang="az">Ayarları sıfırlayın</description>
+      <description xml:lang="bg">Връщане на стандартните настройки</description>
+      <description xml:lang="ca">Reinicia la configuració</description>
+      <description xml:lang="cs">Obnovit nastavení</description>
+      <description xml:lang="da">Nulstil indstillinger</description>
+      <description xml:lang="de">Einstellungen zurücksetzen</description>
+      <description>Reset Settings</description>
+      <description xml:lang="es">Reiniciar preferencias</description>
+      <description xml:lang="eu">Ezarpenak berrezarri</description>
+      <description xml:lang="fi">Palauta asetukset</description>
+      <description xml:lang="fr">Réinitialiser la configuration</description>
+      <description xml:lang="gl">Restablecer a configuración</description>
+      <description xml:lang="he">איפוס ההגדרות</description>
+      <description xml:lang="hu">Beállítások visszaállítása</description>
+      <description xml:lang="ia">Refixa preferentias</description>
+      <description xml:lang="id">Set ulang Pengaturan</description>
+      <description xml:lang="is">Frumstilla stillingar</description>
+      <description xml:lang="it">Azzera le impostazioni</description>
+      <description xml:lang="ja">設定のリセット</description>
+      <description xml:lang="ka">პარამეტრების ჩამოყრა</description>
+      <description xml:lang="ko">설정 초기화</description>
+      <description xml:lang="lt">Atstatyti nuostatas</description>
+      <description xml:lang="lv">Atiestatīt iestatījumus</description>
+      <description xml:lang="nb">Tilbakestille innstillinger</description>
+      <description xml:lang="nl">Instellingen resetten</description>
+      <description xml:lang="nn">Tilbakestill innstillingane</description>
+      <description xml:lang="pl">Przywrócić ustawienia</description>
+      <description xml:lang="pt_BR">Restaurar configurações</description>
+      <description xml:lang="ro">Reinițializează configurările</description>
+      <description xml:lang="ru">Сброс параметров</description>
+      <description xml:lang="sk">Obnoviť nastavenia</description>
+      <description xml:lang="sl">Ponastavi nastavitve</description>
+      <description xml:lang="sr">Ресетуј поставке</description>
+      <description xml:lang="sv">Nollställ inställningar</description>
+      <description xml:lang="ta">அமைப்புகளை மீட்டமை</description>
+      <description xml:lang="tr">Ayarları Sıfırla</description>
+      <description xml:lang="ug">تەڭشەكنى ئەسلىگە قايتۇر</description>
+      <description xml:lang="uk">Скинути параметри</description>
+      <description xml:lang="zh_CN">重置设置</description>
+      <description xml:lang="zh_TW">重設設定值</description>
+      <message xml:lang="ar">يعيد ضبط إعدادات ولوج بلازما إلى الإعدادات المبدئية</message>
+      <message xml:lang="az">Plasma giriş ekranı ayarlarını ilkin vəziyyətinə sıfırlamaq</message>
+      <message xml:lang="bg">Нулиране на настройките на Влизане в Plasma до фабричното им състояние по подразбиране</message>
+      <message xml:lang="ca">Reinicia la configuració del Plasma Login a l'estat predeterminat inicial</message>
+      <message xml:lang="cs">Obnovit výchozí hodnoty nastavení Přihlašování Plasma</message>
+      <message xml:lang="da">Nulstil Plasma login-indstillinger til standardtilstanden</message>
+      <message xml:lang="de">Plasma-Login-Einstellungen auf Voreinstellungen zurücksetzen</message>
+      <message>Reset Plasma Login settings to factory default state</message>
+      <message xml:lang="es">Reiniciar las preferencias de inicio de sesión de Plasma al estado predeterminado</message>
+      <message xml:lang="eu">Plasma Login-en ezarpenak fabrikako egoera lehenetsira berrezarri</message>
+      <message xml:lang="fi">Palauta PlasmaLoginin asetukset oletuksikseen</message>
+      <message xml:lang="fr">Réinitialiser la configuration de connexion à Plasma à l'état initial par défaut</message>
+      <message xml:lang="gl">Restabelece a configuración de accesos de Plasma aos valores de fábrica.</message>
+      <message xml:lang="he">איפוס הגדרות מסך הכניסה אל פלזמה למצב ההתחלתי</message>
+      <message xml:lang="hu">A Plasma Bejelentkezés beállításainak visszaállítása az alapértelmezett állapotba</message>
+      <message xml:lang="ia">Reinitialisa preferentias de PlasmaLogion a stato predefinite de fabrica</message>
+      <message xml:lang="id">Set ulang pengaturan Plasma Login ke setelan pabrik</message>
+      <message xml:lang="is">Frumstilla stillingar Plasma-innskráningar á upphafleg sjálfgefin gildi</message>
+      <message xml:lang="it">Ripristina le impostazioni di Accesso a Plasma allo stato predefinito di fabbrica</message>
+      <message xml:lang="ja">Plasma ログイン設定を初期化</message>
+      <message xml:lang="ka">Plasma Login-ის პარამეტრების ჩამოყრა საწყის მნიშვნელობებზე</message>
+      <message xml:lang="ko">Plasma 로그인 설정을 기본값으로 초기화</message>
+      <message xml:lang="lt">Atstatyti Plasma prisijungimo nuostatas į numatytąsias reikšmes</message>
+      <message xml:lang="lv">Atiestatīt „Plasma“ ierakstīšanās loga iestatījumus uz noklusējumiem</message>
+      <message xml:lang="nb">Tilbakestill Plasma Login-innstillingene slik at det ikke finnes brukerinnstillinger</message>
+      <message xml:lang="nl">Reset Plasma aanmeldinstellingen naar de standaard bedrijfsstatus</message>
+      <message xml:lang="nn">Tilbakestill Plasma Login-innstillingane til standardverdiar</message>
+      <message xml:lang="pl">Przywrócić domyślne ustawienia Logowania Plazmy</message>
+      <message xml:lang="pt_BR">Redefinir as configurações do Plasma Login para o estado padrão de fábrica</message>
+      <message xml:lang="ro">Reinițializează configurările Autentificării Plasma la starea din fabrică</message>
+      <message xml:lang="ru"></message>
+      <message xml:lang="sk">Obnoviť nastavenia Plasma Login na továrenské predvolené</message>
+      <message xml:lang="sl">Ponastavi nastavitve v Plasma Loginu na tovarniško privzeto stanje</message>
+      <message xml:lang="sr">Ресетуј поставке менаџера пријављивања Плазме на фабричко подразумевано стање</message>
+      <message xml:lang="sv">Nollställ Plasma inloggningsinställningar till initialtillstånd</message>
+      <message xml:lang="tr">Plasma’ya Oturum Aç ayarlarını öntanımlı durumuna sıfırlayın</message>
+      <message xml:lang="ug">Plasma تىزىمغا كىرىش تەڭشىكىنى زاۋۇتنىڭ كۆڭۈلدىكى ھالىتىگە ئەسلىگە قايتۇرىدۇ</message>
+      <message xml:lang="uk">Відновити типові параметри входу до Плазми</message>
+      <message xml:lang="zh_CN">重置 Plasma 登录设置为出厂默认值</message>
+      <message xml:lang="zh_TW">將 Plasma 登入畫面設定值重設為原廠設定</message>
+      <defaults>
+         <allow_inactive>no</allow_inactive>
+         <allow_active>auth_admin</allow_active>
+      </defaults>
+   </action>
+   <action id="org.kde.kcontrol.kcmplasmalogin.save" >
+      <description xml:lang="ar">احفظ اﻹعدادات</description>
+      <description xml:lang="az">Ayarları saxlayın</description>
+      <description xml:lang="bg">Запазване на настройките</description>
+      <description xml:lang="ca">Desa la configuració</description>
+      <description xml:lang="cs">Uložit nastavení</description>
+      <description xml:lang="da">Gem indstillinger</description>
+      <description xml:lang="de">Einstellungen speichern</description>
+      <description>Save Settings</description>
+      <description xml:lang="es">Guardar preferencias</description>
+      <description xml:lang="eu">Ezarpenak gorde</description>
+      <description xml:lang="fi">Tallenna asetukset</description>
+      <description xml:lang="fr">Enregistrer la configuration</description>
+      <description xml:lang="gl">Gardar a configuración</description>
+      <description xml:lang="he">שמירת ההגדרות</description>
+      <description xml:lang="hu">Beállítások mentése</description>
+      <description xml:lang="ia">Salveguarda preferentias</description>
+      <description xml:lang="id">Simpan Pengaturan</description>
+      <description xml:lang="is">Vista stillingar</description>
+      <description xml:lang="it">Salva impostazioni</description>
+      <description xml:lang="ja">設定の保存</description>
+      <description xml:lang="ka">პარამეტრების შენახვა</description>
+      <description xml:lang="ko">설정 저장</description>
+      <description xml:lang="lt">Įrašyti nuostatas</description>
+      <description xml:lang="lv">Saglabāt iestatījumus</description>
+      <description xml:lang="nb">Lagre innstillinger</description>
+      <description xml:lang="nl">Instellingen opslaan</description>
+      <description xml:lang="nn">Lagra innstillingar</description>
+      <description xml:lang="pl">Zapisz ustawienia</description>
+      <description xml:lang="pt_BR">Salvar configurações</description>
+      <description xml:lang="ro">Salvează configurările</description>
+      <description xml:lang="ru">Сохранение параметров</description>
+      <description xml:lang="sk">Uložiť nastavenie</description>
+      <description xml:lang="sl">Shrani nastavitve</description>
+      <description xml:lang="sr">Сачувај поставке</description>
+      <description xml:lang="sv">Spara inställningar</description>
+      <description xml:lang="ta">அமைப்புகளை சேமி</description>
+      <description xml:lang="tr">Ayarları Kaydet</description>
+      <description xml:lang="ug">ساقلاش تەڭشىكى</description>
+      <description xml:lang="uk">Зберегти параметри</description>
+      <description xml:lang="zh_CN">保存设置</description>
+      <description xml:lang="zh_TW">儲存設定</description>
+      <message xml:lang="ar">حفظ إعدادات ولوج بلازما</message>
+      <message xml:lang="az"></message>
+      <message xml:lang="bg">Запазване на настройките за Влизане в Plasma</message>
+      <message xml:lang="ca">Desa la configuració al Plasma Login</message>
+      <message xml:lang="cs">Uložit nastavení v Přihlašování Plasma</message>
+      <message xml:lang="da">Gem indstillinger i Plasma Login</message>
+      <message xml:lang="de">Einstellungen in Plasma Login speichern</message>
+      <message>Save Settings in Plasma Login</message>
+      <message xml:lang="es">Guardar preferencias en el inicio de sesión de Plasma</message>
+      <message xml:lang="eu">Ezarpenak Plasma Login-en gorde</message>
+      <message xml:lang="fi">Tallenna asetukset PlasmaLoginiin</message>
+      <message xml:lang="fr">Enregistrer la configuration lors de la connexion à Plasma</message>
+      <message xml:lang="gl">Gardar a configuración nos accesos de Plasma.</message>
+      <message xml:lang="he">שמירת ההגדרות לכניסה אל פלזמה</message>
+      <message xml:lang="hu">A Plasma Bejelentkezés beállításainak mentése</message>
+      <message xml:lang="ia">Salveguarda preferentias in PlasmaLogin</message>
+      <message xml:lang="id">Simpan Pengaturan di Plasma Login</message>
+      <message xml:lang="is">Vista stillingar í Plasma-innskráningu</message>
+      <message xml:lang="it">Salva le impostazioni in Accesso a Plasma</message>
+      <message xml:lang="ja">Plasma ログインの設定を保存</message>
+      <message xml:lang="ka">პარამეტრების შენახვა Plasma Login-ში</message>
+      <message xml:lang="ko">Plasma 로그인에 설정 저장</message>
+      <message xml:lang="lt">Įrašyti nuostatas Plasma prisijungime</message>
+      <message xml:lang="lv">Saglabāt iestatījumus „Plasma“ ierakstīšanās logā</message>
+      <message xml:lang="nb">Lagre innstillinger i Plasma Login</message>
+      <message xml:lang="nl">Instellingen opslaan in Plasma aanmelden</message>
+      <message xml:lang="nn">Lagra innstillingar i Plasma Login</message>
+      <message xml:lang="pl">Zapisz ustawienia w Logowaniu Plazmy</message>
+      <message xml:lang="pt_BR">Salvar configurações no Plasma Login</message>
+      <message xml:lang="ro">Salvează configurările în Autentificare Plasma</message>
+      <message xml:lang="ru">Сохранение параметров экрана входа</message>
+      <message xml:lang="sk">Uložiť nastavenia v Plasma Login</message>
+      <message xml:lang="sl">Shrani nastavitve v Plasma Login</message>
+      <message xml:lang="sr">Сачувај поставке у менаџеру пријављивања Плазме</message>
+      <message xml:lang="sv">Spara inställningar i Plasma inloggning</message>
+      <message xml:lang="tr">Plasma’ya Oturum Aç ayarlarını kaydedin</message>
+      <message xml:lang="ug">تەڭشەكنى Plasma تىزىمغا كىرىشكە ساقلايدۇ</message>
+      <message xml:lang="uk">Зберегти параметри входу до Плазми</message>
+      <message xml:lang="zh_CN">保存 Plasma 登录设置</message>
+      <message xml:lang="zh_TW">儲存設定到 Plasma 登入畫面</message>
+      <defaults>
+         <allow_inactive>no</allow_inactive>
+         <allow_active>auth_admin</allow_active>
+      </defaults>
+   </action>
+   <action id="org.kde.kcontrol.kcmplasmalogin.sync" >
+      <description xml:lang="ar">زامن اﻹعدادات</description>
+      <description xml:lang="az">Ayarları eyniləşdirin</description>
+      <description xml:lang="bg">Синхронизиране на настройките</description>
+      <description xml:lang="ca">Sincronitza la configuració</description>
+      <description xml:lang="cs">Synchronizovat nastavení</description>
+      <description xml:lang="da">Synkronisér indstillinger</description>
+      <description xml:lang="de">Einstellungen abgleichen</description>
+      <description>Synchronize Settings</description>
+      <description xml:lang="es">Sincronizar preferencias</description>
+      <description xml:lang="eu">Ezarpenak sinkronizatu</description>
+      <description xml:lang="fi">Tahdista asetukset</description>
+      <description xml:lang="fr">Synchroniser la configuration</description>
+      <description xml:lang="gl">Sincronizar a configuración</description>
+      <description xml:lang="he">סנכרון הגדרות</description>
+      <description xml:lang="hu">Beállítások szinkronizálása</description>
+      <description xml:lang="ia">Synchronisa preferentias</description>
+      <description xml:lang="id">Sinkronkan Pengaturan</description>
+      <description xml:lang="is">Samstilla stillingar</description>
+      <description xml:lang="it">Sincronizza impostazioni</description>
+      <description xml:lang="ja">設定の同期</description>
+      <description xml:lang="ka">პარამეტრების სინქრონიზაცია</description>
+      <description xml:lang="ko">설정 동기화</description>
+      <description xml:lang="lt">Sinchronizuoti nuostatas</description>
+      <description xml:lang="lv">Sinhronizēt iestatījumus</description>
+      <description xml:lang="nb">Synkroniser innstillinger</description>
+      <description xml:lang="nl">Instellingen synchroniseren</description>
+      <description xml:lang="nn">Synkroniser innstillingar</description>
+      <description xml:lang="pl">Zsynchronizuj ustawienia</description>
+      <description xml:lang="pt_BR">Sincronizar configurações</description>
+      <description xml:lang="ro">Sincronizează configurările</description>
+      <description xml:lang="ru">Синхронизация параметров</description>
+      <description xml:lang="sk">Synchronizovať nastavenia</description>
+      <description xml:lang="sl">Sinhroniziraj nastavitve</description>
+      <description xml:lang="sr">Синхронизуј поставке</description>
+      <description xml:lang="sv">Synkronisera inställningar</description>
+      <description xml:lang="ta">அமைப்புகளை ஒத்திசையசெய்</description>
+      <description xml:lang="tr">Ayarları Eşzamanla</description>
+      <description xml:lang="ug">قەدەمداش تەڭشەك</description>
+      <description xml:lang="uk">Синхронізувати параметри</description>
+      <description xml:lang="zh_CN">同步设置</description>
+      <description xml:lang="zh_TW">同步設定值</description>
+      <message xml:lang="ar">يزامن إعدادات المستخدم مع إعدادات ولوج بلازما</message>
+      <message xml:lang="az">Ayarları Plasma giriş ekranı ayarları ilə eyniləşdirmək</message>
+      <message xml:lang="bg">Синхронизиране на потребителските настройки с настройките на Влизане в Plasma</message>
+      <message xml:lang="ca">Sincronitza la configuració de l'usuari amb la configuració del Plasma Login</message>
+      <message xml:lang="cs">Synchronizovat nastavení uživatelů s nastavením Přihlašování Plasma</message>
+      <message xml:lang="da">Synkroniserer brugerindstillinger med Plasma login-indstillinger</message>
+      <message xml:lang="de">Benutzereinstellungen mit den Plasma-Login-Einstellungen abgleichen</message>
+      <message>Synchronize user settings with Plasma Login settings</message>
+      <message xml:lang="es">Sincronizar las preferencias del usuario con las del inicio de sesión de Plasma</message>
+      <message xml:lang="eu">Erabiltzaile-ezarpenak Plasma Login-en ezarpenekin sinkronizatu</message>
+      <message xml:lang="fi">Tahdista käyttäjäasetukset PlasmaLoginin asetusten kanssa</message>
+      <message xml:lang="fr">Synchroniser la configuration utilisateur avec la configuration de connexion à Plasma</message>
+      <message xml:lang="gl">Sincronizar a configuración da persoa usuaria coa configuración dos accesos de Plasma</message>
+      <message xml:lang="he">סנכרון הגדרות משתמש עם הגדרות כניסה אל פלזמה</message>
+      <message xml:lang="hu">Felhasználóbeállítások szinkronizálása a Plasma Bejelentkezés beállításaival</message>
+      <message xml:lang="ia">Sunchronisa preferentias de usator con preferentias de Plasma Login</message>
+      <message xml:lang="id">Sinkronkan pengaturan pengguna dengan pengaturan Plasma Login</message>
+      <message xml:lang="is">Samstilla stillingar notanda við stillingar Plasma-innskráningar</message>
+      <message xml:lang="it">Sincronizza le impostazioni utente con le impostazioni di Accesso a Plasma</message>
+      <message xml:lang="ja">Plasma ログイン設定をユーザー設定と同期</message>
+      <message xml:lang="ka">მომხმარებლის პარამეტრების სინქრონიზაცია Plasma Login-ის პარამეტრებთან</message>
+      <message xml:lang="ko">Plasma 로그인 설정과 사용자 설정 동기화</message>
+      <message xml:lang="lt">Sinchronizuoti naudotojo nuostatas su Plasma prisijungimo nuostatomis</message>
+      <message xml:lang="lv">Sinhronizēt lietotāja iestatījumus ar „Plasma“ ierakstīšanās logu</message>
+      <message xml:lang="nb">Synkroniser brukerinnstillinger med Plasma Login-innstillinger</message>
+      <message xml:lang="nl">Gebruikersinstellingen synchroniseren met Plasma aanmeldinstellingen</message>
+      <message xml:lang="nn">Synkroniser brukarinnstillingar med Plasma Login-innstillingane</message>
+      <message xml:lang="pl">Zsynchronizuj ustawienia użytkownika z ustawieniami Logowania Plazmy</message>
+      <message xml:lang="pt_BR">Sincronizar as configurações do usuário com as do Plasma Login</message>
+      <message xml:lang="ro">Sincronizează configurările utilizatorului cu cele din Autentificare Plasma</message>
+      <message xml:lang="ru">Синхронизация парамеров экрана входа с параметрами пользователя</message>
+      <message xml:lang="sk">Synchronizovať nastavenia používateľa s nastaveniami Plasma Login</message>
+      <message xml:lang="sl">Sinhroniziraj uporabniške nastavitve z nastavitvami v Plasma Loginu</message>
+      <message xml:lang="sr">Синхронизуј корисничке поставке са поставкама менаџера пријављивања Плазме</message>
+      <message xml:lang="sv">Synkroniserar användarinställningar med Plasma inloggningsinställningar</message>
+      <message xml:lang="tr">Kullanıcı ayarlarını Plasma’ya Oturum Aç ayarlarıyla eşzamanlayın</message>
+      <message xml:lang="ug">ئىشلەتكۈچى تەڭشىكى بىلەن Plasma تىزىمغا كىرىش تەڭشىكىنى قەدەمداشلايدۇ</message>
+      <message xml:lang="uk">Синхронізувати параметри користувача із параметрами входу до Плазми</message>
+      <message xml:lang="zh_CN">同步用户设置和 Plasma 登录设置</message>
+      <message xml:lang="zh_TW">將使用者設定值同步到 Plasma 登入畫面設定值</message>
+      <defaults>
+         <allow_inactive>no</allow_inactive>
+         <allow_active>auth_admin</allow_active>
+      </defaults>
+   </action>
+</policyconfig>

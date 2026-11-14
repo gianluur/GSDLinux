@@ -1,0 +1,27 @@
+[Custom Commands][net.local.lumine-capture-5.desktop]
+Exec=lumine-capture
+Name=Full + Editor
+
+[Custom Commands][net.local.lumine-capture-2.desktop]
+Exec=lumine-capture -f -t s
+Name=Full -> File
+
+[Custom Commands][net.local.lumine-capture-3.desktop]
+Exec=lumine-capture -f -t c
+Name=Full -> Clipboard
+
+[Custom Commands][net.local.lumine-capture-4.desktop]
+Exec=lumine-capture -r
+Name=Instant save after dragging
+
+[net.local.lumine-capture-5.desktop][Global Shortcuts]
+_launch=Meta+Shift+S
+
+[net.local.lumine-capture-2.desktop][Global Shortcuts]
+_launch=Shift+Print
+
+[net.local.lumine-capture-3.desktop][Global Shortcuts]
+_launch=Ctrl+Shift+Print
+
+[net.local.lumine-capture-4.desktop][Global Shortcuts]
+_launch=Ctrl+Print

@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org">
+<meta http-equiv="Content-Type" content=
+"text/html; charset=us-ascii">
+<title>Chapter&nbsp;43.&nbsp;GSP Firmware</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.68.1">
+<link rel="start" href="index.html" title=
+"NVIDIA Accelerated Linux Graphics Driver README and Installation Guide">
+<link rel="up" href="installationandconfiguration.html" title=
+"Part&nbsp;I.&nbsp;Installation and Configuration Instructions">
+<link rel="prev" href="nvidia-peermem.html" title=
+"Chapter&nbsp;42.&nbsp;GPUDirect RDMA Peer Memory Client">
+<link rel="next" href="kernel_open.html" title=
+"Chapter&nbsp;44.&nbsp;Open Linux Kernel Modules">
+</head>
+<body>
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter&nbsp;43.&nbsp;GSP
+Firmware</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href=
+"nvidia-peermem.html">Prev</a>&nbsp;</td>
+<th width="60%" align="center">Part&nbsp;I.&nbsp;Installation and
+Configuration Instructions</th>
+<td width="20%" align="right">&nbsp;<a accesskey="n" href=
+"kernel_open.html">Next</a></td>
+</tr>
+</table>
+<hr></div>
+<div class="chapter" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title"><a name="gsp" id=
+"gsp"></a>Chapter&nbsp;43.&nbsp;GSP Firmware</h2>
+</div>
+</div>
+</div>
+<p>Some GPUs include a GPU System Processor (GSP) which can be used
+to offload GPU initialization and management tasks. This processor
+is driven by firmware files distributed with the driver. The GSP
+firmware is used by default on GPUs which support it.</p>
+<p>Offloading tasks which were traditionally performed by the
+driver on the CPU can improve performance due to lower latency
+access to GPU hardware internals.</p>
+<p>Firmware files <code class="filename">gsp_*.bin</code> are
+installed in <code class=
+"filename">/lib/firmware/nvidia/620.70.06/</code>. Each GSP
+firmware file is named after a GPU architecture (for example,
+<code class="filename">gsp_tu10x.bin</code> is named after Turing)
+and supports GPUs from one or more architectures.</p>
+<h3>Query Mode</h3>
+<p>The nvidia-smi utility can be used to query the current use of
+GSP firmware. It will display a valid version if GSP firmware is
+enabled, or &ldquo;<span class="quote">N/A</span>&rdquo; if
+disabled:</p>
+<pre class="screen">
+    $ nvidia-smi -q
+    ...
+       GSP Firmware Version                  : 620.70.06
+    ...
+</pre>
+<p>This information is also present in the per-GPU information file
+in the <code class="filename">/proc</code> file system.</p>
+<pre class="screen">
+    $ cat /proc/driver/nvidia/gpus/PCI-BUS-ID/information
+    ...
+       GSP Firmware:    620.70.06
+</pre>
+<p>See <a href="faq.html#busid">&ldquo;What is the format of a PCI
+Bus ID?&rdquo;</a> for information on how to determine the
+PCI-BUS-ID.</p>
+<h3>Disabling GSP Mode</h3>
+<p>The driver can be forced to disable use of GSP firmware by
+setting the kernel module parameter NVreg_EnableGpuFirmware=0.</p>
+<h3>Enabling GSP Mode</h3>
+<p>The GSP firmware will be used by default for all Turing and
+later GPUs. The driver can be explicitly configured to use the GSP
+firmware by setting the kernel module parameter
+NVreg_EnableGpuFirmware=1.</p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href=
+"nvidia-peermem.html">Prev</a>&nbsp;</td>
+<td width="20%" align="center"><a accesskey="u" href=
+"installationandconfiguration.html">Up</a></td>
+<td width="40%" align="right">&nbsp;<a accesskey="n" href=
+"kernel_open.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">
+Chapter&nbsp;42.&nbsp;GPUDirect RDMA Peer Memory Client&nbsp;</td>
+<td width="20%" align="center"><a accesskey="h" href=
+"index.html">Home</a></td>
+<td width="40%" align="right" valign="top">
+&nbsp;Chapter&nbsp;44.&nbsp;Open Linux Kernel Modules</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

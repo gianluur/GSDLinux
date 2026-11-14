@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-raw-cd-image">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>raw 2352-byte sector CD image</comment>
+  <sub-class-of type="application/x-raw-disk-image"/>
+  <generic-icon name="application-x-cd-image"/>
+</mime-type>

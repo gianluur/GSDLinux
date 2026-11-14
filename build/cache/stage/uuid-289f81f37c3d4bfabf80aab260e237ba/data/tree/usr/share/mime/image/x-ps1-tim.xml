@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="image/x-ps1-tim">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Sony PlayStation TIM texture file</comment>
+  <acronym>TIM</acronym>
+  <expanded-acronym>Texture Image</expanded-acronym>
+  <sub-class-of type="image/x-generic"/>
+  <glob pattern="*.tim"/>
+  <generic-icon name="image-x-generic"/>
+</mime-type>

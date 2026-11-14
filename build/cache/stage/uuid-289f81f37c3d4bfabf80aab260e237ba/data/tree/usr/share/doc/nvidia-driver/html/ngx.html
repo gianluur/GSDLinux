@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org">
+<meta http-equiv="Content-Type" content=
+"text/html; charset=us-ascii">
+<title>Chapter&nbsp;37.&nbsp;NGX</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.68.1">
+<link rel="start" href="index.html" title=
+"NVIDIA Accelerated Linux Graphics Driver README and Installation Guide">
+<link rel="up" href="installationandconfiguration.html" title=
+"Part&nbsp;I.&nbsp;Installation and Configuration Instructions">
+<link rel="prev" href="egpu.html" title=
+"Chapter&nbsp;36.&nbsp;Configuring External and Removable GPUs">
+<link rel="next" href="nvpresent.html" title=
+"Chapter&nbsp;38.&nbsp;NVIDIA Smooth Motion">
+</head>
+<body>
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter&nbsp;37.&nbsp;NGX</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href=
+"egpu.html">Prev</a>&nbsp;</td>
+<th width="60%" align="center">Part&nbsp;I.&nbsp;Installation and
+Configuration Instructions</th>
+<td width="20%" align="right">&nbsp;<a accesskey="n" href=
+"nvpresent.html">Next</a></td>
+</tr>
+</table>
+<hr></div>
+<div class="chapter" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title"><a name="ngx" id=
+"ngx"></a>Chapter&nbsp;37.&nbsp;NGX</h2>
+</div>
+</div>
+</div>
+<p>NGX is a framework allowing for easy and consistent integration
+of Deep Learning features into applications. There are three
+components shipped with the driver that comprise NGX:</p>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>NGX Core: The interface used by applications to communicate with
+NGX features.</p>
+</li>
+<li>
+<p>NGX Updater: A program optionally launched by NGX Core which
+downloads updated versions of NGX features.</p>
+</li>
+<li>
+<p>NGX Core for Proton: A copy of NGX Core built as a DLL for use
+with Proton.</p>
+</li>
+</ul>
+</div>
+<p></p>
+<h3>Configuring the NGX Updater:</h3>
+<p>NGX Configuration file search order:</p>
+<div class="orderedlist">
+<ol type="1">
+<li>
+<p>Path supplied via <code class=
+"computeroutput">__NGX_CONF_FILE</code> environment variable. Note:
+if the application's effective UID/GID does not match its actual
+UID/GID (if the SETUID sticky bit is set), the location specified
+here will not be searched.</p>
+</li>
+<li>
+<p><code class=
+"computeroutput">${XDG_CONFIG_HOME}/nvidia-ngx-conf.json</code>.
+Note: if the application's effective UID/GID does not match its
+actual UID/GID (if the SETUID sticky bit is set), the location
+specified here will not be searched.</p>
+</li>
+<li>
+<p><code class=
+"computeroutput">/usr/share/nvidia/nvidia-ngx-conf.json</code></p>
+</li>
+</ol>
+</div>
+<p></p>
+<p>JSON Config Options:</p>
+<div class="informaltable">
+<table summary="(no summary available)" border="1">
+<colgroup>
+<col>
+<col>
+<col></colgroup>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="computeroutput">file_format_version</code></td>
+<td>The version of the config file in the following format
+"major.minor.patch". Values should be of type <code class=
+"computeroutput">string</code>.</td>
+<td><code class="computeroutput">1.0.0</code></td>
+</tr>
+<tr>
+<td><code class="computeroutput">ngx_models_path</code></td>
+<td>The absolute path to the NGX models directory. The NGX Updater
+will save files here to later be read by applications which make
+use of NGX functionality. Values should be of type <code class=
+"computeroutput">string</code>.</td>
+<td><code class="computeroutput">/usr/share/nvidia/ngx</code></td>
+</tr>
+<tr>
+<td><code class="computeroutput">allow_ngx_updater</code></td>
+<td>A boolean value which enables the NGX Updater functionality on
+a system, defaulting to false if non-existent. Values should be of
+type <code class="computeroutput">boolean</code>.</td>
+<td><code class="computeroutput">false</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p></p>
+<p>For systems that have multiple user accounts who may run
+applications which make use of NGX, it may be preferable to choose
+a ngx_models_path which is in a shared directory. If a shared
+directory is chosen it is important that the NGX Updater has
+permissions to write into it, this can be attained either through
+use of setuid/setgid sticky bit, or by altering the directories
+permissions accordingly.</p>
+<h3>Configuring the NGX Signed Load Mechanism:</h3>
+<p>The NGX Core component of the driver performs a signature check
+when loading NGX features. This check can be disabled by setting
+the <code class="computeroutput">__NV_SIGNED_LOAD_CHECK</code>
+environment variable to a value of <code class=
+"computeroutput">none</code>. Values other than <code class=
+"computeroutput">none</code> will be ignored. By default this check
+is enabled to prevent loading of potentially malicious non-NVIDIA
+provided NGX features. This check should only be disabled when
+there is confidence that only authentic NGX features are available
+on the current system.</p>
+<h3>Configuring the NGX Updater for Wine/Proton:</h3>
+<p>The NGX Updater for Wine/Proton can be enabled by setting the
+<code class="computeroutput">PROTON_ENABLE_NGX_UPDATER</code>
+environment variable to a value of <code class=
+"computeroutput">1</code>. Values other than <code class=
+"computeroutput">1</code> will be ignored.</p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href=
+"egpu.html">Prev</a>&nbsp;</td>
+<td width="20%" align="center"><a accesskey="u" href=
+"installationandconfiguration.html">Up</a></td>
+<td width="40%" align="right">&nbsp;<a accesskey="n" href=
+"nvpresent.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">
+Chapter&nbsp;36.&nbsp;Configuring External and Removable
+GPUs&nbsp;</td>
+<td width="20%" align="center"><a accesskey="h" href=
+"index.html">Home</a></td>
+<td width="40%" align="right" valign="top">
+&nbsp;Chapter&nbsp;38.&nbsp;NVIDIA Smooth Motion</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

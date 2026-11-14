@@ -1,0 +1,34 @@
+
+[Development]
+AutoCheckAccelerators=false
+
+[General]
+desktopFont=Noto Sans,10,-1,5,50,0,0,0,0,0
+fixed=Noto Sans Mono,10,-1,5,50,0,0,0,0,0
+font=Noto Sans,10,-1,5,50,0,0,0,0,0
+menuFont=Noto Sans,10,-1,5,50,0,0,0,0,0
+smallestReadableFont=Noto Sans,8,-1,5,50,0,0,0,0,0
+toolBarFont=Noto Sans,9,-1,5,50,0,0,0,0,0
+widgetStyle=breeze
+XftAntialias=true
+
+[WM]
+activeFont=Noto Sans,9,-1,5,50,0,0,0,0,0
+
+[Icons]
+Theme=breeze
+
+[KSpell]
+KSpell_Client=4
+KSpell_Encoding=11
+
+[K3Spell]
+K3Spell_Client=4
+K3Spell_Encoding=11
+
+[Toolbar style]
+Highlighting=true
+IconText=IconOnly
+TransparentMoving=true
+
+[KDE Action Restrictions][$i]

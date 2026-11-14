@@ -1,0 +1,410 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jeepney.wrappers &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">jeepney.wrappers</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for jeepney.wrappers</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.low_level</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;DBusAddress&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;new_method_call&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;new_method_return&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;new_error&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;new_signal&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MessageGenerator&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Properties&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Introspectable&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DBusErrorResponse&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">bus_name_pat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s1">&#39;([A-Za-z_-][A-Za-z0-9_-]*(\.[A-Za-z_-][A-Za-z0-9_-]*)+&#39;</span>  <span class="c1"># Well known name</span>
+    <span class="sa">r</span><span class="s1">&#39;|:[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+))$&#39;</span><span class="p">,</span>  <span class="c1"># Unique name</span>
+<span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_bus_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">255</span><span class="p">:</span>
+        <span class="n">abbr</span> <span class="o">=</span> <span class="n">name</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;...&#39;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bus name (</span><span class="si">{</span><span class="n">abbr</span><span class="si">!r}</span><span class="s2">) is too long (&gt; 255 characters)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">bus_name_pat</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bus name (</span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">) is not valid&quot;</span><span class="p">)</span>
+
+<span class="n">interface_pat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)+$&#39;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_interface</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">255</span><span class="p">:</span>
+        <span class="n">abbr</span> <span class="o">=</span> <span class="n">name</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;...&#39;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Interface name (</span><span class="si">{</span><span class="n">abbr</span><span class="si">!r}</span><span class="s2">) is too long (&gt; 255 characters)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">interface_pat</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Interface name (</span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">) is not valid&quot;</span><span class="p">)</span>
+
+<span class="n">member_name_pat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[A-Za-z_][A-Za-z0-9_]*$&#39;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_member_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">255</span><span class="p">:</span>
+        <span class="n">abbr</span> <span class="o">=</span> <span class="n">name</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;...&#39;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Member name (</span><span class="si">{</span><span class="n">abbr</span><span class="si">!r}</span><span class="s2">) is too long (&gt; 255 characters)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">member_name_pat</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Member name (</span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> is not valid&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DBusAddress">
+<a class="viewcode-back" href="../../api/core.html#jeepney.DBusAddress">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DBusAddress</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This identifies the object and interface a message is for.</span>
+
+<span class="sd">    e.g. messages to display desktop notifications would have this address::</span>
+
+<span class="sd">        DBusAddress(&#39;/org/freedesktop/Notifications&#39;,</span>
+<span class="sd">                    bus_name=&#39;org.freedesktop.Notifications&#39;,</span>
+<span class="sd">                    interface=&#39;org.freedesktop.Notifications&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_path</span><span class="p">,</span> <span class="n">bus_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interface</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">ObjectPathType</span><span class="p">()</span><span class="o">.</span><span class="n">check_data</span><span class="p">(</span><span class="n">object_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">object_path</span> <span class="o">=</span> <span class="n">object_path</span>
+
+        <span class="k">if</span> <span class="n">bus_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">check_bus_name</span><span class="p">(</span><span class="n">bus_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bus_name</span> <span class="o">=</span> <span class="n">bus_name</span>
+
+        <span class="k">if</span> <span class="n">interface</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">check_interface</span><span class="p">(</span><span class="n">interface</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interface</span> <span class="o">=</span> <span class="n">interface</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">(</span><span class="si">{!r}</span><span class="s1">, bus_name=</span><span class="si">{!r}</span><span class="s1">, interface=</span><span class="si">{!r}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">object_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bus_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">interface</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interface</span><span class="p">):</span>
+        <span class="n">check_interface</span><span class="p">(</span><span class="n">interface</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bus_name</span><span class="p">,</span> <span class="n">interface</span><span class="p">)</span></div>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DBusObject</span><span class="p">(</span><span class="n">DBusAddress</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_path</span><span class="p">,</span> <span class="n">bus_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interface</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">object_path</span><span class="p">,</span> <span class="n">bus_name</span><span class="p">,</span> <span class="n">interface</span><span class="p">)</span>
+        <span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Deprecated alias, use DBusAddress instead&#39;</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">new_header</span><span class="p">(</span><span class="n">msg_type</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Header</span><span class="p">(</span><span class="n">Endianness</span><span class="o">.</span><span class="n">little</span><span class="p">,</span> <span class="n">msg_type</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">protocol_version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                  <span class="n">body_length</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">serial</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">{})</span>
+
+<div class="viewcode-block" id="new_method_call">
+<a class="viewcode-back" href="../../api/core.html#jeepney.new_method_call">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">new_method_call</span><span class="p">(</span><span class="n">remote_obj</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">signature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="p">()):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct a new method call message</span>
+
+<span class="sd">    This is a relatively low-level method. In many cases, this will be called</span>
+<span class="sd">    from a :class:`MessageGenerator` subclass which provides a more convenient</span>
+<span class="sd">    API.</span>
+
+<span class="sd">    :param DBusAddress remote_obj: The object to call a method on</span>
+<span class="sd">    :param str method: The name of the method to call</span>
+<span class="sd">    :param str signature: The DBus signature of the body data</span>
+<span class="sd">    :param tuple body: Body data (i.e. method parameters)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_member_name</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">new_header</span><span class="p">(</span><span class="n">MessageType</span><span class="o">.</span><span class="n">method_call</span><span class="p">)</span>
+    <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">remote_obj</span><span class="o">.</span><span class="n">object_path</span>
+    <span class="k">if</span> <span class="n">remote_obj</span><span class="o">.</span><span class="n">bus_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;remote_obj.bus_name cannot be None for method calls&quot;</span><span class="p">)</span>
+    <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">destination</span><span class="p">]</span> <span class="o">=</span> <span class="n">remote_obj</span><span class="o">.</span><span class="n">bus_name</span>
+    <span class="k">if</span> <span class="n">remote_obj</span><span class="o">.</span><span class="n">interface</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="n">remote_obj</span><span class="o">.</span><span class="n">interface</span>
+    <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">member</span><span class="p">]</span> <span class="o">=</span> <span class="n">method</span>
+    <span class="k">if</span> <span class="n">signature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">signature</span><span class="p">]</span> <span class="o">=</span> <span class="n">signature</span>
+
+    <span class="k">return</span> <span class="n">Message</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="new_method_return">
+<a class="viewcode-back" href="../../api/core.html#jeepney.new_method_return">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">new_method_return</span><span class="p">(</span><span class="n">parent_msg</span><span class="p">,</span> <span class="n">signature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="p">()):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct a new response message</span>
+
+<span class="sd">    :param Message parent_msg: The method call this is a reply to</span>
+<span class="sd">    :param str signature: The DBus signature of the body data</span>
+<span class="sd">    :param tuple body: Body data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">new_header</span><span class="p">(</span><span class="n">MessageType</span><span class="o">.</span><span class="n">method_return</span><span class="p">)</span>
+    <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">reply_serial</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent_msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">serial</span>
+    <span class="n">sender</span> <span class="o">=</span> <span class="n">parent_msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sender</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">destination</span><span class="p">]</span> <span class="o">=</span> <span class="n">sender</span>
+    <span class="k">if</span> <span class="n">signature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">signature</span><span class="p">]</span> <span class="o">=</span> <span class="n">signature</span>
+    <span class="k">return</span> <span class="n">Message</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="new_error">
+<a class="viewcode-back" href="../../api/core.html#jeepney.new_error">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">new_error</span><span class="p">(</span><span class="n">parent_msg</span><span class="p">,</span> <span class="n">error_name</span><span class="p">,</span> <span class="n">signature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="p">()):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct a new error response message</span>
+
+<span class="sd">    :param Message parent_msg: The method call this is a reply to</span>
+<span class="sd">    :param str error_name: The name of the error</span>
+<span class="sd">    :param str signature: The DBus signature of the body data</span>
+<span class="sd">    :param tuple body: Body data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">new_header</span><span class="p">(</span><span class="n">MessageType</span><span class="o">.</span><span class="n">error</span><span class="p">)</span>
+    <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">reply_serial</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent_msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">serial</span>
+    <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">error_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">error_name</span>
+    <span class="n">sender</span> <span class="o">=</span> <span class="n">parent_msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sender</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">destination</span><span class="p">]</span> <span class="o">=</span> <span class="n">sender</span>
+    <span class="k">if</span> <span class="n">signature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">signature</span><span class="p">]</span> <span class="o">=</span> <span class="n">signature</span>
+    <span class="k">return</span> <span class="n">Message</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="new_signal">
+<a class="viewcode-back" href="../../api/core.html#jeepney.new_signal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">new_signal</span><span class="p">(</span><span class="n">emitter</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">signature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="p">()):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct a new signal message</span>
+
+<span class="sd">    :param DBusAddress emitter: The object sending the signal</span>
+<span class="sd">    :param str signal: The name of the signal</span>
+<span class="sd">    :param str signature: The DBus signature of the body data</span>
+<span class="sd">    :param tuple body: Body data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_member_name</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">new_header</span><span class="p">(</span><span class="n">MessageType</span><span class="o">.</span><span class="n">signal</span><span class="p">)</span>
+    <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">emitter</span><span class="o">.</span><span class="n">object_path</span>
+    <span class="k">if</span> <span class="n">emitter</span><span class="o">.</span><span class="n">interface</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;emitter.interface cannot be None for signals&quot;</span><span class="p">)</span>
+    <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="n">emitter</span><span class="o">.</span><span class="n">interface</span>
+    <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">member</span><span class="p">]</span> <span class="o">=</span> <span class="n">signal</span>
+    <span class="k">if</span> <span class="n">signature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">signature</span><span class="p">]</span> <span class="o">=</span> <span class="n">signature</span>
+    <span class="k">return</span> <span class="n">Message</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="MessageGenerator">
+<a class="viewcode-back" href="../../api/core.html#jeepney.MessageGenerator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MessageGenerator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Subclass this to define the methods available on a DBus interface.</span>
+<span class="sd">    </span>
+<span class="sd">    jeepney.bindgen can automatically create subclasses using introspection.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">interface</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_path</span><span class="p">,</span> <span class="n">bus_name</span><span class="p">):</span>
+        <span class="n">ObjectPathType</span><span class="p">()</span><span class="o">.</span><span class="n">check_data</span><span class="p">(</span><span class="n">object_path</span><span class="p">)</span>
+        <span class="n">check_bus_name</span><span class="p">(</span><span class="n">bus_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interface</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">check_interface</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interface</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">object_path</span> <span class="o">=</span> <span class="n">object_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bus_name</span> <span class="o">=</span> <span class="n">bus_name</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="si">{!r}</span><span class="s2">, bus_name=</span><span class="si">{!r}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                                                <span class="bp">self</span><span class="o">.</span><span class="n">object_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bus_name</span><span class="p">)</span></div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ProxyBase</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A proxy is an IO-aware wrapper around a MessageGenerator</span>
+<span class="sd">    </span>
+<span class="sd">    Calling methods on a proxy object will send a message and wait for the</span>
+<span class="sd">    reply. This is a base class for proxy implementations in jeepney.io.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msggen</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_msggen</span> <span class="o">=</span> <span class="n">msggen</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="n">make_msg</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_msggen</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">make_msg</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_call</span><span class="p">(</span><span class="n">make_msg</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_method_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">make_msg</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Needs to be implemented in subclass&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Properties">
+<a class="viewcode-back" href="../../api/common_msgs.html#jeepney.Properties">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Properties</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build messages for accessing object properties</span>
+
+<span class="sd">    If a D-Bus object has multiple interfaces, each interface has its own</span>
+<span class="sd">    set of properties.</span>
+
+<span class="sd">    This uses the standard DBus interface ``org.freedesktop.DBus.Properties``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DBusAddress</span><span class="p">,</span> <span class="n">MessageGenerator</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">props_if</span> <span class="o">=</span> <span class="n">DBusAddress</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">object_path</span><span class="p">,</span> <span class="n">bus_name</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">bus_name</span><span class="p">,</span>
+                                    <span class="n">interface</span><span class="o">=</span><span class="s1">&#39;org.freedesktop.DBus.Properties&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Properties.get">
+<a class="viewcode-back" href="../../api/common_msgs.html#jeepney.Properties.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the value of the property *name*&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">new_method_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">props_if</span><span class="p">,</span> <span class="s1">&#39;Get&#39;</span><span class="p">,</span> <span class="s1">&#39;ss&#39;</span><span class="p">,</span>
+                   <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">interface</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Properties.get_all">
+<a class="viewcode-back" href="../../api/common_msgs.html#jeepney.Properties.get_all">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all property values for this interface&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">new_method_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">props_if</span><span class="p">,</span> <span class="s1">&#39;GetAll&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                               <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">interface</span><span class="p">,))</span></div>
+
+
+<div class="viewcode-block" id="Properties.set">
+<a class="viewcode-back" href="../../api/common_msgs.html#jeepney.Properties.set">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">signature</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the property *name* to *value* (with appropriate signature)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">new_method_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">props_if</span><span class="p">,</span> <span class="s1">&#39;Set&#39;</span><span class="p">,</span> <span class="s1">&#39;ssv&#39;</span><span class="p">,</span>
+                   <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">interface</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">signature</span><span class="p">,</span> <span class="n">value</span><span class="p">)))</span></div>
+</div>
+
+
+<div class="viewcode-block" id="Introspectable">
+<a class="viewcode-back" href="../../api/common_msgs.html#jeepney.Introspectable">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Introspectable</span><span class="p">(</span><span class="n">MessageGenerator</span><span class="p">):</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s1">&#39;org.freedesktop.DBus.Introspectable&#39;</span>
+
+<div class="viewcode-block" id="Introspectable.Introspect">
+<a class="viewcode-back" href="../../api/common_msgs.html#jeepney.Introspectable.Introspect">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Introspect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Request D-Bus introspection XML for a remote object&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">new_method_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;Introspect&#39;</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="DBusErrorResponse">
+<a class="viewcode-back" href="../../api/core.html#jeepney.DBusErrorResponse">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DBusErrorResponse</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised by proxy method calls when the reply is an error message&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">HeaderFields</span><span class="o">.</span><span class="n">error_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">body</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;[</span><span class="si">{}</span><span class="s1">] </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">unwrap_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the body of a message, raising DBusErrorResponse for error messages</span>
+
+<span class="sd">    This is to be used with replies to method_call messages, which may be</span>
+<span class="sd">    method_return or error.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">message_type</span> <span class="o">==</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DBusErrorResponse</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">msg</span><span class="o">.</span><span class="n">body</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+Changes in version 0.3.12:
+- Added back the Python 2 support.
+
+Changes in version 0.3.11:
+- Switched to Python 3.
+
+Changes in version 0.3.10:
+- Updated translations.
+- Switched to gpg2.
+- Fixed typo in man page.
+- Fixed error reporting.
+- Added gpgme error handling.
+- Fixed memory leaks.
+
+Changes in version 0.3.9:
+- Updated translations.
+
+Changes in version 0.3.8:
+- Updated translations.
+
+Changes in version 0.3.7:
+- Made some error messages translatable.
+- Updated translations.
+- Fixed a man page typo.
+
+Changes in version 0.3.6:
+- Updated translations.
+
+Changes in version 0.3.5:
+- Fix password-encrypted packet handling with gpgme 1.2.
+- Allow aborting password prompts in volume_key(1).
+- Various minor usability enhancements.
+- E-mail scripts contributed by Marko Myllynen <myllynen@redhat.com>.
+- Documentation clarifications.
+- Update translations.
+
+Changes in version 0.3.4:
+- New option --unencrypted, which allows dumping unencrypted metadata of a
+  packet without necessarily being able to decrypt the encrypted metadata and
+  secrets.
+- New function libvk_packet_open_unencrypted().
+- Generate stronger default passphrases in volume_key.
+- Fix build with recent gpgme versions.
+- Update translations.
+
+Changes in version 0.3.3:
+- Update translations.
+
+Changes in version 0.3.2:
+- Fix a crash if a passphrase is not provided.
+- Update translations.
+
+Changes in version 0.3.1:
+- Don't output garbage on NSS errors.
+
+Changes in version 0.3:
+- New packet formats that only encrypt the secrets, not all metadata,
+  potentially allowing to unwrap the secret directly into a hardware crypto
+  token.
+  The new default format (both for volume_key(8) and the Python bindings) is
+  LIBVK_PACKET_FORMAT_ASYMMETRIC_WRAP_SECRET_ONLY.
+- Update to compile against cryptsetup-1.1.0-test0.
+- Support newer libblkid versions.
+
+Changes in version 0.2:
+- New Python bindings.
+- Terminating NUL is not considered a part of the secret in
+  libvk_volume_add_secret ().
+- When an UI callback is replaced, the previous callback data is freed.
+- Minor bug fixes, mostly in the command-line utility.
+- Stricter parameter checking.
+- README added.

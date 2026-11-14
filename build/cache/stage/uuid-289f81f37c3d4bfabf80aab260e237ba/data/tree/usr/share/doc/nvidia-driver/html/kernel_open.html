@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org">
+<meta http-equiv="Content-Type" content=
+"text/html; charset=us-ascii">
+<title>Chapter&nbsp;44.&nbsp;Open Linux Kernel Modules</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.68.1">
+<link rel="start" href="index.html" title=
+"NVIDIA Accelerated Linux Graphics Driver README and Installation Guide">
+<link rel="up" href="installationandconfiguration.html" title=
+"Part&nbsp;I.&nbsp;Installation and Configuration Instructions">
+<link rel="prev" href="gsp.html" title=
+"Chapter&nbsp;43.&nbsp;GSP Firmware">
+<link rel="next" href="addtlresources.html" title=
+"Chapter&nbsp;45.&nbsp;NVIDIA Contact Info and Additional Resources">
+</head>
+<body>
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter&nbsp;44.&nbsp;Open Linux
+Kernel Modules</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href=
+"gsp.html">Prev</a>&nbsp;</td>
+<th width="60%" align="center">Part&nbsp;I.&nbsp;Installation and
+Configuration Instructions</th>
+<td width="20%" align="right">&nbsp;<a accesskey="n" href=
+"addtlresources.html">Next</a></td>
+</tr>
+</table>
+<hr></div>
+<div class="chapter" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title"><a name="kernel_open" id=
+"kernel_open"></a>Chapter&nbsp;44.&nbsp;Open Linux Kernel
+Modules</h2>
+</div>
+</div>
+</div>
+<h3>Introduction</h3>
+<p>The NVIDIA Linux GPU Driver contains several kernel modules:
+nvidia.ko, nvidia-modeset.ko, nvidia-uvm.ko, nvidia-drm.ko, and
+nvidia-peermem.ko.</p>
+<p>Two "flavors" of these kernel modules are provided:</p>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>Open, i.e. source-published, kernel modules that are dual
+licensed MIT/GPLv2. With every driver release, the source code to
+the open kernel modules is published on <a href=
+"https://github.com/NVIDIA/open-gpu-kernel-modules" target=
+"_top">https://github.com/NVIDIA/open-gpu-kernel-modules</a> and a
+tarball is provided on <a href=
+"https://download.nvidia.com/XFree86/" target=
+"_top">https://download.nvidia.com/XFree86/</a>.</p>
+</li>
+<li>
+<p>Proprietary. This is the flavor that NVIDIA has historically
+shipped.</p>
+</li>
+</ul>
+</div>
+<p>We recommend the use of open kernel modules on all GPUs that
+support it.</p>
+<p>Though the kernel modules in the two flavors are different, they
+are based on the same underlying source code. The two flavors are
+mutually exclusive: they cannot be used within the kernel at the
+same time, and they should not be installed on the filesystem at
+the same time.</p>
+<p>The user space components of the NVIDIA Linux GPU driver are
+identical and behave in the same way, regardless of which flavor of
+kernel module is used.</p>
+<h3>Supported Features</h3>
+<p>The proprietary flavor supports GPU architectures Turing,
+Ampere, Ada, and Hopper. Blackwell and later are only supported by
+the open kernel modules.</p>
+<p>The following features will only work with the open kernel
+modules flavor of the driver:</p>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>NVIDIA Confidential Computing</p>
+</li>
+<li>
+<p>Magnum IO GPUDirect Storage (GDS)</p>
+</li>
+<li>
+<p>Heterogeneous Memory Management (HMM)</p>
+</li>
+<li>
+<p>CPU affinity for GPU fault handlers</p>
+</li>
+<li>
+<p>DMABUF support for CUDA allocations</p>
+</li>
+</ul>
+</div>
+<h3>Known Issues</h3>
+<p>The following are some known limitations of the open kernel
+modules versus the proprietary kernel modules with GSP firmware
+mode disabled:</p>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>GPU initialization is slower. One possible mitigation is to use
+nvidia-persistenced to initialize the GPU(s) in advance, before
+running applications that use the GPU.</p>
+</li>
+<li>
+<p>Enter and exit latencies for power-saving modes like S3, S4 and
+Run Time D3 (RTD3) can be longer due to additional GSP state being
+restored.</p>
+</li>
+<li>
+<p>GPU power consumption can be marginally impacted in some
+scenarios.</p>
+</li>
+<li>
+<p>Turing GPUs only support the Video Memory Off flavor of Run Time
+D3 (RTD3). Please see Chapter 21, "PCI-Express Runtime D3 (RTD3)
+Power Management", for details.</p>
+</li>
+</ul>
+</div>
+<h3>Installation</h3>
+<p>Because the two flavors of kernel modules are mutually
+exclusive, one or the other must be chosen at install time.
+Installation will default to the open flavor of kernel modules.</p>
+<p>This default can be overridden with the "--kernel-module-type"
+.run file option, or its short form "-M". Use "-M=proprietary" to
+force installation of the proprietary flavor of kernel modules, or
+"-M=open" to force installation of the open flavor of kernel
+modules.</p>
+<p>E.g.,</p>
+<pre class="screen">
+    sh ./NVIDIA-Linux-[...].run -m=kernel-open
+</pre>
+<p></p>
+<p>As a convenience, the open kernel modules distributed in the
+.run file are pre-compiled.</p>
+<p>Advanced users, who want to instead build the open kernel
+modules from source, should do the following:</p>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>Uninstall any existing driver with `nvidia-uninstall`.</p>
+</li>
+<li>
+<p>Install from the .run file with "--no-kernel-modules" option, to
+install everything except the kernel modules.</p>
+</li>
+<li>
+<p>Fetch, build, and install the open kernel module source from
+<a href="https://github.com/NVIDIA/open-gpu-kernel-modules" target=
+"_top">https://github.com/NVIDIA/open-gpu-kernel-modules</a>. See
+<a href=
+"https://github.com/NVIDIA/open-gpu-kernel-modules/blob/main/README.md"
+target=
+"_top">https://github.com/NVIDIA/open-gpu-kernel-modules/blob/main/README.md</a>
+for details on building.</p>
+</li>
+</ul>
+</div>
+<p>Note that you must use the same version of the .run file and the
+open kernel module source from <a href=
+"https://github.com/NVIDIA/open-gpu-kernel-modules" target=
+"_top">https://github.com/NVIDIA/open-gpu-kernel-modules</a></p>
+<p>You can determine which flavor of kernel modules is installed
+using either `modinfo` or looking at
+/proc/driver/nvidia/version.</p>
+<p>E.g., the proprietary flavor will report:</p>
+<pre class="screen">
+    # modinfo nvidia | grep license
+    license:        NVIDIA
+
+    # cat /proc/driver/nvidia/version
+    NVRM version: NVIDIA UNIX x86_64 Kernel Module  [...]
+</pre>
+<p>The open flavor will report:</p>
+<pre class="screen">
+    # modinfo nvidia | grep license
+    license:        Dual MIT/GPL
+
+    # cat /proc/driver/nvidia/version
+    NVRM version: NVIDIA UNIX Open Kernel Module for x86_64  [...]
+</pre>
+<p></p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href=
+"gsp.html">Prev</a>&nbsp;</td>
+<td width="20%" align="center"><a accesskey="u" href=
+"installationandconfiguration.html">Up</a></td>
+<td width="40%" align="right">&nbsp;<a accesskey="n" href=
+"addtlresources.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Chapter&nbsp;43.&nbsp;GSP
+Firmware&nbsp;</td>
+<td width="20%" align="center"><a accesskey="h" href=
+"index.html">Home</a></td>
+<td width="40%" align="right" valign="top">
+&nbsp;Chapter&nbsp;45.&nbsp;NVIDIA Contact Info and Additional
+Resources</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

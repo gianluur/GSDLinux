@@ -1,0 +1,8 @@
+We miss some stuff
+
+* Graphs
+- toRGB
+- fromRGB
+...
+
+* Add calibration GUI (maybe we can start by calibrating simple things)

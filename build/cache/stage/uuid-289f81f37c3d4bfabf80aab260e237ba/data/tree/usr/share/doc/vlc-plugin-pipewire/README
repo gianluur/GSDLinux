@@ -1,0 +1,82 @@
+PipeWire plug-in for LibVLC
+============================
+
+Requirements
+------------
+
+This plugin requires:
+- LibVLC version 3.x development files,
+- The corresponding C compiler and linker,
+- PipeWire 0.3.50 (or later) development files.
+
+The way to obtain those depends on your system. On a Debian system
+(or any derivative such as Ubuntu or Raspian), you can try these commands:
+
+# sudo apt-get install gcc libvlccore-dev libpipewire-0.3-dev
+
+
+Installation
+------------
+
+If you have not already done so, download the plug-in source code, e.g.:
+
+# sudo apt-get install git
+# git clone https://git.remlab.net/git/vlc-plugin-pipewire.git
+
+Then compile the source code:
+
+# cd vlc-plugin-pipewire
+# make
+
+And finally install the plug-in:
+
+# sudo make install-strip
+
+NOTE: Any active VLC instance (or other LibVLC application) must be restarted
+to detect the newly installed plug-in.
+
+
+Usage
+-----
+
+The plug-in runs automatically assuming that PipeWire is available in the user
+session. No further actions are required.
+
+
+Uninstallation
+--------------
+
+Should you wish to uninstall this plug-in, run the following commands:
+
+# cd vlc-plugin-pipewire
+# sudo make uninstall
+
+Then restart any ongoing instance of VLC or other LibVLC application.
+
+
+Knonwn issues
+---------------
+
+Issues with the plugin:
+# S/PDIF and HDMI codec pass-through mode is not supported yet.
+# Exclusive mode audio is not supported yet.
+# Audio and video inputs from PipeWire are not supported yet.
+
+Issues with PipeWire (as of version 0.3.50):
+# Changing device while playing does not work yet.
+
+
+Support
+-------
+
+There is no support whatsoever. Use at your own risk.
+
+
+Contact
+-------
+
+For constructive feedback, you might contact me at <remi@remlab.net>,
+or, as courmisch on the Freenode IRC #videolan channel.
+
+-- 
+Rémi Denis-Courmont, March 2022

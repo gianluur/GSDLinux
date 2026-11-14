@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-sufami-turbo-rom">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Sufami Turbo ROM</comment>
+  <sub-class-of type="application/vnd.nintendo.snes.rom"/>
+  <generic-icon name="application-x-executable"/>
+  <glob pattern="*.st"/>
+</mime-type>

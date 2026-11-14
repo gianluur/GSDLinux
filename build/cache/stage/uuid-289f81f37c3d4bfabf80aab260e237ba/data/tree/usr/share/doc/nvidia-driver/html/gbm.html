@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org">
+<meta http-equiv="Content-Type" content=
+"text/html; charset=us-ascii">
+<title>Chapter&nbsp;40.&nbsp;GBM and GBM-based Wayland
+Compositors</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.68.1">
+<link rel="start" href="index.html" title=
+"NVIDIA Accelerated Linux Graphics Driver README and Installation Guide">
+<link rel="up" href="installationandconfiguration.html" title=
+"Part&nbsp;I.&nbsp;Installation and Configuration Instructions">
+<link rel="prev" href="xwayland.html" title=
+"Chapter&nbsp;39.&nbsp;OpenGL, Vulkan and VDPAU on Xwayland">
+<link rel="next" href="addressingcapabilities.html" title=
+"Chapter&nbsp;41.&nbsp;Addressing Capabilities">
+</head>
+<body>
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter&nbsp;40.&nbsp;GBM and
+GBM-based Wayland Compositors</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href=
+"xwayland.html">Prev</a>&nbsp;</td>
+<th width="60%" align="center">Part&nbsp;I.&nbsp;Installation and
+Configuration Instructions</th>
+<td width="20%" align="right">&nbsp;<a accesskey="n" href=
+"addressingcapabilities.html">Next</a></td>
+</tr>
+</table>
+<hr></div>
+<div class="chapter" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title"><a name="gbm" id=
+"gbm"></a>Chapter&nbsp;40.&nbsp;GBM and GBM-based Wayland
+Compositors</h2>
+</div>
+</div>
+</div>
+<h3>Overview</h3>
+<p>GBM is a memory allocation API developed as a component of the
+Mesa project. Most Wayland compositors use the GBM API to
+initialize an EGLDisplay object directly on a GPU, and to allocate
+the EGLSurface representing the desktop. The NVIDIA driver includes
+a GBM backend enabling the use of such software on NVIDIA GPUs. A
+GBM EGL external platform library is also included to enable the
+use of GBM objects in EGL.</p>
+<h3>Requirements</h3>
+<p>The following are necessary to enable use of the NVIDIA driver's
+GBM backend and its EGL and related Wayland client support:</p>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>DRM KMS must be enabled. See <a href="kms.html" title=
+"Chapter&nbsp;35.&nbsp;Direct Rendering Manager Kernel Modesetting (DRM KMS)">
+Chapter&nbsp;35, <i>Direct Rendering Manager Kernel Modesetting
+(DRM KMS)</i></a> for details.</p>
+</li>
+<li>
+<p>libgbm.so.1 from Mesa version 21.2 (<a href=
+"https://gitlab.freedesktop.org/mesa/mesa" target=
+"_top">https://gitlab.freedesktop.org/mesa/mesa</a>).</p>
+</li>
+<li>
+<p>egl-wayland version 1.1.8 or later must be present (if installed
+separately from the the NVIDIA driver). To support applications
+that use the wl_drm Wayland protocol to select a GPU to render on,
+such as Xwayland, version 1.1.9 or later must be present.</p>
+</li>
+</ul>
+</div>
+<p></p>
+<h3>Xwayland and GBM</h3>
+<p>Xwayland uses the GLAMOR backend to accelerate X application
+rendering using EGL. While not required for basic functionality,
+GLAMOR acceleration is required for good performance when running
+accelerated Vulkan or OpenGL X11 applications. The GLAMOR
+integration code in Xwayland has paths to use either EGLStreams or
+GBM to allocate surfaces for use with accelerated rendering. To use
+the GBM path with the NVIDIA driver's GBM backend and GBM EGL
+external platform library, the installed copy of Xwayland should be
+a build from the master branch of <a href=
+"https://gitlab.freedesktop.org/xorg/xserver" target=
+"_top">https://gitlab.freedesktop.org/xorg/xserver</a> at least as
+recent as commit 5daf42b4. Xwayland versions 21.1.3 and above
+satisfy this requirement.</p>
+<p>See <a href="xwayland.html" title=
+"Chapter&nbsp;39.&nbsp;OpenGL, Vulkan and VDPAU on Xwayland">Chapter&nbsp;39,
+<i>OpenGL, Vulkan and VDPAU on Xwayland</i></a> for more details on
+Xwayland support in the NVIDIA driver.</p>
+<h3>Logging/Tracing</h3>
+<p>The NVIDIA GBM backend supports logging information about its
+behavior and the reasons for various function call failures to
+stderr. Such information may be useful for developers debugging
+applications or end users diagnosing system behavior issues. Set
+the environment variable '__NV_GBM_TRACE_ENABLED' to a non-zero
+integer value to enable this logging.</p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href=
+"xwayland.html">Prev</a>&nbsp;</td>
+<td width="20%" align="center"><a accesskey="u" href=
+"installationandconfiguration.html">Up</a></td>
+<td width="40%" align="right">&nbsp;<a accesskey="n" href=
+"addressingcapabilities.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">
+Chapter&nbsp;39.&nbsp;OpenGL, Vulkan and VDPAU on
+Xwayland&nbsp;</td>
+<td width="20%" align="center"><a accesskey="h" href=
+"index.html">Home</a></td>
+<td width="40%" align="right" valign="top">
+&nbsp;Chapter&nbsp;41.&nbsp;Addressing Capabilities</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

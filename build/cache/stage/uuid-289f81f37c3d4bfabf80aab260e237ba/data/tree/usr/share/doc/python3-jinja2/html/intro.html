@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Introduction &#8212; Jinja Documentation (3.1.x)</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=7a9665a2" />
+    <link rel="stylesheet" type="text/css" href="_static/jinja.css?v=3dd10d86" />
+    <script src="_static/documentation_options.js?v=b2e31178"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script data-project="jinja" data-version="3.1.x" src="_static/describe_version.js?v=fa7f30d0"></script>
+    <link rel="icon" href="_static/jinja-logo-sidebar.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="Jinja" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Jinja"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Jinja Documentation (3.1.x)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Introduction</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h1>
+<p>Jinja is a fast, expressive, extensible templating engine. Special
+placeholders in the template allow writing code similar to Python
+syntax. Then the template is passed data to render the final document.</p>
+<p>It includes:</p>
+<ul class="simple">
+<li><p>Template inheritance and inclusion.</p></li>
+<li><p>Define and import macros within templates.</p></li>
+<li><p>HTML templates can use autoescaping to prevent XSS from untrusted
+user input.</p></li>
+<li><p>A sandboxed environment can safely render untrusted templates.</p></li>
+<li><p>Async support for generating templates that automatically handle
+sync and async functions without extra syntax.</p></li>
+<li><p>I18N support with Babel.</p></li>
+<li><p>Templates are compiled to optimized Python code just-in-time and
+cached, or can be compiled ahead-of-time.</p></li>
+<li><p>Exceptions point to the correct line in templates to make debugging
+easier.</p></li>
+<li><p>Extensible filters, tests, functions, and even syntax.</p></li>
+</ul>
+<p>Jinja’s philosophy is that while application logic belongs in Python if
+possible, it shouldn’t make the template designer’s job difficult by
+restricting functionality too much.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>We recommend using the latest version of Python. Jinja supports Python
+3.7 and newer. We also recommend using a <a class="reference external" href="https://packaging.python.org/tutorials/installing-packages/#creating-virtual-environments">virtual environment</a> in order
+to isolate your project dependencies from other projects and the system.</p>
+<p>Install the most recent Jinja version using pip:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ pip install Jinja2
+</pre></div>
+</div>
+<section id="dependencies">
+<h3>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">¶</a></h3>
+<p>These will be installed automatically when installing Jinja.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://markupsafe.palletsprojects.com/">MarkupSafe</a> escapes untrusted input when rendering templates to
+avoid injection attacks.</p></li>
+</ul>
+</section>
+<section id="optional-dependencies">
+<h3>Optional Dependencies<a class="headerlink" href="#optional-dependencies" title="Link to this heading">¶</a></h3>
+<p>These distributions will not be installed automatically.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://babel.pocoo.org/">Babel</a> provides translation support in templates.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/jinja-logo-sidebar.png" alt="Logo of Jinja"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li><a class="reference internal" href="#optional-dependencies">Optional Dependencies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="index.html">Overview</a>
+    <ul>
+          <li>Previous: <a href="index.html" title="previous chapter">Jinja</a>
+          <li>Next: <a href="api.html" title="next chapter">API</a>
+    </ul>
+  </li>
+</ul>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007 Pallets.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

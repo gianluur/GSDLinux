@@ -1,0 +1,1187 @@
+steam (1:1.0.0.87) beta; urgency=medium
+
+  * Build using updated Steam client
+    - Client timestamp 1782437068 (2026-06-26)
+    - Steam Runtime (scout) version 1.0.20260525.238139
+  * Update steam-devices subproject up to 2026-06-25 (steamrt/tasks#1073)
+    + 60-steam-input.rules: Only enable wakeup if the attribute exists,
+      avoiding errors in the system log
+      (steam-devices#85, thanks to Simon McVittie)
+    + Fix Valve hidraw devices with no associated input node
+      (stream-devices#87, thanks to Vicki Pfau)
+
+  [ Simon McVittie ]
+  * Build using updated Steam client
+    - Client timestamp 1782344391 (2026-06-24)
+    - Steam Runtime (scout) version 1.0.20260525.238139
+  * buildutils: Rename Python module to runtimeutil, and update
+    (steamrt/tasks#945)
+
+ -- Antonio Ospite <antonio.ospite@collabora.com>  Fri, 26 Jun 2026 17:00:35 +0200
+
+steam (1:1.0.0.86) beta; urgency=medium
+
+  [ Simon McVittie ]
+  * Build using updated Steam client (steamrt/tasks#948)
+    - Client timestamp 1781041600 (2026-06-09)
+    - Steam Runtime (scout) version 1.0.20260430.230225
+  * Update steam-devices subproject up to 2026-06-11 (steamrt/tasks#948)
+    + Allow active logged-in local users to access the raw HID
+      interfaces of these input devices:
+      - all 8bitdo devices
+        (steam-devices#66, thanks to Kin)
+      - all Flydigi devices
+        (steam-devices#66, steam-devices#70; thanks to Kin, yuannan)
+      - generic SInput devices
+        (steam-devices#68, thanks to Toad King)
+      - Nintendo Switch Joy-Con
+        (steam-devices#63, thanks to Ben Woodworth)
+      - Nintendo Wii U/Switch Wired GameCube Controller Adapter
+        (steam-devices#69, thanks to Ethan Lee)
+      - Nintendo Switch 2 GameCube Controller
+        (steam-devices#69, thanks to Ethan Lee)
+      - Sony DualSense Edge
+        (steam-devices#48, thanks to CressoTheGrey)
+      - Xbox One Elite 2 Controller
+        (steam-devices#59, thanks to Felipe Rotilho)
+      - PDP Faceoff Deluxe+ Audio Wired Pro Controller for Switch
+        (steam-devices#40, thanks to Ravi Kanodia)
+      - PowerA Fusion Fightpad for Nintendo Switch
+        (steam-devices#52, thanks to Max Fillinger)
+      - Razer Wolverine V2 Pro in wired PS5 mode
+        (steam-devices#50, thanks to IAmTheRedSpy)
+      - HORI Alpha for PS5 in PC, PS4 or PS5 mode
+        (steam-devices#42, thanks to Alexander Meerhoff)
+      - HORIPAD Steam
+        (steam-devices#62, thanks to Tobias Langendorf)
+      - EdgeTX and OpenTX radio controllers in gamepad mode
+        (steam-devices#55, steam-devices#74;
+        thanks to ThomasKuehne, Colin Heffernan)
+      - Thrustmaster T.16000M joystick
+        (steam-devices#68, thanks to Arkadiusz Hiler)
+      - Thrustmaster TFRP rudder and throttle
+        (steam-devices#68, thanks to Arkadiusz Hiler)
+      - HORI Wireless Pad Onyx Plus Wired/Wireless
+        (steam-devices#49, thanks to David F. Luz)
+      - ProGCC in SInput mode
+        (steam-devices#68, thanks to Toad King)
+      - GC Ultimate in SInput mode
+        (steam-devices#68, thanks to Toad King)
+      - Firebird in SInput mode
+        (steam-devices#68, thanks to Toad King)
+      - Logic3 Rock Candy Wired Controller for Nintendo Switch
+        (steam-devices#77, thanks to Kinzie)
+    + Allow active logged-in local users to access the raw HID
+      interfaces of these VR devices:
+      - Bigscreen Beyond and Bigscreen Bigeye
+        (steam-devices#72, thanks to Red_M)
+    + Enable wake-on-USB from all Valve devices
+      (thanks to Pierre-Loup A. Griffais)
+    + Don't treat non-Valve devices as Valve devices if their product ID
+      happens to match Valve's vendor ID
+      (steam-devices#32, thanks to Vicki Pfau)
+  * 60-steam-input.rules: Only enable wakeup if the attribute exists,
+    avoiding errors in the system log (steam-devices#85)
+
+ -- Antonio Ospite <antonio.ospite@collabora.com>  Tue, 16 Jun 2026 16:29:43 +0200
+
+steam (1:1.0.0.85) beta; urgency=medium
+
+  * Build using updated Steam client:
+    - Client timestamp 1757650573 (2025-09-12)
+    - Steam Runtime (scout) version 1.0.20250616.139563
+  * Update steam-devices subproject up to 2025-09-26:
+    - Match Valve USB devices even if they are a child of a USB device,
+      rather than the USB device itself
+      (steam-devices#68, steamrt/tasks#813)
+
+ -- Simon McVittie <smcv@collabora.com>  Tue, 30 Sep 2025 15:27:01 +0100
+
+steam (1:1.0.0.84) beta; urgency=medium
+
+  * Build using updated Steam client:
+    - Client timestamp 1751405894 (2025-07-01)
+    - Steam Runtime (scout) version 1.0.20250519.130917
+    - Remove steam-runtime-supervisor from the bootstrap mini-runtime,
+      no longer required
+  * Appstream metainfo:
+    - Add OARS content rating.
+      Originally from the unofficial Flatpak package, thanks to salarua
+  * Packaging:
+    - steam.gpg, steam-key.asc:
+      Re-export 2048-bit signing key with a stronger self-signature.
+      This ensures that the apt-secure(8) infrastructure will continue to
+      treat it as valid in 2026 and beyond.
+      (steamrt/tasks#752, steam-for-linux#12050)
+    - steam.gpg, steam-key.asc:
+      Mark a newly-generated 4096-bit signing key as trusted, starting the
+      process of key rotation to this new key. We will sign the apt
+      repository with both keys for a while, giving all users a smooth
+      upgrade path. The old key can eventually be phased out.
+      (steamrt/tasks#752, steam-for-linux#12050)
+    - d/steam-launcher.prerm: Clean up update-notifier snippet before removal
+      (steam-for-linux#5566)
+    - d/changelog: Correct client timestamp in previous release
+    - d/control: Depend on xdg-user-dirs, for xdg-user-dir(1).
+      Steam uses this internally. (Closes: #1106489)
+    - Ensure that steam_latest.deb, etc. are updated during releases
+      (steam-for-linux#12045)
+    - d/control: Drop obsolete alternative dependencies that were used
+      for Ubuntu 14.04:
+      + realpath (superseded by coreutils)
+      + libgbm1-lts-xenial (superseded by libgbm1)
+      The package hasn't been installable on 14.04 since 1.0.0.76.
+      Since 2025-08-15 the minimum version is Ubuntu 20.04 or Debian 11,
+      as documented by
+      <https://help.steampowered.com/en/faqs/view/107F-BB20-FB5A-1CE4>,
+      but we are not making that a hard requirement here until it is
+      functionally necessary.
+  * Tests/CI:
+    - Use Nvidia Tesla 535 driver to test non-default choice on Debian 13
+    - Use debian/eol Docker images to test Debian 10 and 11
+
+ -- Simon McVittie <smcv@collabora.com>  Tue, 19 Aug 2025 17:55:43 +0100
+
+steam (1:1.0.0.83) beta; urgency=medium
+
+  * Build using updated Steam client:
+    - Client timestamp 1745269938 (2025-04-21)
+    - Steam Runtime (scout) version 1.0.20250307.120442
+    - Add steam-runtime-supervisor to the bootstrap mini-runtime.
+      It is now required by steam.sh (steamrt/tasks#714)
+    - Don't require steamdeps.txt to be present (steamrt/tasks#713)
+  * steam.desktop:
+    - Update URL used to implement the Community action (steamrt/tasks#715)
+    - Update URL used to implement the News action (steamrt/tasks#715)
+    - Consistently use an absolute path for the steam executable.
+      Previously we had an inconsistent mixture of an absolute path
+      (for the main menu entry) and the basename (for Desktop Actions).
+      We are installing Steam to a fixed location, so for predictable
+      behaviour we should make our .desktop file refer to that same
+      fixed location, and not some other executable named steam that
+      might happen to be in the $PATH.
+      Some users are known to have a script named steam earlier in
+      the $PATH; for example they might have a /usr/local/bin/steam
+      that passes extra options, sets environment variables, or runs
+      Steam wrapped by some sort of "adverb" command). After this
+      change, they would still be able to arrange for that script
+      to be invoked by desktop environments' menus by putting
+      a corresponding .desktop file earlier in $XDG_DATA_DIRS,
+      for example /usr/local/share/applications/steam.desktop or
+      ~/.local/share/applications/steam.desktop, which will take
+      precedence over ours.
+      Alternatively, in packaging systems that have `dpkg-divert` or
+      a similar mechanism, that mechanism can be used to divert the
+      wrapped executable.
+      (steamrt/tasks#700)
+  * bin_steam.sh:
+    - Take over responsibility for running steamdeps during
+      launch, no longer done by steam.sh (steamrt/tasks#713)
+    - Remove support for parsing steamdeps.txt (steamrt/tasks#713)
+  * bin_steamdeps.py:
+    - Use sudo instead of pkexec if running under WSL.
+      polkitd/pkexec doesn't appear to be set up to work correctly in WSL.
+      (steamrt/tasks#624)
+  * Appstream metainfo:
+    - Normalize homepage URL
+    - Replace <developer_name> with <developer> as per Appstream 1.0
+  * Packaging:
+    - Depend on lsof (steamrt/tasks#647)
+    - Depend on a D-Bus session bus (steamrt/tasks#713)
+    - Add Recommends on xdg-desktop-portal and a backend.
+      This is used for the file chooser, among others.
+      (steamrt/tasks#713)
+  * Tests/CI:
+    - Only install software-properties-common where required
+      (LTS and EOL versions of Debian)
+
+ -- Simon McVittie <smcv@collabora.com>  Thu, 24 Apr 2025 10:55:57 +0100
+
+steam (1:1.0.0.82) beta; urgency=medium
+
+  * Build using updated Steam client:
+    - Client timestamp 1726604483 (2024-09-17)
+    - Steam Runtime (scout) version 0.20240806.97925
+  * Packaging:
+    - Convert steam-launcher from Architecture: all to amd64.
+      Steam requires an x86_64 operating system since at least 2020, and
+      making the packaging reflect this allows us to pull in basic x86_64
+      dependencies more reliably. (steamrt/tasks#441)
+    - Recommend libxkbcommon{,-x11-}0 on both amd64 and i386.
+      When combined with Steam Linux Runtime changes, this avoids crashes
+      in some SLR games on systems where a Vulkan layer depends on
+      libxkbcommon, for example MangoHud 0.7.2. (steamrt/tasks#530)
+  * Expand the bootstrap tarball:
+    - Add steam-runtime-check-requirements.
+      This allows some basic requirements to be checked as early as
+      possible in the installation process. (steamrt/tasks#441)
+    - Add steam-runtime-identify-library-abi and its dependencies.
+      This avoids a confusing warning message and speeds up first-time
+      Steam Runtime setup. (steamrt/tasks#441)
+    - Add srt-logger (steamrt/tasks#447)
+    - Add 32-bit libcurl and its dependencies for the crash report uploader,
+      so that crashes and assertion failures during first-time startup can
+      be reported (steamrt/tasks#539)
+    - Add fonts required by the Steam client, avoiding an assertion failure
+      during first-time startup (steamrt/tasks#538)
+  * bin_steam.sh:
+    - Start writing to console-linux.txt as early as possible, using the
+      srt-logger tool (steamrt/tasks#447)
+    - Try harder to create ~/.steam/steam atomically.
+      Thanks to andresr.
+  * CI enhancements
+
+ -- Simon McVittie <smcv@collabora.com>  Thu, 03 Oct 2024 18:45:49 +0100
+
+steam (1:1.0.0.81) beta; urgency=medium
+
+  * bin_steam.sh: Optimize the case where Steam is already running,
+    by using steam-runtime-steam-remote (if available) to forward the
+    command-line to the running instance (steamrt/tasks#496)
+  * bin_steam.sh: Don't copy bootstrap.tar.xz if it already matches
+    (steamrt/tasks#496)
+  * Build using updated Steam client:
+    - Client timestamp 1721173382 (2024-07-16)
+    - Steam Runtime (scout) version 0.20240610.91380
+  * Update steam-devices subproject up to 2024-05-22:
+    - Performance Designed Products Victrix Pro FS-12
+      (steam-devices#47, thanks to @notpentadactyl)
+  * buildutil: Internal changes (steamrt/tasks#468)
+  * CI: Make tests more realistic
+
+ -- Simon McVittie <smcv@collabora.com>  Thu, 15 Aug 2024 18:36:00 +0100
+
+steam (1:1.0.0.80) beta; urgency=medium
+
+  * Build using updated Steam client:
+    - Client timestamp 1709846872 (2024-03-07)
+    - Steam Runtime (scout) version 0.20240304.79797
+
+ -- Simon McVittie <smcv@collabora.com>  Mon, 22 Apr 2024 15:08:05 +0100
+
+steam (1:1.0.0.79) beta; urgency=medium
+
+  [ Timothee Besset ]
+  * bin_steam.sh:
+    - When running in a Gamescope session, only write messages to
+      the log. Don't pop up a zenity or xterm window, which would not be
+      shown by the Gamescope session. (steamrt/tasks#395)
+    - If ~/.steam/steam is a dangling symlink, don't prompt users to browse
+      for the correct location or reinstall. Instead, just reinstall
+      non-interactively. (steamrt/tasks#395)
+
+  [ Simon McVittie ]
+  * Build using updated Steam client:
+    - Client timestamp 1705108172 (2023-01-13)
+    - Steam Runtime (scout) version 0.20231127.68515
+  * Packaging:
+    - d/changelog: Fix a wrong bug reference in previous release
+      (it originally said #9301, but should be #9265)
+  * CI:
+    - Update tests for changes to Nvidia drivers in Ubuntu devel
+
+ -- Simon McVittie <smcv@collabora.com>  Thu, 08 Feb 2024 15:02:30 +0000
+
+steam (1:1.0.0.78) beta; urgency=medium
+
+  * Specifically require gnome-terminal, konsole or xterm, and don't accept
+    x-terminal-emulator. We require a terminal emulator that can be told to
+    wait until the command it is running has exited, and that isn't the
+    case for all x-terminal-emulator implementations, resulting in Steam
+    trying to start before its dependencies have been installed, which will
+    fail. (Reopens: steam-for-linux#9265)
+
+ -- Simon McVittie <smcv@collabora.com>  Tue, 09 May 2023 20:46:27 +0100
+
+steam (1:1.0.0.77) beta; urgency=medium
+
+  * Build using updated Steam client:
+    - Client timestamp 1682708537 (2023-04-28)
+    - Steam Runtime (scout) version 0.20230118.0
+  * Update steam-devices subproject up to 2023-04-12:
+    - steam-input: Add Razer Raiju Ultimate
+      (steam-devices#31, thanks to @IAmTheRedSpy)
+    - steam-input: Add Sony DualShock 3 (Playstation 3) controller
+      (steam-devices#43, thanks to Jonatas Esteves)
+    - steamvr: Provide access to Valve Index (28de:2102) serial port
+      (steam-devices#44, thanks to Joshua Ashton)
+  * Packaging:
+    - Depend on Python 3.4.
+      This was available in Debian since version 8 (EOL long ago), in Ubuntu
+      since 14.04 (EOL), and in SteamOS 2 (EOL).
+    - Depend on pkexec in preference to policykit-1, avoiding installation
+      of a deprecated transitional package on Debian >= 12 and
+      Ubuntu >= 22.04. Older versions that only have policykit-1 still work.
+  * steamdeps installer script:
+    - Turn off autoremovals when steamdeps runs apt, avoiding
+      a failure to install dependencies if autoremovals were enabled
+      system-wide (steam-for-linux#9350)
+    - Accept any x-terminal-emulator as a terminal (steam-for-linux#9265)
+    - Try harder to tell apt's conflict resolution heuristic
+      that removing steam-launcher is not a good solution
+      (followup for steam-for-linux#9301)
+    - Remove compatibility with Python 3.2
+    - Use shutil.which instead of which(1), for better efficiency and to
+      avoid deprecation warnings in some versions
+  * CI:
+    - Test steamdeps on Ubuntu 16.04
+    - Test steamdeps on Debian 12
+
+ -- Simon McVittie <smcv@collabora.com>  Tue, 09 May 2023 16:25:00 +0100
+
+steam (1:1.0.0.76) beta; urgency=medium
+
+  [ Simon McVittie ]
+  * Don't install apt repository key into /etc/apt/trusted.gpg.d.
+    In modern versions of apt the recommendation is to install third-party
+    repository keys into locations not trusted by apt by default,
+    and use the signed-by field in sources.list.d entries to request
+    validation against those keys for a specific repository, limiting
+    security exposure.
+    This configuration change requires apt 1.1 or later, dropping support
+    for Ubuntu 12.04 'precise' and Ubuntu 14.04 'trusty' (both of which have
+    already reached end-of-life). The apt repository continues to provide
+    a 'precise' suite for historical reasons.
+    On upgrades from earlier versions, steam.gpg is removed from
+    /etc/apt/trusted.gpg.d. If it has local system administrator
+    modifications (which it should not) then the modified version is kept
+    as steam.gpg.dpkg-bak but is no longer used, unless merged by the system
+    administrator.
+    Similarly, on upgrades from earlier versions, steam.list is removed
+    from /etc/apt/sources.list.d. If it has local system administrator
+    modifications, most commonly to enable the beta steam-launcher, then
+    the modified version is kept as steam.list.dpkg-bak but is no longer
+    used unless merged by the system administrator.
+    New apt source configuration is provided in steam-stable.list (for the
+    stable version) and steam-beta.list (for the beta version, commented
+    out by default), so that beta users will not usually need to edit
+    steam-stable.list. (steamrt/tasks#245)
+  * Build using updated Steam client:
+    - Client timestamp 1676336721 (2023-02-14)
+    - Steam Runtime version 0.20221019.0
+  * d/control: steam-launcher Provides/Conflicts/Replaces equivalent
+    packages in Debian/Ubuntu
+  * Internal CI fixes (steamrt/tasks#203)
+
+  [ Ludovico de Nittis ]
+  * bin_steamdeps: Remove workarounds for Ubuntu 14.04 and earlier.
+    With the requirement of apt 1.1 or later, we effectively dropped support
+    for the EOL Ubuntu releases 12.04 and 14.04.
+    This allows us to remove some workarounds we had in place to support
+    those distros.
+
+ -- Simon McVittie <smcv@collabora.com>  Wed, 01 Mar 2023 18:53:48 +0000
+
+steam (1:1.0.0.75) beta; urgency=medium
+
+  [ Ludovico de Nittis ]
+  * Add Recommends on libfontconfig1:i386 and libnm0:i386.
+    Those libraries are already included in the scout Steam Runtime,
+    but the versions from the host distribution are likely to interoperate
+    better with a modern /etc/fonts and NetworkManager. (steamrt/tasks#118)
+  * d/control: Add libcrypt1 dependency.
+    Several legacy libraries in the Scout runtime depend on libcrypt.so.1,
+    which used to be part of libc6. (steamrt/tasks#138)
+
+  [ Simon McVittie ]
+  * d/control: Recommend libva-drm2, libva-glx2, libva-x11-2.
+    These come from the same source package, so they should be the same
+    version, and this is more likely to happen if we install all of them
+    from the host distribution. (steamrt/tasks#140, steam-for-linux#8673)
+  * Build using updated Steam client:
+    - Client timestamp 1654574690 (2022-06-07)
+    - Steam Runtime version 0.20220315.0
+
+ -- Simon McVittie <smcv@collabora.com>  Tue, 12 Jul 2022 20:10:25 +0100
+
+steam (1:1.0.0.74) beta; urgency=medium
+
+  * Add Recommends on libva.so.2 (libva2) and its drivers. (steamrt/tasks#42)
+    This is available since Debian 10 and Ubuntu 18.04, and is used for
+    VA-API video acceleration on Mesa-supported GPUs.
+    The 32-bit version is used for the Remote Play client and server in
+    current Steam versions. The 64-bit version might be needed in future.
+  * d/README.source: Update CI steps
+  * Build using updated Steam client:
+    - Client timestamp 1637624439 (2021-11-02)
+    - Steam Runtime version 0.20211102.0
+
+ -- Simon McVittie <smcv@collabora.com>  Wed, 01 Dec 2021 16:39:53 +0000
+
+steam (1:1.0.0.73) beta; urgency=medium
+
+  [ Ludovico de Nittis ]
+  * steamdeps: Improve robustness of dpkg output parsing
+    (Resolves: steam-launcher#1)
+  * steamdeps: Automatically install the required Nvidia drivers if needed
+    (Resolves: T30270)
+  * steamdeps: Use pkexec instead of sudo, for better integration with
+    typical desktop environments (Resolves: T30164)
+  * steamdeps: Relaunch steamdeps script as root if needed, so we can
+    update the apt cache and then re-evaluate what to install, without
+    having to prompt for authentication more than once
+    (Resolves: steamrt/tasks#5, T30279)
+  * steamdeps: Refactoring
+  * tests: Add some automated tests for steamdeps
+
+  [ Simon McVittie ]
+  * bin_steam.sh: Ignore errors when showing diagnostic messages.
+    If users restart an X11 environment like KDE Plasma or GNOME Shell
+    inside a terminal emulator and then close the terminal emulator, we
+    can end up with `echo` always failing in processes launched by that
+    X11 environment. (Helps: steam-for-linux#8069, steamrt/tasks#10)
+  * steamdeps: Install libEGL.so.1 and libgbm.so.1. These are needed for
+    higher-performance modes of Pipewire- and portal-based Steam Remote
+    Play video capture on Wayland (Resolves: steamrt/tasks#21)
+  * steamdeps: Ensure basic i386 dependencies are always installed
+  * steamdeps: Enable i386 foreign architecture before checking what is
+    available. This makes sure the i386 NVIDIA driver gets installed the
+    first time a user runs Steam, instead of the second time.
+  * steamdeps: Fix fallback from terminal to CLI
+  * steamdeps: Fix passing dependency list through pkexec
+  * steamdeps: Pass selected environment variables through pkexec
+  * buildutils: Refactoring
+  * scripts: Stop using obsolete [ "x$foo" = xbar ] pattern
+  * tests: Improve test coverage for steamdeps
+  * tests: Improve QA checks
+  * Build using updated Steam client:
+    - Client timestamp 1634158817 (2021-10-13)
+    - Steam Runtime version 0.20210906.1
+
+ -- Simon McVittie <smcv@collabora.com>  Tue, 09 Nov 2021 15:49:27 +0000
+
+steam (1:1.0.0.72) beta; urgency=medium
+
+  [ Ludovico de Nittis ]
+  * bin_steamdeps: Ensure that packages are never removed.
+    In some situations, e.g. if a user installs a newer version of
+    libc6:amd64 and then removes its apt source, resulting in it being
+    newer than any available version of libc6:i386, apt would suggest
+    removing several essential packages in order to satisfy the
+    dependencies. Don't let it do that.
+    (Resolves: steam-for-linux#7982)
+  * bin_steamdeps: Explicitly ask apt for both :amd64 and :i386 versions of
+    some required packages, so that it will give better error messages in
+    situations like the one that promoted steam-for-linux#7982.
+
+  [ Simon McVittie ]
+  * Update steam-devices subproject up to 2021-08-25
+    - Brooks Universal Fighting Board
+      (thanks, Michael Pobega)
+    - PowerA Wired Controller for Nintendo Switch (newer product ID, a713)
+      (thanks, @TwistedAkai) (Resolves: steam-devices#27)
+    - Razer Panthera EVO Arcade Stick
+      (thanks, Peter DeVita) (Resolves: steam-devices#26)
+    - Razer Raiju PS4 Tournament Edition over Bluetooth
+      (thanks, @5amu31) (Resolves: steam-devices#25)
+    - Thrustmaster eSwap Pro
+  * Remove bundled copy of python-vdf.
+    This was never required at runtime, but was used by steam-launcher
+    developers for maintenance tasks.
+    It's included as a separate package in recent versions of the Steam
+    Runtime SDK (see <https://gitlab.steamos.cloud/steamrt/scout/sdk/> for
+    details) and in Debian.
+  * add-client-files: Stop ignoring --client-uri, --client-manifest.
+    This lets steam-launcher developers get a preview of what will be in
+    the client when the beta gets promoted to general availability.
+
+ -- Simon McVittie <smcv@collabora.com>  Wed, 08 Sep 2021 19:01:01 +0100
+
+steam (1:1.0.0.71) beta; urgency=medium
+
+  [ Ludovico de Nittis ]
+  * d/control: Add steamrt-libs-amd64, steamrt-libs-i386 metapackages.
+    These pull in libraries required by steam-launcher and Steam itself.
+    Note that although these should ideally be hard dependencies, we cannot
+    enforce this at the packaging level, because that would break the
+    ability to download "steam-launcher.deb" through a browser and install
+    it with "gdebi" or similar, which is a documented use-case.
+  * bin_steamdeps: Try to install the new steam-libs metapackages
+
+  [ Simon McVittie ]
+  * d/control: Depend on realpath.
+    steam.sh assumes realpath(1) is available, but in older distributions
+    such as Ubuntu 14.04 that isn't necessarily present.
+  * Build using updated Steam client:
+    - Client timestamp 1626824053 (2021-07-20)
+    - Steam Runtime version 0.20210630.0
+  * Update steam-devices subproject up to 2021-06-10
+    - PDP Wired Fight Pad Pro for Nintendo Switch
+      (thanks, @theGiallo) (Resolves: steam-devices#19)
+    - Razer Raiju 2 Tournament Edition (USB)
+      (thanks, @dsuserds) (Resolves: steam-devices#20)
+    - Horipad mini 4 (thanks, @besselfunct) (Resolves: steam-devices#21)
+  * Update python-vdf subproject to v3.4
+
+ -- Simon McVittie <smcv@collabora.com>  Fri, 23 Jul 2021 16:27:40 +0100
+
+steam (1:1.0.0.70) beta; urgency=medium
+
+  * steam.desktop: Request running on a discrete or otherwise "big" GPU
+    when run on NVIDIA Optimus or AMD Switchable Graphics systems by a
+    desktop environment that supports this feature, for example
+    KDE Frameworks 5.30+ or GNOME Shell 3.38+.
+    Note that when running Steam from a terminal for debugging or
+    development, flags in the .desktop file have no effect and it will still
+    be necessary to set environment variables.
+    (Resolves: T26770, steam-for-linux#634, steam-for-linux#7089)
+  * Build using updated Steam client:
+    - Client timestamp 1616532526 (2021-03-23)
+    - Steam Runtime version 0.20210126.2
+
+ -- Simon McVittie <smcv@collabora.com>  Wed, 07 Apr 2021 13:31:40 +0100
+
+steam (1:1.0.0.69) beta; urgency=medium
+
+  * Register to handle steamlink:// URLs.
+    Please note that this currently requires opting in to the beta branch
+    of the Steam client.
+  * Update steam-devices subproject up to 2020-12-08
+    - Faceoff Wired Pro Controller for Nintendo Switch
+      (thanks, FranklinsHand) (Resolves: steam-devices#14)
+    - Afterglow Deluxe+ wired controller for Nintendo Switch
+      (thanks, Mathieu Ricard) (Resolves: steam-devices#17)
+  * Build using updated Steam client:
+    - Client timestamp 1613176728 (2021-02-13)
+    - Steam Runtime version 0.20201203.1
+
+ -- Simon McVittie <smcv@collabora.com>  Wed, 03 Mar 2021 15:38:43 +0000
+
+steam (1:1.0.0.68) beta; urgency=medium
+
+  [ Ludovico de Nittis ]
+  * bin_steamdeps: use subprocess.check_call for Python 3.4 compatibility
+  * bin_steamdeps: Use apt-cache output to decide availability of packages
+  * bin_steamdeps: Install xdg-desktop-portal and a backend if available.
+    Proton uses xdg-desktop-portal to open URLs from inside a container.
+    Older OSs like Ubuntu 14.04 and SteamOS 2 don't have these packages
+    available, so we have to install them conditionally. (T24974)
+
+  [ Simon McVittie ]
+  * d/README.source: Document how to do releases
+
+ -- Simon McVittie <smcv@collabora.com>  Wed, 02 Dec 2020 16:30:13 +0000
+
+steam (1:1.0.0.67) beta; urgency=medium
+
+  [ Ludovico de Nittis ]
+  * bin_steamdeps: parse /usr/lib/os-release as a fallback
+  * bin_steamdeps: don't discard the remapped pkg if it misses a multiarch
+  * bin_steamdeps: Choose the most appropriate XDG portal backend.
+    When we start to include an XDG portal backend to the list of Steam
+    dependencies we want to choose the most appropriate backend based on the
+    current running system.
+
+  [ Simon McVittie ]
+  * Update steam-devices subproject up to 2020-11-20
+    - Add udev rules for DualSense (Playstation 5) controller
+      (Fixes: steam-devices#12; thanks to Sam Lantinga and @cow_killer)
+  * Build using updated Steam client:
+    - Client timestamp 1603992987 (2020-10-29)
+    - Steam Runtime version 0.20201005.0
+
+ -- Simon McVittie <smcv@collabora.com>  Fri, 20 Nov 2020 16:16:41 +0000
+
+steam (1:1.0.0.66) beta; urgency=medium
+
+  * Bootstrap using updated Steam client:
+    - Client timestamp 1595977781 (2020-07-28)
+    - Steam Runtime version 0.20200604.0
+
+ -- Simon McVittie <smcv@collabora.com>  Wed, 29 Jul 2020 16:43:18 +0100
+
+steam (1:1.0.0.65) beta; urgency=medium
+
+  * Update steam-devices subproject up to 2020-07-28
+    - Replace escaped double quotes in udev rules with single quotes, for
+      compatibility with udev < 235 and eudev.
+      (thanks, James Le Cuirot) (Fixes: steam-devices#10)
+  * bin_steamdeps: Install bubblewrap on Debian systems.
+    The Steam container runtime relies on bubblewrap to launch containers.
+    The Debian kernel doesn't allow unprivileged users to create new
+    user namespaces by default, so we have to install an OS-provided,
+    setuid-root bubblewrap executable instead of using the unprivileged
+    copy bundled with pressure-vessel.
+    (Fixes: T22758; see also Debian#898446)
+  * bin_steamdeps: Make pycodestyle happier
+  * bin_steamdeps: Add a --dry-run mode
+
+ -- Simon McVittie <smcv@collabora.com>  Wed, 29 Jul 2020 16:37:42 +0100
+
+steam (1:1.0.0.64) beta; urgency=medium
+
+  [ Simon McVittie ]
+  * steamdeps: Recognise xenial as a LTS HWE stack.
+    Ubuntu 14.04.6 LTS comes with a backported Ubuntu 16.04.x graphics stack,
+    so we need to install libgl1-mesa-glx-lts-xenial and other xenial-derived
+    packages instead of the original Ubuntu 14.04.0 versions. (T21844)
+  * Remove Recommends: jockey-common.
+    According to steam-for-linux#6634, this was the "Additional Drivers"
+    module in older Ubuntu, which is no longer present in any supported
+    Ubuntu release. Thanks to @BryanQuigley
+
+  [ Ludovico de Nittis ]
+  * steam.list: Download updates via https (T21740)
+    In older versions of apt (lower than 1.6) we need to install
+    apt-transport-https to use https repositories, so do that.
+  * steam.list: Switch the suite from precise to stable
+    (Fixes: steam-for-linux#4436)
+  * steam.list: Add commented-out apt sources for the beta launcher
+  * bin_steamdeps: use python-apt for "is_provided" check.
+    `apt-cache showpkg` output was intended to be human readable.
+    In the apt version shipped with Ubuntu 20.04 they added additional
+    information to the "Reverse Provides" field, and that could break our
+    parsing.
+    Instead, using python-apt, is safer and we will be able to avoid these
+    kind of problems in the future.
+    (T21880)
+  * bin_steamdeps: use --wait option for gnome-terminal if it is available.
+    The --disable-factory option is no longer available upstream and in
+    Debian, although Ubuntu patches it back in. (T22095)
+  * bin_steamdeps: remove deprecated '-e' option in gnome-terminal
+
+ -- Simon McVittie <smcv@collabora.com>  Wed, 24 Jun 2020 11:21:03 +0100
+
+steam (1:1.0.0.63) beta; urgency=medium
+
+  [ Ludovico de Nittis ]
+  * debian/steam-launcher.postinst: Notify udevd to reload its rules.
+    This means the steam-devices rules should take effect immediately,
+    instead of being deferred until after the next reboot. (T19535)
+  * bin_steamdeps.py: Remove unused, misleading lineNumber variable
+  * bin_steamdeps.py: Conform to PEP-8
+
+  [ Arnaud Rebillout ]
+  * bin_steam.sh: Don't overwrite steam.desktop if it's a symlink.
+    In a pre-configured distro like SteamOS, ~/Desktop/steam.desktop
+    might already be a symlink to /usr/share/applications/steam.desktop,
+    in which case overwriting it is pointless. (T21633)
+
+  [ Simon McVittie ]
+  * Update steam-devices subproject up to 2020-06-05
+    - Add HORIPAD for Nintendo Switch (thanks, @BrokenGale)
+      (Fixes: steam-for-linux#6944, steam-devices#7)
+    - Add ASTRO C40 controller (thanks, @exhumer2)
+      (Fixes: steam-devices#5)
+    - Add PowerA Nintendo Switch Controller (thanks, @blazingkin)
+      (Fixes: steam-devices#6)
+    - Add a workaround for PowerA Wireless Controller
+      (thanks, Andrey Smirnov) (Fixes: steam-devices#9; T21767)
+  * Update python-vdf subproject to version 3.3
+  * Bootstrap using updated Steam client:
+    - Client timestamp 1591251555 (2020-06-04)
+    - Steam Runtime version 0.20200505.0
+
+ -- Simon McVittie <smcv@collabora.com>  Tue, 09 Jun 2020 11:32:58 +0100
+
+steam (1:1.0.0.62) beta; urgency=medium
+
+  * build: Adapt for newer Steam Runtime builds.
+    In newer runtimes, steam-runtime/i386 is populated with symlinks
+    into steam-runtime/lib and steam-runtime/usr, rather than containing
+    regular files.
+  * build: Populate source package using a Python script.
+    This takes care of downloading all the necessary bits from the Steam
+    client, and repacking the Steam runtime and some other Steam binaries
+    into the bootstrap tarball.
+  * debian: Add an epoch to the version number.
+    This makes this package supersede the outdated steam package in Ubuntu,
+    which has an epoch as a result of an unrelated package "sTeam" that
+    existed in historical Ubuntu versions.
+  * Take over responsibility for steam_tray_mono.png,
+    bin_steam.sh, bin_steamdeps.py from Steam client.
+  * bin_steam.sh: Remove redirection to a log file.
+    This is not particularly useful in practice, and can easily be replaced
+    with ordinary Unix shell redirection when debugging the client or a
+    game. We can't rely on it anyway, because third-party packages don't
+    tend to do this. (Fixes: steam-for-linux#6901)
+  * bin_steam.sh: Add a brief header identifying this file
+  * bin_steam.sh: Simplify version management by making it dotted-decimal
+  * bin_steam.sh: Include full .deb version number, except for epoch
+  * bin_steam.sh: If run directly, default to non-beta Steam universe
+  * bin_steam.sh: Use a more robust way to set up ~/.steam/steam symlink
+  * bin_steam.sh: Make Ubuntu 20.04 show the .desktop file as "trusted"
+  * bin_steam.sh: chmod the .desktop file a+x, not just +x.
+    To mark a .desktop file as "trusted" on most desktops, it needs to be
+    a+x, which differs from +x under a restrictive umask.
+  * bin_steam.sh: Only copy .desktop file to desktop if system-wide.
+    The .desktop file hard-codes the path to the executable, so it's only
+    suitable for system-wide installations.
+  * bin_steam.sh: Prefer content that is adjacent to the script.
+    Install all the essential bits into $(pkglibdir).
+  * bin_steam.sh: Exit unsuccessfully if a command fails.
+  * Add steam and steamdeps symlinks.
+    The README says you can run ./steam, so let's make sure you can.
+  * bin_steamdeps.py: Use python3.
+    Python 2 is EOL, and will not be in Ubuntu 20.04.
+    (Fixes steam-for-linux#6869, #6634)
+  * bin_steamdeps.py: Cope with Ubuntu 14.04 graphics stack backported
+    to 12.04. (Note that the Steam client is no longer supported on 12.04.)
+  * bin_steamdeps.py: Print diagnostics to stderr.
+    If we print them to stdout, which is fully-buffered by default, then
+    they will not necessarily be shown before we actually try to install
+    the packages in question.
+    Instead, print them to stderr, which is line-buffered by default.
+  * bin_steamdeps.py: Fall back to x-terminal-emulator.
+  * bin_steamdeps.py: Install libgl1 instead of libgl1-mesa-glx if GLVND.
+    libgl1 is the GLVND dispatcher, and replaces the transitional package
+    libgl1-mesa-glx, which is likely to disappear in future versions of
+    Debian/Ubuntu.
+  * bin_steamdeps.py: Remap package names, not complete dependencies.
+    This is a lot simpler, and is all we actually need in practice.
+  * bin_steamdeps.py: Explicitly depend on amd64 libc and GL stack
+  * bin_steamdeps.py: Ignore python-apt.
+    Steam claims to need python-apt, but as far as anyone can tell, it
+    actually doesn't. (Part of steam-for-linux#6869, #6634)
+  * debian: Depend on apt instead of python-apt.
+    We ask for python-apt, but we don't seem to actually use it; the
+    bin_steamdeps.py script calls out to apt subprocesses instead.
+    (Part of steam-for-linux#6869, #6634)
+  * debian: Recommend xdg-utils, except on SteamOS
+    (Fixes steam-for-linux#2200)
+  * debian: Build-Depend on dh-python, with alternative for older distros.
+    Building the source package on anything newer than Ubuntu 12.04 'precise'
+    or SteamRT 1 'scout' will need dh-python.
+  * d/control: Build-depend on perl, for prove(1)
+    This is used to run QA checks.
+  * Move bootstrap and version checks from Makefile into tests/
+  * check_version.sh: Cope with epoch and/or suffix in package version
+  * Import steam-devices udev rules from
+    <https://github.com/ValveSoftware/steam-devices/> as a subproject:
+    - add ZeroPlus P4 (hitbox) hidraw device, 0c12:0ef6
+  * Add brief details of the subprojects and their bug reporting addresses
+  * d/copyright: Add copyright/licensing details for some open-source parts
+    of this package
+  * Add some .gitignore files
+  * Remove references to steamrepo@list.valvesoftware.com.
+    This mailing list no longer exists.
+  * d/README.source: Add some documentation for maintainers
+  * Ship a known-good binary-blob public key, taken from 1.0.0.61.
+    We install this into /etc, so it isn't great if it changes every time
+    we rebuild the package. Freeze it at a known-good version, and
+    document how to regenerate it in debian/README.source.
+
+ -- Simon McVittie <smcv@collabora.com>  Fri, 06 Mar 2020 16:01:57 +0000
+
+steam (1.0.0.61) precise; urgency=medium
+
+  * Update udev rules
+
+ -- TTimo <ttimo@valvesoftware.com>  Wed, 10 Apr 2019 11:45:24 -0500
+
+steam (1.0.0.60) precise; urgency=medium
+
+  * Updates to the bootstraping logic and bootstraping runtime
+
+ -- TTimo <ttimo@valvesoftware.com>  Mon, 08 Apr 2019 14:17:42 -0500
+
+steam (1.0.0.59) precise; urgency=medium
+
+  * Update udev rules.
+  * Add --run option to the steam command, will exec a command through run.sh in the steam runtime environment.
+
+ -- TTimo <ttimo@valvesoftware.com>  Wed, 24 Oct 2018 18:33:34 -0500
+
+steam (1.0.0.58) precise; urgency=medium
+
+  * Bump version, iterate on the internal build systems.
+
+ -- TTimo <ttimo@valvesoftware.com>  Thu, 27 Sep 2018 18:36:04 -0500
+
+steam (1.0.0.57) precise; urgency=medium
+
+  * Bump version to match the internal steambeta package version.
+
+ -- TTimo <ttimo@valvesoftware.com>  Wed, 26 Sep 2018 21:50:39 -0500
+
+steam (1.0.0.56) precise; urgency=medium
+
+  * Rename udev rules files to 60-* to fix #5169 and clean up naming.
+
+ -- Pierre-Loup A. Griffais <pgriffais@valvesoftware.com>  Fri, 24 Aug 2018 20:01:53 -0700
+
+steam (1.0.0.55) precise; urgency=medium
+
+  * Update locstrings for .desktop file (thanks David Broz ans STS crew)
+  * Update udev rules for VR and controllers
+
+ -- Pierre-Loup A. Griffais <pgriffais@valvesoftware.com>  Tue, 29 May 2018 15:58:13 -0700
+
+steam (1.0.0.54) precise; urgency=medium
+
+  * Update controller udev rules to let Steam write to DualShock 4 HID nodes
+
+ -- Pierre-Loup A. Griffais <pgriffais@valvesoftware.com>  Sat, 29 Oct 2016 18:23:06 -0700
+
+steam (1.0.0.53) precise; urgency=medium
+
+  * Update udev rules for HTC Vive and order them so they run after
+	50-udev-default.rules but before 73-seat-late.rules
+
+ -- John Vert <johnv@valvesoftware.com>  Wed, 18 May 2016 16:43:24 -0700
+
+steam (1.0.0.52) precise; urgency=medium
+
+  * fix potential file overwrite vulnerability
+  * Add additional udev rules for HTC Vive
+
+ -- John Vert <johnv@valvesoftware.com>  Tue, 29 Mar 2016 12:33:54 -0700
+
+steam (1.0.0.51) precise; urgency=medium
+
+  * Add uinput rule for the Steam Controller.
+  * Remove udev rule for the Oculus Rift VR headset.
+  * Add udev rule for HTC Vive VR headset.
+
+ -- John Vert <johnv@valvesoftware.com>  Tue, 17 Nov 2015 11:21:15 -0800
+
+steam (1.0.0.50) precise; urgency=medium
+
+  * Added libXinerama and libXext to the bootstrap runtime to fix AMD 
+    graphics driver crashing if these aren't present.
+
+ -- John Vert <johnv@valvesoftware.com>  Tue, 05 May 2015 10:44:29 -0700
+
+steam (1.0.0.49) precise; urgency=medium
+
+  * Update packaged icons.
+  * Update liblibstdc++ file version to match new runtime.
+
+ -- Pierre-Loup A. Griffais <pgriffais@valvesoftware.com>  Mon, 25 Aug 2014 17:57:42 -0700
+
+steam (1.0.0.48) precise; urgency=medium
+
+  * Update udev rules to encompass all Valve USB devices
+
+ -- John Vert <johnv@valvesoftware.com>  Mon, 16 Jun 2014 11:42:10 -0700
+
+steam (1.0.0.47) precise; urgency=low
+
+  * Fix python indentation error
+
+ -- Valve Corporation <linux@steampowered.com>  Mon, 10 Feb 2014 16:23:07 -0800
+
+steam (1.0.0.46) precise; urgency=low
+
+  * Change steamdeps to handle installing the right packages with Ubuntu Saucy 
+    GL stack
+  * Change apt repository to indicate only amd64 and i386 support
+
+ -- Valve Corporation <linux@steampowered.com>  Mon, 10 Feb 2014 15:49:53 -0800
+
+steam (1.0.0.45) precise; urgency=low
+
+  * Add missing runtime dependencies for bootstrapping
+
+ -- Valve Corporation <linux@steampowered.com>  Mon, 25 Nov 2013 10:52:42 -0700
+
+steam (1.0.0.44) precise; urgency=low
+
+  * Remove jockey-common from steamdeps
+
+ -- Valve Corporation <linux@steampowered.com>  Wed, 13 Nov 2013 11:14:43 -0800
+
+steam (1.0.0.43) precise; urgency=low
+
+  * Update udev rules to support front panel and Oculus Rift
+  * Demote jockey-common dependency to Recommends
+
+ -- Valve Corporation <linux@steampowered.com>  Tue, 08 Oct 2013 10:52:42 -0700
+
+steam (1.0.0.42) precise; urgency=low
+
+  * Update udev rules
+
+ -- Valve Corporation <linux@steampowered.com>  Mon, 09 Sep 2013 14:57:10 -0700
+
+steam (1.0.0.41) precise; urgency=low
+
+  * Fix steamdeps to handle installing the right packages on both quantal and 
+    raring GL stacks.
+
+ -- Valve Corporation <linux@steampowered.com>  Tue, 03 Sep 2013 12:57:06 -0700
+
+steam (1.0.0.40) precise; urgency=low
+
+  * Updated steamdeps to deal with raring GL stack in 12.04.3
+
+ -- Valve Corporation <linux@steampowered.com>  Wed, 28 Aug 2013 13:29:31 -0700
+
+steam (1.0.0.39) precise; urgency=low
+
+  * Updated bootstrap files with proxy envvar parsing fixes
+
+ -- Valve Corporation <linux@steampowered.com>  Thu, 9 May 2013 17:00:24 -0800
+
+steam (1.0.0.38) precise; urgency=low
+
+  * Updated bootstrap files with network download fixes
+
+ -- Valve Corporation <linux@steampowered.com>  Wed, 24 Apr 2013 12:00:24 -0800
+
+steam (1.0.0.37) precise; urgency=low
+
+  * Updated steam:i386 dependency so it requires steam-launcher >= current version
+
+ -- Valve Corporation <linux@steampowered.com>  Tue, 12 Mar 2013 11:38:24 -0800
+
+steam (1.0.0.36) precise; urgency=low
+
+  * Renamed /usr/share/pixmaps/steam_tray.png /usr/share/pixmaps/steam_tray_mono.png
+
+ -- Valve Corporation <linux@steampowered.com>  Tue, 12 Mar 2013 11:21:08 -0800
+
+steam (1.0.0.35) precise; urgency=low
+
+  * Turned steam:i386 into a transitional package bringing in steam-launcher
+
+ -- Valve Corporation <linux@steampowered.com>  Sun, 24 Feb 2013 17:45:01 -0800
+
+steam (1.0.0.34) precise; urgency=low
+
+  * Added support for the konsole terminal emulator during dependency installation
+  * Added i386 as a foreign architecture if necessary on 64-bit systems
+
+ -- Valve Corporation <linux@steampowered.com>  Sun, 24 Feb 2013 17:45:01 -0800
+
+steam (1.0.0.33) precise; urgency=low
+
+  * Fixed 32-bit package installation after a fresh install on 64-bit system
+
+ -- Valve Corporation <linux@steampowered.com>  Sat, 23 Feb 2013 21:10:11 -0800
+
+steam (1.0.0.32) precise; urgency=low
+
+  * steam-launcher package also replaces the steam64 package
+  * Re-added the steam:i386 package to ease transition to steam-launcher
+
+ -- Valve Corporation <linux@steampowered.com>  Sat, 23 Feb 2013 15:59:46 -0800
+
+steam (1.0.0.31) precise; urgency=low
+
+  * Added dependencies on curl and xz-utils
+  * Run apt-get update before trying to install additional dependencies
+
+ -- Valve Corporation <linux@steampowered.com>  Sat, 23 Feb 2013 12:28:21 -0800
+
+steam (1.0.0.30) precise; urgency=low
+
+  * Made a single package that works on both 32 and 64-bit platforms
+
+ -- Valve Corporation <linux@steampowered.com>  Mon, 18 Feb 2013 15:11:32 -0800
+
+steam (1.0.0.29) precise; urgency=low
+
+  * Temporarily removed dependency on 32-bit glx because this causes uninstallation of 64-bit X server if installed on Ubuntu 12.04.2.
+
+ -- Valve Corporation <linux@steampowered.com>  Mon, 18 Feb 2013 15:11:32 -0800
+
+steam (1.0.0.28) precise; urgency=low
+
+  * Added explicit dependency on libc version 2.15 or newer
+  * Removed spurious extra paragraph in package description
+
+ -- Valve Corporation <linux@steampowered.com>  Fri, 15 Feb 2013 11:30:21 -0800
+
+steam (1.0.0.27) precise; urgency=low
+
+  * Removed references to beta from the documentation
+
+ -- Valve Corporation <linux@steampowered.com>  Thu, 14 Feb 2013 11:02:05 -0800
+
+steam (1.0.0.26) precise; urgency=low
+
+  * We're no longer beta!
+  * Moved apt key from postinstall to /etc/apt/trusted.gpg.d
+  * Added debian copyright file, referring to steam_install_agreement.txt
+  * Fixed line endings in steam.desktop
+  * Removed redundant gtk icon update postinstall step
+
+ -- Valve Corporation <linux@steampowered.com>  Wed, 13 Feb 2013 09:19:53 -0800
+
+steam (1.0.0.25) precise; urgency=low
+
+  * Added license to bootstrap so fresh installs work correctly
+
+ -- Valve Corporation <linux@steampowered.com>  Thu, 7 Feb 2013 18:19:00 -0800
+
+steam (1.0.0.24) precise; urgency=low
+
+  * Added license to allow repackaging for other Linux distributions
+
+ -- Valve Corporation <linux@steampowered.com>  Thu, 7 Feb 2013 11:03:58 -0800
+
+steam (1.0.0.23) precise; urgency=low
+
+  * Created an unpackaged archive for installing on non-Debian systems
+  * Added a 64-bit package that depends on the current 32-bit package
+  * Added Steam Linux Runtime, massively reducing the package dependencies
+
+ -- Valve Corporation <linux@steampowered.com>  Tue, 5 Feb 2013 9:24:21 -0800
+
+steam (1.0.0.22) unstable; urgency=low
+
+  * Removed dependency on libjpeg-turbo8
+  * Fixed /usr/bin/steam to handle localized Desktop directory correctly again
+
+ -- Valve Corporation <linux@steampowered.com>  Tue, 15 Jan 2013 10:31:21 -0800
+
+steam (1.0.0.21) unstable; urgency=low
+
+  * Copy the bootstrap files to the user Steam directory in case the bootstrap needs to be reinstalled by Steam itself
+  * Update the version of /usr/bin/steam with each package release
+  * Added dependency on xterm or gnome-terminal
+
+ -- Valve Corporation <linux@steampowered.com>  Wed, 09 Jan 2013 16:39:49 -0800
+
+steam (1.0.0.20) unstable; urgency=low
+
+  * Fixed layout of installation wizard when installing multiple apps.
+  * Fixed rare occurrence of prompting a user to accept the same Steam Subscriber Agreements multiple times.
+  * Big Picture: Added support for notifying the user when logging into an account that has already logged in on another machine
+  * Big Picture: Fixed bug where chat notifications might not be displayed when in game.
+  * Big Picture: Fixed possibly displaying multiple countdown timers in the store
+  * Big Picture: Fixed loading animations disappearing before loading was complete
+  * Big Picture: Fixed crash when entering Big Picture mode while in a voice chat
+  * Linux: add support for custom Steam library folders
+  * Linux: fix bug w/notifications stealing focus
+  * Linux: fix bug that caused text to be entered backwards in edit fields
+  * Linux: fix overlay crash w/Amnesia: The Dark Descent Demo
+  * Linux: fix overlay crash w/The Critter Chronicles
+  * Linux: fix "Retrieve A Lost Account" wizard causing steam to minimize
+  * Linux: fix Turkish characters showing up correctly in Steam updater window
+  * Linux: remove game icons when removing a game
+  * Linux: fix bug causing menus to close when a sub-menu closes
+  * Linux: fix bug with usernames ending with '.'
+  * Linux: fix bug w/Steam changing global mouse cursor theme
+
+ -- Valve Corporation <linux@steampowered.com>  Tue, 08 Jan 2013 16:39:49 -0800
+
+steam (1.0.0.19) unstable; urgency=low
+
+  * added /usr/bin/steamdeps script to install additional dependencies
+
+ -- Valve Corporation <linux@steampowered.com>  Tue, 18 Dec 2012 9:38:01 -0700
+
+steam (1.0.0.18) unstable; urgency=low
+
+  * added support for hotplug joysticks using SDL 2.0 and libudev
+  * added multi-monitor support using Xinerama
+  * added signed .changes files instead of signing the .deb packages directly (fixes issue when installing on systems with lintian)
+
+ -- Valve Corporation <linux@steampowered.com>  Fri, 14 Dec 2012 14:10:57 -0700
+
+steam (1.0.0.17) unstable; urgency=low
+
+  * notify the user of important package updates instead of trying to update /usr/bin/steam
+  * added a software source for automatic package updates at http://repo.steampowered.com/steam/
+  * added a 256x256 steam icon
+
+ -- Valve Corporation <linux@steampowered.com>  Fri, 7 Dec 2012 09:10:57 -0700
+
+steam (1.0.0.16) unstable; urgency=low
+
+  * use XDG_DATA_HOME for default Steam install path.
+  * added libgl1-mesa-glx and libgl1-mesa-dri as dependencies
+  * added check for broken gksudo installs, use fallback if necessary
+
+ -- Valve Corporation <linux@steampowered.com>  Thu, 28 Nov 2012 15:16:16 -0700
+
+steam (1.0.0.15) unstable; urgency=low
+
+  * find the Steam content directory if the user has moved it
+  * run core steam executable on systems without OpenGL installed
+
+ -- Valve Corporation <linux@steampowered.com>  Thu, 15 Nov 2012 15:16:16 -0700
+
+steam (1.0.0.14) unstable; urgency=low
+
+  * switch to xz compression for bootstrap tar file
+  * add dependencies on joystick and jstest-gtk packages for joystick support
+
+ -- Valve Corporation <linux@steampowered.com>  Wed, 17 Oct 2012 15:16:16 -0700
+
+steam (1.0.0.13) unstable; urgency=low
+
+  * automatically detect package dependencies.
+
+ -- Valve Corporation <linux@steampowered.com>  Fri, 05 Oct 2012 16:35:27 -0700
+
+steam (1.0.0.12) unstable; urgency=low
+
+  * updated package dependencies.
+
+ -- Valve Corporation <linux@steampowered.com>  Tue, 18 Sep 2012 19:15:43 -0700
+
+steam (1.0.0.11) unstable; urgency=low
+
+  * changed bin folder from linux32 to ubuntu12_32 as we have updated our build system and linux32 is now only used by steamcmd.
+
+ -- Valve Corporation <linux@steampowered.com>  Mon, 27 Aug 2012 15:25:51 -0700
+
+steam (1.0.0.10) unstable; urgency=low
+
+  * Updated dependencies, now includes openal.
+
+ -- Valve Corporation <linux@steampowered.com>  Fri, 13 Jul 2012 18:13:02 -0700
+
+steam (1.0.0.9) unstable; urgency=low
+
+  * Launcher script now opens an xterm to show progress on initial
+    bootstrapping, to be replaced by a real progress bar in future.
+
+ -- Valve Corporation <linux@steampowered.com>  Tue, 26 Jun 2012 10:27:26 -0700
+
+steam (1.0.0.8) unstable; urgency=low
+
+  * Better icon.
+
+ -- Valve Corporation <linux@steampowered.com>  Mon, 25 Jun 2012 13:26:49 -0700
+
+steam (1.0.0.7) unstable; urgency=low
+
+  * Removed dependency on libode1.
+
+ -- Valve Corporation <linux@steampowered.com>  Thu, 21 Jun 2012 16:18:14 -0700
+
+steam (1.0.0.6) unstable; urgency=low
+
+  * Fixed a syntax error in the steam script.
+
+ -- Valve Corporation <linux@steampowered.com>  Wed, 20 Jun 2012 16:35:55 -0700
+
+steam (1.0.0.5) unstable; urgency=low
+
+  * Cleaned up package build files.
+
+ -- Valve Corporation <linux@steampowered.com>  Wed, 20 Jun 2012 16:02:48 -0700
+
+steam (1.0.0.4) unstable; urgency=low
+
+  * Modified script to download and extract a bootstrap.tar.gz archive.
+
+ -- Valve Corporation <linux@steampowered.com>  Wed, 20 Jun 2012 14:45:50 -0700
+
+steam (1.0.0.3) unstable; urgency=low
+
+  * Improved dependencies by using dpkg-shlibdeps to gather info.
+
+ -- Valve Corporation <linux@steampowered.com>  Wed, 20 Jun 2012 14:05:37 -0700
+
+steam (1.0.0.2) unstable; urgency=low
+
+  * Added dependencies representative of the client and one of the test games.
+
+ -- Valve Corporation <linux@steampowered.com>  Wed, 20 Jun 2012 13:23:19 -0700
+
+steam (1.0.0.1) unstable; urgency=low
+
+  * Internal Release.
+
+ -- Valve Corporation <linux@steampowered.com>  Tue, 19 Jun 2012 17:47:05 -0700
+
+steam (1.0.0.0) unstable; urgency=low
+
+  * Internal Release.
+
+ -- Valve Corporation <linux@steampowered.com>  Tue, 19 Jun 2012 13:06:14 -0700

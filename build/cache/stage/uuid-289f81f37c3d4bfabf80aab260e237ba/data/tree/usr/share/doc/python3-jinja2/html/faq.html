@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Frequently Asked Questions &#8212; Jinja Documentation (3.1.x)</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=7a9665a2" />
+    <link rel="stylesheet" type="text/css" href="_static/jinja.css?v=3dd10d86" />
+    <script src="_static/documentation_options.js?v=b2e31178"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script data-project="jinja" data-version="3.1.x" src="_static/describe_version.js?v=fa7f30d0"></script>
+    <link rel="icon" href="_static/jinja-logo-sidebar.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="BSD-3-Clause License" href="license.html" />
+    <link rel="prev" title="Tips and Tricks" href="tricks.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="license.html" title="BSD-3-Clause License"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tricks.html" title="Tips and Tricks"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Jinja Documentation (3.1.x)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Frequently Asked Questions</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="frequently-asked-questions">
+<h1>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Link to this heading">¶</a></h1>
+<section id="why-is-it-called-jinja">
+<h2>Why is it called Jinja?<a class="headerlink" href="#why-is-it-called-jinja" title="Link to this heading">¶</a></h2>
+<p>“Jinja” is a Japanese <a class="reference external" href="https://en.wikipedia.org/wiki/Shinto_shrine">Shinto shrine</a>, or temple, and temple and
+template share a similar English pronunciation. It is not named after
+the <a class="reference external" href="https://en.wikipedia.org/wiki/Jinja%2C_Uganda">city in Uganda</a>.</p>
+</section>
+<section id="how-fast-is-jinja">
+<h2>How fast is Jinja?<a class="headerlink" href="#how-fast-is-jinja" title="Link to this heading">¶</a></h2>
+<p>Jinja is relatively fast among template engines because it compiles and
+caches template code to Python code, so that the template does not need
+to be parsed and interpreted each time. Rendering a template becomes as
+close to executing a Python function as possible.</p>
+<p>Jinja also makes extensive use of caching. Templates are cached by name
+after loading, so future uses of the template avoid loading. The
+template loading itself uses a bytecode cache to avoid repeated
+compiling. The caches can be external to persist across restarts.
+Templates can also be precompiled and loaded as fast Python imports.</p>
+<p>We dislike benchmarks because they don’t reflect real use. Performance
+depends on many factors. Different engines have different default
+configurations and tradeoffs that make it unclear how to set up a useful
+comparison. Often, database access, API calls, and data processing have
+a much larger effect on performance than the template engine.</p>
+</section>
+<section id="isn-t-it-a-bad-idea-to-put-logic-in-templates">
+<h2>Isn’t it a bad idea to put logic in templates?<a class="headerlink" href="#isn-t-it-a-bad-idea-to-put-logic-in-templates" title="Link to this heading">¶</a></h2>
+<p>Without a doubt you should try to remove as much logic from templates as
+possible. With less logic, the template is easier to understand, has
+fewer potential side effects, and is faster to compile and render. But a
+template without any logic means processing must be done in code before
+rendering. A template engine that does that is shipped with Python,
+called <code class="xref py py-class docutils literal notranslate"><span class="pre">string.Template</span></code>, and while it’s definitely fast it’s not
+convenient.</p>
+<p>Jinja’s features such as blocks, statements, filters, and function calls
+make it much easier to write expressive templates, with very few
+restrictions. Jinja doesn’t allow arbitrary Python code in templates, or
+every feature available in the Python language. This keeps the engine
+easier to maintain, and keeps templates more readable.</p>
+<p>Some amount of logic is required in templates to keep everyone happy.
+Too much logic in the template can make it complex to reason about and
+maintain. It’s up to you to decide how your application will work and
+balance how much logic you want to put in the template.</p>
+</section>
+<section id="why-is-html-escaping-not-the-default">
+<h2>Why is HTML escaping not the default?<a class="headerlink" href="#why-is-html-escaping-not-the-default" title="Link to this heading">¶</a></h2>
+<p>Jinja provides a feature that can be enabled to escape HTML syntax in
+rendered templates. However, it is disabled by default.</p>
+<p>Jinja is a general purpose template engine, it is not only used for HTML
+documents. You can generate plain text, LaTeX, emails, CSS, JavaScript,
+configuration files, etc. HTML escaping wouldn’t make sense for any of
+these document types.</p>
+<p>While automatic escaping means that you are less likely have an XSS
+problem, it also requires significant extra processing during compiling
+and rendering, which can reduce performance. Jinja uses <a class="reference external" href="https://markupsafe.palletsprojects.com/">MarkupSafe</a> for
+escaping, which provides optimized C code for speed, but it still
+introduces overhead to track escaping across methods and formatting.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/jinja-logo-sidebar.png" alt="Logo of Jinja"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Frequently Asked Questions</a><ul>
+<li><a class="reference internal" href="#why-is-it-called-jinja">Why is it called Jinja?</a></li>
+<li><a class="reference internal" href="#how-fast-is-jinja">How fast is Jinja?</a></li>
+<li><a class="reference internal" href="#isn-t-it-a-bad-idea-to-put-logic-in-templates">Isn’t it a bad idea to put logic in templates?</a></li>
+<li><a class="reference internal" href="#why-is-html-escaping-not-the-default">Why is HTML escaping not the default?</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="index.html">Overview</a>
+    <ul>
+          <li>Previous: <a href="tricks.html" title="previous chapter">Tips and Tricks</a>
+          <li>Next: <a href="license.html" title="next chapter">BSD-3-Clause License</a>
+    </ul>
+  </li>
+</ul>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007 Pallets.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

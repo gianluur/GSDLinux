@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="image/vnd.valve.source.texture">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Valve texture file</comment>
+  <sub-class-of type="image/x-generic"/>
+  <generic-icon name="image-x-generic"/>
+  <alias type="image/x-vtf"/>
+  <glob pattern="*.vtf"/>
+</mime-type>

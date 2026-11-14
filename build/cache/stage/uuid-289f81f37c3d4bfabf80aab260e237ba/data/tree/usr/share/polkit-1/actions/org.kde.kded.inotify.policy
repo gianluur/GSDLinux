@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE policyconfig PUBLIC
+"-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+"http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+<policyconfig>
+<vendor>inotify Helper</vendor>
+<vendor_url>https://www.kde.org</vendor_url>
+<icon_name>show_table_column</icon_name>
+   <action id="org.kde.kded.inotify.increaseinstancelimit" >
+      <description xml:lang="ar">زيادة حد نسخة Inotify لجميع المستخدمين</description>
+      <description xml:lang="ca">Augment el límit d'instàncies de l'inotify per a tots els usuaris</description>
+      <description xml:lang="cs">Zvýšení limitu instancí Inotify pro všechny uživatele</description>
+      <description xml:lang="de">Inotify-Instanzenlimit für alle Benutzer erhöhen</description>
+      <description>Increase Inotify Instance Limit for all Users</description>
+      <description xml:lang="en_GB">Increase Inotify Instance Limit for all Users</description>
+      <description xml:lang="eo">Pliigi Inotify-Instancan Limon por ĉiuj Uzantoj</description>
+      <description xml:lang="es">Aumentar el límite de instancias de inotify para todos los usuarios</description>
+      <description xml:lang="eu">Handitu «inotify»ren instantzia-muga erabiltzaile guztientzat</description>
+      <description xml:lang="fi">Nosta kaikkien käyttäjien inotify-instanssirajaa</description>
+      <description xml:lang="fr">Augmenter la limite des instances de « Inotify » pour tous les utilisateurs</description>
+      <description xml:lang="gl">Aumentar o límite de instancias de inotify para todas as persoas usuarias</description>
+      <description xml:lang="he">הגדלת מגבלת מופעים של Inotify לכל המשתמשים</description>
+      <description xml:lang="hi">सभी उपयोगकर्ताओं के लिए Inotify इंस्टेंस सीमा बढ़ाएँ</description>
+      <description xml:lang="hu">Inotify példánykorlát növelése minden felhasználónak</description>
+      <description xml:lang="ia">Augmenta limite de instantia de Inotify per omne usatores</description>
+      <description xml:lang="id">Tambahi Batas Instansi Inotify untuk semua Pengguna</description>
+      <description xml:lang="it">Aumenta limite istanze di Inotify per tutti gli utenti</description>
+      <description xml:lang="ka">Inotify-ის ლიმიტის გაზრდა ყველა მომხმარებლისათვის</description>
+      <description xml:lang="ko">모든 사용자의 inotify 인스턴스 제한 증가</description>
+      <description xml:lang="lv">Palielināt „Inotify“ instanču limitu visiem lietotājiem</description>
+      <description xml:lang="nl">Limiet van aantal exemplaren van Inotify verhogen voor alle gebruikers</description>
+      <description xml:lang="nn">Auk Inotify-instansgrensa for alle brukarane</description>
+      <description xml:lang="pl">Zwiększ graniczną liczbę wystąpień Inotify dla wszystkich użytkowników</description>
+      <description xml:lang="pt">Aumentar o Limite de Instâncias do Inotify para Todos os Utilizadores</description>
+      <description xml:lang="pt_BR">Aumentar o limite de instâncias do inotify para todos os usuários</description>
+      <description xml:lang="ro">Mărește limita de instanțe inotify pentru toți utilizatorii</description>
+      <description xml:lang="ru">Увеличение лимита экземпляров inotify для всех пользователей</description>
+      <description xml:lang="sa">सर्वेषां उपयोक्तृणां कृते Inotify Instance Limit वर्धयन्तु</description>
+      <description xml:lang="sk">Zvýšiť limit inštancií Inotify pre všetkých používateľov</description>
+      <description xml:lang="sl">Povečaj omejitev števila pojavkov Inotify za vse uporabnike</description>
+      <description xml:lang="sv">Öka inotify instansgräns för alla användare</description>
+      <description xml:lang="tr">Tüm Kullanıcılar için Inotify Örnek Sınırını Artır</description>
+      <description xml:lang="ug">ھەممە ئىشلەتكۈچىنىڭ inotify ئەمەلىي مىسالىنىڭ چېكىنى ئاشۇرىدۇ</description>
+      <description xml:lang="uk">Збільшити максимальну кількість екземплярів inotify для усіх користувачів</description>
+      <description xml:lang="zh_CN">提高所有用户的 Inotify 实例数量限制</description>
+      <description xml:lang="zh_TW">為所有使用者提高 Inotify 實體限制</description>
+      <message xml:lang="ar">زيادة حد نسخة Inotify لجميع المستخدمين</message>
+      <message xml:lang="ca">Augment el límit d'instàncies de l'inotify per a tots els usuaris</message>
+      <message xml:lang="cs">Zvýšení limitu instancí Inotify pro všechny uživatele</message>
+      <message xml:lang="de">Inotify-Instanzenlimit für alle Benutzer erhöhen</message>
+      <message>Increase Inotify Instance Limit for all Users</message>
+      <message xml:lang="en_GB">Increase Inotify Instance Limit for all Users</message>
+      <message xml:lang="eo">Pliigi Inotify-Instancan Limon por ĉiuj Uzantoj</message>
+      <message xml:lang="es">Aumentar el límite de instancias de inotify para todos los usuarios</message>
+      <message xml:lang="eu">Handitu «inotify»ren instantzia-muga erabiltzaile guztientzat</message>
+      <message xml:lang="fi">Nosta kaikkien käyttäjien inotify-instanssirajaa</message>
+      <message xml:lang="fr">Augmenter la limite des instances de « Inotify » pour tous les utilisateurs</message>
+      <message xml:lang="gl">Aumentar o límite de instancias de inotify para todas as persoas usuarias</message>
+      <message xml:lang="he">הגדלת מגבלת מופעים של Inotify לכל המשתמשים</message>
+      <message xml:lang="hi">सभी उपयोगकर्ताओं के लिए Inotify इंस्टेंस सीमा बढ़ाएँ</message>
+      <message xml:lang="hu">Inotify példánykorlát növelése minden felhasználónak</message>
+      <message xml:lang="ia">Augmenta limite de instantia de Inotify per omne usatores</message>
+      <message xml:lang="id">Menambahi Batas Instansi Inotify untuk semua Pengguna</message>
+      <message xml:lang="it">Aumenta il limite delle istanze di Inotify per tutti gli utenti</message>
+      <message xml:lang="ka">Inotify-ის ლიმიტის გაზრდა ყველა მომხმარებლისათვის</message>
+      <message xml:lang="ko">모든 사용자의 inotify 인스턴스 제한 증가</message>
+      <message xml:lang="lv">Palielināt „Inotify“ instanču limitu visiem lietotājiem</message>
+      <message xml:lang="nl">Limiet van aantal exemplaren van Inotify verhogen voor alle gebruikers</message>
+      <message xml:lang="nn">Auk Inotify-instansgrensa for alle brukarane</message>
+      <message xml:lang="pl">Zwiększ graniczną liczbę wystąpień Inotify dla wszystkich użytkowników</message>
+      <message xml:lang="pt">Aumentar o Limite de Instâncias do Inotify para Todos os Utilizadores</message>
+      <message xml:lang="pt_BR">Aumentar o limite de instâncias do inotify para todos os usuários</message>
+      <message xml:lang="ro">Mărește limita de instanțe inotify pentru toți utilizatorii</message>
+      <message xml:lang="ru">Увеличить лимит экземпляров inotify для всех пользователей</message>
+      <message xml:lang="sa">सर्वेषां उपयोक्तृणां कृते Inotify Instance Limit वर्धयन्तु</message>
+      <message xml:lang="sk">Zvýšiť limit inštancií Inotify pre všetkých používateľov</message>
+      <message xml:lang="sl">Povečaj omejitev števila pojavkov Inotify za vse uporabnike</message>
+      <message xml:lang="sv">Öka inotify instansgräns för alla användare</message>
+      <message xml:lang="tr">Tüm Kullanıcılar için Inotify Örnek Sınırını Artır</message>
+      <message xml:lang="ug">ھەممە ئىشلەتكۈچىنىڭ inotify ئەمەلىي مىسالىنىڭ چېكىنى ئاشۇرىدۇ</message>
+      <message xml:lang="uk">Збільшити максимальну кількість екземплярів inotify для усіх користувачів</message>
+      <message xml:lang="zh_CN">提高所有用户的 Inotify 实例数量限制</message>
+      <message xml:lang="zh_TW">為所有使用者提高 Inotify 實體限制</message>
+      <defaults>
+         <allow_inactive>no</allow_inactive>
+         <allow_active>auth_admin</allow_active>
+      </defaults>
+   </action>
+   <action id="org.kde.kded.inotify.increasewatchlimit" >
+      <description xml:lang="ar">زيادة حد مراقبة Inotify لجميع المستخدمين</description>
+      <description xml:lang="ca">Augment el límit de vigilància de l'inotify per a tots els usuaris</description>
+      <description xml:lang="cs">Zvýšení limitu sledování Inotify pro všechny uživatele</description>
+      <description xml:lang="de">Inotify-Überwachungslimit (Dateien) für alle Benutzer erhöhen</description>
+      <description>Increase Inotify Watch Limit for all Users</description>
+      <description xml:lang="en_GB">Increase Inotify Watch Limit for all Users</description>
+      <description xml:lang="eo">Pliigu Inotify Watch-Limon por ĉiuj Uzantoj</description>
+      <description xml:lang="es">Aumentar el límite de observaciones de inotify para todos los usuarios</description>
+      <description xml:lang="eu">Handitu «inotify»ren zaintza-muga erabiltzaile guztientzat</description>
+      <description xml:lang="fi">Nosta kaikkien käyttäjien inotify-vahtirajaa</description>
+      <description xml:lang="fr">Augmenter la limite de surveillance de « Inotify » pour tous les utilisateurs</description>
+      <description xml:lang="gl">Aumentar o límite de vixilancias de inotify para todas as persoas usuarias</description>
+      <description xml:lang="he">הגדלת מגבלת מעקבים של Inotify לכל המשתמשים</description>
+      <description xml:lang="hi">सभी उपयोगकर्ताओं के लिए Inotify वॉच सीमा बढ़ाएँ</description>
+      <description xml:lang="hu">Inotify figyelőkorlát növelése minden felhasználónak</description>
+      <description xml:lang="ia">Augmenta limite de observation de Inotify per omne usatores</description>
+      <description xml:lang="id">Tambahi Batas Tonton Inotify untuk semua Pengguna</description>
+      <description xml:lang="it">Aumenta limite monitoraggi di Inotify per tutti gli utenti</description>
+      <description xml:lang="ka">Inotify-ის ლიმიტის გაზრდა ყველა მომხმარებლისათვის</description>
+      <description xml:lang="ko">모든 사용자의 inotify 주시 제한 증가</description>
+      <description xml:lang="lv">Palielināt „Inotify“ pārraudzības limitu visiem lietotājiem</description>
+      <description xml:lang="nl">Limiet van bewaking van Inotify verhogen voor alle gebruikers</description>
+      <description xml:lang="nn">Auk Inotify-overvakingsgrensa for alle brukarane</description>
+      <description xml:lang="pl">Zwiększ graniczną liczbę śledzeń Inotify dla wszystkich użytkowników</description>
+      <description xml:lang="pt">Aumentar o Limite de Monitorizações do Inotify para Todos os Utilizadores</description>
+      <description xml:lang="pt_BR">Aumentar o limite de monitoramento do Inotify para todos os usuários</description>
+      <description xml:lang="ro">Mărește limita de urmăriri inotify pentru toți utilizatorii</description>
+      <description xml:lang="ru">Увеличение лимита наблюдений inotify для всех пользователей</description>
+      <description xml:lang="sa">सर्वेषां उपयोक्तृणां कृते Inotify Watch Limit वर्धयन्तु</description>
+      <description xml:lang="sk">Zvýšiť limit sledovaní Inotify pre všetkých používateľov</description>
+      <description xml:lang="sl">Povečaj omejitev števila nadzorovanj Inotify za vse uporabnike</description>
+      <description xml:lang="sv">Öka inotify övervakningsgräns för alla användare</description>
+      <description xml:lang="tr">Tüm Kullanıcılar için Inotify İzleme Sınırını Artır</description>
+      <description xml:lang="ug">ھەممە ئىشلەتكۈچىنىڭ inotify نازارەت چېكىنى ئاشۇرىدۇ</description>
+      <description xml:lang="uk">Збільшити максимальне обмеження на спостереження inotify для усіх користувачів</description>
+      <description xml:lang="zh_CN">提高所有用户的 Inotify 监视数量限制</description>
+      <description xml:lang="zh_TW">為所有使用者提高 Inotify 監控限制</description>
+      <message xml:lang="ar">زيادة حد مراقبة Inotify لجميع المستخدمين</message>
+      <message xml:lang="ca">Augment el límit de vigilància de l'inotify per a tots els usuaris</message>
+      <message xml:lang="cs">Zvýšení limitu sledování Inotify pro všechny uživatele</message>
+      <message xml:lang="de">Inotify-Überwachungslimit (Dateien) für alle Benutzer erhöhen</message>
+      <message>Increase Inotify Watch Limit for all Users</message>
+      <message xml:lang="en_GB">Increase Inotify Watch Limit for all Users</message>
+      <message xml:lang="eo">Pliigu Inotify Watch-Limon por ĉiuj Uzantoj</message>
+      <message xml:lang="es">Aumentar el límite de observaciones de inotify para todos los usuarios</message>
+      <message xml:lang="eu">Handitu «inotify»ren zaintza-muga erabiltzaile guztientzat</message>
+      <message xml:lang="fi">Nosta kaikkien käyttäjien inotify-vahtirajaa</message>
+      <message xml:lang="fr">Augmenter la limite de surveillance de « Inotify » pour tous les utilisateurs</message>
+      <message xml:lang="gl">Aumentar o límite de vixilancias de inotify para todas as persoas usuarias</message>
+      <message xml:lang="he">הגדלת מגבלת מעקבים של Inotify לכל המשתמשים</message>
+      <message xml:lang="hi">सभी उपयोगकर्ताओं के लिए Inotify वॉच सीमा बढ़ाएँ</message>
+      <message xml:lang="hu">Inotify figyelőkorlát növelése minden felhasználónak</message>
+      <message xml:lang="ia">Augmenta limite de observation de Inotify per omne usatores</message>
+      <message xml:lang="id">Menambahi Batas Tonton Inotify untuk semua Pengguna</message>
+      <message xml:lang="it">Aumenta il limite dei monitoraggi di Inotify per tutti gli utenti</message>
+      <message xml:lang="ka">Inotify-ის მაყურებლის ლიმიტის ყველა მომხმარებლისთვის გაზრდა</message>
+      <message xml:lang="ko">모든 사용자의 inotify 주시 제한 증가</message>
+      <message xml:lang="lv">Palielināt „Inotify“ pārraudzības limitu visiem lietotājiem</message>
+      <message xml:lang="nl">Limiet van bewaking van Inotify verhogen voor alle gebruikers</message>
+      <message xml:lang="nn">Auk Inotify-overvakingsgrensa for alle brukarane</message>
+      <message xml:lang="pl">Zwiększ graniczną liczbę śledzeń Inotify dla wszystkich użytkowników</message>
+      <message xml:lang="pt">Aumentar o Limite de Monitorizações do Inotify para Todos os Utilizadores</message>
+      <message xml:lang="pt_BR">Aumentar o limite de monitoramento do Inotify para todos os usuários</message>
+      <message xml:lang="ro">Mărește limita de urmăriri inotify pentru toți utilizatorii</message>
+      <message xml:lang="ru">Увеличить лимит наблюдений inotify для всех пользователей</message>
+      <message xml:lang="sa">सर्वेषां उपयोक्तृणां कृते Inotify Watch Limit वर्धयन्तु</message>
+      <message xml:lang="sk">Zvýšiť limit sledovaní Inotify pre všetkých používateľov</message>
+      <message xml:lang="sl">Povečaj omejitev števila nadzorovanj Inotify za vse uporabnike</message>
+      <message xml:lang="sv">Öka inotify övervakningsgräns för alla användare</message>
+      <message xml:lang="tr">Tüm Kullanıcılar için Inotify İzleme Sınırını Artır</message>
+      <message xml:lang="ug">ھەممە ئىشلەتكۈچىنىڭ inotify نازارەت چېكىنى ئاشۇرىدۇ</message>
+      <message xml:lang="uk">Збільшити максимальне обмеження на спостереження inotify для усіх користувачів</message>
+      <message xml:lang="zh_CN">提高所有用户的 Inotify 监视数量限制</message>
+      <message xml:lang="zh_TW">為所有使用者提高 Inotify 監控限制</message>
+      <defaults>
+         <allow_inactive>no</allow_inactive>
+         <allow_active>auth_admin</allow_active>
+      </defaults>
+   </action>
+</policyconfig>

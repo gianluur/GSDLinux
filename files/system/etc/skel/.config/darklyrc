@@ -1,0 +1,15 @@
+[Common]
+ButtonWidth=2
+CornerRadius=12
+FloatingTitlebar=true
+ShadowStrength=51
+SunkenEffect=true
+
+[Style]
+DisableDolphinUrlNavigatorBackground=false
+FullOutline=true
+MenuOpacity=70
+NewDolphinSelectionStyle=true
+RoundedRubberBandFrame=false
+TabUseBrighterCloseIcon=true
+WidgetDrawShadow=false

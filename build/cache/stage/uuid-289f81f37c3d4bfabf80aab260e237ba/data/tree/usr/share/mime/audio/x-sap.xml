@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="audio/x-sap">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <acronym>S98</acronym>
+  <expanded-acronym>S98</expanded-acronym>
+  <generic-icon name="audio-x-generic"/>
+  <glob pattern="*.s98"/>
+  <comment>Atari 8-bit audio</comment>
+  <acronym>SAP</acronym>
+  <expanded-acronym>Slight Atari Player</expanded-acronym>
+  <generic-icon name="audio-x-generic"/>
+  <glob pattern="*.sap"/>
+</mime-type>

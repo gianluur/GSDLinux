@@ -1,0 +1,62 @@
+# wl-copy(1) completion
+
+_wl_clipboard_list_seats() {
+    weston-info 2>/dev/null | sed -n '/wl_seat/{n;s/\s*name: //;p}'
+}
+
+_wl_clipboard_complete_types() {
+    local cur prev types
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    types="$1"
+    if [ "${cur:0:1}" = \' -o "${cur:0:1}" = \" ]; then
+        COMPREPLY=($(compgen -W "$types" -- "$cur"))
+    else
+        COMPREPLY=($(compgen -W "$types" -- "$cur" | sed 's/;/\\;/g'))
+    fi
+}
+
+_wl_copy_completion() {
+    compopt +o default
+    local cur prev opts types seats
+
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    case "$cur" in
+        "<"*)
+            compopt -o default
+            COMPREPLY=()
+            return
+            ;;
+    esac
+
+    case "$prev" in
+        "<"*)
+            compopt -o default
+            COMPREPLY=()
+            ;;
+        -t | -[a-z]*t | --type)
+            types="$(sed -e 's/#.*$//' -e '/^$/d' -e 's/^\(\S\+\).*/\1/' /etc/mime.types 2>/dev/null)"
+            _wl_clipboard_complete_types "$types"
+            ;;
+        -s | -[a-z]*s | --seat)
+            seats="$(_wl_clipboard_list_seats)"
+            COMPREPLY=($(compgen -W "$seats" -- "$cur"))
+            ;;
+        *)
+            opts="-o --paste-once "
+            opts+="-f --foreground "
+            opts+="-c --clear "
+            opts+="-p --primary "
+            opts+="-n --trim-newline "
+            opts+="-t --type "
+            opts+="-s --seat "
+            opts+="-v --version "
+            opts+="-h --help "
+            COMPREPLY=($(compgen -W "$opts" -- "$cur"))
+            ;;
+    esac
+}
+
+complete -o default -F _wl_copy_completion wl-copy

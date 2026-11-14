@@ -1,0 +1,329 @@
+liblouisxml NEWS -- history of user-visible changes.
+
+* Noteworthy changes in release 2.12.0 (2023-11-02)
+
+This Liblouisutdml release brings major improvements to Nemeth Math
+handling thanks to Attila Hammer and Norbert Markus. It also adds
+support for liblouis 3.27.
+
+For a detailed list of all the changes refer to [[https://github.com/liblouis/liblouisutdml/milestone/8?closed=1][the list of closed
+issues]].
+
+** New features
+- Add support for liblouis 3.27
+- Major upgrade to Nemeth Math handling thanks to Attila Hammer and
+  Norbert Markus.
+  - The order of some character definitions and include statements
+    have been changed so that the now updated Nemeth Braille dot
+    patterns of mathematical symbols take precedence over the literary
+    Braille patterns for the same Unicode characters. E.g. the
+    horizontal ellipsis, and division sign are among those affected.
+  - Now the caret symbol appears with its intended Nemeth Braille dot
+    pattern.
+  - The colon and semicolon as mathematical symbols appear with a
+    punctuation prefix (dots 456-25 and dots 456-23) and a space is
+    added after them. The space may be skipped depending on the
+    context.
+  - A number of rules have been disabled to give way to the now
+    updated Nemeth Braille dot patterns of mathematical symbols in
+    ~nemethdefs.cti~.
+  - The list of function names and abbreviations has been extended
+    with items (e.g. two-letter abbreviations of function names and
+    their combinations).
+  - Indication of subscripts and superscripts has been improved and
+    consolidated. E.g., numeric subscripts are now either indicated or
+    not indicated by a subscript prefix as required. However,
+    multilevel subscripts and superscripts are not (yet) covered as it
+    requires keeping track of the current level.
+  - A number sign is inserted before the first digit following a dot 5
+    or dots 56 (also in combinations with a minus sign) if that prefix
+    is the first cell in the block or after a space.
+  - Now a single digit or letter with overbar is handled correctly.
+    Previously a two-step rule had the side-effect of deleting dot 5
+    from dots 5-13-156 even when this sequence appeared as part of
+    signs of comparison (less than or equal to, etc). Now those signs
+    of comparison, including those for sets are correctly displayed.
+    The solution does not yet cover letters of another alphabet or
+    type form. Such instances are displayed using the uncontracted
+    five-step Nemeth rule.
+  - Support for the contracted indication of a horizontal bar under a
+    single digit or letter is added (dots 146-156 following the digit
+    or letter) according to a 2013 BANA update to Nemeth Rule XIV.
+    The solution does not yet cover letters of another alphabet or
+    typeform. Such instances are displayed using the uncontracted
+    five-step Nemeth rule.
+  - Now a Nemeth rule for repeating decimals is observed. When a
+    series of digits have each a dot above in print to mark a
+    repeating period, it is sufficient to show a single dot in
+    Braille. The modification block, however, applies to all the
+    digits affected.
+  - The decimal point now appears correctly (dots 46) even when
+    preceding or following a dot five which indicates the beginning of
+    a modification.
+  - A space is inserted between the Braille representation of ~{}~ for
+    the empty set.
+  - The space is removed from between a grouping symbol and a
+    horizontal ellipsis in various combinations.
+  - The space between a function name/abbreviation and a superscript
+    belonging to it is removed. In case of a log and colog, a
+    subscript is expected. Note that the current solution is far from
+    perfect as processing function names and their surroundings could
+    better be done by an algorithm.
+  - Any series of Multiple spaces in the math blocks are reduced to a
+    single space at that place.
+
+** Other
+- Fix a memory leak thanks to Samuel Thibault
+- Add missing declarations to louisutdml.h, thanks to Peter Fordham
+  for the report
+- Update gnulib
+
+* Noteworthy changes in release 2.11.0 (2022-03-08)
+
+This minor Liblouisutdml release adds support for liblouis 3.20 and
+up.
+
+For a detailed list of all the changes refer to [[https://github.com/liblouis/liblouisutdml/milestone/7?closed=1][the list of closed
+issues]].
+
+** New features
+- Add support for liblouis 3.20
+- Migrate away from the ~uplow~ opcode to add support for liblouis
+  3.20.
+
+** Regression in nemeth math
+Note that there is a small regression when using Liblouisutdml
+together with liblouis 3.20 that will case some of the nemeth tests
+that include capital letters to fail. For details see
+https://github.com/liblouis/liblouis/issues/1152. Hopefully this will
+be resolved in the next liblouis release.
+
+** Other
+- Add Lithuanian hyphenation table
+
+* Noteworthy changes in release 2.10.0 (2021-03-10)
+
+This minor Liblouisutdml release improves the documentation and
+improves the build and test infrastructure. It also adds support for
+liblouis 3.17.
+
+For a detailed list of all the changes refer to [[https://github.com/liblouis/liblouisutdml/milestone/6?closed=1][the list of closed
+issues]].
+
+** New features
+- Add support for liblouis 3.17
+
+** Other
+- Improve the documentation thanks to Norbert Márkus
+- New Dockerfiles to cross-compile using mingw thanks to Christian
+  Egli
+
+* Noteworthy changes in release 2.9.0 (2020-08-31)
+
+This Liblouisutdml release fixes a couple of bugs and adds support for
+liblouis 3.15.
+
+For a detailed list of all the changes refer to [[https://github.com/liblouis/liblouisutdml/milestone/5?closed=1][the list of closed
+issues]].
+
+** New features
+- Add support for liblouis 3.15
+
+** Bug fixes
+- Fix a buffer overflow thanks to Samuel Thibault
+- Fix a typo in ~make_makefile.c~ thanks to Arend Arends
+- Fix a few bugs in the windows make file generator thanks to
+  Christian Egli
+
+** Other
+- Improvements to the help screen thanks to Sebastian Humenda
+- Fix some math test cases thanks to Christian Egli
+
+* Noteworthy changes in release 2.8.0 (2019-09-09)
+
+This Liblouisutdml release adds a couple of new features and adds
+support for liblouis 3.11.
+
+For a detailed list of all the changes refer to [[https://github.com/liblouis/liblouisutdml/milestone/3?closed=1][the list of closed
+issues]].
+
+** New features
+- Add support for liblouis 3.11
+- Add a setting for minimum syllable length (hyphenation) thanks to
+  Bert Frees
+- Add a new page number format: Roman capitals, thanks to
+  Bert Frees
+
+** Bug fixes
+- Drop the dependency on internal liblouis API, thanks to Christian
+  Egli and Bert Frees
+- Handle empty elements with style thanks to Bert Frees
+- Fix ~topBoxline~ and ~bottomBoxline~ thanks to Bert Frees
+- Fix ~printPageNumberRange=yes~ with ~printPageNumberAt=bottom~
+  thanks to Bert Frees
+- Allow Roman numbers greater than 1000 thanks to Bert Frees
+- Fix Belgian math thanks to Bert Frees
+
+** Other
+- Added a huge set of MathML -> Nemeth tests thanks to Neil Soiffer
+- Add a description to the NAME section of the man page thanks to
+  Samuel Thibault
+
+* Noteworthy changes in release 2.7.1 (2019-05-07)
+
+This Liblouisutdml release adds a couple of new features and adds
+support for liblouis 3.9.
+
+** New features
+- Add support for liblouis 3.9
+- Add a Dockerfile
+- Add heading supports for opendocument files thanks to Samuel Thibault
+- Support automatic page numbering thanks to Samuel Thibault.
+  LibreOffice documents do not provide explicit page numbers, but
+  provides the pagebreak points, so liblouisutdml can simply count the
+  page numbers.
+- Move math tables from Liblouis to Liblouisutdml thanks to Bert Frees
+
+** Bug fixes
+- Use the prefixed LOG_FOO constants thanks to Christian Egli
+- Fix cross build from source issue
+
+** Other
+- Convert the test suite to a standard Automake Parallel Test Harness
+  thanks to Christian Egli
+- Set the default log level to LOU_LOG_WARN
+
+* Noteworthy changes in release 2.7.0 (2017-09-20)
+
+This Liblouisutdml release finally has support for liblouis 3.0.
+
+** Bug fixes
+- Fixes for locating jni.h on macOS thanks to Gordon Byrnes
+- Fix so footer doesn't stop KeepWithNext working thanks to Paul Wood
+- Fix log level type in default callback thanks to Boris Dušek
+
+* Noteworthy changes in release 2.6.0 (2015-06-09)
+
+This is the first official Liblouisutdml release in a long time. Many
+bug fixes and stability improvements have gone into it. There are a
+couple of new features like end note functionality and boxlines for
+example. Also there is an extensive test suite now and the
+documentation has been vastly enhanced.
+
+** New features
+- Added an extensive test suite which tests liblouisutml under various
+  circumstances.
+- Add a configure option to disable the Java bindings.
+- Added Java bindings for logging callback API in liblouis.
+- Add end note functionality. Thanks to Paul Wood from Torch Trust
+
+** Bug fixes
+- fixed a problem with duplicate semantics attributes 
+- solve multiple brl nodes after math nodes
+- Improve the documentation on XPath expressions.
+- Fixed numerous problems in the build system.
+- Fixed the character used when UCS2 builds encounter characters above u+ffff
+
+** Documentation updates
+- Document the end note functionality
+- Add an index for the default styles
+- Update the documentation appendix
+- Add the boxline style. Thanks to Michael Whapples.
+
+* Noteworthy changes in release 2.1.0 (2009-11-23)
+
+The main focus for this release has been the addition of user-defined
+styles with the associated documentation overhaul. Also there is a new
+tool rtf2brl and all the tools now have man pages.
+
+** New features
+*** Styles
+    - User-defined styles
+    - styles can be nested in a document
+    - Persistent style settings
+    - roman page numbering
+
+*** Semantic action
+    - "newentries no" semantic action
+    - "linespacing" semantic action
+
+*** rtf2brl
+    There is a new tool to generate Braille from rtf.
+
+*** man pages
+    All tools accept the --version and --help options and are
+    documented in man pages. The tools are now licensed with GPL.
+
+** Bug fixes
+   - The version number is now displayed correctly.
+
+* Noteworthy changes in release 2.0.0 (2009-08-21)
+
+This release contains support for UK and Marburg math and the usual
+assortment of bug fixes.
+
+** New features
+- Beta version of UK Maths
+- Alpha version of Marburg math
+- rpm spec file
+
+** Bug fixes
+- Updated semantic files
+- Documentation fixes
+- Fix for building static libs
+
+* Noteworthy changes in release 1.9.1 (2009-04-21)
+
+** Bug fixes
+
+- Fix the table of contents generator
+- Improved the documentation 
+
+* Noteworthy changes in release 1.9.0 (2009-03-04)
+
+This release contains some new semantic actions and some major
+documentation updates.
+
+** New features
+
+*** configfile and configstring semantic actions
+The configfile, configstring and configtweak semantic actions enable
+the configuration of liblouisxml to be changed according to the
+contents of the document being transcribed.
+
+*** Documentation up-to-date
+The documentation is brought up-to-date. Specifically the semantic
+actions are now described in detail. Also there is now documentation
+about the table of contents feature.
+
+** Bug fixes
+
+- Fix a problem with -p option in xml2brl
+- New paths.c which finds where the program is under Windows
+- Added build instructions for Windows and Mac
+- Fix a buffer overflow in table of contents generation
+
+** Changes in behavior
+
+None
+
+* Noteworthy changes in release 1.8.0 (2009-02-01)
+
+This is the first release of liblouisxml from the Google code page. It
+is a bug fix release to work with the latest release of liblouis.
+
+** New features
+
+No new user visible features
+
+** Bug fixes
+
+Search for liblouis tables under /usr/share now.
+
+** Changes in behavior
+
+None
+
+Local variables:
+mode: org
+end:

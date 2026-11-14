@@ -1,0 +1,820 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Russian "INCLUDE">
+]>
+
+<book id="kwallet5" lang="&language;">
+<bookinfo>
+<title
+>Руководство пользователя &kwallet5;</title>
+
+<authorgroup>
+<author
+>&George.Staikos; &George.Staikos.mail; </author>
+<author
+>&Lauri.Watts; &Lauri.Watts.mail; </author>
+<othercredit role="developer"
+><firstname
+>George</firstname
+><surname
+>Staikos</surname
+> <affiliation
+><address
+>&George.Staikos.mail;</address
+></affiliation>
+<contrib
+>Разработчик</contrib>
+</othercredit>
+<othercredit role="translator"
+><firstname
+>Олег</firstname
+> <surname
+>Баталов</surname
+> <affiliation
+><address
+> <email
+>batalov@twiga.kz</email
+> </address
+></affiliation
+> <contrib
+>Перевод на русский</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>Николай</firstname
+><surname
+>Шафростов</surname
+><affiliation
+><address
+><email
+>shafff@ukr.net</email
+></address
+></affiliation
+><contrib
+>Редактирование и обновление перевода</contrib
+></othercredit
+> 
+</authorgroup>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>5 июля 2016 г.</date>
+<releaseinfo
+>Приложения KDE 16.04</releaseinfo>
+
+<abstract>
+<para
+>Подсистема бумажников — удобный и надёжный способ управлять всеми своими паролями.</para>
+
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>Kwallet</keyword>
+<keyword
+>пароли</keyword>
+<keyword
+>формы</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Введение</title>
+
+<para
+>Пользователям компьютеров приходится иметь дело с огромным количеством данных, и часть из них — конфиденциальные. В частности, обычно нужно помнить множество паролей. Запомнить их все трудно, а записывать на бумаге или в текстовом файле небезопасно.</para>
+
+<para
+>&kwallet5; надёжно хранит пароли и другие секретные сведения, так что запоминать нужно только один пароль, а не множество разных паролей и учётных данных. </para>
+
+<sect1 id="kwallet-create">
+
+<title
+>Создание бумажника</title>
+
+<para
+>Бумажник — это хранилище паролей. Обычно достаточно одного бумажника, защищённого одним главным паролем, но с помощью &kwalletmanager5; большое количество паролей можно разложить по нескольким бумажникам.</para>
+
+<para
+>По умолчанию пароли хранятся в бумажнике с именем <guilabel
+>kdewallet</guilabel
+>. Он защищён паролем для входа в систему и открывается автоматически при входе, если установлен и правильно настроен модуль kwallet_pam. В некоторых дистрибутивах (например, Arch Linux) kwallet_pam по умолчанию не установлен.</para>
+
+
+<para
+>Остальные бумажники нужно открывать вручную.</para>
+
+<para
+>Создать бумажник можно двумя способами:</para>
+
+<itemizedlist>
+<listitem
+><para
+>Выбрать в &kwalletmanager5; пункт меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Создать бумажник…</guimenuitem
+></menuchoice
+></para
+></listitem>
+
+<listitem
+><para
+>Нажать кнопку <guibutton
+>Создать…</guibutton
+> в модуле &systemsettings; <guilabel
+>Бумажник</guilabel
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Если бумажник ещё не создан, см. раздел <link linkend="kwallet-using"
+>Использование &kwallet5;</link
+>. </para>
+
+<para
+>&kwallet5; предлагает два разных способа хранения данных:</para>
+
+<screenshot>
+<screeninfo
+>Выбор алгоритма шифрования</screeninfo>
+<mediaobject>
+<imageobject
+><imagedata fileref="wallet-encryption-selection.png" format="PNG"/></imageobject>
+<textobject
+><phrase
+>Выбор алгоритма шифрования</phrase
+></textobject>
+</mediaobject>
+</screenshot>
+
+<variablelist>
+
+<varlistentry>
+<term
+>Шифрование Blowfish</term>
+<listitem>
+<para
+>&kwallet5; хранит эти конфиденциальные данные в надёжно зашифрованном файле, доступном всем приложениям, и защищённом главным паролем, который задаёте вы.</para>
+
+<screenshot>
+<screeninfo
+>Создание бумажника с шифрованием blowfish</screeninfo>
+<mediaobject>
+<imageobject
+><imagedata fileref="first-open-request.png" format="PNG"/></imageobject>
+<textobject
+><phrase
+>Создание бумажника с шифрованием blowfish</phrase
+></textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Данные шифруются с помощью <ulink url="http://www.schneier.com/blowfish.html"
+>симметричного блочного алгоритма шифрования Blowfish</ulink
+>, ключ алгоритма вычисляется из <ulink url="http://www.ietf.org/rfc/rfc3174.txt"
+>хэша SHA-1</ulink
+> пароля, длина ключа составляет 156 бит (20 байт). Данные в файле бумажника также хэшируются с помощью SHA-1 и проверяются перед расшифровкой и предоставлением доступа приложениям. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Шифрование GPG</term>
+<listitem>
+<para
+>GnuPG предлагает очень стойкие алгоритмы шифрования и использует длинные ключи, защищённые парольной фразой.</para>
+
+<screenshot>
+<screeninfo
+>Ключ GPG не найден</screeninfo>
+<mediaobject>
+<imageobject
+><imagedata fileref="error-nokey.png" format="PNG"/></imageobject>
+<textobject
+><phrase
+>Ключ GPG не найден</phrase
+></textobject>
+</mediaobject>
+</screenshot>
+<para
+>На снимках выше показан случай, когда в системе нет ключа GPG, пригодного для шифрования. Создайте ключ в приложении, например, &kgpg; или &kleopatra; и повторите попытку.</para>
+
+<para
+>Если ключ GPG найден, появится следующий диалог, в котором можно выбрать ключ для нового бумажника. </para>
+<screenshot>
+<screeninfo
+>Выбор ключа шифрования</screeninfo>
+<mediaobject>
+<imageobject
+><imagedata fileref="key-selection.png" format="PNG"/></imageobject>
+<textobject
+><phrase
+>Выбор ключа шифрования</phrase
+></textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Теперь &kwallet5; будет использовать GPG при сохранении и открытии бумажников. Диалог ввода парольной фразы появляется только один раз: даже если бумажник закрыть после первого открытия, в течение того же сеанса он будет открываться без запроса. </para>
+
+<para
+>В одном сеансе можно одновременно работать с файлами обоих форматов. &kwallet5; сам определит формат файла и загрузит подходящий для него модуль.</para>
+
+<para
+>Чтобы перенести конфиденциальные данные из классического бумажника в новый формат, сделайте следующее:</para>
+
+<itemizedlist>
+<listitem
+><para
+>Создайте новый бумажник с шифрованием GPG.</para
+></listitem>
+<listitem
+><para
+>Запустите &kwalletmanager5; через &krunner; (<keycombo
+>&Alt; <keycap
+>F2</keycap
+></keycombo
+>) или меню запуска приложений и выберите старый бумажник. Затем выберите пункт <menuchoice
+><guimenu
+>Файл</guimenu
+> <guimenuitem
+>Экспорт в зашифрованном виде</guimenuitem
+></menuchoice
+>, чтобы создать архив с конфиденциальными данными. </para
+></listitem>
+<listitem
+><para
+>Выберите новый бумажник с шифрованием GPG, затем выберите пункт <menuchoice
+><guimenu
+>Файл</guimenu
+> <guimenuitem
+>Импорт в зашифрованном виде</guimenuitem
+></menuchoice
+> и укажите только что сохранённый файл.</para>
+</listitem>
+
+<listitem
+><para
+>Откройте в &systemsettings; модуль <menuchoice
+><guimenu
+>Параметры учётной записи</guimenu
+> <guimenuitem
+>Бумажник</guimenuitem
+></menuchoice
+> и выберите новый бумажник с шифрованием GPG в раскрывающемся списке <guilabel
+>Бумажник по умолчанию:</guilabel
+>. </para
+></listitem>
+</itemizedlist>
+
+<para
+>Можно также воспользоваться пунктом <guimenuitem
+>Импорт бумажника</guimenuitem
+>, но тогда придётся выбрать файл <filename class="extension"
+>.kwl</filename
+> старого бумажника, который находится в папке <filename class="directory"
+>kwalletd</filename
+> внутри каталога, который выводит команда <userinput
+>qtpaths --paths GenericDataLocation</userinput
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+<tip>
+<para
+>&kwallet5; поддерживает несколько бумажников, поэтому для большей надёжности лучше хранить локальные пароли в одном бумажнике, а сетевые пароли и данные форм — в другом. Это настраивается в модуле &systemsettings; для &kwallet5;, но по умолчанию всё хранится в одном бумажнике с именем <guilabel
+>kdewallet</guilabel
+>.</para>
+</tip>
+
+<para
+>По умолчанию бумажник закрыт, то есть, чтобы открыть его, нужно ввести пароль. После открытия содержимое бумажника может прочитать любой процесс пользователя, что может быть небезопасно.</para>
+</sect1>
+
+<sect1 id="kwallet-using">
+<title
+>Использование &kwallet5;</title>
+
+<para
+>Например, если вы зайдёте в систему отслеживания ошибок &kde; и впервые введёте данные для входа, появится диалог с предложением сохранить пароль в зашифрованном бумажнике:</para>
+
+<screenshot>
+<screeninfo
+>Запрос на сохранение данных для входа</screeninfo>
+<mediaobject>
+<imageobject
+><imagedata fileref="save-login-information.png" format="PNG"/></imageobject>
+<textobject
+><phrase
+>Запрос на сохранение данных для входа</phrase
+></textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Чтобы сохранить эти данные, нажмите кнопку <guibutton
+>Сохранить</guibutton
+>. Если бумажник ещё не создан, следующий диалог предложит выбрать способ шифрования и создаст бумажник с именем kdewallet. </para>
+
+<para
+>При следующем посещении того же сайта приложение возьмёт данные для входа из открытого бумажника и заполнит ими форму.</para>
+
+<screenshot>
+<screeninfo
+>Заполненные данные для входа</screeninfo>
+<mediaobject>
+<imageobject
+><imagedata fileref="prefilled-forms.png" format="PNG"/></imageobject>
+<textobject
+><phrase
+>Заполненные данные для входа</phrase
+></textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Если бумажник закрыт, приложение попросит открыть его. Введите пароль бумажника и нажмите кнопку <guibutton
+>Открыть</guibutton
+>.</para>
+
+<screenshot>
+<screeninfo
+>Запрос на открытие бумажника</screeninfo>
+<mediaobject>
+<imageobject
+><imagedata fileref="openwallet-request.png" format="PNG"/></imageobject>
+<textobject
+><phrase
+>Запрос на открытие бумажника</phrase
+></textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Так приложение подключается к бумажнику и получает возможность читать из него данные для входа и подставлять их на этом сайте. Подключённое к бумажнику приложение может автоматически подставлять любые хранящиеся в нём данные для входа.</para>
+
+</sect1>
+
+</chapter>
+
+<chapter id="kwalletmanager5">
+<title
+>&kwalletmanager5;</title>
+
+<para
+>У &kwalletmanager5; несколько функций. Во-первых, он показывает, открыты ли какие-нибудь бумажники, какие именно и какие приложения используют каждый из них. В &kwalletmanager5; можно отключить приложение от бумажника.</para>
+
+<para
+>Также можно управлять бумажниками, установленными в системе, создавать, удалять и работать с их содержимым.</para>
+
+<para
+>&kwalletmanager5; запускается из меню запуска приложений: <menuchoice
+> <guimenu
+>Приложения</guimenu
+><guisubmenu
+>Система</guisubmenu
+> <guimenuitem
+>Управление бумажниками</guimenuitem
+></menuchoice
+>. Можно также вызвать &krunner; комбинацией клавиш <keycombo action="simul"
+>&Alt;<keycap
+>F2</keycap
+></keycombo
+> и ввести <command
+>kwalletmanager5</command
+>.</para>
+
+<para
+>Чтобы открыть окно &kwalletmanager5;, щёлкните по значку бумажника в системном лотке.</para>
+<para>
+<screenshot>
+<screeninfo
+>Главное окно с одним бумажником</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="kwalletmanager.png"/>
+</imageobject>
+<textobject>
+<phrase
+>Главное окно с одним бумажником</phrase>
+</textobject>
+<caption
+><para
+>Главное окно с одним бумажником</para
+></caption>
+</mediaobject>
+</screenshot>
+</para>
+
+<!--FIXME
+How to get assistant "First Use"? kwalletwizardpageintro.ui
+Last code change with http://websvn.kde.org/?view=revision&revision=882694
+see also https://bugs.kde.org/show_bug.cgi?id=290309
+-->
+<sect1 id="kwalletmanager-wallet-window">
+<title
+>Окно бумажника</title>
+
+<para
+>Если бумажников несколько, все они показаны слева.</para>
+
+<para
+>Если щёлкнуть по бумажнику в окне &kwalletmanager5;, будет показано его состояние, а для открытого бумажника — и содержимое. В бумажнике может быть сколько угодно папок для хранения паролей. По умолчанию в бумажнике есть папки «Form Data» и «Пароли». </para>
+
+<screenshot>
+<screeninfo
+>Главное окно с двумя бумажниками</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="kwallet-edit.png"/>
+</imageobject>
+<textobject>
+<phrase
+>Главное окно с двумя бумажниками</phrase>
+</textobject>
+<caption
+><para
+>Главное окно с двумя бумажниками</para
+></caption>
+</mediaobject>
+</screenshot>
+<para
+>Чтобы увидеть содержимое закрытого бумажника, нажмите кнопку <guibutton
+>Открыть…</guibutton
+>. Потребуется ввести главный пароль.</para>
+
+<sect2>
+<title
+>Вкладка «Содержимое»</title>
+
+<para
+>Вкладка <guilabel
+>Содержимое</guilabel
+> содержит три раздела:</para>
+
+<itemizedlist>
+<listitem
+><para
+>Строка поиска для отбора записей текущего бумажника</para
+></listitem>
+<listitem
+><para
+>Дерево папок бумажника. Чтобы развернуть или свернуть ветку, щёлкните по значку <guiicon
+>&gt;</guiicon
+> / <guiicon
+>v</guiicon
+>.</para
+></listitem>
+<listitem
+><para
+>Справа — содержимое выбранной записи. По умолчанию пароль и значение скрыты. Чтобы увидеть и изменить их, включите <guilabel
+>Показать значения</guilabel
+> или нажмите кнопку <guilabel
+>Показать содержимое</guilabel
+>. </para
+></listitem>
+</itemizedlist>
+
+<para
+>Папки добавляются и удаляются через контекстное меню. При выборе папки обновляются список её записей и сводка. При выборе записи обновляется панель её содержимого, и запись можно изменить.</para>
+
+<para
+>Записи также можно создавать, переименовывать и удалять через контекстное меню содержимого папки.</para>
+
+<para
+>Папки можно перетаскивать в другие бумажники, а записи — в другие папки. Так легко собрать новый бумажник для переноса в другое окружение. Например, можно создать новый бумажник, скопировать его на флешку и перенести туда важные пароли, чтобы они были под рукой в других местах.</para>
+
+<sect3 id="kwallet-import-export">
+<title
+>Импорт и экспорт</title>
+<para
+>Чтобы перенести секретные данные на другое устройство или компьютер, воспользуйтесь командами меню <guimenu
+>Файл</guimenu
+>. Командой <guimenuitem
+>Экспорт в зашифрованном виде</guimenuitem
+> бумажники экспортируются в зашифрованный архив. При импорте этого архива командой <guimenuitem
+>Импорт в зашифрованном виде</guimenuitem
+> нужно ввести главный пароль бумажника. </para>
+<para
+>Для переноса бумажника можно также использовать файл <filename class="extension"
+>.xml</filename
+>. Учтите, что все секретные данные хранятся в нём открытым текстом. </para>
+</sect3>
+
+<sect3 id="kwallet-adding-entries">
+<title
+>Ввод записей вручную</title>
+<para
+>Щёлкните правой кнопкой мыши по <guilabel
+>Соответствия</guilabel
+> или <guilabel
+>Пароли</guilabel
+> в дереве <guilabel
+>Папки</guilabel
+>, чтобы открыть контекстное меню. Выберите <guimenuitem
+>Создать…</guimenuitem
+> или <guimenuitem
+>Создать папку…</guimenuitem
+> и введите имя новой записи.</para>
+<para
+>На панели содержимого папки выберите <guilabel
+>Создать папку…</guilabel
+> в контекстном меню <quote
+>Form Data</quote
+> или <quote
+>Пароли</quote
+>. Для пароля нажмите кнопку <guilabel
+>Показать содержимое</guilabel
+> и введите новый пароль. Для соответствия нужно добавить <guilabel
+>Ключ</guilabel
+> и <guilabel
+>Значение</guilabel
+>. Чтобы записать новые записи в зашифрованный файл бумажника, нажмите кнопку <guilabel
+>Сохранить</guilabel
+>. </para>
+</sect3>
+</sect2>
+
+<sect2>
+<title
+>Вкладка «Приложения»</title>
+<para>
+<screenshot>
+<screeninfo
+>Вкладка «Приложения»</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="kwallet-applications.png"/>
+</imageobject>
+<textobject>
+<phrase
+>Вкладка «Приложения»</phrase>
+</textobject>
+<caption
+><para
+>Вкладка «Приложения»</para
+></caption>
+</mediaobject>
+</screenshot>
+</para>
+<para
+>В первом списке показаны все приложения, подключённые сейчас к выбранному бумажнику. Чтобы отключить приложение, нажмите кнопку справа от его записи.</para>
+
+<para
+>Во втором списке показаны все приложения, которым разрешён доступ к бумажнику. Чтобы отозвать доступ, нажмите кнопку справа от записи в списке. </para>
+<!-- FIXME difference to remove the policy in kwallermanager settings dialog?-->
+</sect2>
+</sect1>
+
+</chapter>
+
+<chapter id="kwallet-kcontrol-module">
+<title
+>Настройка &kwallet5;</title>
+
+<sect1 id="wallet-preferences">
+<title
+>Параметры бумажника</title>
+
+<para
+>В &kwallet5; есть небольшая панель настройки с несколькими параметрами, которые позволяют настроить &kwallet5; по своему вкусу. Большинству пользователей хватает параметров по умолчанию.</para>
+
+<para
+>Этот флажок полностью включает или выключает подсистему бумажников &kde;. Если он снят, &kwallet5; полностью отключён, остальные параметры ни на что не влияют, а &kwallet5; не сохраняет никаких данных и не предлагает заполнять формы.</para>
+
+<variablelist>
+<title
+><guilabel
+>Закрыть бумажник</guilabel
+></title>
+<varlistentry>
+<term
+><guilabel
+>Закрывать бумажник, если он не используется в течение:</guilabel
+></term>
+<listitem>
+<para
+>Закрывать текущий бумажник по прошествии указанного времени бездействия. После закрытия бумажника для доступа к его данным потребуется повторный ввод пароля к нему.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Закрывать при запуске хранителя экрана</guilabel
+></term>
+<listitem>
+<para
+>Закрывать бумажник при запуске хранителя экрана. После закрытия бумажника для доступа к его данным потребуется повторный ввод пароля к нему.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Закрыть бумажник, когда последнее приложение перестаёт его использовать</guilabel
+></term>
+<listitem>
+<para
+>Закрывать бумажник при завершении работы последнего приложения, которое его использует. Учтите, что бумажники будут закрыты только тогда, когда все приложения, использующие их, прекратят работу. После закрытия бумажника для доступа к его данным потребуется повторный ввод пароля к нему.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<title
+><guilabel
+>Автоматический выбор бумажника</guilabel
+></title>
+<varlistentry>
+<term
+><guilabel
+>Выберите бумажник, который будет использоваться по умолчанию:</guilabel
+></term>
+<listitem>
+<para
+>Выберите бумажник, который будет использоваться по умолчанию. Учтите, что при входе в систему автоматически открывается только бумажник с именем <guilabel
+>kdewallet</guilabel
+>, и только если его пароль совпадает с паролем для входа. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Альтернативный бумажник для локальных паролей:</guilabel
+></term>
+<listitem>
+<para
+>Использовать отдельный бумажник для локальных паролей.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<title
+><guilabel
+>Менеджер бумажников</guilabel
+></title>
+<varlistentry>
+<term
+><guilabel
+>Показать менеджер в системном лотке</guilabel
+></term>
+<listitem>
+<para
+>Показывать значок управления бумажниками в системном лотке.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Скрывать значок в системном лотке, когда все бумажники закрыты</guilabel
+></term>
+<listitem>
+<para
+>Скрывать значок в системном лотке при закрытии последнего открытого бумажника.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>Наконец, есть кнопка <guibutton
+>Управление бумажниками</guibutton
+>, которая запускает программу управления бумажниками.</para>
+<para
+>Эта кнопка видна, только если &kwalletmanager5; не запущен</para>
+</sect1>
+
+<sect1 id="wallet-access-control">
+<title
+>Управление доступом</title>
+
+<para
+>На этой вкладке существует только один параметр:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Запрашивать подтверждение при обращении приложения к бумажнику</guilabel
+></term>
+<listitem>
+<para
+>Предупреждать, когда приложение получает доступ к бумажнику.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>Ниже в виде дерева показаны права доступа к бумажникам.</para>
+
+<screenshot>
+<screeninfo
+>Управление доступом</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="kwallet-access-control.png"/>
+</imageobject>
+<textobject>
+<phrase
+>Управление доступом</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Чтобы развернуть дерево, щёлкните левой кнопкой мыши по значку <guiicon
+>&gt;</guiicon
+> рядом с именем бумажника. Появятся имена всех приложений, запрашивавших доступ к бумажнику, и установленные для них правила. Изменять или добавлять правила здесь нельзя, но запись можно удалить: щёлкните по ней правой кнопкой мыши и выберите в контекстном меню <guimenuitem
+>Удалить</guimenuitem
+> или просто выделите её и нажмите клавишу <keysym
+>Del</keysym
+>.</para>
+
+<para
+>Приложение, которому разрешён доступ к бумажнику, получает доступ ко всем хранящимся в нём паролям.</para>
+
+<para
+>Если вы по ошибке запретили приложению пользоваться &kwallet5;, удалите здесь правило для этого приложения.</para>
+<!-- FIXME difference to Revoke Authorization in kwallermanager?-->
+<para
+>При следующем запуске этого приложения можно будет задать новое правило доступа к бумажнику. </para>
+<screenshot>
+<screeninfo
+>Запрос на доступ к бумажнику</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="application-request-to-open-wallet.png"/>
+</imageobject>
+<textobject>
+<phrase
+>Запрос на доступ к бумажнику</phrase>
+</textobject>
+<caption
+><para
+>Приложение запрашивает доступ к бумажнику</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect1>
+
+</chapter>
+
+<chapter id="advanced-features">
+<title
+>Дополнительные возможности</title>
+
+<para
+>Бумажники можно перетаскивать из окна &kwalletmanager5;, например, в окно файлового менеджера, где бумажник можно скопировать, переместить или создать на него ссылку.</para>
+
+<para
+>Так можно сохранить бумажник на переносной носитель, например USB-флешку, чтобы взять пароли с собой на работу или в отпуск и иметь доступ к важным сайтам.</para>
+
+</chapter>
+
+<chapter id="credits-and-license">
+<title
+>Авторские права и лицензия</title>
+
+<para
+>&kwallet5; &copy; 2003 &George.Staikos;</para>
+<para
+>Документация &copy; &Lauri.Watts; и &George.Staikos;</para>
+
+<para
+>Oleg Batalov <email
+>batalov@twiga.kz</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+// vim:ts=2:sw=2:tw=78:noet
+-->

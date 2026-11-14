@@ -1,0 +1,111 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+"dtd/kdedbx45.dtd" [
+<!ENTITY % addindex "IGNORE">
+<!ENTITY % Russian "INCLUDE"
+> <!-- change language only here -->
+]>
+
+<article id="netpref" lang="&language;">
+<articleinfo>
+<title
+>Параметры сети</title>
+<authorgroup>
+<author
+>&Lauri.Watts; &Lauri.Watts.mail;</author>
+
+<othercredit role="translator"
+><firstname
+>Екатерина</firstname
+><surname
+>Пыжова</surname
+><affiliation
+><address
+><email
+>haleth@yandex.ru</email
+></address
+></affiliation
+> <contrib
+>Перевод на русский</contrib
+></othercredit
+> <othercredit role="translator"
+><firstname
+>Мария</firstname
+><surname
+>Шикунова</surname
+> <affiliation
+><address
+><email
+>translation-team@basealt.ru</email
+></address
+></affiliation
+> <contrib
+>Обновление перевода на русский</contrib
+></othercredit
+> 
+</authorgroup>
+
+<date
+>10 ноября 2016 г.</date>
+<releaseinfo
+>Frameworks 5.29</releaseinfo>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdebase</keyword>
+<keyword
+>параметры системы</keyword>
+<keyword
+>сеть</keyword>
+</keywordset>
+
+</articleinfo>
+
+<sect1>
+
+<title
+>Параметры сети</title>
+
+<para
+>Можно включить или отключить следующие два <guilabel
+>параметра FTP</guilabel
+>: <guilabel
+>Использовать пассивный режим (PASV)</guilabel
+> и <guilabel
+>Помечать частично загруженные файлы</guilabel
+>.</para>
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Использовать пассивный режим (PASV)</guilabel
+></term>
+<listitem
+><para
+>Пассивный режим &FTP; обычно требуется при расположении за сетевым экраном. Большинство сетевых экранов допускает только те соединения, которые были инициированы клиентом <quote
+>за ними</quote
+>. Пассивный режим &FTP; контролируется клиентом, что даёт возможность пользоваться им через сетевой экран.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Помечать частично загруженные файлы</guilabel
+></term>
+<listitem
+><para
+>При выборе данной функции, в конце имён частично загруженных файлов будет добавляться расширение <literal role="extension"
+>.part</literal
+>. Данное расширение удаляется по окончании загрузки.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+
+
+</sect1>
+</article>

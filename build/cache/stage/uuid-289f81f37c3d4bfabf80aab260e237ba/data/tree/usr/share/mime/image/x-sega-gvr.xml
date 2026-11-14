@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="image/x-sega-gvr">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Sega GVR for GameCube texture file</comment>
+  <acronym>GVR</acronym>
+  <expanded-acronym>PowerVR (GameCube version)</expanded-acronym>
+  <sub-class-of type="image/x-generic"/>
+  <generic-icon name="image-x-generic"/>
+  <glob pattern="*.gvr"/>
+</mime-type>

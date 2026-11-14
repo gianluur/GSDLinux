@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blocking I/O with threads &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Trio integration" href="trio.html" />
+    <link rel="prev" title="Blocking I/O" href="blocking.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="core.html">Core API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_msgs.html">Common messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auth.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fds.html">File descriptor support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blocking.html">Blocking I/O</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Blocking I/O with threads</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.io.threading.open_dbus_router"><code class="docutils literal notranslate"><span class="pre">open_dbus_router()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.io.threading.DBusRouter"><code class="docutils literal notranslate"><span class="pre">DBusRouter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.io.threading.DBusRouter.send"><code class="docutils literal notranslate"><span class="pre">DBusRouter.send()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.io.threading.DBusRouter.send_and_get_reply"><code class="docutils literal notranslate"><span class="pre">DBusRouter.send_and_get_reply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.io.threading.DBusRouter.filter"><code class="docutils literal notranslate"><span class="pre">DBusRouter.filter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.io.threading.DBusRouter.close"><code class="docutils literal notranslate"><span class="pre">DBusRouter.close()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.io.threading.Proxy"><code class="docutils literal notranslate"><span class="pre">Proxy</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.io.threading.open_dbus_connection"><code class="docutils literal notranslate"><span class="pre">open_dbus_connection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.io.threading.DBusConnection"><code class="docutils literal notranslate"><span class="pre">DBusConnection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.io.threading.DBusConnection.send"><code class="docutils literal notranslate"><span class="pre">DBusConnection.send()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.io.threading.DBusConnection.receive"><code class="docutils literal notranslate"><span class="pre">DBusConnection.receive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.io.threading.DBusConnection.close"><code class="docutils literal notranslate"><span class="pre">DBusConnection.close()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="trio.html">Trio integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="asyncio.html">Asyncio integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io_exceptions.html">I/O Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API reference</a></li>
+      <li class="breadcrumb-item active">Blocking I/O with threads</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/threading.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="blocking-i-o-with-threads">
+<h1>Blocking I/O with threads<a class="headerlink" href="#blocking-i-o-with-threads" title="Link to this heading"></a></h1>
+<p>This allows using a D-Bus connection from multiple threads.
+The router also launches a separate thread to receive incoming messages.
+See <a class="reference internal" href="../integrate.html#connections-and-routers"><span class="std std-ref">Connections and Routers</span></a> for more about the two interfaces.</p>
+<dl class="py function" id="module-jeepney.io.threading">
+<dt class="sig sig-object py" id="jeepney.io.threading.open_dbus_router">
+<span class="sig-prename descclassname"><span class="pre">jeepney.io.threading.</span></span><span class="sig-name descname"><span class="pre">open_dbus_router</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SESSION'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_fds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/io/threading.html#open_dbus_router"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.io.threading.open_dbus_router" title="Link to this definition"></a></dt>
+<dd><p>Open a D-Bus ‘router’ to send and receive messages.</p>
+<p>Use as a context manager:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">open_dbus_router</span><span class="p">()</span> <span class="k">as</span> <span class="n">router</span><span class="p">:</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>On leaving the <code class="docutils literal notranslate"><span class="pre">with</span></code> block, the connection will be closed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bus</strong> (<em>str</em>) – ‘SESSION’ or ‘SYSTEM’ or a supported address.</p></li>
+<li><p><strong>enable_fds</strong> (<em>bool</em>) – Whether to enable passing file descriptors.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#jeepney.io.threading.DBusRouter" title="jeepney.io.threading.DBusRouter"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBusRouter</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.io.threading.DBusRouter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.io.threading.</span></span><span class="sig-name descname"><span class="pre">DBusRouter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#jeepney.io.threading.DBusConnection" title="jeepney.io.threading.DBusConnection"><span class="pre">DBusConnection</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/io/threading.html#DBusRouter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.io.threading.DBusRouter" title="Link to this definition"></a></dt>
+<dd><p>A client D-Bus connection which can wait for replies.</p>
+<p>This runs a separate receiver thread and dispatches received messages.</p>
+<p>It’s possible to wrap a <a class="reference internal" href="#jeepney.io.threading.DBusConnection" title="jeepney.io.threading.DBusConnection"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBusConnection</span></code></a> in a router temporarily.
+Using the connection directly while it is wrapped is not supported,
+but you can use it again after the router is closed.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.io.threading.DBusRouter.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">serial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/io/threading.html#DBusRouter.send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.io.threading.DBusRouter.send" title="Link to this definition"></a></dt>
+<dd><p>Serialise and send a <a class="reference internal" href="core.html#jeepney.Message" title="jeepney.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.io.threading.DBusRouter.send_and_get_reply">
+<span class="sig-name descname"><span class="pre">send_and_get_reply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#jeepney.Message" title="jeepney.low_level.Message"><span class="pre">Message</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="core.html#jeepney.Message" title="jeepney.low_level.Message"><span class="pre">Message</span></a></span></span><a class="reference internal" href="../_modules/jeepney/io/threading.html#DBusRouter.send_and_get_reply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.io.threading.DBusRouter.send_and_get_reply" title="Link to this definition"></a></dt>
+<dd><p>Send a method call message, wait for and return a reply</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.io.threading.DBusRouter.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rule</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Queue</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bufsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/io/threading.html#DBusRouter.filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.io.threading.DBusRouter.filter" title="Link to this definition"></a></dt>
+<dd><p>Create a filter for incoming messages</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">router</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span> <span class="k">as</span> <span class="n">queue</span><span class="p">:</span>
+    <span class="n">matching_msg</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<a class="reference internal" href="core.html#jeepney.MatchRule" title="jeepney.MatchRule"><em>jeepney.MatchRule</em></a>) – Catch messages matching this rule</p></li>
+<li><p><strong>queue</strong> (<em>queue.Queue</em>) – Matched messages will be added to this</p></li>
+<li><p><strong>bufsize</strong> (<em>int</em>) – If no queue is passed in, create one with this size</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.io.threading.DBusRouter.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/io/threading.html#DBusRouter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.io.threading.DBusRouter.close" title="Link to this definition"></a></dt>
+<dd><p>Close this router</p>
+<p>This does not close the underlying connection.</p>
+<p>Leaving the <code class="docutils literal notranslate"><span class="pre">with</span></code> block will also close the router.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.io.threading.Proxy">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.io.threading.</span></span><span class="sig-name descname"><span class="pre">Proxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msggen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">router</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/io/threading.html#Proxy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.io.threading.Proxy" title="Link to this definition"></a></dt>
+<dd><p>A blocking proxy for calling D-Bus methods via a <a class="reference internal" href="#jeepney.io.threading.DBusRouter" title="jeepney.io.threading.DBusRouter"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBusRouter</span></code></a>.</p>
+<p>You can call methods on the proxy object, such as <code class="docutils literal notranslate"><span class="pre">bus_proxy.Hello()</span></code>
+to make a method call over D-Bus and wait for a reply. It will either
+return a tuple of returned data, or raise <a class="reference internal" href="core.html#jeepney.DBusErrorResponse" title="jeepney.DBusErrorResponse"><code class="xref py py-exc docutils literal notranslate"><span class="pre">DBusErrorResponse</span></code></a>.
+The methods available are defined by the message generator you wrap.</p>
+<p>You can set a time limit on a call by passing <code class="docutils literal notranslate"><span class="pre">_timeout=</span></code> in the method
+call, or set a default when creating the proxy. The <code class="docutils literal notranslate"><span class="pre">_timeout</span></code> argument
+is not passed to the message generator.
+All timeouts are in seconds, and <code class="xref py py-exc docutils literal notranslate"><span class="pre">TimeoutErrror</span></code> is raised if it
+expires before a reply arrives.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>msggen</strong> – A message generator object</p></li>
+<li><p><strong>router</strong> (<a class="reference internal" href="#jeepney.io.threading.DBusRouter" title="jeepney.io.threading.DBusRouter"><em>DBusRouter</em></a>) – Router to send and receive messages</p></li>
+<li><p><strong>timeout</strong> (<em>float</em>) – Default seconds to wait for a reply, or None for no limit</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../integrate.html#msggen-proxies"><span class="std std-ref">Message generators and proxies</span></a></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jeepney.io.threading.open_dbus_connection">
+<span class="sig-prename descclassname"><span class="pre">jeepney.io.threading.</span></span><span class="sig-name descname"><span class="pre">open_dbus_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SESSION'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_fds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/io/threading.html#open_dbus_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.io.threading.open_dbus_connection" title="Link to this definition"></a></dt>
+<dd><p>Open a plain D-Bus connection</p>
+<p>D-Bus has an authentication step before sending or receiving messages.
+This takes &lt; 1 ms in normal operation, but there is a timeout so that client
+code won’t get stuck if the server doesn’t reply. <em>auth_timeout</em> configures
+this timeout in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#jeepney.io.threading.DBusConnection" title="jeepney.io.threading.DBusConnection"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBusConnection</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.io.threading.DBusConnection">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.io.threading.</span></span><span class="sig-name descname"><span class="pre">DBusConnection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sock</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">socket</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_fds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/io/threading.html#DBusConnection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.io.threading.DBusConnection" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="jeepney.io.threading.DBusConnection.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#jeepney.Message" title="jeepney.low_level.Message"><span class="pre">Message</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">serial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/io/threading.html#DBusConnection.send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.io.threading.DBusConnection.send" title="Link to this definition"></a></dt>
+<dd><p>Serialise and send a <a class="reference internal" href="core.html#jeepney.Message" title="jeepney.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.io.threading.DBusConnection.receive">
+<span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="core.html#jeepney.Message" title="jeepney.low_level.Message"><span class="pre">Message</span></a></span></span><a class="reference internal" href="../_modules/jeepney/io/threading.html#DBusConnection.receive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.io.threading.DBusConnection.receive" title="Link to this definition"></a></dt>
+<dd><p>Return the next available message from the connection</p>
+<p>If the data is ready, this will return immediately, even if timeout&lt;=0.
+Otherwise, it will wait for up to timeout seconds, or indefinitely if
+timeout is None. If no message comes in time, it raises TimeoutError.</p>
+<p>If the connection is closed from another thread, this will raise
+ReceiveStopped.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.io.threading.DBusConnection.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/io/threading.html#DBusConnection.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.io.threading.DBusConnection.close" title="Link to this definition"></a></dt>
+<dd><p>Close the connection</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="blocking.html" class="btn btn-neutral float-left" title="Blocking I/O" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="trio.html" class="btn btn-neutral float-right" title="Trio integration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

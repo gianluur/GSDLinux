@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-kcsrc">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>KDE color scheme</comment>
+  <comment xml:lang="ar">مخطط ألوان كِيدِي</comment>
+  <comment xml:lang="ast">Esquema de colores de KDE</comment>
+  <comment xml:lang="az">KDE rəng sxemi</comment>
+  <comment xml:lang="be">Колеравая схема KDE</comment>
+  <comment xml:lang="be@latin">Kolieravaja schiema KDE</comment>
+  <comment xml:lang="bg">Цветова схема на KDE</comment>
+  <comment xml:lang="bs">KDE šema boja</comment>
+  <comment xml:lang="ca">Esquema de color del KDE</comment>
+  <comment xml:lang="ca@valencia">Esquema de color de KDE</comment>
+  <comment xml:lang="cs">Barevné schéma KDE</comment>
+  <comment xml:lang="cy">Cynllun lliw KDE</comment>
+  <comment xml:lang="da">KDE farvetema</comment>
+  <comment xml:lang="de">KDE-Farbschema</comment>
+  <comment xml:lang="el">Θέμα χρωμάτων KDE</comment>
+  <comment xml:lang="en_GB">KDE colour scheme</comment>
+  <comment xml:lang="eo">KDE-kolorskemo</comment>
+  <comment xml:lang="es">Esquema de color de KDE</comment>
+  <comment xml:lang="eu">KDE-ren kolore antolaera</comment>
+  <comment xml:lang="fa">طرح رنگ کی‌دی‌ای</comment>
+  <comment xml:lang="fi">KDE-värimalli</comment>
+  <comment xml:lang="fr">Schéma de couleurs de KDE</comment>
+  <comment xml:lang="ga">Téama dathanna de chuid KDE</comment>
+  <comment xml:lang="gl">Esquema de cores de KDE</comment>
+  <comment xml:lang="gu">KDEનો રંગ ઢંગ</comment>
+  <comment xml:lang="he">ערכת צבעים של KDE</comment>
+  <comment xml:lang="hi">केडीई रंग योजना</comment>
+  <comment xml:lang="hr">KDE-ova paleta boja</comment>
+  <comment xml:lang="hu">KDE-színséma</comment>
+  <comment xml:lang="ia">Schema de color KDE</comment>
+  <comment xml:lang="id">Skema warna KDE</comment>
+  <comment xml:lang="ie">schema de colores de KDE</comment>
+  <comment xml:lang="is">KDE litastef</comment>
+  <comment xml:lang="it">Schema di colori di KDE</comment>
+  <comment xml:lang="ja">KDE カラースキーム</comment>
+  <comment xml:lang="ka">KDE -ის ფერის სქემა</comment>
+  <comment xml:lang="ko">KDE 색 구성표</comment>
+  <comment xml:lang="lg">Lulyo lwa langi KDE z'ekozesa</comment>
+  <comment xml:lang="lt">KDE spalvų rinkinys</comment>
+  <comment xml:lang="lv">KDE krāsu shēma</comment>
+  <comment xml:lang="ml">കെഡിഇ നിറക്കൂട്ട്</comment>
+  <comment xml:lang="my">ကေဒီအီအရောင် အစီအစဥ်ပုံ</comment>
+  <comment xml:lang="nan_TW">KDE 配色方案</comment>
+  <comment xml:lang="nan_TW@latin">KDE phuè-sik hong-àn</comment>
+  <comment xml:lang="nb">KDE-fargetema</comment>
+  <comment xml:lang="nl">KDE-kleurenschema</comment>
+  <comment xml:lang="nn">KDE-fargetema</comment>
+  <comment xml:lang="pa">KDE ਰੰਗ ਸਕੀਮ</comment>
+  <comment xml:lang="pl">Zestaw kolorów KDE</comment>
+  <comment xml:lang="pt">Esquema de cores do KDE</comment>
+  <comment xml:lang="pt_BR">esquema de cores do KDE</comment>
+  <comment xml:lang="ro">schemă de culori KDE</comment>
+  <comment xml:lang="ru">Цветовая схема KDE</comment>
+  <comment xml:lang="sa">KDE रङ्ग योजना</comment>
+  <comment xml:lang="sk">Farebná schéma prostredia KDE</comment>
+  <comment xml:lang="sl">Barvna shema KDE</comment>
+  <comment xml:lang="sq">Skemë ngjyrash KDE</comment>
+  <comment xml:lang="sv">KDE-färgschema</comment>
+  <comment xml:lang="ta">கே.டீ.யீ. நிறத் திட்டம்</comment>
+  <comment xml:lang="th">ชุดสีของ KDE</comment>
+  <comment xml:lang="tok">poki kule KDE</comment>
+  <comment xml:lang="tr">KDE renk şeması</comment>
+  <comment xml:lang="ug">KDE رەڭ لايىھەسى</comment>
+  <comment xml:lang="uk">схема кольорів KDE</comment>
+  <comment xml:lang="vi">quy hoạch màu KDE</comment>
+  <comment xml:lang="zh_CN">KDE 配色方案</comment>
+  <comment xml:lang="zh_TW">KDE 配色</comment>
+  <acronym>KDE</acronym>
+  <expanded-acronym>K Desktop Environment</expanded-acronym>
+  <glob pattern="*.kcsrc"/>
+</mime-type>

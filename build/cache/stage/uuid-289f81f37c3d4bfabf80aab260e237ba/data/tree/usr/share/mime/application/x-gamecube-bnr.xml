@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-gamecube-bnr">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>GameCube banner image</comment>
+  <sub-class-of type="image/x-generic"/>
+  <generic-icon name="image-x-generic"/>
+  <glob pattern="*.bnr"/>
+</mime-type>

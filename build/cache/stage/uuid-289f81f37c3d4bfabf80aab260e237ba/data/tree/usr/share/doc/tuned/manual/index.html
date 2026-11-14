@@ -1,0 +1,4285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.26">
+<meta name="keywords" content="documentation, tuned, performance, power, linux">
+<title>TuneD documentation: Optimizing system throughput, latency, and power consumption</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock pre>code{display:block}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body id="{tuned-documentation}" class="article">
+<div id="header">
+<h1>TuneD documentation: Optimizing system throughput, latency, and power consumption</h1>
+<div class="details">
+<span id="revnumber">version 2.28.0,</span>
+<span id="revdate">2026-09-10</span>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#getting-started-with-tuned_tuned-documentation">Getting started with TuneD</a>
+<ul class="sectlevel2">
+<li><a href="#the-purpose-of-tuned_getting-started-with-tuned">The purpose of TuneD</a></li>
+<li><a href="#tuned-profiles_getting-started-with-tuned">TuneD profiles</a></li>
+<li><a href="#the-default-tuned-profile_getting-started-with-tuned">The default TuneD profile</a></li>
+<li><a href="#tuned-profiles-distributed-with-rhel_getting-started-with-tuned">TuneD profiles distributed with RHEL</a></li>
+<li><a href="#real-time-tuned-profiles-distributed-with-rhel_getting-started-with-tuned">Real-time TuneD profiles distributed with RHEL</a></li>
+<li><a href="#merged-tuned-profiles_getting-started-with-tuned">Merged TuneD profiles</a></li>
+<li><a href="#static-and-dynamic-tuning-in-tuned_getting-started-with-tuned">Static and dynamic tuning in TuneD</a></li>
+<li><a href="#tuned-no-daemon-mode_getting-started-with-tuned">TuneD no-daemon mode</a></li>
+<li><a href="#installing-and-enabling-tuned_getting-started-with-tuned">Installing and enabling TuneD</a></li>
+<li><a href="#listing-available-tuned-profiles_getting-started-with-tuned">Listing available TuneD profiles</a></li>
+<li><a href="#setting-a-tuned-profile_getting-started-with-tuned">Setting a TuneD profile</a></li>
+<li><a href="#disabling-tuned_getting-started-with-tuned">Disabling TuneD</a></li>
+<li><a href="#related-information-getting-started-with-tuned">Related information</a></li>
+</ul>
+</li>
+<li><a href="#customizing-tuned-profiles_tuned-documentation">Customizing TuneD profiles</a>
+<ul class="sectlevel2">
+<li><a href="#the-location-of-tuned-profiles_customizing-tuned-profiles">The location of TuneD profiles</a></li>
+<li><a href="#syntax-of-profile-configuration_customizing-tuned-profiles">Syntax of profile configuration</a></li>
+<li><a href="#inheritance-between-tuned-profiles_customizing-tuned-profiles">Inheritance between TuneD profiles</a></li>
+<li><a href="#tuned-plug-ins_customizing-tuned-profiles">TuneD plug-ins</a></li>
+<li><a href="#available-tuned-plug-ins_customizing-tuned-profiles">Available TuneD plug-ins</a></li>
+<li><a href="#variables-in-tuned-profiles_customizing-tuned-profiles">Variables in TuneD profiles</a></li>
+<li><a href="#built-in-functions-in-tuned-profiles_customizing-tuned-profiles">Built-in functions in TuneD profiles</a></li>
+<li><a href="#built-in-functions-available-in-tuned-profiles_customizing-tuned-profiles">Built-in functions available in TuneD profiles</a></li>
+<li><a href="#creating-new-tuned-profiles_customizing-tuned-profiles">Creating new TuneD profiles</a></li>
+<li><a href="#modifying-existing-tuned-profiles_customizing-tuned-profiles">Modifying existing TuneD profiles</a></li>
+<li><a href="#setting-the-disk-scheduler-using-tuned_customizing-tuned-profiles">Setting the disk scheduler using TuneD</a></li>
+<li><a href="#related-information-customizing-tuned-profiles">Related information</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This documentation explains how to use the <strong>TuneD</strong> application to monitor and optimize the throughput, latency, and power consumption of your system in different scenarios.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getting-started-with-tuned_tuned-documentation">Getting started with TuneD</h2>
+<div class="sectionbody">
+<div class="paragraph _abstract">
+<p>As a system administrator, you can use the <strong>TuneD</strong> application to optimize the performance profile of your system for a variety of use cases.</p>
+</div>
+<div class="sect2">
+<h3 id="the-purpose-of-tuned_getting-started-with-tuned">The purpose of TuneD</h3>
+<div class="paragraph _abstract">
+<p><strong>TuneD</strong> is a service that monitors your system and optimizes the performance under certain workloads. The core of <strong>TuneD</strong> are <em>profiles</em>, which tune your system for different use cases.</p>
+</div>
+<div class="paragraph">
+<p><strong>TuneD</strong> is distributed with a number of predefined profiles for use cases such as:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>High throughput</p>
+</li>
+<li>
+<p>Low latency</p>
+</li>
+<li>
+<p>Saving power</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It is possible to modify the rules defined for each profile and customize how to tune a particular device. When you switch to another profile or deactivate <strong>TuneD</strong>, all changes made to the system settings by the previous profile revert back to their original state.</p>
+</div>
+<div class="paragraph">
+<p>You can also configure <strong>TuneD</strong> to react to changes in device usage and adjusts settings to improve performance of active devices and reduce power consumption of inactive devices.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tuned-profiles_getting-started-with-tuned">TuneD profiles</h3>
+<div class="paragraph _abstract">
+<p>A detailed analysis of a system can be very time-consuming. <strong>TuneD</strong> provides a number of predefined profiles for typical use cases. You can also create, modify, and delete profiles.</p>
+</div>
+<div class="paragraph">
+<p>The profiles provided with <strong>TuneD</strong> are divided into the following categories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Power-saving profiles</p>
+</li>
+<li>
+<p>Performance-boosting profiles</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The performance-boosting profiles include profiles that focus on the following aspects:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Low latency for storage and network</p>
+</li>
+<li>
+<p>High throughput for storage and network</p>
+</li>
+<li>
+<p>Virtual machine performance</p>
+</li>
+<li>
+<p>Virtualization host performance</p>
+</li>
+</ul>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned.conf(5)</code> man page.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="the-default-tuned-profile_getting-started-with-tuned">The default TuneD profile</h3>
+<div class="paragraph _abstract">
+<p>During the installation, the best profile for your system is selected automatically. Currently, the default profile is selected according to the following customizable rules:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 28.5714%;">
+<col style="width: 28.5714%;">
+<col style="width: 42.8572%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Environment</th>
+<th class="tableblock halign-left valign-top">Default profile</th>
+<th class="tableblock halign-left valign-top">Goal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compute nodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>throughput-performance</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The best throughput performance</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Virtual machines</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>virtual-guest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The best performance. If you are not interested in the best performance, you can change it to the <code>balanced</code> or <code>powersave</code> profile.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Other cases</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>balanced</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Balanced performance and power consumption</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned.conf(5)</code> man page.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tuned-profiles-distributed-with-rhel_getting-started-with-tuned">TuneD profiles distributed with RHEL</h3>
+<div class="paragraph _abstract">
+<p>The following is a list of profiles that are installed with <strong>TuneD</strong> on Red&#160;Hat Enterprise&#160;Linux.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+There might be more product-specific or third-party <strong>TuneD</strong> profiles available. Such profiles are usually provided by separate RPM packages.
+</td>
+</tr>
+</table>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>balanced</code></dt>
+<dd>
+<p>The default power-saving profile. It is intended to be a compromise between performance and power consumption. It uses auto-scaling and auto-tuning whenever possible. The only drawback is the increased latency. In the current <strong>TuneD</strong> release, it enables the CPU, disk, audio, and video plugins, and activates the <code>conservative</code> CPU governor. The <code>radeon_powersave</code> option uses the <code>dpm-balanced</code> value if it is supported, otherwise it is set to <code>auto</code>.</p>
+<div class="paragraph">
+<p>It changes the <code>energy_performance_preference</code> attribute to the <code>normal</code> energy setting. It also changes the <code>scaling_governor</code> policy attribute to either the <code>conservative</code> or <code>powersave</code> CPU governor.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>powersave</code></dt>
+<dd>
+<p>A profile for maximum power saving performance. It can throttle the performance in order to minimize the actual power consumption. In the current <strong>TuneD</strong> release it enables USB autosuspend, WiFi power saving, and Aggressive Link Power Management (ALPM) power savings for SATA host adapters. It also schedules multi-core power savings for systems with a low wakeup rate and activates the <code>ondemand</code> governor. It enables AC97 audio power saving or, depending on your system, HDA-Intel power savings with a 10 seconds timeout. If your system contains a supported Radeon graphics card with enabled KMS, the profile configures it to automatic power saving. On ASUS Eee PCs, a dynamic Super Hybrid Engine is enabled.</p>
+<div class="paragraph">
+<p>It changes the <code>energy_performance_preference</code> attribute to the <code>powersave</code> or <code>power</code> energy setting. It also changes the <code>scaling_governor</code> policy attribute to either the <code>ondemand</code> or <code>powersave</code> CPU governor.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In certain cases, the <code>balanced</code> profile is more efficient compared to the <code>powersave</code> profile.</p>
+</div>
+<div class="paragraph">
+<p>Consider there is a defined amount of work that needs to be done, for example a video file that needs to be transcoded. Your machine might consume less energy if the transcoding is done on the full power, because the task is finished quickly, the machine starts to idle, and it can automatically step-down to very efficient power save modes. On the other hand, if you transcode the file with a throttled machine, the machine consumes less power during the transcoding, but the process takes longer and the overall consumed energy can be higher.</p>
+</div>
+<div class="paragraph">
+<p>That is why the <code>balanced</code> profile can be generally a better option.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</dd>
+<dt class="hdlist1"><code>throughput-performance</code></dt>
+<dd>
+<p>A server profile optimized for high throughput. It disables power savings mechanisms and enables <code>sysctl</code> settings that improve the throughput performance of the disk and network IO. CPU governor is set to <code>performance</code>.</p>
+<div class="paragraph">
+<p>It changes the <code>energy_performance_preference</code> and <code>scaling_governor</code> attribute to the <code>performance</code> profile.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>accelerator-performance</code></dt>
+<dd>
+<p>The <code>accelerator-performance</code> profile contains the same tuning as the <code>throughput-performance</code> profile. Additionally, it locks the CPU to low C states so that the latency is less than 100us. This improves the performance of certain accelerators, such as GPUs.</p>
+</dd>
+<dt class="hdlist1"><code>latency-performance</code></dt>
+<dd>
+<p>A server profile optimized for low latency. It disables power savings mechanisms and enables <code>sysctl</code> settings that improve latency. CPU governor is set to <code>performance</code> and the CPU is locked to the low C states (by PM QoS).</p>
+<div class="paragraph">
+<p>It changes the <code>energy_performance_preference</code> and <code>scaling_governor</code> attribute to the <code>performance</code> profile.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>network-latency</code></dt>
+<dd>
+<p>A profile for low latency network tuning. It is based on the <code>latency-performance</code> profile. It additionally disables transparent huge pages and NUMA balancing, and tunes several other network-related <code>sysctl</code> parameters.</p>
+<div class="paragraph">
+<p>It inherits the <code>latency-performance</code> profile which changes the <code>energy_performance_preference</code> and <code>scaling_governor</code> attribute to the <code>performance</code> profile.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>hpc-compute</code></dt>
+<dd>
+<p>A profile optimized for high-performance computing. It is based on the <code>latency-performance</code> profile.</p>
+</dd>
+<dt class="hdlist1"><code>network-throughput</code></dt>
+<dd>
+<p>A profile for throughput network tuning. It is based on the <code>throughput-performance</code> profile. It additionally increases kernel network buffers.</p>
+<div class="paragraph">
+<p>It inherits either the <code>latency-performance</code> or <code>throughput-performance</code> profile, and changes the <code>energy_performance_preference</code> and <code>scaling_governor</code> attribute to the <code>performance</code> profile.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>virtual-guest</code></dt>
+<dd>
+<p>A profile designed for virtual guests based on the <code>throughput-performance</code> profile that, among other tasks, decreases virtual memory swappiness and increases disk readahead values. It does not disable disk barriers.</p>
+<div class="paragraph">
+<p>It inherits the <code>throughput-performance</code> profile and changes the <code>energy_performance_preference</code> and <code>scaling_governor</code> attribute to the <code>performance</code> profile.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>virtual-host</code></dt>
+<dd>
+<p>A profile designed for virtual hosts based on the <code>throughput-performance</code> profile that, among other tasks, decreases virtual memory swappiness, increases disk readahead values, and enables a more aggressive value of dirty pages writeback.</p>
+<div class="paragraph">
+<p>It inherits the <code>throughput-performance</code> profile and changes the <code>energy_performance_preference</code> and <code>scaling_governor</code> attribute to the <code>performance</code> profile.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>oracle</code></dt>
+<dd>
+<p>A profile optimized for Oracle databases loads based on <code>throughput-performance</code> profile. It additionally disables transparent huge pages and modifies other performance-related kernel parameters. This profile is provided by the <code class="package">tuned-profiles-oracle</code> package.</p>
+</dd>
+<dt class="hdlist1"><code>desktop</code></dt>
+<dd>
+<p>A profile optimized for desktops, based on the <code>balanced</code> profile. It additionally enables scheduler autogroups for better response of interactive applications.</p>
+</dd>
+<dt class="hdlist1"><code>cpu-partitioning</code></dt>
+<dd>
+<p>The <code>cpu-partitioning</code> profile partitions the system CPUs into isolated and housekeeping CPUs. To reduce jitter and interruptions on an isolated CPU, the profile clears the isolated CPU from user-space processes, movable kernel threads, interrupt handlers, and kernel timers.</p>
+<div class="paragraph">
+<p>A housekeeping CPU can run all services, shell processes, and kernel threads.</p>
+</div>
+<div class="paragraph">
+<p>You can configure the <code>cpu-partitioning</code> profile in <code>/etc/tuned/cpu-partitioning-variables.conf</code> file. The configuration options are:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>isolated_cores=<em>cpu-list</em></code></dt>
+<dd>
+<p>Lists CPUs to isolate. The list of isolated CPUs is comma-separated or the user can specify the range. You can specify a range using a dash, such as <code>3-5</code>. This option is mandatory. Any CPU missing from this list is automatically considered a housekeeping CPU.</p>
+</dd>
+<dt class="hdlist1"><code>no_balance_cores=<em>cpu-list</em></code></dt>
+<dd>
+<p>Lists CPUs which are not considered by the kernel during system wide process load-balancing. This option is optional. This is usually the same list as <code>isolated_cores</code>.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>For more information on <code>cpu-partitioning</code>, see the <code>tuned-profiles-cpu-partitioning(7)</code> man page.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>optimize-serial-console</code></dt>
+<dd>
+<p>A profile that tunes down I/O activity to the serial console by reducing the
+printk value. This should make the serial console more responsive.
+This profile is intended to be used as an overlay on other
+profiles. For example:</p>
+<div class="listingblock">
+<div class="content">
+<pre># tuned-adm profile throughput-performance optimize-serial-console</pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>mssql</code></dt>
+<dd>
+<p>A profile provided for Microsoft SQL Server. It is based on the <code>thoguhput-performance</code> profile.</p>
+</dd>
+<dt class="hdlist1"><code>postgresql</code></dt>
+<dd>
+<p>A profile optimized for PostgreSQL databases loads based on <code>throughput-performance</code> profile. It additionally disables transparent huge pages and modifies other performance-related kernel parameters. This profile is provided by the <code class="package">tuned-profiles-postgresql</code> package.</p>
+</dd>
+<dt class="hdlist1"><code>intel-sst</code></dt>
+<dd>
+<p>A profile optimized for systems with user-defined Intel Speed Select Technology configurations. This profile is intended to be used as an overlay on other profiles. For example:</p>
+<div class="listingblock">
+<div class="content">
+<pre># tuned-adm profile cpu-partitioning intel-sst</pre>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="real-time-tuned-profiles-distributed-with-rhel_getting-started-with-tuned">Real-time TuneD profiles distributed with RHEL</h3>
+<div class="paragraph _abstract">
+<p>Real-time profiles are intended for systems running the real-time kernel. Without a special kernel build, they do not configure the system to be real-time. On RHEL, the profiles are available from additional repositories.</p>
+</div>
+<div class="paragraph">
+<p>The following real-time profiles are available:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>realtime</code></dt>
+<dd>
+<p>Use on bare-metal real-time systems.</p>
+<div class="paragraph">
+<p>Provided by the <code class="package">tuned-profiles-realtime</code> package, which is available from the RT or NFV repositories.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>realtime-virtual-host</code></dt>
+<dd>
+<p>Use in a virtualization host configured for real-time.</p>
+<div class="paragraph">
+<p>Provided by the <code class="package">tuned-profiles-nfv-host</code> package, which is available from the NFV repository.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>realtime-virtual-guest</code></dt>
+<dd>
+<p>Use in a virtualization guest configured for real-time.</p>
+<div class="paragraph">
+<p>Provided by the <code class="package">tuned-profiles-nfv-guest</code> package, which is available from the NFV repository.</p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="merged-tuned-profiles_getting-started-with-tuned">Merged TuneD profiles</h3>
+<div class="paragraph _abstract">
+<p>As an experimental feature, it is possible to select more profiles at once. <strong>TuneD</strong> will try to merge them during the load.</p>
+</div>
+<div class="paragraph">
+<p>If there are conflicts, the settings from the last specified profile take precedence.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Low power consumption in a virtual guest</div>
+<div class="content">
+<div class="paragraph">
+<p>The following example optimizes the system to run in a virtual machine for the best performance and concurrently tunes it for low power consumption, while the low power consumption is the priority:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># tuned-adm profile virtual-guest powersave</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+Merging is done automatically without checking whether the resulting combination of parameters makes sense. Consequently, the feature might tune some parameters the opposite way, which might be counterproductive: for example, setting the disk for high throughput by using the <code>throughput-performance</code> profile and concurrently setting the disk spindown to the low value by the <code>spindown-disk</code> profile.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned.conf(5)</code> man page.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="static-and-dynamic-tuning-in-tuned_getting-started-with-tuned">Static and dynamic tuning in TuneD</h3>
+<div class="paragraph _abstract">
+<p>This section explains the difference between the two categories of system tuning that <strong>TuneD</strong> applies: <em>static</em> and <em>dynamic</em>.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Static tuning</dt>
+<dd>
+<p>Mainly consists of the application of predefined <code>sysctl</code> and <code>sysfs</code> settings and one-shot activation of several configuration tools such as <code>ethtool</code>.</p>
+</dd>
+<dt class="hdlist1">Dynamic tuning</dt>
+<dd>
+<p>Watches how various system components are used throughout the uptime of your system. <strong>TuneD</strong> adjusts system settings dynamically based on that monitoring information.</p>
+<div class="paragraph">
+<p>For example, the hard drive is used heavily during startup and login, but is barely used later when the user might mainly work with applications such as web browsers or email clients. Similarly, the CPU and network devices are used differently at different times. <strong>TuneD</strong> monitors the activity of these components and reacts to the changes in their use.</p>
+</div>
+<div class="paragraph">
+<p>By default, dynamic tuning is disabled. To enable it, edit the <code class="filename">/etc/tuned/tuned-main.conf</code> file and change the <code class="option">dynamic_tuning</code> option to <code>1</code>. <strong>TuneD</strong> then periodically analyzes system statistics and uses them to update your system tuning settings. To configure the time interval in seconds between these updates, use the <code class="option">update_interval</code> option.</p>
+</div>
+<div class="paragraph">
+<p>Currently implemented dynamic tuning algorithms try to balance the performance and powersave, and are therefore disabled in the performance profiles. Dynamic tuning for individual plug-ins can be enabled or disabled in the <strong>TuneD</strong> profiles.</p>
+</div>
+</dd>
+</dl>
+</div>
+<div class="exampleblock">
+<div class="title">Example 2. Static and dynamic tuning on a workstation</div>
+<div class="content">
+<div class="paragraph">
+<p>On a typical office workstation, the Ethernet network interface is inactive most of the time. Only a few emails go in and out or some web pages might be loaded.</p>
+</div>
+<div class="paragraph">
+<p>For those kinds of loads, the network interface does not have to run at full speed all the time, as it does by default. <strong>TuneD</strong> has a monitoring and tuning plug-in for network devices that can detect this low activity and then automatically lower the speed of that interface, typically resulting in a lower power usage.</p>
+</div>
+<div class="paragraph">
+<p>If the activity on the interface increases for a longer period of time, for example because a DVD image is being downloaded or an email with a large attachment is opened, <strong>TuneD</strong> detects this and sets the interface speed to maximum to offer the best performance while the activity level is high.</p>
+</div>
+<div class="paragraph">
+<p>This principle is used for other plug-ins for CPU and disks as well.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tuned-no-daemon-mode_getting-started-with-tuned">TuneD no-daemon mode</h3>
+<div class="paragraph _abstract">
+<p>You can run <strong>TuneD</strong> in <code>no-daemon</code> mode, which does not require any resident memory. In this mode, <strong>TuneD</strong> applies the settings and exits.</p>
+</div>
+<div class="paragraph">
+<p>By default, <code>no-daemon</code> mode is disabled because a lot of <strong>TuneD</strong> functionality is missing in this mode, including:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>D-Bus support</p>
+</li>
+<li>
+<p>Hot-plug support</p>
+</li>
+<li>
+<p>Rollback support for settings</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To enable <code>no-daemon</code> mode, include the following line in the <code class="filename">/etc/tuned/tuned-main.conf</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>daemon = 0</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="installing-and-enabling-tuned_getting-started-with-tuned">Installing and enabling TuneD</h3>
+<div class="paragraph _abstract">
+<p>This procedure installs and enables the <strong>TuneD</strong> application, installs <strong>TuneD</strong> profiles, and presets a default <strong>TuneD</strong> profile for your system.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>Install the <code class="package">tuned</code> package:</p>
+<div class="listingblock">
+<div class="content">
+<pre># dnf install tuned</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Enable and start the <code>tuned</code> service:</p>
+<div class="listingblock">
+<div class="content">
+<pre># systemctl enable --now tuned</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Optionally, install <strong>TuneD</strong> profiles for real-time systems:</p>
+<div class="listingblock">
+<div class="content">
+<pre># dnf install tuned-profiles-realtime tuned-profiles-nfv</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Verify that a <strong>TuneD</strong> profile is active and applied:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ tuned-adm active
+
+Current active profile: <em class="replaceable">balanced</em></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ tuned-adm verify
+
+Verification succeeded, current system settings match the preset profile.
+See TuneD log file ('/var/log/tuned/tuned.log') for details.</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="listing-available-tuned-profiles_getting-started-with-tuned">Listing available TuneD profiles</h3>
+<div class="paragraph _abstract">
+<p>This procedure lists all <strong>TuneD</strong> profiles that are currently available on your system.</p>
+</div>
+<div class="ulist">
+<div class="title">Procedure</div>
+<ul>
+<li>
+<p>To list all available <strong>TuneD</strong> profiles on your system, use:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ <strong>tuned-adm list</strong>
+
+Available profiles:
+- balanced               - General non-specialized tuned profile
+- desktop                - Optimize for the desktop use-case
+- latency-performance    - Optimize for deterministic performance at the cost of increased power consumption
+- network-latency        - Optimize for deterministic performance at the cost of increased power consumption, focused on low latency network performance
+- network-throughput     - Optimize for streaming network throughput, generally only necessary on older CPUs or 40G+ networks
+- powersave              - Optimize for low power consumption
+- throughput-performance - Broadly applicable tuning that provides excellent performance across a variety of common server workloads
+- virtual-guest          - Optimize for running inside a virtual guest
+- virtual-host           - Optimize for running KVM guests
+Current active profile: <em class="replaceable">balanced</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>To display only the currently active profile, use:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ <strong>tuned-adm active</strong>
+
+Current active profile: <em class="replaceable">balanced</em></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p>The <code>tuned-adm(8)</code> man page.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="setting-a-tuned-profile_getting-started-with-tuned">Setting a TuneD profile</h3>
+<div class="paragraph _abstract">
+<p>This procedure activates a selected <strong>TuneD</strong> profile on your system.</p>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p>The <code>tuned</code> service is running. See <a href="#installing-and-enabling-tuned_getting-started-with-tuned">Installing and Enabling Tuned</a> for details.</p>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>Optionally, you can let <strong>TuneD</strong> recommend the most suitable profile for your system:</p>
+<div class="listingblock">
+<div class="content">
+<pre># tuned-adm recommend
+
+<em class="replaceable">balanced</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Activate a profile:</p>
+<div class="listingblock">
+<div class="content">
+<pre># tuned-adm profile <em class="replaceable">selected-profile</em></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, you can activate a combination of multiple profiles:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># tuned-adm profile <em class="replaceable">profile1</em> <em class="replaceable">profile2</em></pre>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 3. A virtual machine optimized for low power consumption</div>
+<div class="content">
+<div class="paragraph">
+<p>The following example optimizes the system to run in a virtual machine with the best performance and concurrently tunes it for low power consumption, while the low power consumption is the priority:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># tuned-adm profile virtual-guest powersave</pre>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>View the current active <strong>TuneD</strong> profile on your system:</p>
+<div class="listingblock">
+<div class="content">
+<pre># tuned-adm active
+
+Current active profile: <em class="replaceable">selected-profile</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Reboot the system:</p>
+<div class="listingblock">
+<div class="content">
+<pre># reboot</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="ulist">
+<div class="title">Verification steps</div>
+<ul>
+<li>
+<p>Verify that the <strong>TuneD</strong> profile is active and applied:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ tuned-adm verify
+
+Verification succeeded, current system settings match the preset profile.
+See TuneD log file ('/var/log/tuned/tuned.log') for details.</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned-adm(8)</code> man page</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="disabling-tuned_getting-started-with-tuned">Disabling TuneD</h3>
+<div class="paragraph _abstract">
+<p>This procedure disables <strong>TuneD</strong> and resets all affected system settings to their original state before <strong>TuneD</strong> modified them.</p>
+</div>
+<div class="ulist">
+<div class="title">Procedure</div>
+<ul>
+<li>
+<p>To disable all tunings temporarily:</p>
+<div class="listingblock">
+<div class="content">
+<pre># tuned-adm off</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The tunings are applied again after the <code>tuned</code> service restarts.</p>
+</div>
+</li>
+<li>
+<p>Alternatively, to stop and disable the <code>tuned</code> service permanently:</p>
+<div class="listingblock">
+<div class="content">
+<pre># systemctl disable --now tuned</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned-adm(8)</code> man page</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="related-information-getting-started-with-tuned">Related information</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>tuned(8)</code> man page</p>
+</li>
+<li>
+<p>The <code>tuned-adm(8)</code> man page</p>
+</li>
+<li>
+<p>The <strong>TuneD</strong> project website: <a href="https://tuned-project.org/" class="bare">https://tuned-project.org/</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="customizing-tuned-profiles_tuned-documentation">Customizing TuneD profiles</h2>
+<div class="sectionbody">
+<div class="paragraph _abstract">
+<p>You can create or modify <strong>TuneD</strong> profiles to optimize system performance for your intended use case.</p>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p>Install and enable <strong>TuneD</strong> as described in <a href="#installing-and-enabling-tuned_getting-started-with-tuned">Installing and Enabling Tuned</a> for details.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="the-location-of-tuned-profiles_customizing-tuned-profiles">The location of TuneD profiles</h3>
+<div class="paragraph _abstract">
+<p><strong>TuneD</strong> stores profiles in the following directories:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code class="filename">/usr/lib/tuned/profiles</code></dt>
+<dd>
+<p>Distribution-specific profiles are stored in the <code class="filename">/usr/lib/tuned/profiles</code> directory. Each profile has its own directory. The profile consists of the main configuration file called <code>tuned.conf</code>, and optionally other files, for example helper scripts.</p>
+</dd>
+<dt class="hdlist1"><code class="filename">/etc/tuned/profiles</code></dt>
+<dd>
+<p>If you need to customize a profile, copy the profile directory into the <code class="filename">/etc/tuned/profiles</code> directory, which is used for custom profiles, and then adjust it. If there is a system profile and a custom profile of the same name, the custom profile located in <code class="filename">/etc/tuned/profiles</code> is used.</p>
+</dd>
+</dl>
+</div>
+<div class="exampleblock">
+<div class="title">Example 4. User-defined profile directories</div>
+<div class="content">
+<div class="paragraph">
+<p>If you want to make TuneD load profiles from a directory other than <code class="filename">/usr/lib/tuned/profiles</code> and <code class="filename">/etc/tuned/profiles</code>, you can list it in <code class="filename">/etc/tuned/tuned-main.conf</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>profile_dirs=/usr/lib/tuned/profiles,/etc/tuned/profiles,/my/custom/profiles</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, profiles are loaded also from <code class="filename">/my/custom/profiles</code>. If two directories contain profiles with the same names, the one that is listed later takes precedence.</p>
+</div>
+</div>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned.conf(5)</code> man page.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="syntax-of-profile-configuration_customizing-tuned-profiles">Syntax of profile configuration</h3>
+<div class="paragraph _abstract">
+<p>The <code>tuned.conf</code> file uses INI syntax. It can contain one <code>[main]</code> section and other sections for configuring plug-in instances. However, all sections are optional.</p>
+</div>
+<div class="paragraph">
+<p>Lines starting with the hash sign (<code>#</code>) are comments.</p>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned.conf(5)</code> man page.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="inheritance-between-tuned-profiles_customizing-tuned-profiles">Inheritance between TuneD profiles</h3>
+<div class="paragraph _abstract">
+<p><strong>TuneD</strong> profiles can be based on other profiles and modify only certain aspects of their parent profile.</p>
+</div>
+<div class="paragraph">
+<p>The <code>[main]</code> section of <strong>TuneD</strong> profiles recognizes the <code class="option">include</code> option:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[main]
+include=<em class="replaceable">parent</em></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All settings from the <em class="replaceable">parent</em> profile are loaded in this <em>child</em> profile. In the following sections, the <em>child</em> profile can override certain settings inherited from the <em class="replaceable">parent</em> profile or add new settings not present in the <em class="replaceable">parent</em> profile.</p>
+</div>
+<div class="paragraph">
+<p>You can create your own <em>child</em> profile in the <code class="filename">/etc/tuned/profiles</code> directory based on a pre-installed profile in <code class="filename">/usr/lib/tuned/profiles</code> with only some parameters adjusted.</p>
+</div>
+<div class="paragraph">
+<p>If the <em class="replaceable">parent</em> profile is updated, such as after a <strong>TuneD</strong> upgrade, the changes are reflected in the <em>child</em> profile.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 5. A power-saving profile based on balanced</div>
+<div class="content">
+<div class="paragraph">
+<p>The following is an example of a custom profile that extends the <code>balanced</code> profile and disables the capability of the CPU to boost above nominal frequencies for brief periods.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[main]
+include=balanced
+
+[cpu]
+boost=0</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned.conf(5)</code> man page</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tuned-plug-ins_customizing-tuned-profiles">TuneD plug-ins</h3>
+<div class="paragraph _abstract">
+<p>Plug-ins are modules in <strong>TuneD</strong> profiles that <strong>TuneD</strong> uses to monitor or optimize different devices on the system.</p>
+</div>
+<div class="paragraph">
+<p><strong>TuneD</strong> uses two types of plug-ins:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Monitoring plug-ins</dt>
+<dd>
+<p>Monitoring plug-ins are used to get information from a running system. The output of the monitoring plug-ins can be used by tuning plug-ins for dynamic tuning.</p>
+<div class="paragraph">
+<p>Monitoring plug-ins are automatically instantiated whenever their metrics are needed by any of the enabled tuning plug-ins. If two tuning plug-ins require the same data, only one instance of the monitoring plug-in is created and the data is shared.</p>
+</div>
+</dd>
+<dt class="hdlist1">Tuning plug-ins</dt>
+<dd>
+<p>Each tuning plug-in tunes an individual subsystem and takes several parameters that are populated from the TuneD profiles. Each subsystem can have multiple devices, such as multiple CPUs or network cards, that are handled by individual instances of the tuning plug-ins. Specific settings for individual devices are also supported.</p>
+</dd>
+</dl>
+</div>
+<h4 id="_syntax_for_plug_ins_in_tuned_profiles" class="discrete">Syntax for plug-ins in TuneD profiles</h4>
+<div class="paragraph">
+<p>Sections describing plug-in instances are formatted in the following way:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[<em>NAME</em>]
+type=<em>TYPE</em>
+devices=<em>DEVICES</em></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">NAME</dt>
+<dd>
+<p>is the name of the plug-in instance as it is used in the logs. It can be an arbitrary string.</p>
+</dd>
+<dt class="hdlist1">TYPE</dt>
+<dd>
+<p>is the type of the tuning plug-in.</p>
+</dd>
+<dt class="hdlist1">DEVICES</dt>
+<dd>
+<p>is the list of devices that this plug-in instance handles.</p>
+<div class="paragraph">
+<p>The <code>devices</code> line can contain a list, a wildcard (<code>*</code>), and negation (<code>!</code>). If there is no <code>devices</code> line, all devices present or later attached on the system of the <em class="replaceable">TYPE</em> are handled by the plug-in instance. This is same as using the <code class="option">devices=*</code> option.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 6. Matching block devices with a plug-in</div>
+<div class="content">
+<div class="paragraph">
+<p>The following example matches all block devices starting with <code>sd</code>, such as <code>sda</code> or <code>sdb</code>, and does not disable barriers on them:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[data_disk]
+type=disk
+devices=sd*
+disable_barriers=false</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following example matches all block devices except <code>sda1</code> and <code>sda2</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[data_disk]
+type=disk
+devices=!sda1, !sda2
+disable_barriers=false</pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>If no instance of a plug-in is specified, the plug-in is not enabled.</p>
+</div>
+<div class="paragraph">
+<p>If the plug-in supports more options, they can be also specified in the plug-in section. If the option is not specified and it was not previously specified in the included plug-in, the default value is used.</p>
+</div>
+<h4 id="_short_plug_in_syntax" class="discrete">Short plug-in syntax</h4>
+<div class="paragraph">
+<p>If you do not need custom names for the plug-in instance and there is only one definition of the instance in your configuration file, <strong>TuneD</strong> supports the following short syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[<em>TYPE</em>]
+devices=<em>DEVICES</em></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case, it is possible to omit the <code>type</code> line. The instance is then referred to with a name, same as the type. The previous example could be then rewritten into:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 7. Matching block devices using the short syntax</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[disk]
+devices=sdb*
+disable_barriers=false</pre>
+</div>
+</div>
+</div>
+</div>
+<h4 id="_conflicting_plug_in_definitions_in_a_profile" class="discrete">Conflicting plug-in definitions in a profile</h4>
+<div class="paragraph">
+<p>If the same section is specified more than once using the <code>include</code> option, the settings are merged. If they cannot be merged due to a conflict, the last conflicting definition overrides the previous settings. If you do not know what was previously defined, you can use the <code class="option">replace</code> Boolean option and set it to <code>true</code>. This causes all the previous definitions with the same name to be overwritten and the merge does not happen.</p>
+</div>
+<div class="paragraph">
+<p>You can also disable the plug-in by specifying the <code class="option">enabled=false</code> option. This has the same effect as if the instance was never defined. Disabling the plug-in is useful if you are redefining the previous definition from the <code class="option">include</code> option and do not want the plug-in to be active in your custom profile.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">NOTE</dt>
+<dd>
+<p><strong>TuneD</strong> includes the ability to run any shell command as part of enabling or disabling a tuning profile. This enables you to extend <strong>TuneD</strong> profiles with functionality that has not been integrated into TuneD yet.</p>
+<div class="paragraph">
+<p>You can specify arbitrary shell commands using the <code>script</code> plug-in.</p>
+</div>
+</dd>
+</dl>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned.conf(5)</code> man page</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="available-tuned-plug-ins_customizing-tuned-profiles">Available TuneD plug-ins</h3>
+<div class="paragraph _abstract">
+<p>This section lists all monitoring and tuning plug-ins currently available in <strong>TuneD</strong>.</p>
+</div>
+<div class="sect3">
+<h4 id="_acpi"><strong>acpi</strong></h4>
+<div class="paragraph">
+<p>Configures the ACPI driver.</p>
+</div>
+<div class="paragraph">
+<p>The only currently supported option is
+<code class="option">platform_profile</code>, which sets the ACPI
+platform profile sysfs attribute,
+a generic power/performance preference API for other drivers.
+Multiple profiles can be specified, separated by <code>|</code>.
+The first available profile is selected.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 8. Selecting a platform profile</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[acpi]
+platform_profile=balanced|low-power</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using this option, <strong>TuneD</strong> will try to set the platform profile
+to <code>balanced</code>. If that fails, it will try to set it to <code>low-power</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_audio"><strong>audio</strong></h4>
+<div class="paragraph">
+<p>Sets audio cards power saving options. The plug-in sets the auto suspend
+timeout for audio codecs to the value specified by the <code class="option">timeout</code>
+option.</p>
+</div>
+<div class="paragraph">
+<p>Currently, the <code>snd_hda_intel</code> and <code>snd_ac97_codec</code> codecs are
+supported and the <code class="option">timeout</code> value is in seconds. To disable
+auto suspend for these codecs, set the <code class="option">timeout</code> value
+to <code>0</code>. To enforce the controller reset, set the option
+<code class="option">reset_controller</code> to <code>true</code>. Note that power management
+is supported per module. Hence, the kernel module names are used as
+device names.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 9. Set the timeout value to 10s and enforce the controller reset</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[audio]
+timeout=10
+reset_controller=true</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_bootloader"><strong>bootloader</strong></h4>
+<div class="paragraph">
+<p>Adds options to the kernel command line. This plug-in supports the
+GRUB 2 boot loader and the Boot Loader Specification (BLS).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<strong>TuneD</strong> will not remove or replace kernel command line
+parameters added via other methods like <strong>grubby</strong>. <strong>TuneD</strong> will manage
+the kernel command line parameters added via <strong>TuneD</strong>. Please refer
+to your platform bootloader documentation about how to identify and
+manage kernel command line parameters set outside of <strong>TuneD</strong>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Customized non-standard location of the GRUB 2 configuration file
+can be specified by the <code class="option">grub2_cfg_file</code> option.</p>
+</div>
+<div class="paragraph">
+<p>The kernel options are added to the current GRUB configuration and
+its templates. Reboot the system for the kernel option to take effect.</p>
+</div>
+<div class="paragraph">
+<p>Switching to another profile or manually stopping the <code>tuned</code>
+service removes the additional options. If you shut down or reboot
+the system, the kernel options persist in the <code class="filename">grub.cfg</code>
+file and grub environment files.</p>
+</div>
+<div class="paragraph">
+<p>The kernel options can be specified by the following syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cmdline<em>suffix</em>=<em>arg1</em> <em>arg2</em> ... <em>argN</em></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or with an alternative, but equivalent syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cmdline<em>suffix</em>=+<em>arg1</em> <em>arg2</em> ... <em>argN</em></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Where <em>suffix</em> can be arbitrary (even empty) alphanumeric
+string which should be unique across all loaded profiles. It is
+recommended to use the profile name as the <em>suffix</em>
+(for example, <code class="option">cmdline_my_profile</code>). If there are multiple
+<code class="option">cmdline</code> options with the same suffix, during the profile
+load/merge the value which was assigned previously will be used. This
+is the same behavior as any other plug-in options. The final kernel
+command line is constructed by concatenating all the resulting
+<code class="option">cmdline</code> options.</p>
+</div>
+<div class="paragraph">
+<p>It is also possible to remove kernel options by the following syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cmdline<em>suffix</em>=-<em>arg1</em> <em>arg2</em> ... <em>argN</em></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Such kernel options will not be concatenated and thus removed during
+the final kernel command line construction.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 10. Modifying the kernel command line</div>
+<div class="content">
+<div class="paragraph">
+<p>For example, to add the <code class="option">quiet</code> kernel option to a <strong>TuneD</strong>
+profile, include the following lines in the <code class="filename">tuned.conf</code>
+file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[bootloader]
+cmdline_my_profile=+quiet</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An example of a custom profile <code>my_profile</code> that adds the
+<code class="option">isolcpus=2</code> option to the kernel command line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[bootloader]
+cmdline_my_profile=isolcpus=2</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An example of a custom profile <code>my_profile</code> that removes the
+<code class="option">rhgb quiet</code> options from the kernel command line (if
+previously added by <strong>TuneD</strong>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[bootloader]
+cmdline_my_profile=-rhgb quiet</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 11. Modifying the kernel command line, example with inheritance</div>
+<div class="content">
+<div class="paragraph">
+<p>For example, to add the <code class="option">rhgb quiet</code> kernel options to a
+<strong>TuneD</strong> profile <code>profile_1</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[bootloader]
+cmdline_profile_1=+rhgb quiet</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the child profile <code>profile_2</code> drop the <code class="option">quiet</code> option
+from the kernel command line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[main]
+include=profile_1
+
+[bootloader]
+cmdline_profile_2=-quiet</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The final kernel command line will be <code class="option">rhgb</code>. In case the same
+<code class="option">cmdline</code> suffix as in the <code>profile_1</code> is used:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[main]
+include=profile_1
+
+[bootloader]
+cmdline_profile_1=-quiet</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It will result in the empty kernel command line because the merge
+executes and the <code class="option">cmdline_profile_1</code> gets redefined to just
+<code class="option">-quiet</code>. Thus there is nothing to remove in the final kernel
+command line processing.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code class="option">initrd_add_img=IMAGE</code> adds an initrd overlay file
+<code>IMAGE</code>. If the <code>IMAGE</code> file name begins with '/', the absolute path is
+used. Otherwise, the current profile directory is used as the base
+directory for the <code>IMAGE</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code class="option">initrd_add_dir=DIR</code> creates an initrd image from the
+directory <code>DIR</code> and adds the resulting image as an overlay.
+If the <code>DIR</code> directory name begins with '/', the absolute path
+is used. Otherwise, the current profile directory is used as the
+base directory for the <code>DIR</code>. For safety reasons, <code>DIR</code> has to be
+a subdirectory within the defined profile directories or within the
+<code>TMP</code> directory (<code>TMP</code> directory is configured in the consts.py)
+and owned by the same user who is running the TuneD process.
+If <code>TMP</code> directory is used be careful about possible security concerns,
+because <code>TMP</code> is usually writeable by any user. See e.g. the
+<code>cpu-partitioning</code> profile for inspiration how to handle it securely.</p>
+</div>
+<div class="paragraph">
+<p>The <code class="option">initrd_dst_img=PATHNAME</code> sets the name and location of
+the resulting initrd image. Typically, it is not necessary to use this
+option. By default, the location of initrd images is <code>/boot</code> and the
+name of the image is taken as the basename of <code>IMAGE</code> or <code>DIR</code>. This can
+be overridden by setting <code class="option">initrd_dst_img</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code class="option">initrd_remove_dir=VALUE</code> removes the source directory
+from which the initrd image was built if <code>VALUE</code> is true. Only 'y',
+'yes', 't', 'true' and '1' (case insensitive) are accepted as true
+values for this option. Other values are interpreted as false.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 12. Adding an overlay initrd image</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[bootloader]
+initrd_remove_dir=True
+initrd_add_dir=/tmp/tuned-initrd.img</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This creates an initrd image from the <code>/tmp/tuned-initrd.img</code> directory
+and and then removes the <code>tuned-initrd.img</code> directory from <code>/tmp</code>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code class="option">skip_grub_config=VALUE</code> does not change grub
+configuration if <code>VALUE</code> is true. However, <code class="option">cmdline</code>
+options are still processed, and the result is used to verify the current
+cmdline. Only 'y', 'yes', 't', 'true' and '1' (case insensitive) are accepted
+as true values for this option. Other values are interpreted as false.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 13. Do not change grub configuration</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[bootloader]
+skip_grub_config=True
+cmdline=+systemd.cpu_affinity=1</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cpu"><strong>cpu</strong></h4>
+<div class="paragraph">
+<p>Sets the CPU governor to the value specified by the <code class="option">governor</code>
+option and dynamically changes the Power Management Quality of
+Service (PM QoS) CPU Direct Memory Access (DMA) latency according
+to the CPU load.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>governor</code></dt>
+<dd>
+<p>The <code class="option">governor</code> option of the 'cpu' plug-in supports specifying
+CPU governors. Multiple governors are separated using '|'. The '|'
+character is meant to represent a logical 'or' operator. Note that the
+same syntax is used for the <code class="option">energy_perf_bias</code> option. <strong>TuneD</strong>
+will set the first governor that is available on the system.</p>
+<div class="exampleblock">
+<div class="title">Example 14. Specifying a CPU governor</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[cpu]
+governor=ondemand|powersave</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>TuneD</strong> will set the 'ondemand'
+governor, if it is available. If it is not available, but the 'powersave'
+governor is available, 'powersave' will be set. If neither of them are
+available, the governor will not be changed.</p>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>sampling_down_factor</code></dt>
+<dd>
+<p>The sampling rate determines how frequently the governor checks
+to tune the CPU. The <code class="option">sampling_down_factor</code> is a tunable
+that multiplies the sampling rate when the CPU is at its highest
+clock frequency thereby delaying load evaluation and improving
+performance. Allowed values for sampling_down_factor are 1 to 100000.</p>
+<div class="exampleblock">
+<div class="title">Example 15. The recommended setting for jitter reduction</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[cpu]
+sampling_down_factor = 100</pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>energy_perf_bias</code></dt>
+<dd>
+<p><code class="option">energy_perf_bias</code> supports managing energy
+vs. performance policy via x86 Model Specific Registers using the
+<code>x86_energy_perf_policy</code> tool. Multiple alternative Energy Performance
+Bias (EPB) values are supported. The alternative values are separated
+using the '|' character. The following EPB values are supported
+starting with kernel 4.13: "performance", "balance-performance",
+"normal", "balance-power" and "power". On newer processors is value
+writen straight to file (see rhbz#2095829)</p>
+<div class="exampleblock">
+<div class="title">Example 16. Specifying alternative Energy Performance Bias values</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[cpu]
+energy_perf_bias=powersave|power</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>TuneD</strong> will try to set EPB to 'powersave'. If that fails, it will
+try to set it to 'power'.</p>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>energy_performance_preference</code></dt>
+<dd>
+<p><code class="option">energy_performance_preference</code> supports managing energy
+vs. performance hints on newer Intel and AMD processors with active P-State
+CPU scaling drivers (intel_pstate or amd-pstate). Multiple alternative
+Energy Performance Preferences (EPP) values are supported. The alternative
+values are separated using the '|' character. Available values can be found
+in <code>energy_performance_available_preferences</code> file in <code>CPUFreq</code> policy
+directory in <code>sysfs</code>.
+in</p>
+<div class="exampleblock">
+<div class="title">Example 17. Specifying alternative Energy Performance Hints values</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[cpu]
+energy_performance_preference=balance_power|power</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>TuneD</strong> will try to set EPP to 'balance_power'. If that fails, it will
+try to set it to 'power'.</p>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>latency_low, latency_high, load_threshold</code></dt>
+<dd>
+<div class="paragraph">
+<p>If the CPU load is lower than the value specified by
+the <code class="option">load_threshold</code> option, the latency is set to the value
+specified either by the <code class="option">latency_high</code> option or by the
+<code class="option">latency_low</code> option.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>force_latency</code></dt>
+<dd>
+<p>You can also force the latency to a specific value and prevent it from
+dynamically changing further. To do so, set the <code class="option">force_latency</code>
+option to the required latency value.</p>
+<div class="paragraph">
+<p>The maximum latency value can be specified in several ways:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>by a numerical value in microseconds (for example, <code>force_latency=10</code>)</p>
+</li>
+<li>
+<p>as the kernel CPU idle level ID of the maximum C-state allowed
+(for example, force_latency = cstate.id:1)</p>
+</li>
+<li>
+<p>as a case sensitive name of the maximum C-state allowed
+(for example, force_latency = cstate.name:C1)</p>
+</li>
+<li>
+<p>by using 'None' as a fallback value to prevent errors when alternative
+C-state IDs/names do not exist. When 'None' is used in the alternatives
+pipeline, all the alternatives that follow 'None' are ignored.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>It is also possible to specify multiple fallback values separated by '|' as
+the C-state names and/or IDs may not be available on some systems.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 18. Specifying fallback C-state values</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[cpu]
+force_latency=cstate.name:C6|cstate.id:4|10</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This configuration tries to obtain and set the latency of C-state named C6.
+If the C-state C6 does not exist, kernel CPU idle level ID 4 (state4) latency
+is searched for in sysfs. Finally, if the state4 directory in sysfs is not found,
+the last latency fallback value is <code>10</code> us. The value is encoded and written into
+the kernel&#8217;s PM QoS file <code>/dev/cpu_dma_latency</code>.</p>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 19. Specifying fallback C-state values using 'None'.</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[cpu]
+force_latency=cstate.name:XYZ|None</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case, if C-state with the name <code>XYZ</code> does not exist,
+no latency value will be written into the
+kernel&#8217;s PM QoS file, and no errors will be reported due to the
+presence of 'None'.</p>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>min_perf_pct, max_perf_pct, no_turbo</code></dt>
+<dd>
+<p>These options set the internals of the Intel P-State driver exposed via the kernel&#8217;s
+<code>sysfs</code> interface.</p>
+<div class="exampleblock">
+<div class="title">Example 20. Adjusting the configuration of the Intel P-State driver</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[cpu]
+min_perf_pct=100</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Limit the minimum P-State that will be requested by the driver. It states
+it as a percentage of the max (non-turbo) performance level.</p>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>pm_qos_resume_latency_us</code></dt>
+<dd>
+<p>This option allow to set specific latency for all cpus or specific ones.</p>
+<div class="exampleblock">
+<div class="title">Example 21. Configuring resume latency</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[cpu]
+pm_qos_resume_latency_us=n/a</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Special value that disables C-states completely.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[cpu]
+pm_qos_resume_latency_us=0</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Allows all C-states.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[cpu]
+pm_qos_resume_latency_us=100</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Allows any C-state with a resume latency less than 100.</p>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>boost</code></dt>
+<dd>
+<p>The <code class="option">boost</code> option allows the CPU to boost above nominal
+frequencies for shorts periods of time. On Intel systems with the
+intel_pstate driver, setting boost=0 will automatically set no_turbo=1
+to ensure boost is properly disabled.</p>
+<div class="exampleblock">
+<div class="title">Example 22. Allowing CPU boost</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[cpu]
+boost=1</pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_disk"><strong>disk</strong></h4>
+<div class="paragraph">
+<p>Plug-in for tuning various block device options. This plug-in can also
+dynamically change the advanced power management and spindown timeout
+setting for a drive according to the current drive utilization. The
+dynamic tuning is controlled by the <code class="option">dynamic</code> and the global
+<code class="option">dynamic_tuning</code> option in <code>tuned-main.conf</code>.</p>
+</div>
+<div class="paragraph">
+<p>The disk plug-in operates on all supported block devices unless a
+comma separated list of <code class="option">devices</code> is passed to it.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 23. Operate only on the <code>sda</code> block device</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[disk]
+devices=sda</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code class="option">elevator</code> option sets the Linux I/O scheduler.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 24. Use the bfq I/O scheduler on the <code>xvda</code> block device</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[disk]
+device=xvda
+elevator=bfq</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code class="option">scheduler_quantum</code> option only applies to the CFQ I/O
+scheduler. It defines the number of I/O requests that CFQ sends to
+one device at one time, essentially limiting queue depth. The default
+value is 8 requests. The device being used may support greater queue
+depth, but increasing the value of quantum will also increase latency,
+especially for large sequential write work loads.</p>
+</div>
+<div class="paragraph">
+<p>The <code class="option">apm</code> option sets the Advanced Power Management feature
+on drives that support it. It corresponds to using the <code>-B</code> option of
+the <code>hdparm</code> utility. The <code class="option">spindown</code> option puts the drive
+into idle (low-power) mode, and also sets the standby (spindown)
+timeout for the drive. It corresponds to using <code>-S</code> option of the
+<code>hdparm</code> utility.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 25. Use a medium-agressive power management with spindown</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[disk]
+apm=128
+spindown=6</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code class="option">readahead</code> option controls how much extra data the
+operating system reads from disk when performing sequential
+I/O operations. Increasing the <code>readahead</code> value might improve
+performance in application environments where sequential reading of
+large files takes place. The default unit for readahead is KiB. This
+can be adjusted to sectors by specifying the suffix 's'. If the
+suffix is specified, there must be at least one space between the
+number and suffix (for example, <code>readahead=8192 s</code>).</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 26. Set the <code>readahead</code> to 4MB unless already set to a higher value</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[disk]
+readahead=&gt;4096</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The disk readahead value can be multiplied by the constant
+specified by the <code class="option">readahead_multiply</code> option.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_eeepc_she"><strong>eeepc_she</strong></h4>
+<div class="paragraph">
+<p>Dynamically sets the front-side bus (FSB) speed according to the
+CPU load. This feature can be found on some netbooks and is also
+known as the Asus Super Hybrid Engine. If the CPU load is lower or
+equal to the value specified by the <code class="option">load_threshold_powersave</code>
+option, the plug-in sets the FSB speed to the value specified by the
+<code class="option">she_powersave</code> option. If the CPU load is higher or
+equal to the value specified by the <code class="option">load_threshold_normal</code>
+option, it sets the FSB speed to the value specified by the
+<code class="option">she_normal</code> option. Static tuning is not supported and the
+plug-in is transparently disabled if the hardware support for this
+feature is not detected.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+For details about the FSB frequencies and corresponding values, see
+<a href="https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-platform-eeepc-laptop">the kernel documentation</a>.
+The provided defaults should work for most users.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_irq"><strong>irq</strong></h4>
+<div class="paragraph">
+<p>Allows tuning of IRQ affinities, and thus re-implements functionality
+already present in the <code>scheduler</code> plugin. However, this plugin offers
+more flexibility, as it allows tuning of individual interrupts with
+different affinities. When using the <code>irq</code> plugin, make sure to disable
+IRQ processing in the <code>scheduler</code> plugin by setting its option
+<code class="option">irq_process=false</code>.</p>
+</div>
+<div class="paragraph">
+<p>The plugin handles individual IRQs as devices and multiple plugin
+instances can be defined, each addressing different devices/irqs.
+The device names used by the plugin are <code>irq&lt;n&gt;</code>, where <code>&lt;n&gt;</code> is the
+IRQ number. The special device <code>DEFAULT</code> controls values written to
+<code>/proc/irq/default_smp_affinity</code>, which applies to all non-active IRQs.</p>
+</div>
+<div class="paragraph">
+<p>The option <code class="option">affinity</code> controls the IRQ affinity to be set. It is
+a string in "cpulist" format (such as <code>1,3-4</code>). If the configured affinity
+is empty, then the affinity of the respective IRQs is not touched.</p>
+</div>
+<div class="paragraph">
+<p>The option <code class="option">mode</code> is a string which can either be <code>set</code> (default)
+or <code>intersect</code>. In <code>set</code> mode the <code class="option">affinity</code> is always written
+as configured, whereas in <code>intersect</code> mode, the new affinity will be
+calculated as the intersection of the current and the configured affinity.
+If that intersection is empty, the configured affinity will be used.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 27. Moving all IRQs to CPU0, except irq16, which is directed to CPU2</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[irq_special]
+type=irq
+devices=irq16
+affinity=2
+
+[irq]
+affinity=0</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_irqbalance"><strong>irqbalance</strong></h4>
+<div class="paragraph">
+<p>Plug-in for irqbalance settings management. The plug-in
+configures CPUs which should be skipped when rebalancing IRQs in
+<code>/etc/sysconfig/irqbalance</code>. It then restarts irqbalance if and
+only if it was previously running.</p>
+</div>
+<div class="paragraph">
+<p>The banned/skipped CPUs are specified as a CPU list via the
+<code class="option">banned_cpus</code> option.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 28. Skip CPUs 2,4 and 9-13 when rebalancing IRQs</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[irqbalance]
+banned_cpus=2,4,9-13</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_modules"><strong>modules</strong></h4>
+<div class="paragraph">
+<p>Plug-in for applying custom kernel modules options.</p>
+</div>
+<div class="paragraph">
+<p>This plug-in can set parameters to kernel modules. It creates
+<code>/etc/modprobe.d/tuned.conf</code> file. The syntax is
+<code><em>module</em>=<em>option1=value1 option2=value2&#8230;&#8203;</em></code> where <code><em>module</em></code> is
+the module name and <code><em>optionx=valuex</em></code> are module options which may
+or may not be present.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 29. Load module <code>netrom</code> with module parameter <code>nr_ndevs=2</code></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[modules]
+netrom=nr_ndevs=2</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Modules can also be forced to load/reload by using an additional
+<code>+r</code> option prefix.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 30. (Re)load module <code>netrom</code> with module parameter <code>nr_ndevs=2</code></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[modules]
+netrom=+r nr_ndevs=2</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>+r</code> switch will also cause <strong>TuneD</strong> to try and remove <code>netrom</code>
+module (if loaded) and try and (re)insert it with the specified
+parameters. The <code>+r</code> can be followed by an optional comma (<code>+r,</code>)
+for better readability.</p>
+</div>
+<div class="paragraph">
+<p>When using <code>+r</code> the module will be loaded immediately by the <strong>TuneD</strong>
+daemon itself rather than waiting for the OS to load it with the
+specified parameters.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mounts"><strong>mounts</strong></h4>
+<div class="paragraph">
+<p>Enables or disables barriers for mounts according to the value of the
+boolean option <code class="option">disable_barriers</code>. The option additionally allows
+the special value <code>force</code>, which disables barriers even on mountpoints with
+write back caches.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Only extended file systems (ext) are supported by this plug-in.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_net"><strong>net</strong></h4>
+<div class="paragraph">
+<p>Configures network driver, hardware and Netfilter settings.
+Dynamic change of the interface speed according to the interface
+utilization is also supported. The dynamic tuning is controlled by
+the <code class="option">dynamic</code> and the global <code class="option">dynamic_tuning</code>
+option in <code>tuned-main.conf</code>.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>wake_on_lan</code></dt>
+<dd>
+<p>The <code class="option">wake_on_lan</code> option sets wake-on-lan to the specified
+value as when using the <code>ethtool</code> utility.</p>
+<div class="exampleblock">
+<div class="title">Example 31. Set Wake-on-LAN for device eth0 on MagicPacket&#8482;</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[net]
+devices=eth0
+wake_on_lan=g</pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>coalesce</code></dt>
+<dd>
+<p>The <code class="option">coalesce</code> option allows changing coalescing settings
+for the specified network devices. The syntax is:</p>
+<div class="listingblock">
+<div class="content">
+<pre>coalesce=<em>param1</em> <em>value1</em> <em>param2</em> <em>value2</em> ... <em>paramN</em> <em>valueN</em></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that not all the coalescing parameters are supported by all
+network cards. For the list of coalescing parameters of your network
+device, use <code>ethtool -c device</code>.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 32. Setting coalescing parameters rx/tx-usecs for all network devices</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[net]
+coalesce=rx-usecs 3 tx-usecs 16</pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>features</code></dt>
+<dd>
+<p>The <code class="option">features</code> option allows changing
+the offload parameters and other features for the specified
+network devices. To query the features of your network device,
+use <code>ethtool -k device</code>. The syntax of the option is the same as
+the <code class="option">coalesce</code> option.</p>
+<div class="exampleblock">
+<div class="title">Example 33. Turn off TX checksumming, generic segmentation and receive offload</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[net]
+features=tx off gso off gro off</pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>pause</code></dt>
+<dd>
+<p>The <code class="option">pause</code> option allows changing the pause parameters for
+the specified network devices. To query the pause parameters of your
+network device, use <code>ethtool -a device</code>. The syntax of the option
+is the same as the <code class="option">coalesce</code> option.</p>
+<div class="exampleblock">
+<div class="title">Example 34. Disable autonegotiation</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[net]
+pause=autoneg off</pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>ring</code></dt>
+<dd>
+<p>The <code class="option">ring</code> option allows changing the rx/tx ring parameters
+for the specified network devices. To query the ring parameters of your
+network device, use <code>ethtool -g device</code>. The syntax of the option
+is the same as the <code class="option">coalesce</code> option.</p>
+<div class="exampleblock">
+<div class="title">Example 35. Change the number of ring entries for the Rx/Tx rings to 1024/512 respectively</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[net]
+ring=rx 1024 tx 512</pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>channels</code></dt>
+<dd>
+<p>The <code class="option">channels</code> option allows changing the numbers of channels
+for the specified network device. A channel is an IRQ and the set
+of queues that can trigger that IRQ. To query the channels parameters of your
+network device, use <code>ethtool -l device</code>. The syntax of the option
+is the same as the <code class="option">coalesce</code> option.</p>
+<div class="exampleblock">
+<div class="title">Example 36. Set the number of multi-purpose channels to 16</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[net]
+channels=combined 16</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>A network device either supports rx/tx or combined queue
+mode. The <code class="option">channels</code> option automatically adjusts the
+parameters based on the mode supported by the device as long as a
+valid configuration is requested.</p>
+</div>
+</dd>
+<dt class="hdlist1"><code>nf_conntrack_hashsize</code></dt>
+<dd>
+<p>The <code class="option">nf_conntrack_hashsize</code> option sets the size of the hash
+table which stores lists of conntrack entries by writing to
+<code>/sys/module/nf_conntrack/parameters/hashsize</code>.</p>
+<div class="exampleblock">
+<div class="title">Example 37. Adjust the size of the conntrack hash table</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[net]
+nf_conntrack_hashsize=131072</pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>txqueuelen</code></dt>
+<dd>
+<p>The <code class="option">txqueuelen</code> option allows changing txqueuelen (the length
+of the transmit queue). It uses <code>ip</code> utility that is in package iproute
+recommended for TuneD, so the package needs to be installed for its correct
+functionality. To query the txqueuelen parameters of your network device
+use <code>ip link show</code> and the current value is shown after the qlen column.</p>
+<div class="exampleblock">
+<div class="title">Example 38. Adjust the length of the transmit queue</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[net]
+txqueuelen=5000</pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>mtu</code></dt>
+<dd>
+<p>The <code class="option">mtu</code> option allows changing MTU (Maximum Transmission Unit).
+It uses <code>ip</code> utility that is in package iproute recommended for TuneD, so
+the package needs to be installed for its correct functionality. To query
+the MTU parameters of your network device use <code>ip link show</code> and the
+current value is shown after the MTU column.</p>
+<div class="exampleblock">
+<div class="title">Example 39. Adjust the size of the MTU</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[net]
+mtu=9000</pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rtentsk"><strong>rtentsk</strong></h4>
+<div class="paragraph">
+<p>A plug-in for avoiding inter-processor interrupts caused by enabling
+or disabling static keys.</p>
+</div>
+<div class="paragraph">
+<p>The plug-in has no options; when included, <strong>TuneD</strong> will keep an open
+socket with timestamping enabled, thus keeping the static key enabled.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_scheduler"><strong>scheduler</strong></h4>
+<div class="paragraph">
+<p>Allows tuning of scheduling priorities, process/thread/IRQ
+affinities, and CPU isolation.</p>
+</div>
+<div class="paragraph">
+<p>To prevent processes/threads/IRQs from using certain CPUs, use
+the <code class="option">isolated_cores</code> option. It changes process/thread
+affinities, IRQs affinities and it sets <code>default_smp_affinity</code>
+for IRQs. The CPU affinity mask is adjusted for all processes and
+threads matching <code class="option">ps_whitelist</code> option subject to success
+of the <code>sched_setaffinity()</code> system call. The default setting of
+the <code class="option">ps_whitelist</code> regular expression is <code>.*</code> to match all
+processes and thread names. To exclude certain processes and threads
+use <code class="option">ps_blacklist</code> option. The value of this option is also
+interpreted as a regular expression and process/thread names (<code>ps -eo
+cmd</code>) are matched against that expression. Profile rollback allows
+all matching processes and threads to run on all CPUs and restores
+the IRQ settings prior to the profile application.</p>
+</div>
+<div class="paragraph">
+<p>Multiple regular expressions for <code class="option">ps_whitelist</code>
+and <code class="option">ps_blacklist</code> options are allowed and separated by
+<code>;</code>. Quoted semicolon <code>\;</code> is taken literally.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 40. Isolate CPUs 2-4</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[scheduler]
+isolated_cores=2-4
+ps_blacklist=.*pmd.*;.*PMD.*;^DPDK;.*qemu-kvm.*</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Isolate CPUs 2-4 while ignoring processes and threads matching
+<code>ps_blacklist</code> regular expressions.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code class="option">irq_process</code> option controls whether the scheduler plugin
+applies the <code>isolated_cores</code> parameter to IRQ affinities. The default
+value is <code>true</code>, which means that the scheduler plugin will move all
+possible IRQs away from the isolated cores. When <code>irq_process</code> is set
+to <code>false</code>, the plugin will not change any IRQ affinities.</p>
+</div>
+<div class="paragraph">
+<p>The <code class="option">default_irq_smp_affinity</code> option controls the values
+<strong>TuneD</strong> writes to <code>/proc/irq/default_smp_affinity</code>. The file specifies
+default affinity mask that applies to all non-active IRQs. Once an
+IRQ is allocated/activated its affinity bitmask will be set to the
+default mask.</p>
+</div>
+<div class="paragraph">
+<p>The following values are supported:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>calc</code></p>
+<div class="paragraph">
+<p>The content of <code>/proc/irq/default_smp_affinity</code> will be calculated
+from the <code>isolated_cores</code> parameter. Non-isolated cores
+are calculated as an inversion of the <code>isolated_cores</code>. Then
+the intersection of the non-isolated cores and the previous
+content of <code>/proc/irq/default_smp_affinity</code> is written to
+<code>/proc/irq/default_smp_affinity</code>. If the intersection is
+an empty set, then just the non-isolated cores are written to
+<code>/proc/irq/default_smp_affinity</code>. This behavior is the default if
+the parameter <code>default_irq_smp_affinity</code> is omitted.</p>
+</div>
+</li>
+<li>
+<p><code>ignore</code></p>
+<div class="paragraph">
+<p><strong>TuneD</strong> will not touch <code>/proc/irq/default_smp_affinity</code>.</p>
+</div>
+</li>
+<li>
+<p>an explicit cpulist</p>
+<div class="paragraph">
+<p>The cpulist (such as <code>1,3-4</code>) is unpacked and written directly to
+<code>/proc/irq/default_smp_affinity</code>.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="exampleblock">
+<div class="title">Example 41. An explicit CPU list to set the default IRQ smp affinity to CPUs 0 and 2</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[scheduler]
+isolated_cores=1,3
+default_irq_smp_affinity=0,2</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To adjust scheduling policy, priority and affinity for a group of
+processes/threads, use the following syntax.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>group.<em>groupname</em>=<em>rule_prio</em>:<em>sched</em>:<em>prio</em>:<em>affinity</em>:<em>regex</em></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here, <code><em>rule_prio</em></code> defines internal <strong>TuneD</strong> priority of the
+rule. Rules are sorted based on priority. This is needed for
+inheritence to be able to reorder previously defined rules. Equal
+<code><em>rule_prio</em></code> rules should be processed in the order they were
+defined. However, this is Python interpreter dependant. To disable
+an inherited rule for <code><em>groupname</em></code> use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>group.<em>groupname</em>=</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code><em>sched</em></code> must be one of:
+<strong><code>f</code></strong> for FIFO,
+<strong><code>b</code></strong> for batch,
+<strong><code>r</code></strong> for round robin,
+<strong><code>o</code></strong> for other,
+<strong><code></strong></code>* do not change.</p>
+</div>
+<div class="paragraph">
+<p><code><em>affinity</em></code> is CPU affinity in hexadecimal. Use <code>*</code> for no change.</p>
+</div>
+<div class="paragraph">
+<p><code><em>prio</em></code> scheduling priority (see <code>chrt -m</code>).</p>
+</div>
+<div class="paragraph">
+<p><code><em>regex</em></code> is Python regular expression. It is matched against the output of:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ps -eo cmd</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Any given process name may match more than one group. In such a case,
+the priority and scheduling policy are taken from the last matching
+<code><em>regex</em></code>.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 42. Setting scheduling policy and priorities to kernel threads and watchdog</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[scheduler]
+group.kthreads=0:*:1:*:\[.*\]$
+group.watchdog=0:f:99:*:\[watchdog.*\]</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The scheduler plug-in uses perf event loop to catch newly created
+processes. By default it listens to <code>perf.RECORD_COMM</code> and
+<code>perf.RECORD_EXIT</code> events. By setting <code class="option">perf_process_fork</code>
+option to <code>true</code>, <code>perf.RECORD_FORK</code> events will be also listened
+to. In other words, child processes created by the <code>fork()</code> system
+call will be processed. Since child processes inherit CPU affinity
+from their parents, the scheduler plug-in usually does not need to
+explicitly process these events. As processing perf events can
+pose a significant CPU overhead, the <code class="option">perf_process_fork</code>
+option parameter is set to <code>false</code> by default. Due to this, child
+processes are not processed by the scheduler plug-in.</p>
+</div>
+<div class="paragraph">
+<p>The CPU overhead of the scheduler plugin can be mitigated by using
+the scheduler <code class="option">runtime</code> option and setting it to <code>0</code>. This
+will completely disable the dynamic scheduler functionality and the
+perf events will not be monitored and acted upon. The disadvantage
+ot this approach is the procees/thread tuning will be done only at
+profile application.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 43. Disabling the scheduler dynamic functionality</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[scheduler]
+runtime=0
+isolated_cores=1,3</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+For perf events, memory mapped buffer is used. Under heavy load
+the buffer may overflow. In such cases the <code>scheduler</code> plug-in
+may start missing events and failing to process some newly created
+processes. Increasing the buffer size may help. The buffer size can
+be set with the <code class="option">perf_mmap_pages</code> option. The value of this
+parameter has to expressed in powers of 2. If it is not the power
+of 2, the nearest higher power of 2 value is calculated from it
+and this calculated value used. If the <code class="option">perf_mmap_pages</code>
+option is omitted, the default kernel value is used.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The scheduler plug-in supports process/thread confinement using
+cgroups v1.</p>
+</div>
+<div class="paragraph">
+<p><code class="option">cgroup_mount_point</code> option specifies the path to mount the
+cgroup filesystem or where <strong>TuneD</strong> expects it to be mounted. If unset,
+<code>/sys/fs/cgroup/cpuset</code> is expected.</p>
+</div>
+<div class="paragraph">
+<p>If <code class="option">cgroup_groups_init</code> option is set to <code>1</code> <strong>TuneD</strong>
+will create (and remove) all cgroups defined with the <code>cgroup*</code>
+options. This is the default behavior. If it is set to <code>0</code> the
+cgroups need to be preset by other means.</p>
+</div>
+<div class="paragraph">
+<p>If <code class="option">cgroup_mount_point_init</code> option is set to <code>1</code>,
+<strong>TuneD</strong> will create (and remove) the cgroup mountpoint. It implies
+<code>cgroup_groups_init = 1</code>. If set to <code>0</code> the cgroups mount point
+needs to be preset by other means. This is the default behavior.</p>
+</div>
+<div class="paragraph">
+<p>The <code class="option">cgroup_for_isolated_cores</code> option is the cgroup
+name used for the <code class="option">isolated_cores</code> option functionality. For
+example, if a system has 4 CPUs, <code>isolated_cores=1</code> means that all
+processes/threads will be moved to CPUs 0,2-3.
+The scheduler plug-in will isolate the specified core by writing
+the calculated CPU affinity to the <code>cpuset.cpus</code> control file of
+the specified cgroup and move all the matching processes/threads to
+this group. If this option is unset, classic cpuset affinity using
+<code>sched_setaffinity()</code> will be used.</p>
+</div>
+<div class="paragraph">
+<p><code class="option">cgroup.<em>cgroup_name</em></code> option defines affinities for
+arbitrary cgroups. Even hierarchic cgroups can be used, but the
+hieararchy needs to be specified in the correct order. Also <strong>TuneD</strong>
+does not do any sanity checks here, with the exception that it forces
+the cgroup to be under <code class="option">cgroup_mount_point</code>.</p>
+</div>
+<div class="paragraph">
+<p>The syntax of the scheduler option starting with <code>group.</code> has been
+augmented to use <code>cgroup.<em>cgroup_name</em></code> instead of the hexadecimal
+<code><em>affinity</em></code>. The matching processes will be moved to the cgroup
+<code><em>cgroup_name</em></code>. It is also possible to use cgroups which have
+not been defined by the <code class="option">cgroup.</code> option as described above,
+i.e. cgroups not managed by <strong>TuneD</strong>.</p>
+</div>
+<div class="paragraph">
+<p>All cgroup names are sanitized by replacing all all dots (<code>.</code>) with
+slashes (<code>/</code>). This is to prevent the plug-in from writing outside
+<code class="option">cgroup_mount_point</code>.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 44. Using cgroups v1 with the scheduler plug-in</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[scheduler]
+cgroup_mount_point=/sys/fs/cgroup/cpuset
+cgroup_mount_point_init=1
+cgroup_groups_init=1
+cgroup_for_isolated_cores=group
+cgroup.group1=2
+cgroup.group2=0,2
+
+group.ksoftirqd=0:f:2:cgroup.group1:ksoftirqd.*
+ps_blacklist=ksoftirqd.*;rcuc.*;rcub.*;ktimersoftd.*
+isolated_cores=1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Cgroup <code>group1</code> has the affinity set to CPU 2 and the cgroup <code>group2</code>
+to CPUs 0,2. Given a 4 CPU setup, the <code class="option">isolated_cores=1</code>
+option causes all processes/threads to be moved to CPU
+cores 0,2-3. Processes/threads that are blacklisted by the
+<code class="option">ps_blacklist</code> regular expression will not be moved.</p>
+</div>
+<div class="paragraph">
+<p>The scheduler plug-in will isolate the specified core by writing the
+CPU affinity 0,2-3 to the <code>cpuset.cpus</code> control file of the <code>group</code>
+and move all the matching processes/threads to this cgroup.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Option <code class="option">cgroup_ps_blacklist</code> allows excluding processes
+which belong to the blacklisted cgroups. The regular expression specified
+by this option is matched against cgroup hierarchies from
+<code>/proc/PID/cgroups</code>. Cgroups v1 hierarchies from <code>/proc/PID/cgroups</code>
+are separated by commas ',' prior to regular expression matching. The
+following is an example of content against which the regular expression
+is matched against: <code>10:hugetlb:/,9:perf_event:/,8:blkio:/</code></p>
+</div>
+<div class="paragraph">
+<p>Multiple regular expressions can be separated by semicolon ';'. The
+semicolon represents a logical 'or' operator.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 45. Cgroup-based exclusion of processes from the scheduler</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[scheduler]
+isolated_cores=1
+cgroup_ps_blacklist=:/daemons\b</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The scheduler plug-in will move all processes away from core 1 except processes which
+belong to cgroup '/daemons'. The '\b' is a regular expression
+metacharacter that matches a word boundary.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[scheduler]
+isolated_cores=1
+cgroup_ps_blacklist=\b8:blkio:</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The scheduler plug-in will exclude all processes which belong to a cgroup
+with hierarchy-ID 8 and controller-list blkio.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Kernels 5.13 and newer moved some <code>sched_</code> and <code>numa_balancing_</code> kernel run-time
+parameters from <code>/proc/sys/kernel</code>, managed by the <code>sysctl</code> utility, to
+<code>debugfs</code>, typically mounted under <code>/sys/kernel/debug</code>.  TuneD provides an
+abstraction mechanism for the following parameters via the scheduler plug-in:
+<code class="option">sched_min_granularity_ns</code>, <code class="option">sched_latency_ns</code>,
+<code class="option">sched_wakeup_granularity_ns</code>, <code class="option">sched_tunable_scaling</code>,
+<code class="option">sched_migration_cost_ns</code>, <code class="option">sched_nr_migrate</code>,
+<code class="option">numa_balancing_scan_delay_ms</code>,
+<code class="option">numa_balancing_scan_period_min_ms</code>,
+<code class="option">numa_balancing_scan_period_max_ms</code> and
+<code class="option">numa_balancing_scan_size_mb</code>.
+Moreover in kernel 6.6 and newer support for the <code>sched_wakeup_granularity_ns</code> and
+<code>sched_latency_ns</code> were removed. The <code>sched_min_granularity_ns</code> was renamed to
+<code>sched_base_slice_ns</code>. Based on the kernel used, TuneD will write the specified
+value to the correct location or ignore it. For the compatibility the alias
+<code class="option">sched_base_slice_ns</code> was added, but the <code class="option">sched_min_granularity_ns</code>
+can be still used instead.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 46. Set tasks' "cache hot" value for migration decisions.</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[scheduler]
+sched_migration_cost_ns=500000</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On the old kernels, this is equivalent to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[sysctl]
+kernel.sched_migration_cost_ns=500000</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>that is, value <code>500000</code> will be written to <code>/proc/sys/kernel/sched_migration_cost_ns</code>.
+However, on more recent kernels, the value <code>500000</code> will be written to
+<code>/sys/kernel/debug/sched/migration_cost_ns</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_script"><strong>script</strong></h4>
+<div class="paragraph">
+<p>Executes an external script or binary when the profile is loaded or
+unloaded. You can choose an arbitrary executable.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The <code>script</code> plug-in is provided mainly for compatibility
+with earlier releases. Prefer other <strong>TuneD</strong> plug-ins if they cover
+the required functionality.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>TuneD</strong> calls the executable with one of the following arguments:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>start</code> when loading the profile</p>
+</li>
+<li>
+<p><code>stop</code> when unloading the profile</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You need to correctly implement the <code>stop</code> action in your executable
+and revert all settings that you changed during the <code>start</code>
+action. Otherwise, the roll-back step after changing your <strong>TuneD</strong>
+profile will not work.</p>
+</div>
+<div class="paragraph">
+<p>Bash scripts can import the <code class="filename">/usr/lib/tuned/functions</code>
+Bash library and use the functions defined there. Use these
+functions only for functionality that is not natively provided
+by <strong>TuneD</strong>. If a function name starts with an underscore, such as
+<code>_wifi_set_power_level</code>, consider the function private and do not
+use it in your scripts, because it might change in the future.</p>
+</div>
+<div class="paragraph">
+<p>Specify the path to the executable using the <code>script</code> parameter in
+the plug-in configuration.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 47. Running a Bash script from a profile</div>
+<div class="content">
+<div class="paragraph">
+<p>To run a Bash script named <code>script.sh</code> that is located in the profile
+directory, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[script]
+script=${i:PROFILE_DIR}/script.sh</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_scsi_host"><strong>scsi_host</strong></h4>
+<div class="paragraph">
+<p>Tunes options for SCSI hosts.</p>
+</div>
+<div class="paragraph">
+<p>The plug-in sets Aggressive Link Power Management (ALPM) to the value specified
+by the <code class="option">alpm</code> option. The option takes one of four values:
+<code>min_power</code>, <code>med_power_with_dipm</code>, <code>medium_power</code> and <code>max_performance</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+ALPM is only available on SATA controllers that use the Advanced
+Host Controller Interface (AHCI).
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 48. ALPM setting when extended periods of idle time are expected</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[scsi_host]
+alpm=med_power_with_dipm</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_selinux"><strong>selinux</strong></h4>
+<div class="paragraph">
+<p>Plug-in for tuning SELinux options.</p>
+</div>
+<div class="paragraph">
+<p>SELinux decisions, such as allowing or denying access, are
+cached. This cache is known as the Access Vector Cache (AVC). When
+using these cached decisions, SELinux policy rules need to be checked
+less, which increases performance. The <code class="option">avc_cache_threshold</code>
+option allows adjusting the maximum number of AVC entries.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Prior to changing the default value, evaluate the system
+performance with care. Increasing the value could potentially
+decrease the performance by making AVC slow.
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 49. Increase the AVC cache threshold for hosts with containers.</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[selinux]
+avc_cache_threshold=8192</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_service"><strong>service</strong></h4>
+<div class="paragraph">
+<p>Plug-in for handling sysvinit, sysv-rc, openrc and systemd services.</p>
+</div>
+<div class="paragraph">
+<p>The syntax is as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[service]
+service.<em>service_name</em>=<em>commands</em>[,file:<em>file</em>]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Supported service-handling <code><em>commands</em></code> are <code>start</code>, <code>stop</code>, <code>enable</code>
+and <code>disable</code>. The optional <code>file:<em>file</em></code> directive installs an overlay
+configuration file <code><em>file</em></code>. Multiple commands must be comma (<code>,</code>)
+or semicolon (<code>;</code>) separated. If the directives conflict, the last
+one is used.</p>
+</div>
+<div class="paragraph">
+<p>The service plugin supports configuration overlays only for systemd.
+In other init systems, this directive is ignored. The configuration
+overlay files are copied to <code>/etc/systemd/system/<em>service_name</em>.service.d/</code>
+directories. Upon profile unloading, the directory is removed if it is empty.</p>
+</div>
+<div class="paragraph">
+<p>With systemd, the <code>start</code> command is implemented by <code>restart</code> in order
+to allow loading of the service configuration file overlay.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+With non-systemd init systems, the plug-in operates on the
+current runlevel only.
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 50. Start and enable the <code>sendmail</code> service with an overlay file</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[service]
+service.sendmail=start,enable,file:${i:PROFILE_DIR}/tuned-sendmail.conf</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The internal variable <code>${i:PROFILE_DIR}</code> points to the directory
+from which the profile is loaded.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sysctl"><strong>sysctl</strong></h4>
+<div class="paragraph">
+<p>Sets various kernel parameters at runtime.</p>
+</div>
+<div class="paragraph">
+<p>This plug-in is used for applying custom <code>sysctl</code> settings and should
+only be used to change system settings that are not covered by other
+<strong>TuneD</strong> plug-ins. If the settings are covered by other <strong>TuneD</strong> plug-ins,
+use those plug-ins instead.</p>
+</div>
+<div class="paragraph">
+<p>The syntax for this plug-in is
+<code><em>key</em>=<em>value</em></code>, where
+<code><em>key</em></code> is the same as the key name provided by the
+<code>sysctl</code> utility.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 51. Adjusting the kernel runtime kernel.sched_min_granularity_ns value</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[sysctl]
+kernel.sched_min_granularity_ns=3000000</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sysfs"><strong>sysfs</strong></h4>
+<div class="paragraph">
+<p>Sets various <code>sysfs</code> settings specified by the plug-in options.</p>
+</div>
+<div class="paragraph">
+<p>The syntax is <code><em>name</em>=<em>value</em></code>, where
+<code><em>name</em></code> is the <code>sysfs</code> path to use and <code><em>value</em></code> is
+the value to write. The <code>sysfs</code> path supports the shell-style
+wildcard characters (see <code>man 7 glob</code> for additional detail).</p>
+</div>
+<div class="paragraph">
+<p>Use this plugin in case you need to change some settings that are
+not covered by other plug-ins. Prefer specific plug-ins if they
+cover the required settings.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 52. Ignore corrected errors and associated scans that cause latency spikes</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[sysfs]
+/sys/devices/system/machinecheck/machinecheck*/ignore_ce=1</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_systemd"><strong>systemd</strong></h4>
+<div class="paragraph">
+<p>Plug-in for tuning systemd options.</p>
+</div>
+<div class="paragraph">
+<p>The <code class="option">cpu_affinity</code> option allows setting CPUAffinity in
+<code>/etc/systemd/system.conf.d/00-tuned.conf</code>. This configures the CPU
+affinity for the service manager as well as the default CPU affinity
+for all forked off processes. The option takes a comma-separated
+list of CPUs with optional CPU ranges specified by the minus sign (<code>-</code>).
+Please avoid changing the drop-in configuration file, as it is not
+backed up and will be overwritten.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 53. Set the CPUAffinity for <code>systemd</code> to <code>0 1 2 3</code></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[systemd]
+cpu_affinity=0-3</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+These tunings are unloaded only on profile change followed by a reboot.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_uncore"><strong>uncore</strong></h4>
+<div class="paragraph">
+<p>An Intel-specific plug-in for limiting the maximum and minimum uncore frequency.</p>
+</div>
+<div class="paragraph">
+<p>The options <code class="option">max_freq_khz</code>, <code class="option">min_freq_khz</code> correspond to
+<code>sysfs</code> files exposed by Intel uncore frequency driver. Their values can be
+specified in kHz or as a percentage of their configurable range.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 54. Limiting maximum uncore frequency</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[uncore10]
+type=uncore
+devices=uncore10
+max_freq_khz=4000000
+
+[uncore_all]
+type=uncore
+max_freq_khz=90%</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using this options <strong>TuneD</strong> will limit maximum frequency of all uncore units
+on the Intel system to 90% of the allowable range. Except uncore10 which
+maximum frequency limit will be set to 4 GHz.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_usb"><strong>usb</strong></h4>
+<div class="paragraph">
+<p>Sets autosuspend timeout of USB devices to the value specified by the
+<code class="option">autosuspend</code> option in seconds. If the <code class="option">devices</code>
+option is specified, the <code class="option">autosuspend</code> option applies to only
+the USB devices specified, otherwise it applies to all USB devices.</p>
+</div>
+<div class="paragraph">
+<p>The value <code>0</code> means that autosuspend is disabled.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 55. Turn off USB autosuspend for USB devices <code>1-1</code> and <code>1-2</code></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[usb]
+devices=1-1,1-2
+autosuspend=0</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_video"><strong>video</strong></h4>
+<div class="paragraph">
+<p>Sets various power saving features on video cards.
+Radeon cards are supported.
+The powersave level can be specified
+by using the <code class="option">radeon_powersave</code> option. Supported values are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>default</code></p>
+</li>
+<li>
+<p><code>auto</code></p>
+</li>
+<li>
+<p><code>low</code></p>
+</li>
+<li>
+<p><code>mid</code></p>
+</li>
+<li>
+<p><code>high</code></p>
+</li>
+<li>
+<p><code>dynpm</code></p>
+</li>
+<li>
+<p><code>dpm-battery</code></p>
+</li>
+<li>
+<p><code>dpm-balanced</code></p>
+</li>
+<li>
+<p><code>dpm-performance</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For additional detail, see
+<a href="https://www.x.org/wiki/RadeonFeature/#kmspowermanagementoptions">KMS Power Management Options</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+This plug-in is experimental and the option might change in future releases.
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 56. Setting powersave level for the Radeon video card to high</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[video]
+radeon_powersave=high</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Mobile hardware with amdgpu driven eDP panels can be configured
+with the <code class="option">panel_power_savings</code> option.
+This accepts a value range from 0 to 4, where 4 is the highest power savings
+but will trade off color accuracy.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_vm"><strong>vm</strong></h4>
+<div class="paragraph">
+<p>Tunes selected sysctl options in <code>/proc/sys/vm</code>, currently
+<code class="option">dirty_bytes</code>, and <code class="option">dirty_background_bytes</code>.
+See <a href="https://docs.kernel.org/admin-guide/sysctl/vm.html" class="bare">https://docs.kernel.org/admin-guide/sysctl/vm.html</a> for detailed
+documentation of these options.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 57. Set dirty bytes to 64 MiB</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[vm]
+dirty_bytes=67108864</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 58. Set dirty bytes to 10% of total available memory</div>
+<div class="content">
+<div class="paragraph">
+<p>Note that this updates the <code>/proc/sys/vm/dirty_ratio</code> sysctl option.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[vm]
+dirty_bytes=10%</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Additionally enables or disables transparent huge pages depending on
+the value of the <code class="option">transparent_hugepages</code> option. The option
+can have one of three possible values: <code>always</code>, <code>madvise</code> and <code>never</code>.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 59. Disable transparent hugepages</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>[vm]
+transparent_hugepages=never</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code class="option">transparent_hugepage.defrag</code> option specifies the
+defragmentation policy. Possible values for this option are <code>always</code>,
+<code>defer</code>, <code>defer+madvise</code>, <code>madvise</code> and <code>never</code>. For a detailed
+explanation of these values refer to
+<a href="https://www.kernel.org/doc/Documentation/vm/transhuge.txt">Transparent Hugepage Support</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="variables-in-tuned-profiles_customizing-tuned-profiles">Variables in TuneD profiles</h3>
+<div class="paragraph _abstract">
+<p>Variables expand at run time when a <strong>TuneD</strong> profile is activated.</p>
+</div>
+<div class="paragraph">
+<p>Using <strong>TuneD</strong> variables reduces the amount of necessary typing in <strong>TuneD</strong> profiles.</p>
+</div>
+<div class="paragraph">
+<p>There are no predefined variables in <strong>TuneD</strong> profiles. You can define your own variables by creating the <code>[variables]</code> section in a profile and using the following syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[variables]
+
+<em class="replaceable">variable_name</em>=<em class="replaceable">value</em></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To expand the value of a variable in a profile, use the following syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${<em class="replaceable">variable_name</em>}</pre>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 60. Isolating CPU cores using variables</div>
+<div class="content">
+<div class="paragraph">
+<p>In the following example, the <code>${isolated_cores}</code> variable expands to <code>1,2</code>; hence the kernel boots with the <code class="option">isolcpus=1,2</code> option:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[variables]
+isolated_cores=1,2
+
+[bootloader]
+cmdline=isolcpus=${isolated_cores}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The variables can be specified in a separate file. For example, you can add the following lines to <code class="filename">tuned.conf</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[variables]
+include=/etc/tuned/<em class="replaceable">my-variables.conf</em>
+
+[bootloader]
+cmdline=isolcpus=${isolated_cores}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you add the <code class="option">isolated_cores=1,2</code> option to the <code class="filename">/etc/tuned/my-variables.conf</code> file, the kernel boots with the <code class="option">isolcpus=1,2</code> option.</p>
+</div>
+</div>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned.conf(5)</code> man page</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="built-in-functions-in-tuned-profiles_customizing-tuned-profiles">Built-in functions in TuneD profiles</h3>
+<div class="paragraph _abstract">
+<p>Built-in functions expand at run time when a <strong>TuneD</strong> profile is activated.</p>
+</div>
+<div class="paragraph">
+<p>You can:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use various built-in functions together with <strong>TuneD</strong> variables</p>
+</li>
+<li>
+<p>Create custom functions in Python and add them to <strong>TuneD</strong> in the form of plug-ins</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To call a function, use the following syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:<em class="replaceable">function_name</em>:<em class="replaceable">argument_1</em>:<em class="replaceable">argument_2</em>}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To expand the directory path where the profile and the <code>tuned.conf</code> file are located, use the <code>PROFILE_DIR</code> function, which requires special syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${i:PROFILE_DIR}</pre>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 61. Isolating CPU cores using variables and built-in functions</div>
+<div class="content">
+<div class="paragraph">
+<p>In the following example, the <code>${non_isolated_cores}</code> variable expands to <code>0,3-5</code>, and the <code>cpulist_invert</code> built-in function is called with the <code>0,3-5</code> argument:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[variables]
+non_isolated_cores=0,3-5
+
+[bootloader]
+cmdline=isolcpus=${f:cpulist_invert:${non_isolated_cores}}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>cpulist_invert</code> function inverts the list of CPUs. For a 6-CPU machine, the inversion is <code>1,2</code>, and the kernel boots with the <code class="option">isolcpus=1,2</code> command-line option.</p>
+</div>
+</div>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned.conf(5)</code> man page</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="built-in-functions-available-in-tuned-profiles_customizing-tuned-profiles">Built-in functions available in TuneD profiles</h3>
+<div class="paragraph _abstract">
+<p>The following built-in functions are available in all <strong>TuneD</strong> profiles:</p>
+</div>
+<div class="sect3">
+<h4 id="_assertion"><strong>assertion</strong></h4>
+<div class="paragraph">
+<p>Compares the second argument and the third argument.
+If they <em>do not match</em>, the function logs the text from
+the first argument as an error and aborts profile loading.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>The following will log the error message <code>fatal error</code>
+and abort profile loading:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:assertion:fatal error:3:5}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_assertion_non_equal"><strong>assertion_non_equal</strong></h4>
+<div class="paragraph">
+<p>Compares the second argument and the third argument.
+If they <em>match</em>, the function logs the text from
+the first argument as an error and aborts profile loading.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>The following will pass without errors:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:assertion_non_equal:fatal error:3:5}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_calc_isolated_cores"><strong>calc_isolated_cores</strong></h4>
+<div class="paragraph">
+<p>Calculates and returns a list of isolated cores. The argument
+specifies how many cores per socket should be reserved for housekeeping.
+If not specified, a single core is reserved per socket and the rest is isolated.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Reserve two cores per socket for housekeeping and return the list of remaining cores:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:calc_isolated_cores:2}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_check_net_queue_count"><strong>check_net_queue_count</strong></h4>
+<div class="paragraph">
+<p>Checks whether the first argument is a valid queue count for net devices.
+If yes, returns it, otherwise returns the number of housekeeping CPUs.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cpuinfo_check"><strong>cpuinfo_check</strong></h4>
+<div class="paragraph">
+<p>Checks regexes against the content of <code>/proc/cpuinfo</code>.</p>
+</div>
+<div class="paragraph">
+<p>Accepts arguments in the form <code>REGEX1, STR1, REGEX2, STR2, &#8230;&#8203;[, STR_FALLBACK]</code>.</p>
+</div>
+<div class="paragraph">
+<p>If <code>REGEX1</code> has a match in <code>/proc/cpuinfo</code>, it returns <code>STR1</code>.</p>
+</div>
+<div class="paragraph">
+<p>If <code>REGEX2</code> has a match, it returns <code>STR2</code>.</p>
+</div>
+<div class="paragraph">
+<p>The function stops on the first match, i.e., if <code>REGEX1</code> has a match,
+no more regexes are processed. If no regex has a match, <code>STR_FALLBACK</code>
+is returned. If there is no fallback value, it returns an empty string.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cpulist2devs"><strong>cpulist2devs</strong></h4>
+<div class="paragraph">
+<p>Converts a CPU list into a comma-separated list of device names.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>The following will return <code>cpu1,cpu2,cpu3,cpu5</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:cpulist2devs:1-3,5}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cpulist2hex"><strong>cpulist2hex</strong></h4>
+<div class="paragraph">
+<p>Converts a CPU list into a hexadecimal CPU mask.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>The following will return <code>00000007</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:cpulist2hex:0-3}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cpulist2hex_invert"><strong>cpulist2hex_invert</strong></h4>
+<div class="paragraph">
+<p>Converts a CPU list into a hexadecimal CPU mask and inverts it.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>On a system with 4 CPUs numbered from 0 to 3, the following will
+return <code>00000002</code>, because only CPU1 is in the complement.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:cpulist2hex_invert:0,2,3}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cpulist_invert"><strong>cpulist_invert</strong></h4>
+<div class="paragraph">
+<p>Inverts a CPU list, i.e., returns its complement. The complement is
+computed from the list of online CPUs in <code>/sys/devices/system/cpu/online</code>.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>On a system with 4 CPUs numbered from 0 to 3, the following will return <code>1</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:cpulist_invert:0,2,3}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cpulist_online"><strong>cpulist_online</strong></h4>
+<div class="paragraph">
+<p>Returns a CPU list containing the online CPUs from the given CPU list.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>On a system with 8 CPUs where the first 4 CPUs (0 to 3) are offline,
+the following returns <code>4-6</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:cpulist_online:0-6}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cpulist_pack"><strong>cpulist_pack</strong></h4>
+<div class="paragraph">
+<p>Packs a CPU list into the most succint form.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>The following returns <code>1-3,5</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:cpulist_pack:1,2,3,5}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cpulist_present"><strong>cpulist_present</strong></h4>
+<div class="paragraph">
+<p>Checks whether the CPUs from a given CPU list are present on the system.
+Returns a CPU list containing only the present CPUs from the given list.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cpulist_unpack"><strong>cpulist_unpack</strong></h4>
+<div class="paragraph">
+<p>Unpacks a CPU list into a form with no ranges.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>The following returns <code>1,2,3,5</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:cpulist_unpack:1-3,5}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_exec"><strong>exec</strong></h4>
+<div class="paragraph">
+<p>Executes a process and returns its output.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>The following executes <code>cat /etc/tuned/active_profile</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:exec:cat:/etc/tuned/active_profile}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hex2cpulist"><strong>hex2cpulist</strong></h4>
+<div class="paragraph">
+<p>Converts a hexadecimal CPU mask into a CPU list.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>The following will return <code>0,1,2,3</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:hex2cpulist:00000007}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_intel_recommended_pstate"><strong>intel_recommended_pstate</strong></h4>
+<div class="paragraph">
+<p>Returns the recommended intel_pstate CPUFreq driver mode
+based on the CPU generation.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Intel recommends to use the P-State driver
+in active mode with HWP enabled starting from the Ice Lake
+CPU generations. In older CPU generations, setting
+P-State to <code>active</code> can introduce jitters which were historically
+seen around and tested with RHEL-7.4. Beginning with the Ice Lake
+generation, Intel has fixed these issues.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_kb2s"><strong>kb2s</strong></h4>
+<div class="paragraph">
+<p>Converts kilobytes to disk sectors.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_log"><strong>log</strong></h4>
+<div class="paragraph">
+<p>Returns the concatenation of its arguments and also logs the return value,
+which is useful for debugging.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 62. Using <code>log</code> to debug intermediate values</div>
+<div class="content">
+<div class="paragraph">
+<p>Since the arguments of <code>log</code> "fall through" the function, it
+can be used as below for debugging intermediate values:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[variables]
+isolated_cores_hex = ${f:cpulist2hex:${f:log:${f:calc_isolated_cores}}}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lscpu_check"><strong>lscpu_check</strong></h4>
+<div class="paragraph">
+<p>Checks regexes against the output of <code>lscpu</code>.</p>
+</div>
+<div class="paragraph">
+<p>Accepts arguments in the form <code>REGEX1, STR1, REGEX2, STR2, &#8230;&#8203;[, STR_FALLBACK]</code>.</p>
+</div>
+<div class="paragraph">
+<p>If <code>REGEX1</code> has a match in the output of <code>lscpu</code>, it returns <code>STR1</code>.</p>
+</div>
+<div class="paragraph">
+<p>If <code>REGEX2</code> has a match, it returns <code>STR2</code>.</p>
+</div>
+<div class="paragraph">
+<p>The function stops on the first match, i.e., if <code>REGEX1</code> has a match,
+no more regexes are processed. If no regex has a match, <code>STR_FALLBACK</code>
+is returned. If there is no fallback value, returns an empty string.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_package2cpus"><strong>package2cpus</strong></h4>
+<div class="paragraph">
+<p>Returns a comma-separated list of CPU devices for a package (socket).
+Multiple socket numbers can be specified in separate arguments.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>On a system with two CPU sockets, both with 4 cores, the
+following will return <code>cpu0,cpu1,cpu2,cpu3,cpu4,cpu5,cpu6,cpu7</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:package2cpus:0:1}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_package2uncores"><strong>package2uncores</strong></h4>
+<div class="paragraph">
+<p>Returns a comma-separated list of uncore devices for a package (socket).
+Multiple socket numbers can be specified in separate arguments.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>On a system with a single socket and a single die,
+the following will return <code>package_00_die_00</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:package2uncores:0}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_regex_search_ternary"><strong>regex_search_ternary</strong></h4>
+<div class="paragraph">
+<p>Ternary regex operator.</p>
+</div>
+<div class="paragraph">
+<p>It takes arguments in the following form:
+<code>STR1, REGEX, STR2, STR3</code></p>
+</div>
+<div class="paragraph">
+<p>If <code>REGEX</code> is matched within <code>STR1</code>, returns <code>STR2</code>, otherwise returns <code>STR3</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_s2kb"><strong>s2kb</strong></h4>
+<div class="paragraph">
+<p>Converts disk sectors to kilobytes.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_strip"><strong>strip</strong></h4>
+<div class="paragraph">
+<p>Creates a string by concatenating all arguments,
+stripping any leading or trailing whitespace from
+the result.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>The following returns <code>foo bar</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:strip:  foo :bar  }</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_virt_check"><strong>virt_check</strong></h4>
+<div class="paragraph">
+<p>Checks whether <strong>TuneD</strong> is running inside a virtual machine (VM) or on bare metal.</p>
+</div>
+<div class="paragraph">
+<p>Inside a VM, it returns the first argument.
+Otherwise returns the second argument (even on error).</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>The following returns <code>VM</code> when running in a virtual machine:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>${f:virt_check:VM:Bare}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="creating-new-tuned-profiles_customizing-tuned-profiles">Creating new TuneD profiles</h3>
+<div class="paragraph _abstract">
+<p>This procedure creates a new <strong>TuneD</strong> profile with custom performance rules.</p>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p>The <code>tuned</code> service is running. See <a href="#installing-and-enabling-tuned_getting-started-with-tuned">Installing and Enabling Tuned</a> for details.</p>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>In the <code class="filename">/etc/tuned/profiles</code> directory, create a new directory named the same as the profile that you want to create:</p>
+<div class="listingblock">
+<div class="content">
+<pre># mkdir /etc/tuned/profiles/<em class="replaceable">my-profile</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>In the new directory, create a file named <code class="filename">tuned.conf</code>. Add a <code>[main]</code> section and plug-in definitions in it, according to your requirements.</p>
+<div class="paragraph">
+<p>For example, see the configuration of the <code>balanced</code> profile:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[main]
+summary=General non-specialized TuneD profile
+
+[cpu]
+governor=conservative
+energy_perf_bias=normal
+
+[audio]
+timeout=10
+
+[video]
+radeon_powersave=dpm-balanced, auto
+
+[scsi_host]
+alpm=med_power_with_dipm</pre>
+</div>
+</div>
+</li>
+<li>
+<p>To activate the profile, use:</p>
+<div class="listingblock">
+<div class="content">
+<pre># tuned-adm profile <em class="replaceable">my-profile</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Verify that the <strong>TuneD</strong> profile is active and the system settings are applied:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ tuned-adm active
+
+Current active profile: <em class="replaceable">my-profile</em></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ tuned-adm verify
+
+Verification succeeded, current system settings match the preset profile.
+See TuneD log file ('/var/log/tuned/tuned.log') for details.</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned.conf(5)</code> man page</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="modifying-existing-tuned-profiles_customizing-tuned-profiles">Modifying existing TuneD profiles</h3>
+<div class="paragraph _abstract">
+<p>This procedure creates a modified child profile based on an existing <strong>TuneD</strong> profile.</p>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p>The <code>tuned</code> service is running. See <a href="#installing-and-enabling-tuned_getting-started-with-tuned">Installing and Enabling Tuned</a> for details.</p>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>In the <code class="filename">/etc/tuned/profiles</code> directory, create a new directory named the same as the profile that you want to create:</p>
+<div class="listingblock">
+<div class="content">
+<pre># mkdir /etc/tuned/profiles/<em class="replaceable">modified-profile</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>In the new directory, create a file named <code class="filename">tuned.conf</code>, and set the <code>[main]</code> section as follows:</p>
+<div class="listingblock">
+<div class="content">
+<pre>[main]
+include=<em class="replaceable">parent-profile</em></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Replace <em class="replaceable">parent-profile</em> with the name of the profile you are modifying.</p>
+</div>
+</li>
+<li>
+<p>Include your profile modifications.</p>
+<div class="openblock">
+<div class="content">
+<div class="exampleblock">
+<div class="title">Example 63. Lowering swappiness in the throughput-performance profile</div>
+<div class="content">
+<div class="paragraph">
+<p>To use the settings from the <code>throughput-performance</code> profile and change the value of <code>vm.swappiness</code> to 5, instead of the default 10, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[main]
+include=throughput-performance
+
+[sysctl]
+vm.swappiness=5</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>To activate the profile, use:</p>
+<div class="listingblock">
+<div class="content">
+<pre># tuned-adm profile <em class="replaceable">modified-profile</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Verify that the <strong>TuneD</strong> profile is active and the system settings are applied:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ tuned-adm active
+
+Current active profile: <em class="replaceable">my-profile</em></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ tuned-adm verify
+
+Verification succeeded, current system settings match the preset profile.
+See TuneD log file ('/var/log/tuned/tuned.log') for details.</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><code>tuned.conf(5)</code> man page</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="setting-the-disk-scheduler-using-tuned_customizing-tuned-profiles">Setting the disk scheduler using TuneD</h3>
+<div class="paragraph _abstract">
+<p>This procedure creates and enables a <strong>TuneD</strong> profile that sets a given disk scheduler for selected block devices. The setting persists across system reboots.</p>
+</div>
+<div class="paragraph">
+<p>In the following commands and configuration, replace:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em class="replaceable">device</em> with the name of the block device, for example <code>sdf</code></p>
+</li>
+<li>
+<p><em class="replaceable">selected-scheduler</em> with the disk scheduler that you want to set for the device, for example <code>bfq</code></p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p>The <code>tuned</code> service is installed and enabled. For details, see <a href="#installing-and-enabling-tuned_getting-started-with-tuned">Installing and enabling Tuned</a></p>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>Optional: Select an existing <strong>TuneD</strong> profile on which your profile will be based. For a list of available profiles, see <a href="#tuned-profiles-distributed-with-rhel_getting-started-with-tuned">Tuned profiles distributed with RHEL</a>.</p>
+<div class="paragraph">
+<p>To see which profile is currently active, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ tuned-adm active</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create a new directory to hold your <strong>TuneD</strong> profile:</p>
+<div class="listingblock">
+<div class="content">
+<pre># mkdir /etc/tuned/profiles/<em class="replaceable">my-profile</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Find the system unique identifier of the selected block device:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ udevadm info --query=property --name=/dev/<em>device</em> | grep -E '(WWN|SERIAL)'
+
+ID_WWN=<em>0x5002538d00000000_</em>
+ID_SERIAL=<em>Generic-_SD_MMC_20120501030900000-0:0</em>
+ID_SERIAL_SHORT=<em>20120501030900000</em></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The command in the this example will return all values identified as a World Wide Name (WWN) or serial number associated with the specified block device. Although it is preferred to use a WWN, the WWN is not always available for a given device and any values returned by the example command are acceptable to use as the <em>device system unique ID</em>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Create the <code>/etc/tuned/profiles/<em class="replaceable">my-profile</em>/tuned.conf</code> configuration file. In the file, set the following options:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Optional: Include an existing profile:</p>
+<div class="listingblock">
+<div class="content">
+<pre>[main]
+include=<em>existing-profile</em></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Set the selected disk scheduler for the device that matches the WWN identifier:</p>
+<div class="listingblock">
+<div class="content">
+<pre>[disk]
+devices_udev_regex=<em>IDNAME</em>=<em>device system unique id</em>
+elevator=<em>selected-scheduler</em></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Replace <em>IDNAME</em> with the name of the identifier being used (for example, <code>ID_WWN</code>).</p>
+</li>
+<li>
+<p>Replace <em>device system unique id</em> with the value of the chosen identifier (for example, <code>0x5002538d00000000</code>).</p>
+<div class="paragraph">
+<p>To match multiple devices in the <code>devices_udev_regex</code> option, enclose the identifiers in parentheses and separate them with vertical bars:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>devices_udev_regex=(ID_WWN=<em>0x5002538d00000000</em>)|(ID_WWN=<em>0x1234567800000000</em>)</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Enable your profile:</p>
+<div class="listingblock">
+<div class="content">
+<pre># tuned-adm profile <em class="replaceable">my-profile</em></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<div class="title">Verification steps</div>
+<ol class="arabic">
+<li>
+<p>Verify that the TuneD profile is active and applied:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ tuned-adm active
+
+Current active profile: <em class="replaceable">my-profile</em></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ tuned-adm verify
+
+Verification succeeded, current system settings match the preset profile.
+See TuneD log file ('/var/log/tuned/tuned.log') for details.</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="ulist _additional-resources">
+<div class="title">Additional resources</div>
+<ul>
+<li>
+<p><a href="#customizing-tuned-profiles_tuned-documentation">Customizing Tuned profiles</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="related-information-customizing-tuned-profiles">Related information</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>tuned.conf(5)</code> man page</p>
+</li>
+<li>
+<p>The <strong>TuneD</strong> project website: <a href="https://tuned-project.org/" class="bare">https://tuned-project.org/</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Version 2.28.0<br>
+Last updated 2026-09-10 00:00:00 UTC
+</div>
+</div>
+</body>
+</html>

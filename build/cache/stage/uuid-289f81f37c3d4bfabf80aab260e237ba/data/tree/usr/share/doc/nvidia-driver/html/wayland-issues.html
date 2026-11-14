@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org">
+<meta http-equiv="Content-Type" content=
+"text/html; charset=us-ascii">
+<title>Appendix&nbsp;L.&nbsp;Wayland Known Issues</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.68.1">
+<link rel="start" href="index.html" title=
+"NVIDIA Accelerated Linux Graphics Driver README and Installation Guide">
+<link rel="up" href="appendices.html" title=
+"Part&nbsp;II.&nbsp;Appendices">
+<link rel="prev" href="gpunames.html" title=
+"Appendix&nbsp;K.&nbsp;GPU Names">
+</head>
+<body>
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Appendix&nbsp;L.&nbsp;Wayland Known
+Issues</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href=
+"gpunames.html">Prev</a>&nbsp;</td>
+<th width="60%" align="center">Part&nbsp;II.&nbsp;Appendices</th>
+<td width="20%" align="right">&nbsp;</td>
+</tr>
+</table>
+<hr></div>
+<div class="appendix" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title"><a name="wayland-issues" id=
+"wayland-issues"></a>Appendix&nbsp;L.&nbsp;Wayland Known
+Issues</h2>
+</div>
+</div>
+</div>
+<h3>Overview</h3>
+<p>There are several areas in which the NVIDIA driver lacks feature
+parity between X11 and Wayland. These may be due to limitations of
+the driver itself, the Wayland protocol, or the specific Wayland
+compositor in use. Over time this list is expected to shorten as
+missing functionality is implemented both in the driver and in
+upstream components, but the following captures the situation as of
+the release of this driver version. Note that this assumes a
+compositor with reasonably complete support for graphics-related
+Wayland protocol extensions.</p>
+<h3>NVIDIA Driver Limitations</h3>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>Wayland compositors may not be designed to handle the case where
+two DRM drivers instantiate independent device nodes capable of
+driving the same display. When the nvidia-drm driver does not
+remove conflicting framebuffers and instantiate its own DRM fbdev
+support, simpledrm will remain present for driving the initial
+framebuffer console if initially loaded. In this situation, both
+simpledrm and nvidia-drm have DRI device nodes driving the same
+display. This can lead to issues such as a black screen,
+corruption, or flickering. A workaround for this is to set the
+fbdev=1 module parameter for the nvidia-drm kernel module.</p>
+</li>
+<li>
+<p>The nvidia-drm module does support the DEGAMMA_LUT, CTM, and
+GAMMA_LUT CRTC properties. However the COLOR_ENCODING and
+COLOR_RANGE plane properties are unsupported. This may impact some
+advanced compositor features related to color correction.</p>
+</li>
+<li>
+<p>The nvidia-settings configuration tool has limited functionality
+on Wayland.</p>
+</li>
+<li>
+<p>Front-buffer rendering in GLX does not work with Xwayland.</p>
+</li>
+<li>
+<p>Explicit Sync refers to using DRM Syncobj timeline
+synchronization points to explicitly signal ownership transfers of
+shared buffers to and from the compositor. Explicit Sync support
+requires a kernel that contains the following two commits, which
+fix bugs preventing Explicit Sync from working correctly. These are
+present in 6.8.x or newer kernels.</p>
+<div class="itemizedlist">
+<ul type="circle">
+<li>
+<p>"drm/syncobj: fix DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE" with
+commit hash 101c9f637efa1655f55876644d4439e552267527.</p>
+</li>
+<li>
+<p>"drm/syncobj: handle NULL fence in syncobj_eventfd_entry_func"
+with commit hash 2aa6f5b0fd052e363bb9d4b547189f0bf6b3d6d3.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3>Wayland Protocol or Compositor Limitations</h3>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>The following workstation features are not supported by any
+Wayland compositors or the Wayland protocol. They will also likely
+require new EGL extensions or other means to expose the related
+hardware functionality. Features followed by an asterisk (*) are
+supported with VK_KHR_display.</p>
+<div class="itemizedlist">
+<ul type="circle">
+<li>
+<p>SLI Mosaic (<a href="sli.html" title=
+"Chapter&nbsp;30.&nbsp;Configuring SLI Mosaic">Chapter&nbsp;30,
+<i>Configuring SLI Mosaic</i></a>)</p>
+</li>
+<li>
+<p>Frame Lock and Genlock (<a href="framelock.html" title=
+"Chapter&nbsp;31.&nbsp;Configuring Frame Lock and Genlock">Chapter&nbsp;31,
+<i>Configuring Frame Lock and Genlock</i></a>)*</p>
+</li>
+<li>
+<p>Swap Groups*</p>
+</li>
+<li>
+<p>Advanced display pipeline features including warp and blend,
+pixel shift, and emulated YUV420.</p>
+</li>
+<li>
+<p>Stereo rendering*</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>There is no established public API through which Wayland
+compositors can power off video memory via RTD3 (<a href=
+"dynamicpowermanagement.html" title=
+"Chapter&nbsp;21.&nbsp;PCI-Express Runtime D3 (RTD3) Power Management">Chapter&nbsp;21,
+<i>PCI-Express Runtime D3 (RTD3) Power Management</i></a>).</p>
+</li>
+<li>
+<p>Display multiplexers (muxes) are typically used in laptops with
+both integrated and discrete GPUs to provide a direct connection
+between the discrete GPU and the built-in display (internal mux) or
+an external display (external mux). On X11, the display mux can be
+automatically switched when a full-screen application is running on
+the discrete GPU, enabling enhanced display features and improved
+performance, but no Wayland compositors currently support this
+functionality.</p>
+</li>
+<li>
+<p>On Linux v6.19 and newer kernels, the nvidia-drm module supports
+the per-plane DRM color pipeline API, allowing Wayland compositors
+to offload color management (e.g. for HDR) to NVIDIA display
+hardware via the upstream COLOR_PIPELINE plane property and
+associated colorops, in place of NVIDIA's vendor-specific color
+properties.</p>
+<p>Some Wayland compositors may not yet correctly handle color
+pipelines that contain non-bypassable colorops, which can cause a
+blank screen (e.g. when enabling system HDR).</p>
+<p>As a workaround until affected compositors are updated, DRM
+color pipeline support in nvidia-drm can be disabled with the
+color_pipeline=0 module parameter for the nvidia-drm kernel module.
+E.g., to disable it:</p>
+<pre class="screen">
+modprobe -r nvidia_drm ; modprobe nvidia_drm color_pipeline=0
+</pre>
+<p></p>
+</li>
+<li>
+<p>Indirect GLX is not supported by Xwayland.</p>
+</li>
+<li>
+<p>Hardware overlays cannot be used by GLX applications with
+Xwayland.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href=
+"gpunames.html">Prev</a>&nbsp;</td>
+<td width="20%" align="center"><a accesskey="u" href=
+"appendices.html">Up</a></td>
+<td width="40%" align="right">&nbsp;</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Appendix&nbsp;K.&nbsp;GPU
+Names&nbsp;</td>
+<td width="20%" align="center"><a accesskey="h" href=
+"index.html">Home</a></td>
+<td width="40%" align="right" valign="top">&nbsp;</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

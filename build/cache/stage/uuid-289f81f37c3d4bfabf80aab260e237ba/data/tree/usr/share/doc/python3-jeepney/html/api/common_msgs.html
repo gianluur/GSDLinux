@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Common messages &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Authentication" href="auth.html" />
+    <link rel="prev" title="Core API" href="core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="core.html">Core API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Common messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.Properties"><code class="docutils literal notranslate"><span class="pre">Properties</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.Properties.get"><code class="docutils literal notranslate"><span class="pre">Properties.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.Properties.get_all"><code class="docutils literal notranslate"><span class="pre">Properties.get_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.Properties.set"><code class="docutils literal notranslate"><span class="pre">Properties.set()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.Introspectable"><code class="docutils literal notranslate"><span class="pre">Introspectable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.Introspectable.Introspect"><code class="docutils literal notranslate"><span class="pre">Introspectable.Introspect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.DBus"><code class="docutils literal notranslate"><span class="pre">DBus</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.AddMatch"><code class="docutils literal notranslate"><span class="pre">DBus.AddMatch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.GetAdtAuditSessionData"><code class="docutils literal notranslate"><span class="pre">DBus.GetAdtAuditSessionData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.GetConnectionCredentials"><code class="docutils literal notranslate"><span class="pre">DBus.GetConnectionCredentials()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.GetConnectionSELinuxSecurityContext"><code class="docutils literal notranslate"><span class="pre">DBus.GetConnectionSELinuxSecurityContext()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.GetConnectionUnixProcessID"><code class="docutils literal notranslate"><span class="pre">DBus.GetConnectionUnixProcessID()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.GetConnectionUnixUser"><code class="docutils literal notranslate"><span class="pre">DBus.GetConnectionUnixUser()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.GetId"><code class="docutils literal notranslate"><span class="pre">DBus.GetId()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.GetNameOwner"><code class="docutils literal notranslate"><span class="pre">DBus.GetNameOwner()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.Hello"><code class="docutils literal notranslate"><span class="pre">DBus.Hello()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.ListActivatableNames"><code class="docutils literal notranslate"><span class="pre">DBus.ListActivatableNames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.ListNames"><code class="docutils literal notranslate"><span class="pre">DBus.ListNames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.ListQueuedOwners"><code class="docutils literal notranslate"><span class="pre">DBus.ListQueuedOwners()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.NameHasOwner"><code class="docutils literal notranslate"><span class="pre">DBus.NameHasOwner()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.ReleaseName"><code class="docutils literal notranslate"><span class="pre">DBus.ReleaseName()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.ReloadConfig"><code class="docutils literal notranslate"><span class="pre">DBus.ReloadConfig()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.RemoveMatch"><code class="docutils literal notranslate"><span class="pre">DBus.RemoveMatch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.RequestName"><code class="docutils literal notranslate"><span class="pre">DBus.RequestName()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.StartServiceByName"><code class="docutils literal notranslate"><span class="pre">DBus.StartServiceByName()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.UpdateActivationEnvironment"><code class="docutils literal notranslate"><span class="pre">DBus.UpdateActivationEnvironment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.DBus.interface"><code class="docutils literal notranslate"><span class="pre">DBus.interface</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.Monitoring"><code class="docutils literal notranslate"><span class="pre">Monitoring</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.Monitoring.BecomeMonitor"><code class="docutils literal notranslate"><span class="pre">Monitoring.BecomeMonitor()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="auth.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fds.html">File descriptor support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blocking.html">Blocking I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="threading.html">Blocking I/O with threads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trio.html">Trio integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="asyncio.html">Asyncio integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io_exceptions.html">I/O Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API reference</a></li>
+      <li class="breadcrumb-item active">Common messages</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/common_msgs.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="common-messages">
+<h1>Common messages<a class="headerlink" href="#common-messages" title="Link to this heading"></a></h1>
+<p>These classes are <em>message generators</em>. Wrap them in a <a class="reference internal" href="../integrate.html#msggen-proxies"><span class="std std-ref">Proxy</span></a> class to actually send the messages as well.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.Properties">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">Properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#jeepney.DBusAddress" title="jeepney.wrappers.DBusAddress"><span class="pre">DBusAddress</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="core.html#jeepney.MessageGenerator" title="jeepney.wrappers.MessageGenerator"><span class="pre">MessageGenerator</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#Properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Properties" title="Link to this definition"></a></dt>
+<dd><p>Build messages for accessing object properties</p>
+<p>If a D-Bus object has multiple interfaces, each interface has its own
+set of properties.</p>
+<p>This uses the standard DBus interface <code class="docutils literal notranslate"><span class="pre">org.freedesktop.DBus.Properties</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.Properties.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#Properties.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Properties.get" title="Link to this definition"></a></dt>
+<dd><p>Get the value of the property <em>name</em></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.Properties.get_all">
+<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#Properties.get_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Properties.get_all" title="Link to this definition"></a></dt>
+<dd><p>Get all property values for this interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.Properties.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#Properties.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Properties.set" title="Link to this definition"></a></dt>
+<dd><p>Set the property <em>name</em> to <em>value</em> (with appropriate signature)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.Introspectable">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">Introspectable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bus_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#Introspectable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Introspectable" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="jeepney.Introspectable.Introspect">
+<span class="sig-name descname"><span class="pre">Introspect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/wrappers.html#Introspectable.Introspect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Introspectable.Introspect" title="Link to this definition"></a></dt>
+<dd><p>Request D-Bus introspection XML for a remote object</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.DBus">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">DBus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/org/freedesktop/DBus'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bus_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'org.freedesktop.DBus'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus" title="Link to this definition"></a></dt>
+<dd><p>Messages to talk to the message bus</p>
+<p>There is a ready-made instance of this at <code class="docutils literal notranslate"><span class="pre">jeepney.message_bus</span></code>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.AddMatch">
+<span class="sig-name descname"><span class="pre">AddMatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rule</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.AddMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.AddMatch" title="Link to this definition"></a></dt>
+<dd><p><em>rule</em> can be a str or a <a class="reference internal" href="core.html#jeepney.MatchRule" title="jeepney.MatchRule"><code class="xref py py-class docutils literal notranslate"><span class="pre">MatchRule</span></code></a> instance</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.GetAdtAuditSessionData">
+<span class="sig-name descname"><span class="pre">GetAdtAuditSessionData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.GetAdtAuditSessionData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.GetAdtAuditSessionData" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.GetConnectionCredentials">
+<span class="sig-name descname"><span class="pre">GetConnectionCredentials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.GetConnectionCredentials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.GetConnectionCredentials" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.GetConnectionSELinuxSecurityContext">
+<span class="sig-name descname"><span class="pre">GetConnectionSELinuxSecurityContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.GetConnectionSELinuxSecurityContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.GetConnectionSELinuxSecurityContext" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.GetConnectionUnixProcessID">
+<span class="sig-name descname"><span class="pre">GetConnectionUnixProcessID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.GetConnectionUnixProcessID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.GetConnectionUnixProcessID" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.GetConnectionUnixUser">
+<span class="sig-name descname"><span class="pre">GetConnectionUnixUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.GetConnectionUnixUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.GetConnectionUnixUser" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.GetId">
+<span class="sig-name descname"><span class="pre">GetId</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.GetId"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.GetId" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.GetNameOwner">
+<span class="sig-name descname"><span class="pre">GetNameOwner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.GetNameOwner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.GetNameOwner" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.Hello">
+<span class="sig-name descname"><span class="pre">Hello</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.Hello"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.Hello" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.ListActivatableNames">
+<span class="sig-name descname"><span class="pre">ListActivatableNames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.ListActivatableNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.ListActivatableNames" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.ListNames">
+<span class="sig-name descname"><span class="pre">ListNames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.ListNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.ListNames" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.ListQueuedOwners">
+<span class="sig-name descname"><span class="pre">ListQueuedOwners</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.ListQueuedOwners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.ListQueuedOwners" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.NameHasOwner">
+<span class="sig-name descname"><span class="pre">NameHasOwner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.NameHasOwner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.NameHasOwner" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.ReleaseName">
+<span class="sig-name descname"><span class="pre">ReleaseName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.ReleaseName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.ReleaseName" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.ReloadConfig">
+<span class="sig-name descname"><span class="pre">ReloadConfig</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.ReloadConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.ReloadConfig" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.RemoveMatch">
+<span class="sig-name descname"><span class="pre">RemoveMatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rule</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.RemoveMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.RemoveMatch" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.RequestName">
+<span class="sig-name descname"><span class="pre">RequestName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.RequestName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.RequestName" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.StartServiceByName">
+<span class="sig-name descname"><span class="pre">StartServiceByName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.StartServiceByName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.StartServiceByName" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.DBus.UpdateActivationEnvironment">
+<span class="sig-name descname"><span class="pre">UpdateActivationEnvironment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#DBus.UpdateActivationEnvironment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.DBus.UpdateActivationEnvironment" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.DBus.interface">
+<span class="sig-name descname"><span class="pre">interface</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'org.freedesktop.DBus'</span></span><a class="headerlink" href="#jeepney.DBus.interface" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.Monitoring">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">Monitoring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/org/freedesktop/DBus'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bus_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'org.freedesktop.DBus'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#Monitoring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Monitoring" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="jeepney.Monitoring.BecomeMonitor">
+<span class="sig-name descname"><span class="pre">BecomeMonitor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/bus_messages.html#Monitoring.BecomeMonitor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.Monitoring.BecomeMonitor" title="Link to this definition"></a></dt>
+<dd><p>Convert this connection to a monitor connection (advanced)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="core.html" class="btn btn-neutral float-left" title="Core API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="auth.html" class="btn btn-neutral float-right" title="Authentication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

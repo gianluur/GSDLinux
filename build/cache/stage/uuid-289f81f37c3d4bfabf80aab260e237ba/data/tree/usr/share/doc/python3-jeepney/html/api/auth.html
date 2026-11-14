@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Authentication &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="File descriptor support" href="fds.html" />
+    <link rel="prev" title="Common messages" href="common_msgs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="core.html">Core API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_msgs.html">Common messages</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Authentication</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.auth.make_auth_external"><code class="docutils literal notranslate"><span class="pre">make_auth_external()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.auth.make_auth_anonymous"><code class="docutils literal notranslate"><span class="pre">make_auth_anonymous()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.auth.BEGIN"><code class="docutils literal notranslate"><span class="pre">BEGIN</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.auth.Authenticator"><code class="docutils literal notranslate"><span class="pre">Authenticator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.auth.Authenticator.authenticated"><code class="docutils literal notranslate"><span class="pre">Authenticator.authenticated</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.auth.Authenticator.error"><code class="docutils literal notranslate"><span class="pre">Authenticator.error</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.auth.Authenticator.data_to_send"><code class="docutils literal notranslate"><span class="pre">Authenticator.data_to_send()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.auth.Authenticator.feed"><code class="docutils literal notranslate"><span class="pre">Authenticator.feed()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.auth.AuthenticationError"><code class="docutils literal notranslate"><span class="pre">AuthenticationError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.auth.FDNegotiationError"><code class="docutils literal notranslate"><span class="pre">FDNegotiationError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#typical-flow">Typical flow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fds.html">File descriptor support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blocking.html">Blocking I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="threading.html">Blocking I/O with threads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trio.html">Trio integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="asyncio.html">Asyncio integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io_exceptions.html">I/O Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API reference</a></li>
+      <li class="breadcrumb-item active">Authentication</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/auth.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="authentication">
+<h1>Authentication<a class="headerlink" href="#authentication" title="Link to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you use any of Jeepney’s I/O integrations, authentication is built
+in. You only need these functions if you’re working outside that.</p>
+</div>
+<p>If you are setting up a socket for D-Bus, you will need to do <a class="reference external" href="https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer">SASL</a>
+authentication before starting to send and receive D-Bus messages.
+This text based protocol is completely different to D-Bus itself.</p>
+<p>Only a small fraction of SASL is implemented here, primarily what Jeepney’s
+integration layer uses. If you’re doing something different, you may need to
+implement other messages yourself.</p>
+<dl class="py function" id="module-jeepney.auth">
+<dt class="sig sig-object py" id="jeepney.auth.make_auth_external">
+<span class="sig-prename descclassname"><span class="pre">jeepney.auth.</span></span><span class="sig-name descname"><span class="pre">make_auth_external</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="../_modules/jeepney/auth.html#make_auth_external"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.auth.make_auth_external" title="Link to this definition"></a></dt>
+<dd><p>Prepare an AUTH command line with the current effective user ID.</p>
+<p>This is the preferred authentication method for typical D-Bus connections
+over a Unix domain socket.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jeepney.auth.make_auth_anonymous">
+<span class="sig-prename descclassname"><span class="pre">jeepney.auth.</span></span><span class="sig-name descname"><span class="pre">make_auth_anonymous</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="../_modules/jeepney/auth.html#make_auth_anonymous"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.auth.make_auth_anonymous" title="Link to this definition"></a></dt>
+<dd><p>Format an AUTH command line for the ANONYMOUS mechanism</p>
+<p>Jeepney’s higher-level wrappers don’t currently use this mechanism,
+but third-party code may choose to.</p>
+<p>See &lt;<a class="reference external" href="https://tools.ietf.org/html/rfc4505">https://tools.ietf.org/html/rfc4505</a>&gt; for details.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="jeepney.auth.BEGIN">
+<span class="sig-prename descclassname"><span class="pre">jeepney.auth.</span></span><span class="sig-name descname"><span class="pre">BEGIN</span></span><a class="headerlink" href="#jeepney.auth.BEGIN" title="Link to this definition"></a></dt>
+<dd><p>Send this just before switching to the D-Bus protocol.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.auth.Authenticator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.auth.</span></span><span class="sig-name descname"><span class="pre">Authenticator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable_fds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_null_byte</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/auth.html#Authenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.auth.Authenticator" title="Link to this definition"></a></dt>
+<dd><p>Process data for the SASL authentication conversation</p>
+<p>If enable_fds is True, this includes negotiating support for passing
+file descriptors. If inc_null_byte is True, sends the ‘' byte
+at the beginning of the negotiations, which was the past behavior,
+but which prevents sending the SCM_CREDS ancillary data over the socket,
+breaking authentication on <a href="#id1"><span class="problematic" id="id2">*</span></a>BSD; the caller should rather send that
+null byte and ancillary data and pass inc_null_byte=False to prevent
+it being done here.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.7: </span>This class was renamed from <code class="docutils literal notranslate"><span class="pre">SASLParser</span></code> and substantially changed.</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.auth.Authenticator.authenticated">
+<span class="sig-name descname"><span class="pre">authenticated</span></span><a class="headerlink" href="#jeepney.auth.Authenticator.authenticated" title="Link to this definition"></a></dt>
+<dd><p>Initially False, changes to True when authentication has succeeded.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jeepney.auth.Authenticator.error">
+<span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#jeepney.auth.Authenticator.error" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code>, or the raw bytes of an error message if authentication failed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.auth.Authenticator.data_to_send">
+<span class="sig-name descname"><span class="pre">data_to_send</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/jeepney/auth.html#Authenticator.data_to_send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.auth.Authenticator.data_to_send" title="Link to this definition"></a></dt>
+<dd><p>Get a line of data to send to the server</p>
+<p>The data returned should be sent before waiting to receive data.
+Returns empty bytes if waiting for more data from the server, and None
+if authentication is finished (success or error).</p>
+<p>Iterating over the Authenticator object will also yield these lines;
+<a class="reference internal" href="#jeepney.auth.Authenticator.feed" title="jeepney.auth.Authenticator.feed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">feed()</span></code></a> should be called with received data inside the loop.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.auth.Authenticator.feed">
+<span class="sig-name descname"><span class="pre">feed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/auth.html#Authenticator.feed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.auth.Authenticator.feed" title="Link to this definition"></a></dt>
+<dd><p>Process received data</p>
+<p>Raises AuthenticationError if the incoming data is not as expected for
+successful authentication. The connection should then be abandoned.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="jeepney.auth.AuthenticationError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.auth.</span></span><span class="sig-name descname"><span class="pre">AuthenticationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Authentication</span> <span class="pre">failed'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/auth.html#AuthenticationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.auth.AuthenticationError" title="Link to this definition"></a></dt>
+<dd><p>Raised when DBus authentication fails</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="jeepney.auth.FDNegotiationError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.auth.</span></span><span class="sig-name descname"><span class="pre">FDNegotiationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/auth.html#FDNegotiationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.auth.FDNegotiationError" title="Link to this definition"></a></dt>
+<dd><p>Raised when file descriptor support is requested but not available</p>
+</dd></dl>
+
+<section id="typical-flow">
+<h2>Typical flow<a class="headerlink" href="#typical-flow" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Send the data from <a class="reference internal" href="#jeepney.auth.Authenticator.data_to_send" title="jeepney.auth.Authenticator.data_to_send"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Authenticator.data_to_send()</span></code></a> (or
+<code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">req_data</span> <span class="pre">in</span> <span class="pre">authenticator</span></code>).</p></li>
+<li><p>Receive data from the server, pass to <a class="reference internal" href="#jeepney.auth.Authenticator.feed" title="jeepney.auth.Authenticator.feed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Authenticator.feed()</span></code></a>.</p></li>
+<li><p>Repeat 1 &amp; 2 until <a class="reference internal" href="#jeepney.auth.Authenticator.authenticated" title="jeepney.auth.Authenticator.authenticated"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Authenticator.authenticated</span></code></a> is True,  or the for
+loop exits.</p></li>
+<li><p>Send <a class="reference internal" href="#jeepney.auth.BEGIN" title="jeepney.auth.BEGIN"><code class="xref py py-data docutils literal notranslate"><span class="pre">BEGIN</span></code></a>.</p></li>
+<li><p>Start sending &amp; receiving D-Bus messages.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="common_msgs.html" class="btn btn-neutral float-left" title="Common messages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="fds.html" class="btn btn-neutral float-right" title="File descriptor support" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

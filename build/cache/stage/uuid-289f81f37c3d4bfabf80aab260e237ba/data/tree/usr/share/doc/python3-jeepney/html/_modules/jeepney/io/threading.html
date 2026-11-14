@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jeepney.io.threading &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">jeepney.io.threading</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for jeepney.io.threading</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Synchronous IO wrappers with thread safety</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Future</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">selectors</span><span class="w"> </span><span class="kn">import</span> <span class="n">EVENT_READ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">queue</span><span class="w"> </span><span class="kn">import</span> <span class="n">Queue</span><span class="p">,</span> <span class="n">Full</span> <span class="k">as</span> <span class="n">QueueFull</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">threading</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lock</span><span class="p">,</span> <span class="n">Thread</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">MessageType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney.bus</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_bus</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney.bus_messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">message_bus</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney.wrappers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProxyBase</span><span class="p">,</span> <span class="n">unwrap_msg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.blocking</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">unwrap_read</span><span class="p">,</span> <span class="n">prep_socket</span><span class="p">,</span> <span class="n">DBusConnectionBase</span><span class="p">,</span> <span class="n">timeout_to_deadline</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MessageFilters</span><span class="p">,</span> <span class="n">FilterHandle</span><span class="p">,</span> <span class="n">ReplyMatcher</span><span class="p">,</span> <span class="n">RouterClosed</span><span class="p">,</span> <span class="n">check_replyable</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;open_dbus_connection&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;open_dbus_router&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DBusConnection&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DBusRouter&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Proxy&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ReceiveStopped&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ReceiveStopped</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="DBusConnection">
+<a class="viewcode-back" href="../../../api/threading.html#jeepney.io.threading.DBusConnection">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DBusConnection</span><span class="p">(</span><span class="n">DBusConnectionBase</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">:</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">,</span> <span class="n">enable_fds</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">enable_fds</span><span class="o">=</span><span class="n">enable_fds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stop_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stop_w</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">pipe</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selector</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stop_r</span><span class="p">,</span> <span class="n">EVENT_READ</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_lock</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rcv_lock</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DBusConnection.send">
+<a class="viewcode-back" href="../../../api/threading.html#jeepney.io.threading.DBusConnection.send">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialise and send a :class:`~.Message` object&quot;&quot;&quot;</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">fds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_serialise</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">serial</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">fds</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_send_with_fds</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">fds</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sock</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DBusConnection.receive">
+<a class="viewcode-back" href="../../../api/threading.html#jeepney.io.threading.DBusConnection.receive">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">receive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the next available message from the connection</span>
+
+<span class="sd">        If the data is ready, this will return immediately, even if timeout&lt;=0.</span>
+<span class="sd">        Otherwise, it will wait for up to timeout seconds, or indefinitely if</span>
+<span class="sd">        timeout is None. If no message comes in time, it raises TimeoutError.</span>
+
+<span class="sd">        If the connection is closed from another thread, this will raise</span>
+<span class="sd">        ReceiveStopped.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">deadline</span> <span class="o">=</span> <span class="n">timeout_to_deadline</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">rcv_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="p">(</span><span class="n">timeout</span> <span class="ow">or</span> <span class="o">-</span><span class="mi">1</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Did not get receive lock in </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_receive</span><span class="p">(</span><span class="n">deadline</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rcv_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_read_some_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Wait for data or a signal on the stop pipe</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">ev</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selector</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">timeout</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_key</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_fds</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_with_fds</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">unwrap_read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)),</span> <span class="p">[]</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_key</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ReceiveStopped</span><span class="p">(</span><span class="s2">&quot;DBus receive stopped from another thread&quot;</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">TimeoutError</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">interrupt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make any threads waiting for a message raise ReceiveStopped&quot;&quot;&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stop_w</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset_interrupt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Allow calls to .receive() again after .interrupt()</span>
+
+<span class="sd">        To avoid race conditions, you should typically wait for threads to</span>
+<span class="sd">        respond (e.g. by joining them) between interrupting and resetting.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Clear any data on the stop pipe</span>
+        <span class="k">while</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_key</span><span class="p">,</span> <span class="n">EVENT_READ</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selector</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stop_r</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DBusConnection.close">
+<a class="viewcode-back" href="../../../api/threading.html#jeepney.io.threading.DBusConnection.close">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the connection&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interrupt</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="open_dbus_connection">
+<a class="viewcode-back" href="../../../api/threading.html#jeepney.io.threading.open_dbus_connection">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">open_dbus_connection</span><span class="p">(</span><span class="n">bus</span><span class="o">=</span><span class="s1">&#39;SESSION&#39;</span><span class="p">,</span> <span class="n">enable_fds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">auth_timeout</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Open a plain D-Bus connection</span>
+
+<span class="sd">    D-Bus has an authentication step before sending or receiving messages.</span>
+<span class="sd">    This takes &lt; 1 ms in normal operation, but there is a timeout so that client</span>
+<span class="sd">    code won&#39;t get stuck if the server doesn&#39;t reply. *auth_timeout* configures</span>
+<span class="sd">    this timeout in seconds.</span>
+
+<span class="sd">    :return: :class:`DBusConnection`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bus_addr</span> <span class="o">=</span> <span class="n">get_bus</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
+    <span class="n">sock</span> <span class="o">=</span> <span class="n">prep_socket</span><span class="p">(</span><span class="n">bus_addr</span><span class="p">,</span> <span class="n">enable_fds</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">auth_timeout</span><span class="p">)</span>
+
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">DBusConnection</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">enable_fds</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">DBusRouter</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span> <span class="k">as</span> <span class="n">router</span><span class="p">:</span>
+        <span class="n">reply_body</span> <span class="o">=</span> <span class="n">Proxy</span><span class="p">(</span><span class="n">message_bus</span><span class="p">,</span> <span class="n">router</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">Hello</span><span class="p">()</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">unique_name</span> <span class="o">=</span> <span class="n">reply_body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">conn</span></div>
+
+
+
+<div class="viewcode-block" id="DBusRouter">
+<a class="viewcode-back" href="../../../api/threading.html#jeepney.io.threading.DBusRouter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DBusRouter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A client D-Bus connection which can wait for replies.</span>
+
+<span class="sd">    This runs a separate receiver thread and dispatches received messages.</span>
+
+<span class="sd">    It&#39;s possible to wrap a :class:`DBusConnection` in a router temporarily.</span>
+<span class="sd">    Using the connection directly while it is wrapped is not supported,</span>
+<span class="sd">    but you can use it again after the router is closed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">:</span> <span class="n">DBusConnection</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">conn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_replies</span> <span class="o">=</span> <span class="n">ReplyMatcher</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filters</span> <span class="o">=</span> <span class="n">MessageFilters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rcv_thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rcv_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unique_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">unique_name</span>
+
+<div class="viewcode-block" id="DBusRouter.send">
+<a class="viewcode-back" href="../../../api/threading.html#jeepney.io.threading.DBusRouter.send">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialise and send a :class:`~.Message` object&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="n">serial</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DBusRouter.send_and_get_reply">
+<a class="viewcode-back" href="../../../api/threading.html#jeepney.io.threading.DBusRouter.send_and_get_reply">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">send_and_get_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Send a method call message, wait for and return a reply&quot;&quot;&quot;</span>
+        <span class="n">check_replyable</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rcv_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">RouterClosed</span><span class="p">(</span><span class="s2">&quot;This D-Bus router has stopped&quot;</span><span class="p">)</span>
+
+        <span class="n">serial</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">outgoing_serial</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_replies</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span> <span class="n">Future</span><span class="p">())</span> <span class="k">as</span> <span class="n">reply_fut</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="n">serial</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">reply_fut</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DBusRouter.close">
+<a class="viewcode-back" href="../../../api/threading.html#jeepney.io.threading.DBusRouter.close">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close this router</span>
+
+<span class="sd">        This does not close the underlying connection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">interrupt</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rcv_thread</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">reset_interrupt</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="DBusRouter.filter">
+<a class="viewcode-back" href="../../../api/threading.html#jeepney.io.threading.DBusRouter.filter">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rule</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">queue</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Queue</span><span class="p">]</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bufsize</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a filter for incoming messages</span>
+
+<span class="sd">        Usage::</span>
+
+<span class="sd">            with router.filter(rule) as queue:</span>
+<span class="sd">                matching_msg = queue.get()</span>
+
+<span class="sd">        :param jeepney.MatchRule rule: Catch messages matching this rule</span>
+<span class="sd">        :param queue.Queue queue: Matched messages will be added to this</span>
+<span class="sd">        :param int bufsize: If no queue is passed in, create one with this size</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">FilterHandle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filters</span><span class="p">,</span> <span class="n">rule</span><span class="p">,</span> <span class="n">queue</span> <span class="ow">or</span> <span class="n">Queue</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="n">bufsize</span><span class="p">))</span></div>
+
+
+    <span class="c1"># Code to run in receiver thread ------------------------------------</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_replies</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="k">for</span> <span class="nb">filter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filters</span><span class="o">.</span><span class="n">matches</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">filter</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put_nowait</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">QueueFull</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">receive</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dispatch</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ReceiveStopped</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="c1"># Send errors to any tasks still waiting for a message.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_replies</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Proxy">
+<a class="viewcode-back" href="../../../api/threading.html#jeepney.io.threading.Proxy">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Proxy</span><span class="p">(</span><span class="n">ProxyBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A blocking proxy for calling D-Bus methods via a :class:`DBusRouter`.</span>
+
+<span class="sd">    You can call methods on the proxy object, such as ``bus_proxy.Hello()``</span>
+<span class="sd">    to make a method call over D-Bus and wait for a reply. It will either</span>
+<span class="sd">    return a tuple of returned data, or raise :exc:`.DBusErrorResponse`.</span>
+<span class="sd">    The methods available are defined by the message generator you wrap.</span>
+
+<span class="sd">    You can set a time limit on a call by passing ``_timeout=`` in the method</span>
+<span class="sd">    call, or set a default when creating the proxy. The ``_timeout`` argument</span>
+<span class="sd">    is not passed to the message generator.</span>
+<span class="sd">    All timeouts are in seconds, and :exc:`TimeoutErrror` is raised if it</span>
+<span class="sd">    expires before a reply arrives.</span>
+
+<span class="sd">    :param msggen: A message generator object</span>
+<span class="sd">    :param ~threading.DBusRouter router: Router to send and receive messages</span>
+<span class="sd">    :param float timeout: Default seconds to wait for a reply, or None for no limit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msggen</span><span class="p">,</span> <span class="n">router</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">msggen</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_router</span> <span class="o">=</span> <span class="n">router</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span> <span class="o">=</span> <span class="n">timeout</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;, timeout=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Proxy(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_msggen</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_router</span><span class="si">}{</span><span class="n">extra</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_method_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">make_msg</span><span class="p">):</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">make_msg</span><span class="p">)</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">timeout</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;_timeout&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">make_msg</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">message_type</span> <span class="ow">is</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">method_call</span>
+            <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_router</span><span class="o">.</span><span class="n">send_and_get_reply</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">unwrap_msg</span><span class="p">(</span><span class="n">reply</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">inner</span></div>
+
+
+<div class="viewcode-block" id="open_dbus_router">
+<a class="viewcode-back" href="../../../api/threading.html#jeepney.io.threading.open_dbus_router">[docs]</a>
+<span class="nd">@contextmanager</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">open_dbus_router</span><span class="p">(</span><span class="n">bus</span><span class="o">=</span><span class="s1">&#39;SESSION&#39;</span><span class="p">,</span> <span class="n">enable_fds</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Open a D-Bus &#39;router&#39; to send and receive messages.</span>
+
+<span class="sd">    Use as a context manager::</span>
+
+<span class="sd">        with open_dbus_router() as router:</span>
+<span class="sd">            ...</span>
+
+<span class="sd">    On leaving the ``with`` block, the connection will be closed.</span>
+
+<span class="sd">    :param str bus: &#39;SESSION&#39; or &#39;SYSTEM&#39; or a supported address.</span>
+<span class="sd">    :param bool enable_fds: Whether to enable passing file descriptors.</span>
+<span class="sd">    :return: :class:`DBusRouter`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">open_dbus_connection</span><span class="p">(</span><span class="n">bus</span><span class="o">=</span><span class="n">bus</span><span class="p">,</span> <span class="n">enable_fds</span><span class="o">=</span><span class="n">enable_fds</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">DBusRouter</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span> <span class="k">as</span> <span class="n">router</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">router</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

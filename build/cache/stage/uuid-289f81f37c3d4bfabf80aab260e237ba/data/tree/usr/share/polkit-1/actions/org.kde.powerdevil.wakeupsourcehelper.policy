@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE policyconfig PUBLIC
+"-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+"http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+<policyconfig>
+<vendor>KDE</vendor>
+<icon_name>kde</icon_name>
+   <action id="org.kde.powerdevil.wakeupsourcehelper.setwakeupcount" >
+      <description xml:lang="ar">عيين عدد الاستيقاظ</description>
+      <description xml:lang="az">Oyanma sayını təyin edin</description>
+      <description xml:lang="be">Вызначыць колькасць абуджэнняў</description>
+      <description xml:lang="bg">Задаване на обратно броене до събуждане</description>
+      <description xml:lang="ca">Estableix el comptador d'activacions</description>
+      <description xml:lang="cs">Nastavit počet probuzení</description>
+      <description xml:lang="da">Indstil wakeup-tælleren</description>
+      <description xml:lang="de">Zähler für die Aufwachvorgänge festlegen</description>
+      <description>Set the wakeup count</description>
+      <description xml:lang="es">Definir el contador de reanudación</description>
+      <description xml:lang="eu">Ezarri esnatze-aldi kopurua</description>
+      <description xml:lang="fi">Aseta herätysmäärä</description>
+      <description xml:lang="fr">Définir le nombre de réveils</description>
+      <description xml:lang="he">הגדרת כמות ההשכמות</description>
+      <description xml:lang="hu">Ébresztésszámláló beállítása</description>
+      <description xml:lang="ia">Fixa le computo de eveliar</description>
+      <description xml:lang="is">Velja vöknunarfjölda</description>
+      <description xml:lang="it">Imposta il conteggio dei risvegli</description>
+      <description xml:lang="ka">გაღვიძების რაოდენობების დაყენება</description>
+      <description xml:lang="ko">깨어난 횟수 설정</description>
+      <description xml:lang="lt">Nustatyti pažadinimų skaičių</description>
+      <description xml:lang="lv">Redzēt pamošanās skaitu</description>
+      <description xml:lang="nl">Zet het aantal keer ontwaken</description>
+      <description xml:lang="nn">Vel oppvakningstal</description>
+      <description xml:lang="pa">ਵੇਕ-ਅੱਪ ਗਿਣਤੀ ਸੈਟ ਕਰੋ</description>
+      <description xml:lang="pl">Ustaw liczbę wybudzeń</description>
+      <description xml:lang="pt">Definir a contagem de eventos 'wakeup'</description>
+      <description xml:lang="pt_BR">Definir a contagem de despertar</description>
+      <description xml:lang="ro">Stabilește contorul de treziri</description>
+      <description xml:lang="ru">Задать количество пробуждений</description>
+      <description xml:lang="sk">Nastaviť počet prebudení</description>
+      <description xml:lang="sl">Nastavi število prebujanj</description>
+      <description xml:lang="sr">Постави број буђења</description>
+      <description xml:lang="sv">Ställ in väckningsräknaren</description>
+      <description xml:lang="tr">Uyanma Sayısını Say</description>
+      <description xml:lang="ug">ئويغىتىش سانىقىنى تەڭشەيدۇ</description>
+      <description xml:lang="uk">Встановити відлік пробудження</description>
+      <description xml:lang="zh_CN">设置唤醒计数</description>
+      <description xml:lang="zh_TW">設定喚醒計數</description>
+      <message xml:lang="ar">هذا يسمح بقراءة عدد مرات الاستيقاظ عند الاستيقاظ التالي لتحديد مصدر الاستيقاظ.</message>
+      <message xml:lang="az"></message>
+      <message xml:lang="be"></message>
+      <message xml:lang="bg"></message>
+      <message xml:lang="ca">Això permet llegir el comptador d'activacions a l'activació següent per a identificar l'origen d'activació</message>
+      <message xml:lang="cs">To umožňuje při dalším probuzení načíst počet probuzení a určit tak zdroj probuzení</message>
+      <message xml:lang="da">Dette giver dig mulighed for at læse wakeup-tælleren ved næste wakeup for at identificere wakeup-kilden</message>
+      <message xml:lang="de"></message>
+      <message>This allows to read wakeup count on next wakeup to identify wakeup source</message>
+      <message xml:lang="es">Permite leer el contador de reanudación de la siguiente reanudación para identificar la fuente de reanudación</message>
+      <message xml:lang="eu"></message>
+      <message xml:lang="fi">Sallii lukea herätysten määrän seuraavalla herätyksellä herätyslähteen tunnistamiseksi</message>
+      <message xml:lang="fr">Cela permet de lire le nombre de réveils au prochain réveil pour identifier la source de réveil</message>
+      <message xml:lang="he">מאפשר לך לקרוא את כמות ההשכמות בהשכמה הבאה כדי לזהות את מקור ההשכמה</message>
+      <message xml:lang="hu"></message>
+      <message xml:lang="ia">Isto permitte leger le computo de eveliar sur ptoxime eveliar peridentificar fonte de eveliar</message>
+      <message xml:lang="is">Þetta gerir kleift að lesa vöknunarfjöldann í næstu vöknun til að greina uppruna vöknunarinnar</message>
+      <message xml:lang="it">Ciò consente di leggere il conteggio dei risvegli alla prossima ripresa per identificare la fonte</message>
+      <message xml:lang="ka"></message>
+      <message xml:lang="ko">다음으로 장치가 깨어났을 때 깨어난 원인을 파악할 수 있도록 깨어난 횟수 읽기를 허용함</message>
+      <message xml:lang="lt"></message>
+      <message xml:lang="lv"></message>
+      <message xml:lang="nl">Dit biedt het lezen van het aantal keer ontwaken bij de volgende keer ontwaken om de bron van ontwaken te identificeren</message>
+      <message xml:lang="nn">Dette gjer det mogleg å lesa talet på oppvakningar ved neste oppvaking for å identifisera oppvakingskjelde</message>
+      <message xml:lang="pl"></message>
+      <message xml:lang="pt">Isto permite ler a contagem de eventos 'wakeup' da próxima vez que acordar o seu computador para identificar a origem do mesmo</message>
+      <message xml:lang="pt_BR">Isso permite ler a contagem de despertares no próximo despertar para identificar a fonte de despertar</message>
+      <message xml:lang="ro">Aceasta permite citirea contorului de treziri la următoarea trezire pentru a identifica sursa trezirii</message>
+      <message xml:lang="ru">Позволяет считать количество пробуждений при следующем пробуждении для определения источника пробуждения</message>
+      <message xml:lang="sk"></message>
+      <message xml:lang="sl">To omogoča branje števila prebujanj ob naslednjem prebujanju za identifikacijo vira prebujanja</message>
+      <message xml:lang="sr">Омогућава читање броја буђења при следећем буђењу ради утврђивања извора буђења</message>
+      <message xml:lang="sv">Gör det möjligt att läsa väckningsräknaren vid nästa väckning för att identifiera väckningskällan</message>
+      <message xml:lang="tr"></message>
+      <message xml:lang="ug">بۇ مەشغۇلات كېيىنكى قېتىم ئويغانغاندا ئويغىتىش قېتىم سانىنى ئوقۇپ، ئويغىتىش مەنبەسىنى پەرقلەندۈرىدۇ</message>
+      <message xml:lang="uk">Надає змогу читати відлік пробудження при наступному пробудженні для визначення джерела пробудження</message>
+      <message xml:lang="zh_CN">这使得在下一次唤醒时能够读取唤醒计数，从而识别唤醒源。</message>
+      <message xml:lang="zh_TW">這讓下次喚醒時能夠讀取喚醒計數來辨別喚醒的源頭</message>
+      <defaults>
+         <allow_inactive>no</allow_inactive>
+         <allow_active>yes</allow_active>
+      </defaults>
+   </action>
+</policyconfig>

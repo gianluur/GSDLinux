@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE policyconfig PUBLIC
+"-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+"http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+<policyconfig>
+<vendor>KIO Samba Sharing</vendor>
+<vendor_url>https://www.kde.org</vendor_url>
+<icon_name>preferences-system-network-share-windows</icon_name>
+   <action id="org.kde.filesharing.samba.addtogroup" >
+      <description xml:lang="ar">أضف مستخدمًا إلى مجموعة مشاركة المستخدمين الخاصة بسامبا</description>
+      <description xml:lang="az">Sambanın istifadəçi paylaşımı qrupuna istifadəçi əlavə etmək</description>
+      <description xml:lang="be">Дадаць карыстальніка ў групу Usershare Samba</description>
+      <description xml:lang="bg">Добавяне на потребител към група за споделяния на Samba</description>
+      <description xml:lang="ca">Afegeix un usuari al grup «usershare» del Samba</description>
+      <description xml:lang="cs">Přidání uživatele do skupiny Usershare v Sambě</description>
+      <description xml:lang="da">Tilføj bruger til Samba's brugerdelingsgruppe</description>
+      <description xml:lang="de">Benutzer zur Samba-Gruppe „sambashare“ hinzufügen</description>
+      <description xml:lang="el">Προσθήκη χρήστη στην κοινόχρηστη ομάδα της Samba</description>
+      <description>Add User to Samba's Usershare Group</description>
+      <description xml:lang="en_GB">Add User to Samba's Usershare Group</description>
+      <description xml:lang="eo">Aldoni uzanton al uzantkomuniga grupo de Samba</description>
+      <description xml:lang="es">Añadir usuario al grupo Usershare de Samba</description>
+      <description xml:lang="eu">Gehitu erabiltzailea Sambaren «usershare» taldean</description>
+      <description xml:lang="fi">Lisää käyttäjä Samban käyttäjäjakoryhmään</description>
+      <description xml:lang="fr">Ajouter l'utilisateur au groupe de partage « Samba »</description>
+      <description xml:lang="gl">Engadindo a usuaria ao grupo de Samba</description>
+      <description xml:lang="he">הוספת משתמש לקבוצת שיתופי משתמשים של Samba</description>
+      <description xml:lang="hu">Felhasználó hozzáadása a Samba Usershare csoporthoz</description>
+      <description xml:lang="ia">Adde usator a Gruppo de UserShare de Samba</description>
+      <description xml:lang="id">Tambahkan Pengguna ke Grup Usershare Samba</description>
+      <description xml:lang="is">Bæti notanda við Usershare-hóp Samba</description>
+      <description xml:lang="it">Aggiungi utente al gruppo usershare di Samba</description>
+      <description xml:lang="ka">მომხმარებლის Samba-ის გაზიარებულის ჯგუფში ჩამატება</description>
+      <description xml:lang="ko">사용자를 Samba의 Usershare 그룹에 추가</description>
+      <description xml:lang="lt">Pridėti naudotoją į Samba naudotojo viešinių grupę</description>
+      <description xml:lang="lv">Pievienot lietotāju „Samba“ „usershare“ koplietošanas grupai</description>
+      <description xml:lang="nl">Gebruiker aan Usershare-groep van Samba toevoegen</description>
+      <description xml:lang="nn">Legg til brukar i Sambas Usershare-gruppe</description>
+      <description xml:lang="pl">Dodaj użytkownika do grupy Samby usershare</description>
+      <description xml:lang="pt">Adicionar o Utilizador ao Grupo de Partilhas do Samba</description>
+      <description xml:lang="pt_BR">Adicionar o usuário ao grupo de usuários Samba</description>
+      <description xml:lang="ro">Adaugă utilizatorul la grupul Samba „usershare”</description>
+      <description xml:lang="ru">Добавление пользователя в группу Samba</description>
+      <description xml:lang="sa">Samba इत्यस्य Usershare Group इत्यत्र User योजयन्तु</description>
+      <description xml:lang="sk">Pridať používateľa do skupiny zdieľania Samba</description>
+      <description xml:lang="sl">Dodajte uporabnika v skupino skupnih virov Sambe</description>
+      <description xml:lang="sv">Lägg till användare i Sambas Usershare-grupp</description>
+      <description xml:lang="tr">Kullanıcıyı Samba’nın Kullanıcı Paylaşımı Grubuna Ekle</description>
+      <description xml:lang="ug">Samba نىڭ ئىشلەتكۈچى ھەمبەھىر گۇرۇپپىسىغا ئىشلەتكۈچى قوشىدۇ</description>
+      <description xml:lang="uk">Додати користувача до спільної групи Samba</description>
+      <description xml:lang="zh_CN">添加用户到 Samba 共享用户组</description>
+      <description xml:lang="zh_TW">將使用者加入 Samba 的使用者分享 (Usershare) 群組</description>
+      <message xml:lang="ar">يضيف مستخدم إلى مجموعة مشاركة المستخدمين في سامبا لتحرير مشاركات المستخدمين في سامبا</message>
+      <message xml:lang="az">Samba istifadəçi paylaşımına düzəliş etmək üçün Sambanın istifadəçi paylaşımı qrupuna istifadəçi əlavə edilməsi</message>
+      <message xml:lang="be">Дадаванне карыстальніка ў групу карыстальнікаў для абагульвання з дапамогай Samba</message>
+      <message xml:lang="bg">Добавяне на потребител към група за споделяния на Samba за обработка на потребителски споделяния</message>
+      <message xml:lang="ca">Afegeix un usuari al grup «usershare» del Samba per a editar les comparticions d'usuaris del Samba</message>
+      <message xml:lang="cs">Přidání uživatele do skupiny usershare v Sambě za účelem úpravy sdílených složek v Sambě</message>
+      <message xml:lang="da">Tilføjer bruger til Samba's brugerdelingsgruppe for at redigere Samba-brugerdelinger</message>
+      <message xml:lang="de"></message>
+      <message xml:lang="el">Προσθήκη χρήστη στην κοινόχρηστη ομάδα της Samba για επεξεργασία των κοινών πόρων</message>
+      <message>Adding user to Samba's usershare group to edit Samba usershares</message>
+      <message xml:lang="en_GB">Adding user to Samba's usershare group to edit Samba usershares</message>
+      <message xml:lang="eo">Aldonante uzanton al Samba-uzantkomuniga grupo por redakti Samba-uzantkomunigojn</message>
+      <message xml:lang="es">Añadiendo usuario al grupo usershare de Samba para editar los recursos compartidos de los usuarios de Samba</message>
+      <message xml:lang="eu"></message>
+      <message xml:lang="fi">Lisätään käyttäjän Samban käyttäjäjakoryhmään Samban käyttäjäjakojen muokkaamiseksi</message>
+      <message xml:lang="fr">Ajout de l'utilisateur au groupe de partage « Samba » pour pouvoir modifier le groupe</message>
+      <message xml:lang="gl">Engadindo a persoa ao grupo de Samba que permite editar as comparticións de persoas usuarias.</message>
+      <message xml:lang="he">משתמש נוסף לקבוצת שיתופי משתמשים של Samba כדי לערוך שיתופי משתמשים של Samba</message>
+      <message xml:lang="hu">Felhasználó hozzáadása a Samba usershare csoporthoz a felhasználói megosztások szerkesztéséhez</message>
+      <message xml:lang="ia">Addente usator al gruppo de usershare de Samba pro editar usershares de Samba</message>
+      <message xml:lang="id">Menambahkan pengguna ke grup usershare Samba untuk mengedit usershare Samba</message>
+      <message xml:lang="is">Bæti notanda við Usershare-hóp Samba til að breyta Samba-notandasameignum</message>
+      <message xml:lang="it">Aggiunta dell'utente al gruppo usershare di Samba per modificare le condivisioni utente di Samba</message>
+      <message xml:lang="ka">მომხმარებლის Samba-ის გაზიარებულის ჯგუფში ჩამატება</message>
+      <message xml:lang="ko">Samba 사용자 공유를 편집할 수 있도록 사용자를 Samba의 Usershare 그룹에 추가 중</message>
+      <message xml:lang="lt"></message>
+      <message xml:lang="lv"></message>
+      <message xml:lang="nl">Gebruiker aan Usershare-groep van Samba wordt toegevoegd om Samba-usershares te bewerken</message>
+      <message xml:lang="nn">Legg til brukarne i Sambas Usershare-gruppe for å redigera Samba-«usershares»</message>
+      <message xml:lang="pl"></message>
+      <message xml:lang="pt">A adicionar o utilizador ao grupo de partilha do Samba para poder editar as partilhas de utilizadores do Samba</message>
+      <message xml:lang="pt_BR">Adicionando o usuário ao grupo de usuários Samba para editar o grupo de usuários</message>
+      <message xml:lang="ro">Se adaugă utilizatorul la grupul Samba „usershares” pentru a modifica partajări de utilizator</message>
+      <message xml:lang="ru">Добавление пользователя в группу Samba для управления пользовательскими ресурсами Samba</message>
+      <message xml:lang="sa">साम्बा उपयोक्तृसाझेदारी सम्पादयितुं साम्बा इत्यस्य उपयोक्तृसाझेदारीसमूहे उपयोक्तारं योजयित्वा</message>
+      <message xml:lang="sk">Pridávanie používateľa do skupiny zdieľania Samba na úpravu zdieľaní Samba</message>
+      <message xml:lang="sl">Dodajanje uporabnika v skupino uporabnikov Sambe za urejanje skupnih virov Sambe</message>
+      <message xml:lang="sv">Lägger till användare i Sambas Usershare-grupp för att redigera Samba användardelningar</message>
+      <message xml:lang="tr">Samba kullanıcı paylaşımlarını düzenlemek için kullanıcıyı Samba’nın kullanıcı paylaşımı grubuna ekle</message>
+      <message xml:lang="ug">Samba ئىشلەتكۈچى ھەمبەھىرنى تەھرىرلەش ئۈچۈن Samba نىڭ ئىشلەتكۈچى ھەمبەھىر گۇرۇپپىسىغا ئىشلەتكۈچى قوشۇۋاتىدۇ</message>
+      <message xml:lang="uk">Додавання користувача до спільної групи користувачів Samba для редагування спільних ресурсів користувачів Samba</message>
+      <message xml:lang="zh_CN">正在添加用户到 Samba 的共享用户组以便编辑 Samba 用户共享</message>
+      <message xml:lang="zh_TW">正在將使用者加入 Samba 的使用者分享 (Usershare) 群組來編輯 Samba 使用者分享</message>
+      <defaults>
+         <allow_inactive>auth_admin</allow_inactive>
+         <allow_active>auth_admin</allow_active>
+      </defaults>
+   </action>
+   <action id="org.kde.filesharing.samba.createuser" >
+      <description xml:lang="ar">يعيين كلمة سر لمستخدم سامبا</description>
+      <description xml:lang="bg">Задаване на парола за потребител на Samba</description>
+      <description xml:lang="ca">Estableix la contrasenya per a l'usuari Samba</description>
+      <description xml:lang="cs">Nastavení hesla pro uživatele Samby</description>
+      <description xml:lang="de">Passwort für Samba-Benutzer festlegen</description>
+      <description>Setting Password For Samba User</description>
+      <description xml:lang="es">Definir contraseña de usuario de Samba</description>
+      <description xml:lang="eu">Samba erabiltzailearen pasahitza ezartzea</description>
+      <description xml:lang="fi">Asetetaan Samba-käyttäjän salasanaa</description>
+      <description xml:lang="fr">Création d'un mot de passe pour un utilisateur « Samba »</description>
+      <description xml:lang="he">הגדרת סיסמה למשתמש Samba</description>
+      <description xml:lang="ia">Assignante Contrasigno per usator de Samba</description>
+      <description xml:lang="is">Setja lykilorð fyrir Samba-notanda</description>
+      <description xml:lang="it">Impostazione della password per l'utente Samba</description>
+      <description xml:lang="ka">პაროლის დაყენება Samba-ის მომხმარებლისთვის</description>
+      <description xml:lang="ko">Samba 사용자의 암호 설정</description>
+      <description xml:lang="lt">Nustatomas Samba naudotojo slaptažodis</description>
+      <description xml:lang="lv">Izveido „Samba“ lietotāja paroli</description>
+      <description xml:lang="nl">Wachtwoord voor Samba-gebruiker instellen</description>
+      <description xml:lang="nn">Registrerer passord for Samba-brukar</description>
+      <description xml:lang="pl">Nadawanie hasła użytkownikowi Samby</description>
+      <description xml:lang="pt_BR">Definindo a senha para novo usuário do Samba</description>
+      <description xml:lang="ro">Se stabilește parola pentru utilizatorul Samba</description>
+      <description xml:lang="ru">Установка пароля пользователя Samba</description>
+      <description xml:lang="sk">Vytváram nového Samba používateľa</description>
+      <description xml:lang="sl">Nastavljanje gesla za uporabnika Sambe</description>
+      <description xml:lang="sv">Ställer in lösenord för Samba-användare</description>
+      <description xml:lang="tr">Samba Kullanıcısı Parolası Ayarlanıyor</description>
+      <description xml:lang="ug">Samba ئىشلەتكۈچى ئۈچۈن ئىم تەڭشەۋاتىدۇ</description>
+      <description xml:lang="uk">Встановлення пароля для користувача Samba</description>
+      <description xml:lang="zh_CN">设置 Samba 用户的密码</description>
+      <description xml:lang="zh_TW">正在為 Samba 使用者設定密碼</description>
+      <message xml:lang="ar">يعيين كلمة سر لمستخدم سامبا</message>
+      <message xml:lang="bg">Задаване на парола за потребител на Samba</message>
+      <message xml:lang="ca">Estableix la contrasenya per a l'usuari Samba</message>
+      <message xml:lang="cs">Nastavení hesla pro uživatele Samby</message>
+      <message xml:lang="de">Passwort für Samba-Benutzer festlegen</message>
+      <message>Setting password for Samba user</message>
+      <message xml:lang="es">Definiendo contraseña de usuario de Samba</message>
+      <message xml:lang="eu">Samba erabiltzailearen pasahitza ezartzea</message>
+      <message xml:lang="fi">Asetetaan Samba-käyttäjän salasanaa</message>
+      <message xml:lang="fr">Création d'un mot de passe pour un utilisateur « Samba »</message>
+      <message xml:lang="he">הגדרת סיסמה למשתמש Samba</message>
+      <message xml:lang="ia">Assignante Contrasigno per usator de Samba</message>
+      <message xml:lang="is">Setja lykilorð fyrir Samba-notanda</message>
+      <message xml:lang="it">Impostazione della password per l'utente Samba</message>
+      <message xml:lang="ka">პაროლის დაყენება Samba-ის მომხმარებლისთვის</message>
+      <message xml:lang="ko">Samba 사용자의 암호 설정</message>
+      <message xml:lang="lt">Samba naudotojui yra nustatomas slaptažodis</message>
+      <message xml:lang="lv">Izveido „Samba“ lietotāja paroli</message>
+      <message xml:lang="nl">Wachtwoord voor Samba-gebruiker wordt ingesteld</message>
+      <message xml:lang="nn">Registrerer passord for Samba-brukar</message>
+      <message xml:lang="pl">Nadawanie hasła użytkownikowi Samby</message>
+      <message xml:lang="pt_BR">Definindo a senha para usuário do Samba</message>
+      <message xml:lang="ro">Se stabilește parola pentru utilizatorul Samba</message>
+      <message xml:lang="ru">Установка пароля пользователя Samba</message>
+      <message xml:lang="sk">Vytváram nového Samba používateľa</message>
+      <message xml:lang="sl">Nastavljanje gesla za uporabnika Sambe</message>
+      <message xml:lang="sv">Ställer in lösenord för Samba-användare</message>
+      <message xml:lang="tr">Samba kullanıcısı için olan parola ayarlanıyor</message>
+      <message xml:lang="ug">Samba ئىشلەتكۈچى ئۈچۈن ئىم تەڭشەۋاتىدۇ</message>
+      <message xml:lang="uk">Встановлення пароля для користувача Samba</message>
+      <message xml:lang="zh_CN">设置 Samba 用户的密码</message>
+      <message xml:lang="zh_TW">正在為 Samba 使用者設定密碼</message>
+      <defaults>
+         <allow_inactive>auth_admin</allow_inactive>
+         <allow_active>auth_admin</allow_active>
+      </defaults>
+   </action>
+   <action id="org.kde.filesharing.samba.enableservice" >
+      <description xml:lang="ar">مكّن سامبا</description>
+      <description xml:lang="bg">Активиране на Samba</description>
+      <description xml:lang="ca">Activa el Samba</description>
+      <description xml:lang="cs">Povolit Sambu</description>
+      <description xml:lang="de">Samba aktivieren</description>
+      <description>Enable Samba</description>
+      <description xml:lang="es">Activar Samba</description>
+      <description xml:lang="fi">Käytä Sambaa</description>
+      <description xml:lang="fr">Activer Samba</description>
+      <description xml:lang="he">הפעלת Samba</description>
+      <description xml:lang="ia">Habilita Samba</description>
+      <description xml:lang="is">Virkja Samba</description>
+      <description xml:lang="it">Abilita Samba</description>
+      <description xml:lang="ka">Samba-ის ჩართვა</description>
+      <description xml:lang="ko">Samba 활성화</description>
+      <description xml:lang="lt">Įjungti Samba</description>
+      <description xml:lang="lv">Ieslēgt „Samba“</description>
+      <description xml:lang="nl">Samba inschakelen</description>
+      <description xml:lang="nn">Bruk Samba</description>
+      <description xml:lang="pl">Włącz Sambę</description>
+      <description xml:lang="pt_BR">Ativar Samba</description>
+      <description xml:lang="ro">Activează Samba</description>
+      <description xml:lang="ru">Включение Samba</description>
+      <description xml:lang="sk">Povoliť Samba</description>
+      <description xml:lang="sl">Omogoči Sambo</description>
+      <description xml:lang="sv">Aktivera Samba</description>
+      <description xml:lang="tr">Samba’yı Etkinleştir</description>
+      <description xml:lang="ug">Samba نى قوزغات</description>
+      <description xml:lang="uk">Увімкнути Samba</description>
+      <description xml:lang="zh_CN">启用 Samba</description>
+      <description xml:lang="zh_TW">啟用 Samba</description>
+      <message xml:lang="ar">مكّن خدمة مشاركة ملفات سامبا</message>
+      <message xml:lang="bg">Активира се услугата за споделяне на файлове Samba</message>
+      <message xml:lang="ca">Activa el servei de compartició de fitxers Samba</message>
+      <message xml:lang="cs">Povolit službu sdílení souborů Samba</message>
+      <message xml:lang="de">Den Samba-Dateifreigabedienst aktivieren</message>
+      <message>Enable the Samba file sharing service</message>
+      <message xml:lang="es">Activar el servicio de compartición de archivos Samba</message>
+      <message xml:lang="fi">Käytä Samba-tiedostonjakopalvelua</message>
+      <message xml:lang="fr">Activer le service de partage de fichiers avec Samba</message>
+      <message xml:lang="he">הפעלת שירות שיתוף הקבצים Samba</message>
+      <message xml:lang="ia">Habilita le servicio de compartir file de Samba</message>
+      <message xml:lang="is">Virkja eða slökkva á Samba-skráadeilingu</message>
+      <message xml:lang="it">Abilita il servizio di condivisione file Samba</message>
+      <message xml:lang="ka">ფაილების გაზიარების სერვისის 'Samba' ჩართვა</message>
+      <message xml:lang="ko">Samba 파일 공유 서비스 활성화</message>
+      <message xml:lang="lt">Įjungti Samba failų bendrinimo tarnybą</message>
+      <message xml:lang="lv">Ieslēgt „Samba“ datņu koplietošanas servisu</message>
+      <message xml:lang="nl">De Samba bestandsdelingsservice inschakelen</message>
+      <message xml:lang="nn">Slå på bruk av fildelings­tenesta Samba</message>
+      <message xml:lang="pl">Włącz usługę udostępniania plików Samba</message>
+      <message xml:lang="pt_BR">Ativar o serviço de compartilhamento de arquivos do Samba</message>
+      <message xml:lang="ro">Activează serviciul de partajare a fișierelor Samba</message>
+      <message xml:lang="ru">Включение службы общего доступа Samba</message>
+      <message xml:lang="sk">Povoliť službu zdieľania súborov Samba</message>
+      <message xml:lang="sl">Omogoči storitev za skupno rabo datotek Samba</message>
+      <message xml:lang="sv">Aktivera Samba fildelningstjänst</message>
+      <message xml:lang="tr">Samba dosya paylaşım hizmetini etkinleştirin</message>
+      <message xml:lang="ug">Samba نىڭ ھۆججەت ھەمبەھىرلەش مۇلازىمىتىنى قوزغىتىدۇ</message>
+      <message xml:lang="uk">Увімкнути службу спільного використання файлів Samba</message>
+      <message xml:lang="zh_CN">启用 Samba 文件共享服务</message>
+      <message xml:lang="zh_TW">啟用 Samba 檔案分享服務</message>
+      <defaults>
+         <allow_inactive>auth_admin</allow_inactive>
+         <allow_active>auth_admin</allow_active>
+      </defaults>
+   </action>
+   <action id="org.kde.filesharing.samba.isuserknown" >
+      <description xml:lang="ar">هل مستخدم سامبا معروف</description>
+      <description xml:lang="az">Samba istifadəçisi bilinir</description>
+      <description xml:lang="be">Ці вядомы карыстальнік Samba</description>
+      <description xml:lang="bg">Известен ли е потребител на Samba</description>
+      <description xml:lang="ca">Si es coneix l'usuari Samba</description>
+      <description xml:lang="cs">Je uživatel Samba známý</description>
+      <description xml:lang="da">Er Samba-bruger kendt</description>
+      <description xml:lang="de">Ist der Samba-Benutzer bekannt</description>
+      <description xml:lang="el">Είναι ο χρήστης της Samba γνωστός</description>
+      <description>Is Samba User Known</description>
+      <description xml:lang="en_GB">Is Samba User Known</description>
+      <description xml:lang="eo">Ĉu Samba-uzanto konata</description>
+      <description xml:lang="es">Si el usuario de Samba es conocido</description>
+      <description xml:lang="eu">Samba erabiltzailea ezaguna den</description>
+      <description xml:lang="fi">Onko Samba-käyttäjä tunnettu</description>
+      <description xml:lang="fr">L'utilisateur « Samba » est-il connu ?</description>
+      <description xml:lang="gl">Coñécese a usuaria de Samba</description>
+      <description xml:lang="he">האם משתמש ה־Samba ידוע</description>
+      <description xml:lang="hu">Ismert-e a Samba felhasználó?</description>
+      <description xml:lang="ia">Es usator de Samba cognoscite</description>
+      <description xml:lang="id">Biasa Dikenal Pengguna sebagai Samba</description>
+      <description xml:lang="is">Er Samba-notandi þekktur</description>
+      <description xml:lang="it">L'utente Samba è conosciuto?</description>
+      <description xml:lang="ka"></description>
+      <description xml:lang="ko">Samba 사용자가 알려졌는지 여부</description>
+      <description xml:lang="lt">Ar Samba naudotojas yra žinomas</description>
+      <description xml:lang="lv">Vai „Samba“ lietotājs ir zināms</description>
+      <description xml:lang="nl">Is Samba-gebruiker bekend</description>
+      <description xml:lang="nn">Er Samba-brukaren kjend</description>
+      <description xml:lang="pl">Czy użytkownik Samby jest znany</description>
+      <description xml:lang="pt">Se o Utilizador do Samba é Conhecido</description>
+      <description xml:lang="pt_BR">O usuário Samba é conhecido</description>
+      <description xml:lang="ro">Este cunoscut utilizatorul Samba</description>
+      <description xml:lang="ru">Проверка существования пользователя Samba</description>
+      <description xml:lang="sa">साम्बा उपयोक्ता ज्ञातः अस्ति वा</description>
+      <description xml:lang="sk">Je používateľ Samba známy</description>
+      <description xml:lang="sl">Ali je uporabnik Sambe znan</description>
+      <description xml:lang="sv">Är Samba-användare känd</description>
+      <description xml:lang="tr">Samba Kullanıcısı Durumu</description>
+      <description xml:lang="ug">Samba ئىشلەتكۈچى بىلەمدۇ</description>
+      <description xml:lang="uk">Чи є користувач Samba</description>
+      <description xml:lang="zh_CN">Samba 用户是否已知</description>
+      <description xml:lang="zh_TW">Samba 使用者是否已知</description>
+      <message xml:lang="ar">يتحقق من وجود مستخدم سامبا</message>
+      <message xml:lang="az">Samba istifadəçisinin mövcudluğu yoxlanılır</message>
+      <message xml:lang="be">Правяранне існавання карыстальніка Samba</message>
+      <message xml:lang="bg">Проверка за съществуване на потребител на Samba</message>
+      <message xml:lang="ca">Comprovació d'existència de l'usuari Samba</message>
+      <message xml:lang="cs">Ověření existence uživatele Samba</message>
+      <message xml:lang="da">Tjekker om Samba-bruger eksisterer</message>
+      <message xml:lang="de"></message>
+      <message xml:lang="el">Ελέγχει αν ο χρήστης της Samba υπάρχει</message>
+      <message>Checking if Samba user exists</message>
+      <message xml:lang="en_GB">Checking if Samba user exists</message>
+      <message xml:lang="eo">Kontrolante ĉu Samba-uzanto ekzistas</message>
+      <message xml:lang="es">Comprobando si el usuario de Samba existe</message>
+      <message xml:lang="eu">Samba erabiltzailea badagoen egiaztatzea</message>
+      <message xml:lang="fi"></message>
+      <message xml:lang="fr">Vérification de l'existence de l'utilisateur « Samba »</message>
+      <message xml:lang="gl">Comprobando se a persoa usuaria de Samba existe.</message>
+      <message xml:lang="he">מתבצעת בדיקה אם משתמש ה־Samba קיים</message>
+      <message xml:lang="hu">A Samba felhasználó létezésének ellenőrzése</message>
+      <message xml:lang="ia">Verificante si usator de Samba existe</message>
+      <message xml:lang="id">Memeriksa apakah ada pengguna Samba</message>
+      <message xml:lang="is">Kanna hvort Samba-notandi er til</message>
+      <message xml:lang="it">Verifica dell'esistenza dell'utente Samba</message>
+      <message xml:lang="ka"></message>
+      <message xml:lang="ko">Samba 사용자 존재 여부 검사 중</message>
+      <message xml:lang="lt"></message>
+      <message xml:lang="lv"></message>
+      <message xml:lang="nl">Controleren of Samba-gebruiker bestaat</message>
+      <message xml:lang="nn">Sjekkar om Samba-brukaren finst</message>
+      <message xml:lang="pl"></message>
+      <message xml:lang="pt">A verificar se o utilizador do Samba existe</message>
+      <message xml:lang="pt_BR">Verificando se o usuário Samba existe</message>
+      <message xml:lang="ro">Se verifică dacă utilizatorul Samba există</message>
+      <message xml:lang="ru">Проверка существования пользователя Samba</message>
+      <message xml:lang="sa">साम्बा उपयोक्ता अस्ति वा इति परीक्ष्य</message>
+      <message xml:lang="sk">Kontrolujem či používateľ Samba existuje</message>
+      <message xml:lang="sl"></message>
+      <message xml:lang="sv">Kontrollerar om Samba-användare finns</message>
+      <message xml:lang="tr">Samba kullanıcısının var olup olmadığı denetleniyor</message>
+      <message xml:lang="ug">Samba ئىشلەتكۈچىنىڭ بار يوقلۇقىنى تەكشۈرۈۋاتىدۇ</message>
+      <message xml:lang="uk"></message>
+      <message xml:lang="zh_CN">正在检查 Samba 用户是否存在</message>
+      <message xml:lang="zh_TW">正在檢查 Samba 使用者是否存在</message>
+      <defaults>
+         <allow_inactive>yes</allow_inactive>
+         <allow_active>yes</allow_active>
+      </defaults>
+   </action>
+   <action id="org.kde.filesharing.samba.startservice" >
+      <description xml:lang="ar">ابدأ سامبا</description>
+      <description xml:lang="bg">Стартиране на Samba</description>
+      <description xml:lang="ca">Inicia el Samba</description>
+      <description xml:lang="cs">Spustit Sambu</description>
+      <description xml:lang="de">Samba starten</description>
+      <description>Start Samba</description>
+      <description xml:lang="es">Iniciar Samba</description>
+      <description xml:lang="fi">Käynnistä Samba</description>
+      <description xml:lang="fr">Démarrer Samba</description>
+      <description xml:lang="he">הרצת Samba</description>
+      <description xml:lang="ia">Starta Samba</description>
+      <description xml:lang="is">Ræsa Samba</description>
+      <description xml:lang="it">Avvia Samba</description>
+      <description xml:lang="ka">Samba-ის გაშვება</description>
+      <description xml:lang="ko">Samba 시작</description>
+      <description xml:lang="lt">Paleisti Samba</description>
+      <description xml:lang="lv">Sākt „Samba“</description>
+      <description xml:lang="nl">Samba starten</description>
+      <description xml:lang="nn">Start Samba</description>
+      <description xml:lang="pl">Uruchom Sambę</description>
+      <description xml:lang="pt_BR">Iniciar Samba</description>
+      <description xml:lang="ro">Pornește Samba</description>
+      <description xml:lang="ru">Запуск Samba</description>
+      <description xml:lang="sk">Spustiť Samba</description>
+      <description xml:lang="sl">Zaženi Sambo</description>
+      <description xml:lang="sv">Starta Samba</description>
+      <description xml:lang="tr">Samba’yı Başlat</description>
+      <description xml:lang="ug">Samba نى قوزغات</description>
+      <description xml:lang="uk">Запустити Samba</description>
+      <description xml:lang="zh_CN">启动 Samba</description>
+      <description xml:lang="zh_TW">啟動 Samba</description>
+      <message xml:lang="ar">ابدأ خدمة مشاركة ملفات سامبا</message>
+      <message xml:lang="bg">Стартира се услугата за споделяне на файлове Samba</message>
+      <message xml:lang="ca">Inicia el servei de compartició de fitxers Samba</message>
+      <message xml:lang="cs">Spustit službu sdílení souborů Samba</message>
+      <message xml:lang="de">Den Samba-Dateifreigabedienst starten</message>
+      <message>Start the Samba file sharing service</message>
+      <message xml:lang="es">Iniciar el servicio de compartición de archivos Samba</message>
+      <message xml:lang="fi">Käynnistä Samba-tiedostonjakopalvelu</message>
+      <message xml:lang="fr">Démarrer le service de partage de fichiers avec Samba</message>
+      <message xml:lang="he">הרצת שירות שיתוף הקבצים Samba</message>
+      <message xml:lang="ia">Starta le servicio de compartir file de Samba</message>
+      <message xml:lang="is">Ræsa Samba-skráadeilingarþjónustuna</message>
+      <message xml:lang="it">Avvia il servizio di condivisione file Samba</message>
+      <message xml:lang="ka">ფაილების გაზიარების სერვისის 'Samba' გაშვება</message>
+      <message xml:lang="ko">Samba 파일 공유 서비스 시작</message>
+      <message xml:lang="lt">Paleisti Samba failų bendrinimo tarnybą</message>
+      <message xml:lang="lv">Sākta „Samba“ datņu koplietošanas servisu</message>
+      <message xml:lang="nl">De Samba bestandsdelingsservice starten</message>
+      <message xml:lang="nn">Startar fildelings­tenesta Samba</message>
+      <message xml:lang="pl">Uruchom usługę udostępniania plików Samba</message>
+      <message xml:lang="pt_BR">Iniciar o serviço de compartilhamento de arquivos do Samba</message>
+      <message xml:lang="ro">Pornește serviciul de partajare a fișierelor Samba</message>
+      <message xml:lang="ru">Запуск службы общего доступа к файлам Samba</message>
+      <message xml:lang="sk">Spustiť službu zdieľania súborov Samba</message>
+      <message xml:lang="sl">Zaženi storitev za skupno rabo datotek Samba</message>
+      <message xml:lang="sv">Starta Samba fildelningstjänst</message>
+      <message xml:lang="tr">Samba dosya paylaşım hizmetini başlatın</message>
+      <message xml:lang="ug">Samba نىڭ ھۆججەت ھەمبەھىرلەش مۇلازىمىتىنى باشلايدۇ</message>
+      <message xml:lang="uk">Запустити службу спільного використання файлів Samba</message>
+      <message xml:lang="zh_CN">启动 Samba 文件共享服务</message>
+      <message xml:lang="zh_TW">啟動 Samba 檔案分享服務</message>
+      <defaults>
+         <allow_inactive>auth_admin</allow_inactive>
+         <allow_active>auth_admin</allow_active>
+      </defaults>
+   </action>
+</policyconfig>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-nintendo-3ds-cia">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Nintendo 3DS importable archive</comment>
+  <acronym>CIA</acronym>
+  <expanded-acronym>CTR Importable Archive</expanded-acronym>
+  <sub-class-of type="application/x-archive"/>
+  <generic-icon name="package-x-generic"/>
+  <alias type="application/x-ctr-cia"/>
+  <glob pattern="*.cia"/>
+  <glob pattern="*.zcia"/>
+</mime-type>

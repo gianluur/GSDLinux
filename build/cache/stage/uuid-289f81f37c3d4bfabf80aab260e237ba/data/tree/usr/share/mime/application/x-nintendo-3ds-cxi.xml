@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-nintendo-3ds-cxi">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Nintendo 3DS executable</comment>
+  <acronym>CXI</acronym>
+  <expanded-acronym>CTR eXecutable Image</expanded-acronym>
+  <sub-class-of type="application/x-nintendo-3ds-ncch"/>
+  <generic-icon name="application-x-executable"/>
+  <alias type="application/x-ctr-cxi"/>
+  <glob pattern="*.cxi"/>
+  <glob pattern="*.zcxi"/>
+</mime-type>

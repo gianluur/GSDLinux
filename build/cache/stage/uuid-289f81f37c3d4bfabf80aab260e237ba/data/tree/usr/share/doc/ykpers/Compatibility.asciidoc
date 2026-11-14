@@ -1,0 +1,37 @@
+Compatibility
+=============
+
+Compatibility information between yubikey-personalization and YubiKey
+firmware versions.
+
+Introduction
+------------
+
+This document tries to document which versions of
+yubikey-personalization and YubiKey firmwares go together and any
+missing features or incompatibilities.
+
+[width="80%",cols="3,^2,^2",options="header"]
+|=========================================================
+|ykpersonalize version |firmware version |comments
+
+|<= 1.1 |1.x, 2.0 |
+|1.2    |2.1      |OATH-HOTP programming unsupported
+|1.3    |2.1      |
+|1.3.2  |0.9.9    |
+|1.3.3  |2.2      |
+|1.6.0  |2.3      |
+|1.11.0 |3.0      |3.x series is the NEO
+|1.12.0 |2.4 & 3.1|
+|1.15.0 |3.2      |
+|1.15.2 |2.5      |
+|1.15.3 |3.3      |
+|1.16.2 |4.0      |4.0 is the Plus
+|1.16.3 |3.4      |
+|1.17.0 |4.1      |4.1 is Edge
+|1.17.2 |4.2      |4.2 is YubiKey 4
+|1.17.3 |4.3      |
+|1.18.1 |4.4 & 3.5|4.4 is YubiKey 4, 3.5 is the NEO
+
+|=========================================================
+

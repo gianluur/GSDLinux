@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Switching From Other Template Engines &#8212; Jinja Documentation (3.1.x)</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=7a9665a2" />
+    <link rel="stylesheet" type="text/css" href="_static/jinja.css?v=3dd10d86" />
+    <script src="_static/documentation_options.js?v=b2e31178"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script data-project="jinja" data-version="3.1.x" src="_static/describe_version.js?v=fa7f30d0"></script>
+    <link rel="icon" href="_static/jinja-logo-sidebar.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tips and Tricks" href="tricks.html" />
+    <link rel="prev" title="Integration" href="integration.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tricks.html" title="Tips and Tricks"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="integration.html" title="Integration"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Jinja Documentation (3.1.x)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Switching From Other Template Engines</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="switching-from-other-template-engines">
+<h1>Switching From Other Template Engines<a class="headerlink" href="#switching-from-other-template-engines" title="Link to this heading">¶</a></h1>
+<p>This is a brief guide on some of the differences between Jinja syntax
+and other template languages. See <a class="reference internal" href="templates.html"><span class="doc">Template Designer Documentation</span></a> for a comprehensive
+guide to Jinja syntax and features.</p>
+<section id="django">
+<h2>Django<a class="headerlink" href="#django" title="Link to this heading">¶</a></h2>
+<p>If you have previously worked with Django templates, you should find
+Jinja very familiar. Many of the syntax elements look and work the same.
+However, Jinja provides some more syntax elements, and some work a bit
+differently.</p>
+<p>This section covers the template changes. The API, including extension
+support, is fundamentally different so it won’t be covered here.</p>
+<p>Django supports using Jinja as its template engine, see
+<a class="reference external" href="https://docs.djangoproject.com/en/stable/topics/templates/#support-for-template-engines">https://docs.djangoproject.com/en/stable/topics/templates/#support-for-template-engines</a>.</p>
+<section id="method-calls">
+<h3>Method Calls<a class="headerlink" href="#method-calls" title="Link to this heading">¶</a></h3>
+<p>In Django, methods are called implicitly, without parentheses.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">page</span> <span class="k">in</span> <span class="nv">user.get_created_pages</span> <span class="cp">%}</span>
+<span class="x">    ...</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>In Jinja, using parentheses is required for calls, like in Python. This
+allows you to pass variables to the method, which is not possible
+in Django. This syntax is also used for calling macros.</p>
+<div class="highlight-jinja notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">page</span> <span class="k">in</span> <span class="nv">user.get_created_pages</span><span class="o">()</span> <span class="cp">%}</span>
+<span class="x">    ...</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+<section id="filter-arguments">
+<h3>Filter Arguments<a class="headerlink" href="#filter-arguments" title="Link to this heading">¶</a></h3>
+<p>In Django, one literal value can be passed to a filter after a colon.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{{</span> <span class="nv">items</span><span class="o">|</span><span class="nf">join</span><span class="s2">:&quot;, &quot;</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+<p>In Jinja, filters can take any number of positional and keyword
+arguments in parentheses, like function calls. Arguments can also be
+variables instead of literal values.</p>
+<div class="highlight-jinja notranslate"><div class="highlight"><pre><span></span><span class="cp">{{</span> <span class="nv">items</span><span class="o">|</span><span class="nf">join</span><span class="o">(</span><span class="s2">&quot;, &quot;</span><span class="o">)</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+</section>
+<section id="tests">
+<h3>Tests<a class="headerlink" href="#tests" title="Link to this heading">¶</a></h3>
+<p>In addition to filters, Jinja also has “tests” used with the <code class="docutils literal notranslate"><span class="pre">is</span></code>
+operator. This operator is not the same as the Python operator.</p>
+<div class="highlight-jinja notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">user.user_id</span> <span class="k">is</span> <span class="nf">odd</span> <span class="cp">%}</span>
+<span class="x">    </span><span class="cp">{{</span> <span class="nv">user.username</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="x"> is odd</span>
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+<span class="x">    hmm. </span><span class="cp">{{</span> <span class="nv">user.username</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="x"> looks pretty normal</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+<section id="loops">
+<h3>Loops<a class="headerlink" href="#loops" title="Link to this heading">¶</a></h3>
+<p>In Django, the special variable for the loop context is called
+<code class="docutils literal notranslate"><span class="pre">forloop</span></code>, and the <code class="docutils literal notranslate"><span class="pre">empty</span></code> is used for no loop items.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">items</span> <span class="cp">%}</span>
+<span class="x">    </span><span class="cp">{{</span> <span class="nb">forloop</span><span class="nv">.counter</span> <span class="cp">}}</span><span class="x">. </span><span class="cp">{{</span> <span class="nv">item</span> <span class="cp">}}</span>
+<span class="cp">{%</span> <span class="k">empty</span> <span class="cp">%}</span>
+<span class="x">    No items!</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>In Jinja, the special variable for the loop context is called <code class="docutils literal notranslate"><span class="pre">loop</span></code>,
+and the <code class="docutils literal notranslate"><span class="pre">else</span></code> block is used for no loop items.</p>
+<div class="highlight-jinja notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">items</span> <span class="cp">%}</span>
+<span class="x">    </span><span class="cp">{{</span> <span class="nb">loop</span><span class="nv">.index</span> <span class="cp">}}</span><span class="x">. </span><span class="cp">{{</span> <span class="nv">item</span> <span class="cp">}}</span>
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+<span class="x">    No items!</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+<section id="cycle">
+<h3>Cycle<a class="headerlink" href="#cycle" title="Link to this heading">¶</a></h3>
+<p>In Django, the <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">cycle</span> <span class="pre">%}</span></code> can be used in a for loop to alternate
+between values per loop.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="cp">%}</span>
+<span class="x">    &lt;li class=&quot;</span><span class="cp">{%</span> <span class="k">cycle</span> <span class="s1">&#39;odd&#39;</span> <span class="s1">&#39;even&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;</span><span class="cp">{{</span> <span class="nv">user</span> <span class="cp">}}</span><span class="x">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>In Jinja, the <code class="docutils literal notranslate"><span class="pre">loop</span></code> context has a <code class="docutils literal notranslate"><span class="pre">cycle</span></code> method.</p>
+<div class="highlight-jinja notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="cp">%}</span>
+<span class="x">    &lt;li class=&quot;</span><span class="cp">{{</span> <span class="nb">loop</span><span class="nv">.cycle</span><span class="o">(</span><span class="s1">&#39;odd&#39;</span><span class="o">,</span> <span class="s1">&#39;even&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x">&quot;&gt;</span><span class="cp">{{</span> <span class="nv">user</span> <span class="cp">}}</span><span class="x">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>A cycler can also be assigned to a variable and used outside or across
+loops with the <code class="docutils literal notranslate"><span class="pre">cycle()</span></code> global function.</p>
+</section>
+</section>
+<section id="mako">
+<h2>Mako<a class="headerlink" href="#mako" title="Link to this heading">¶</a></h2>
+<p>You can configure Jinja to look more like Mako:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span>
+    <span class="n">block_start_string</span><span class="o">=</span><span class="s2">&quot;&lt;%&quot;</span><span class="p">,</span>
+    <span class="n">block_end_string</span><span class="o">=</span><span class="s2">&quot;%&gt;&quot;</span><span class="p">,</span>
+    <span class="n">variable_start_string</span><span class="o">=</span><span class="s2">&quot;${&quot;</span><span class="p">,</span>
+    <span class="n">variable_end_string</span><span class="o">=</span><span class="s2">&quot;}&quot;</span><span class="p">,</span>
+    <span class="n">comment_start_string</span><span class="o">=</span><span class="s2">&quot;&lt;</span><span class="si">%d</span><span class="s2">oc&gt;&quot;</span><span class="p">,</span>
+    <span class="n">commend_end_string</span><span class="o">=</span><span class="s2">&quot;&lt;/</span><span class="si">%d</span><span class="s2">oc&gt;&quot;</span><span class="p">,</span>
+    <span class="n">line_statement_prefix</span><span class="o">=</span><span class="s2">&quot;%&quot;</span><span class="p">,</span>
+    <span class="n">line_comment_prefix</span><span class="o">=</span><span class="s2">&quot;##&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>With an environment configured like that, Jinja should be able to
+interpret a small subset of Mako templates without any changes.</p>
+<p>Jinja does not support embedded Python code, so you would have to move
+that out of the template. You could either process the data with the
+same code before rendering, or add a global function or filter to the
+Jinja environment.</p>
+<p>The syntax for defs (which are called macros in Jinja) and template
+inheritance is different too.</p>
+<p>The following Mako template:</p>
+<div class="highlight-mako notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;%</span><span class="nb">inherit</span> <span class="na">file=</span><span class="s">&quot;layout.html&quot;</span> <span class="cp">/&gt;</span>
+<span class="cp">&lt;%</span><span class="nb">def</span> <span class="na">name=</span><span class="s">&quot;title()&quot;</span><span class="cp">&gt;</span><span class="x">Page Title</span><span class="cp">&lt;/%</span><span class="nb">def</span><span class="cp">&gt;</span>
+<span class="x">&lt;ul&gt;</span>
+<span class="cp">%</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
+<span class="x">    &lt;li&gt;</span><span class="cp">${</span><span class="n">item</span><span class="cp">}</span><span class="x">&lt;/li&gt;</span>
+<span class="cp">%</span><span class="k"> endfor</span>
+<span class="x">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p>Looks like this in Jinja with the above configuration:</p>
+<div class="highlight-jinja notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;% extends &quot;layout.html&quot; %&gt;</span>
+<span class="x">&lt;% block title %&gt;Page Title&lt;% endblock %&gt;</span>
+<span class="x">&lt;% block body %&gt;</span>
+<span class="x">&lt;ul&gt;</span>
+<span class="x">% for item in list:</span>
+<span class="x">    &lt;li&gt;${item}&lt;/li&gt;</span>
+<span class="x">% endfor</span>
+<span class="x">&lt;/ul&gt;</span>
+<span class="x">&lt;% endblock %&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/jinja-logo-sidebar.png" alt="Logo of Jinja"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Switching From Other Template Engines</a><ul>
+<li><a class="reference internal" href="#django">Django</a><ul>
+<li><a class="reference internal" href="#method-calls">Method Calls</a></li>
+<li><a class="reference internal" href="#filter-arguments">Filter Arguments</a></li>
+<li><a class="reference internal" href="#tests">Tests</a></li>
+<li><a class="reference internal" href="#loops">Loops</a></li>
+<li><a class="reference internal" href="#cycle">Cycle</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mako">Mako</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="index.html">Overview</a>
+    <ul>
+          <li>Previous: <a href="integration.html" title="previous chapter">Integration</a>
+          <li>Next: <a href="tricks.html" title="next chapter">Tips and Tricks</a>
+    </ul>
+  </li>
+</ul>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007 Pallets.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

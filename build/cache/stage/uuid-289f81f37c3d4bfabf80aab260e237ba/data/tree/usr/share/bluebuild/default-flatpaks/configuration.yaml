@@ -1,0 +1,26 @@
+- notify: true
+  scope: system
+  repo:
+    url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    name: flathub
+    title: Flathub
+  install: []
+- notify: true
+  scope: user
+  repo:
+    url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    name: flathub
+    title: Flathub
+  install:
+  - app.zen_browser.zen
+  - org.kde.dolphin
+  - org.kde.gwenview
+  - org.kde.okular
+  - org.kde.ark
+  - org.kde.kalk
+  - org.videolan.VLC
+  - org.onlyoffice.desktopeditors
+  - com.obsproject.Studio
+  - dev.vencord.Vesktop
+  - org.localsend.localsend_app
+  - dev.zed.Zed

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-mach-sharedlib">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Mach-O shared library</comment>
+  <sub-class-of type="application/x-sharedlib"/>
+  <generic-icon name="application-x-sharedlib"/>
+  <glob pattern="*.dylib"/>
+</mime-type>

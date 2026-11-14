@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-playstation-sfo">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>PlayStation System File Object</comment>
+  <acronym>SFO</acronym>
+  <expanded-acronym>System File Object</expanded-acronym>
+  <generic-icon name="application-x-m4"/>
+  <glob pattern="*.sfo"/>
+</mime-type>

@@ -1,0 +1,2229 @@
+commit 677cec850a036187c31a5c604f4a2ffbeb7008bf
+Author: Katerina Koukiou <k.koukiou@gmail.com>
+Date:   Wed May 13 09:48:32 2026 +0200
+
+    New version - 0.53
+
+commit f0fcc3ce1943dce9cf958f4a2f7398daff619c9f
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Tue Jun 4 16:13:14 2024 +0200
+
+    New version - 0.52
+
+commit 0e3189d5f787bf7768f108e331084c667a20af69
+Merge: 48bebcc b2f0870
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Jun 3 19:33:52 2024 +0200
+
+    Merge pull request #42 from M4rtinK/master-optional_libreport
+    
+    Make libreport optional
+
+commit b2f08708cf4529e2450b0b1dfed3e8bad96b5e37
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Wed Apr 17 13:33:10 2024 +0200
+
+    Make libreport optional
+    
+    Make the libreport dependency optional, so that python-meh can
+    run also in environments where libreport is not available.
+    
+    Resolves: RHEL-35676
+
+commit 48bebcc1f1e6f71d038335ae8d55c1a08bf52c4a
+Merge: eb5d4ad ad55089
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Jan 30 14:36:53 2023 +0100
+
+    Merge pull request #40 from M4rtinK/master-make_buildrequires
+    
+    Add BuildRequires: make
+
+commit ad55089590ade97b455cd30a8a18f479879efb0e
+Author: Tom Stellard <tstellar@redhat.com>
+Date:   Fri Jan 8 19:52:22 2021 +0000
+
+    Add BuildRequires: make
+    
+    https://fedoraproject.org/wiki/Changes/Remove_make_from_BuildRoot
+
+commit eb5d4adc3b838704b6a68f0f77ada2063a11ab1b
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Fri Jan 20 19:51:50 2023 +0100
+
+    New version - 0.51
+
+commit 03e7fd17ce8e19d42b0292ab20a14be70d453703
+Merge: 6275655 7c0388d
+Author: Vendula Poncova <vponcova@redhat.com>
+Date:   Thu Dec 1 16:34:02 2022 +0100
+
+    Merge pull request #39 from M4rtinK/master-SPDX_license
+    
+    SPDX compatible License: line
+
+commit 7c0388def5ac37f5557540376fded029b153f288
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Wed Nov 30 14:30:07 2022 +0100
+
+    SPDX compatible License: line
+    
+    In context of Fedora SPDX change:
+    https://fedoraproject.org/wiki/Changes/SPDX_Licenses_Phase_1
+
+commit 6275655020a7cc90107aa084a442ac9e4306439a
+Merge: 2199522 cf9eafd
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Mar 1 12:14:22 2022 +0100
+
+    Merge pull request #37 from moto-timo/distutils-to-setuptools
+    
+    setup.py: switch from distutils to setuptools
+
+commit cf9eafdd165347f86bb4a2534c41fd805db52322
+Author: Tim Orling <tim.orling@konsulko.com>
+Date:   Mon Feb 28 09:41:02 2022 -0800
+
+    setup.py: switch from distutils to setuptools
+    
+    In Python 3.10 'distutils' is deprecated with removal slated for Python
+    3.12. Switch from 'distutils.core' to 'setuptools'.
+    
+    This also allows for a 'wheel' binary archive format to be built with
+    'setup.py bdist_wheel'.
+    
+    Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+
+commit 219952280c5bbfd64a4ed82bc43c6c16db5cb4ac
+Merge: 1198077 228eed4
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Fri Jan 29 19:51:40 2021 +0100
+
+    Merge pull request #30 from VladimirSlavik/master-prettify-setup-py
+    
+    Improve formatting and data in setup.py
+
+commit 228eed4d3ecfda3d09b0364eb6db1381db379827
+Author: Vladimir Slavik <vslavik@redhat.com>
+Date:   Wed Apr 29 16:51:34 2020 +0200
+
+    Improve formatting and data in setup.py
+    
+    Fixes: author (maintainer) + email, link.
+
+commit 11980776c5ad757401ea1d12fd1f331d96428105
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Tue Sep 29 17:52:31 2020 +0200
+
+    New version - 0.50
+
+commit 645b43d63cc14686daf3d0c158713e13e67bae53
+Merge: 50c09e5 47c883e
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Tue Sep 29 15:53:05 2020 +0200
+
+    Merge pull request #33 from mzidek-gh/master
+    
+    dump: Use exception's type and value when calculating hash
+
+commit 47c883efd1f08cb8ec8593d45c6286f1ae380ad9
+Author: Michal Židek <mzidek@redhat.com>
+Date:   Wed Sep 23 19:50:31 2020 +0200
+
+    dump: Use exception's type and value when calculating hash
+    
+    This has caused problems with later versions of Anaconda
+    as the traceback always leads to the same handler and
+    without the exception type and value there is no  distinction
+    between the errors.
+    
+    I do not think that including the type is problematic
+    at all.
+    
+    Including the value can result in some duplicates not
+    being detected as the message can contain anything.
+    But not including it will cause much more false
+    duplicates, so I think it is better to include it.
+    
+    Resolves: rhbz#1848493
+
+commit 50c09e5c4c76757099d686c316b4bf42f72db71b
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Tue Aug 25 16:07:37 2020 +0200
+
+    New version - 0.49
+
+commit 1a247890c8e230cf748e4bc042ab7eff2cf35ee7
+Merge: 6e5d0ae fd72a88
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Thu Aug 20 16:37:48 2020 +0200
+
+    Merge pull request #31 from jkonecny12/master-fix-make-archive
+    
+    Fix make archive command after pot file removal
+
+commit fd72a88c0553190b88968bbe6169aa2106009f6b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 20 16:32:44 2020 +0200
+
+    Fix make archive command after pot file removal
+    
+    Pot file was moved to a separate repository, however, this command wasn't
+    changed appropriately. Fix this now.
+
+commit 6e5d0aebbd02ac216ee367820c9193aba270cf5b
+Merge: 47a6fb2 7cc7fe4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 19 16:33:17 2020 +0200
+
+    Merge pull request #29 from jkonecny12/master-weblate-support
+    
+    Weblate migration
+
+commit 7cc7fe474118b446cb0c1095589a6c86682c6381
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 13 17:55:09 2020 +0200
+
+    Add Readme with description and translation badge
+    
+    Related: rhbz#1836950
+
+commit 5e615b21006b2b465403b8a08107f2cc3e0109d0
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 13 17:51:59 2020 +0200
+
+    Add pot file to the git ignore
+    
+    Pot file is from now on stored only in the translation repository.
+    
+    Related: rhbz#1836950
+
+commit 9d3f42e982193449088385b7913b4710a63319ff
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 13 17:50:43 2020 +0200
+
+    Pause release when making bumpver to check and solve translations
+    
+    This should be removed after pot file creation will be automated.
+    
+    Related: rhbz#1836950
+
+commit 0c486b94b729b4944d3a5366b9b0031e61ab7b99
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 13 17:49:19 2020 +0200
+
+    Remove unused PREFIX from Makefile
+    
+    Related: rhbz#1836950
+
+commit ac1ae4e63bfe23da877136332cc75ca4e6709286
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 13 17:48:39 2020 +0200
+
+    Remove Zanata
+    
+    It was replaced by Weblate translation platform.
+    
+    Related: rhbz#1836950
+
+commit d48b2e050c925506c77488a5abc7a272f25bfcba
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 13 17:47:23 2020 +0200
+
+    Push translations to our translation repository
+    
+    Zanata is not used anymore.
+    
+    Resolves: rhbz#1836950
+
+commit 5411095d7ed87c4a4b6ea952e97e4636e7ae61df
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 13 17:43:03 2020 +0200
+
+    Download translations from Weblate
+    
+    Related: rhbz#1836950
+
+commit 0a257c2130e23aecc1d6737bd780947b8fb16b81
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 13 17:38:49 2020 +0200
+
+    Remove pot file
+    
+    This is now placed in the translation repository.
+    
+    Related: rhbz#1836950
+
+commit 47a6fb20f20f88ec9ce38e02a1be03bd22eb0562
+Merge: 760f78a c568a53
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Fri Feb 28 11:33:24 2020 +0100
+
+    Merge pull request #24 from M4rtinK/master-fix_zanata_client_detection_in_makefile
+    
+    Fix Zanata client detection in Makefile
+
+commit c568a533489728256a0db5d6a8b3418b4d74690d
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Nov 18 18:50:38 2019 +0100
+
+    Fix Zanata client detection in Makefile
+    
+    Drop the outdated RPM name check and check the Zanata client
+    binary name instead. Also call the binary via variable when we
+    are at it.
+
+commit 760f78a634ecf0e2380abcbd751bc233d29300ef
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Wed Oct 23 18:46:26 2019 +0200
+
+    New version - 0.48
+
+commit c6158f6712a6886288b9190e56db2797d377e911
+Merge: 78d868d bed6e0d
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Wed Oct 23 18:38:07 2019 +0200
+
+    Merge pull request #23 from poncovka/master-decode_bytes
+    
+    Handle bytes and strings from RPM (#1764642)
+
+commit bed6e0de1c2c8839a9ed33ae7a0645b5e42cb9d4
+Author: Vendula Poncova <vponcova@redhat.com>
+Date:   Wed Oct 23 17:58:06 2019 +0200
+
+    Handle bytes and strings from RPM (#1764642)
+    
+    RPM can return bytes or strings, so let's use the function decode_bytes that
+    can handle both and always returns a string.
+    
+    Related: rhbz#1693766
+    Resolves: rhbz#1764642
+
+commit 78d868d99104317ce8820f39f61d207566e61a55
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Jul 23 16:09:30 2018 +0200
+
+    New version - 0.47
+
+commit 9d3f6983dc078ccba7f1fa5d4ff9b2628b09e2f0
+Merge: 0191fa9 d513f5c
+Author: Martin Kolman <martin.kolman@gmail.com>
+Date:   Mon Jul 23 16:00:36 2018 +0200
+
+    Merge pull request #18 from M4rtinK/master-fix_locale
+    
+    Make sure gettext returns strings not bytes
+
+commit d513f5cbc9ae06eff75243f969f25de4b2d00beb
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Jul 23 15:10:19 2018 +0200
+
+    Make sure gettext returns strings not bytes
+    
+    Looks like this behavior changed in Python 3 & ldgettext() started to
+    return bytes.
+    
+    So use gettext.translation() instead, like we did in Anaconda.
+    This should be the "right" way for Python 3 & properly return strings.
+
+commit 0191fa92e4c3a2be76b37eefa3d0c91d3366cbba
+Merge: bb11567 8a4268b
+Author: Martin Kolman <martin.kolman@gmail.com>
+Date:   Thu Feb 15 11:29:27 2018 +0100
+
+    Merge pull request #17 from AdamWill/gui-subpackage
+    
+    Spec: Move TUI back to main package
+
+commit 8a4268bc88ff49a2921ef03b993181117f1d9fa7
+Author: Adam Williamson <awilliam@redhat.com>
+Date:   Wed Feb 14 12:19:24 2018 -0800
+
+    Spec: Move TUI back to main package
+    
+    The 0.46-1 package build I think inadvertently (in the name of
+    simplifying the spec) moved the TUI into the -gui subpackage.
+    This breaks Fedora composes, as anaconda's text mode will not
+    start without python3-meh-gui installed, and that package is
+    not currently installed to the compose environment.
+    
+    This commit reverts the changes to %files which broke this.
+
+commit bb1156728a4f76e5e3638ab20b9454a1568a99db
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Feb 12 18:20:49 2018 +0100
+
+    New version - 0.46
+
+commit 07ef6c36ce45905e3262729dd066c3b0adb16dc7
+Merge: 2bfc751 ee7c2c0
+Author: Martin Kolman <martin.kolman@gmail.com>
+Date:   Mon Feb 12 17:56:46 2018 +0100
+
+    Merge pull request #16 from M4rtinK/master-drop_python_2_support
+    
+    Drop Python 2 support
+
+commit ee7c2c009d7aa6e99140efe216cab9fcc8a5fdab
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Fri Jan 19 19:09:49 2018 +0100
+
+    Drop Python 2 support
+    
+    No one is apparently using the python2 subpackages and the end of
+    upstream support for Python 2 is in sight, so drop the python2
+    subpackages and Python 2 support in the codebase.
+    
+    Dropping Python 2 support is pretty trivial and basically amounts
+    to stop using six and fixing the few places where it is used.
+
+commit 2bfc751fd680515d44f7096945a1e282a1f7d6aa
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Tue May 23 11:40:43 2017 +0200
+
+    New version - 0.45
+
+commit a465bda413a9523934f2ad824748a5272a71d83c
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Tue May 23 11:32:52 2017 +0200
+
+    New version - 0.44
+
+commit dbc1356735fe1221674074bc9307efeb4ac82fe0
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Tue Feb 16 18:12:09 2016 +0100
+
+    Some rpmlint fixes
+    
+    * fix the FSF address
+    * remove a "macro" from the changelog
+    * use a valid URL for the source tarball
+
+commit ef54a974a8a6622702e8c5b53492ffbd34a7305e
+Author: David Shea <dshea@redhat.com>
+Date:   Thu Feb 4 11:32:25 2016 -0500
+
+    Remove the removal of the eintr checker, which has been removed
+
+commit d3d2e4ff8472a152efbcac7ad336b0a31d4c60bb
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Oct 5 14:50:51 2015 +0200
+
+    New version - 0.43
+
+commit e255c09b603a12fe712a9e7d51e2102d2d18b7a0
+Author: Vojtech Trefny <vtrefny@redhat.com>
+Date:   Fri Oct 2 14:47:30 2015 +0200
+
+    Set translations domain for glade files
+
+commit 1a4af15cf5a539510a88278ecfd1255c6e00621d
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Tue Sep 29 18:03:43 2015 +0200
+
+    New version - 0.41
+
+commit 97b11603762f24a80215ba99468296138b8681a9
+Author: Vojtech Trefny <vtrefny@redhat.com>
+Date:   Fri Sep 25 14:34:07 2015 +0200
+
+    Add tests and ChangeLog to MANIFEST.in
+    
+    Signed-off-by: Vojtech Trefny <vtrefny@redhat.com>
+
+commit d19cbc473d15a919567d9c6f5ea8a91ab83a5cd8
+Author: Vojtech Trefny <vtrefny@redhat.com>
+Date:   Thu Sep 24 15:02:28 2015 +0200
+
+    Fix clicking on buttons on error pop-up doesn't work (#1250942)
+    
+    Set python-meh window to be modal and above other windows and hide
+    it when libreport window is displayed.
+    
+    Signed-off-by: Vojtech Trefny <vtrefny@redhat.com>
+
+commit 21c69f08615636e950bcacce3d9a225727d74544
+Author: Vojtech Trefny <vtrefny@redhat.com>
+Date:   Mon Sep 21 10:07:57 2015 +0200
+
+    Add Makefile to MANIFEST.in
+    
+    Signed-off-by: Vojtech Trefny <vtrefny@redhat.com>
+
+commit 5526cdfee1a5678bac2e90fddf88faf2d1b5b5e0
+Author: Vojtech Trefny <vtrefny@redhat.com>
+Date:   Thu Sep 17 13:16:19 2015 +0200
+
+    Add archive target to Makefile
+    
+    Change 'make local' to create a source archive from current code,
+    add 'make archive' to create a source archive from version tag.
+    
+    Signed-off-by: Vojtech Trefny <vtrefny@redhat.com>
+
+commit 0bdd587019ef514c22f016588d4fbba1769499fa
+Author: Vojtech Trefny <vtrefny@redhat.com>
+Date:   Thu Sep 17 13:14:50 2015 +0200
+
+    Add .gitignore
+    
+    Signed-off-by: Vojtech Trefny <vtrefny@redhat.com>
+
+commit 3dea6c0f5495f861dabb45bea7ae13e862fc78f0
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Wed Sep 16 15:24:18 2015 +0200
+
+    New version - 0.41
+
+commit b66d9a542b4c39e48a561fe69ea071d3beb2756c
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Tue Sep 8 15:11:08 2015 +0200
+
+    Make sure the Meh window has focus even if a dialog is displayed
+    
+    Make sure that the Meh window is in focus even if the application
+    that crashed was displaying a dialog at the time of the crash.
+    
+    This is quite an issue as both Anaconda and Blivet GUI make use of
+    dialogs and thus crash reporting via Python Meh could be sometimes
+    prevented by the Meh window not getting focus.
+
+commit d6b1d3c29ddcb9351015254772e897591884e272
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Jul 28 13:06:39 2015 -0400
+
+    Run pylint as part of "make ci".
+    
+    Also, use sys.exit instead of os._exit to make sure pocketlint's atexit
+    handler runs.
+
+commit 65bef15f73848f5b353fad677ebfc670b4d9212b
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Jul 17 09:49:49 2015 -0400
+
+    Add a new makefile target that does everything needed for jenkins.
+    
+    We should have as much of the logic of how the CI tests are run in source
+    control as possible, so that's what this target is for.  Besides this, jenkins
+    just runs a "git clean" first.
+
+commit 0391e896abafda15b9c2011e656cb04c91b43d90
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 16 15:55:16 2015 -0400
+
+    Fix the other pylint-discovered errors.
+    
+    Most of these can be gotten rid of by disabling the error messages.  This
+    is okay because a lot of the errors only turn up under python3 (like when
+    pocketlint is running), but the code in question is only reachable under
+    python2.
+
+commit f7505dfa1587e08e175c3c3776c432920953f43e
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 16 14:10:43 2015 -0400
+
+    Use isinstance instead of type.
+
+commit 56fb0116c3489b24f50e27c77f2fdd301dc766e5
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 16 14:08:22 2015 -0400
+
+    Fix all the places we're redefining something.
+
+commit 64a6a68d44821a2f87911419d274a51c77d2ac14
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 16 14:06:27 2015 -0400
+
+    Don't use [] as the default argument in a method.
+
+commit f143b2a03b54c23285ef7e35042abb8d483c0b16
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 16 14:04:15 2015 -0400
+
+    Take care of exception-related pylint messages.
+
+commit a25db486039df8a9b108f3cc08f84cc1d9a50db2
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 16 08:56:34 2015 -0400
+
+    Get rid of all the unused variable warnings.
+
+commit e3036e7c61356594c7eb916a19ea628858bd5ca9
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Wed Jul 15 16:54:36 2015 -0400
+
+    Get rid of all unused and wildcard imports.
+
+commit f3f3ccbf2ac1edfc734cf5cf4377299c7680b0c1
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Wed Jul 15 16:43:00 2015 -0400
+
+    Add pocketlint support to python-meh.
+
+commit 55f62ce2345809ec96a4c94b89b2bb1135694d2a
+Author: Vojtech Trefny <vtrefny@redhat.com>
+Date:   Tue Jul 14 15:10:02 2015 +0200
+
+    Use gi.require_version for Gtk import
+    
+    gi.require_version needs to be added before importing from
+    gi.repository to stop PyGIWarnings complaining about it.
+    
+    Signed-off-by: Vojtech Trefny <vtrefny@redhat.com>
+
+commit a9b818a7c13646df14b952803dc84af6ccd72e11
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Tue Apr 28 14:15:45 2015 +0200
+
+    New version - 0.40
+
+commit 15a87a3029423680ac4026de704803e603f9478e
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Fri Apr 24 11:50:01 2015 +0200
+
+    Make sure the date in RPM changelog is always in English
+    
+    Make sure that the date in the RPM changelog is always in English
+    regardless of system locale as various RPM tools don't really handle
+    localized dates.
+
+commit 7dc190058306f262f3578407a12012a040936c5b
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Fri Apr 17 18:09:57 2015 +0200
+
+    Update upstream URL
+    
+    The python-meh upstream source code repository has moved to the
+    rhinstaller organisation on GitHub.
+
+commit 774255aeddb4dc5319547357a5ef8951de77cdc6
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Wed Apr 1 13:17:47 2015 +0200
+
+    New version - 0.39
+
+commit c7c975a881d09f7c92ceb7795e7b1e74e9c6593d
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Wed Apr 1 12:49:50 2015 +0200
+
+    Handle LANG=C
+    
+    Set utf-8 encoding for the output file in Python 3 so that
+    python-meh always outputs utf-8 encoded bytes.
+
+commit 21828e00772ceb7d67a9c3e533af9594607ea886
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Mar 30 14:02:13 2015 +0200
+
+    New version - 0.38
+
+commit 0dd22422d8bab135deedc669a0c4529a6aff5616
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Mar 30 18:39:15 2015 +0200
+
+    Switch to Zanata for translations
+
+commit 5493694c453141bfd7919b39b2a5010826447d16
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Mar 30 15:28:29 2015 +0200
+
+    Run both Python 2 and Python 3 tests for "make test"
+
+commit f2d52fec7e767c167be7446e5a2dfe80fc89258c
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Mar 30 15:22:30 2015 +0200
+
+    Python 3 compatibility fixes for the Unicode test
+
+commit ce29401bacde6151427d4a14bbc2529def23f67d
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Mar 30 15:19:39 2015 +0200
+
+    Make it possible to specify file open mode
+    
+    This is sometimes needed for Python 2 + 3 compatibility.
+
+commit 60984e88cdfa1832d306871a01b5604cb3c98b2a
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Mar 30 13:49:24 2015 +0200
+
+    Add missing six dependency
+    
+    Also tidy up the dependency formating to make it more readable.
+
+commit 82945afa35c04246a6bc4b38778b24edaa7053de
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Fri Mar 27 17:33:59 2015 +0100
+
+    Fix date in changelog
+
+commit d07119499c72dceb643d111f158f54cbd7f2e121
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Fri Mar 27 17:31:18 2015 +0100
+
+    New version - 0.37
+
+commit 8dc9639d8d520e110a2d1aa8e274b83b7e279dd2
+Author: Vojtech Trefny <vtrefny@redhat.com>
+Date:   Thu Mar 26 15:38:19 2015 +0100
+
+    Fix dumping file attachments in Python 3
+    
+    Signed-off-by: Vojtech Trefny <vtrefny@redhat.com>
+
+commit 81f5c2f2bb57964ea5e0573ab30cde943f98302b
+Author: Adam Williamson <awilliam@redhat.com>
+Date:   Wed Mar 25 11:46:12 2015 -0700
+
+    meh has not required openssh-clients since 2009
+    
+    It used to have its own scp reporting mechanism...in 2009. The
+    RPM dep was never removed.
+    
+    Signed-off-by: Martin Kolman <mkolman@redhat.com>
+
+commit 464489bf2b799d1ffbd8e5283abc1530c6336cb9
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Thu Mar 5 20:12:52 2015 +0100
+
+    New version - 0.36
+
+commit cf958c525c9219a2916c0bd054036bf99c808c40
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Mar 5 19:16:09 2015 +0100
+
+    Package's epoch returned by RPM is an integer (#1199263)
+    
+    We need to convert it into a unicode object since that's what's expected further
+    down the road and what every other filed of the PackageInfo namedtuple is.
+
+commit d0d085d9bdf2ea620afe97222a59c1e6b1909908
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Tue Feb 17 14:12:13 2015 +0100
+
+    New version - 0.35
+
+commit e1ac72c496b2ff6b223bd92bd2a67233c6852f61
+Author: Vojtech Trefny <vtrefny@redhat.com>
+Date:   Thu Feb 12 13:39:27 2015 +0100
+
+    Add option to remove the 'Debug' option/button for mainExceptionWindow
+    
+    It is neccesary to pass a function (which decides whether to allow the debug option) as a keyword argument 'allowDebug'. Default function is sys.stdout.isatty.
+    
+    Default is the sys.stdout.isatty function which causes the debug option is not present when there is no terminal/tty to display the debugger.
+    
+    Signed-off-by: Vojtech Trefny <vtrefny@redhat.com>
+
+commit 8ee2a22ed6d90a3b3d73915b1d9d54be3f5d8e19
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Dec 9 08:55:31 2014 +0100
+
+    New version - 0.34
+
+commit 8de1d435aca0761ed64288fc01ebbc539e3ebaf4
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Dec 8 10:22:40 2014 +0100
+
+    Encode str/unicode object before hashing it
+    
+    hashlib requires a byte string so in Python3 we should encode the unicode
+    object. In Python2 encoding byte string makes no change.
+
+commit 21a74c6c54290f751401659d5ccfa48a761b8890
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Dec 8 10:21:01 2014 +0100
+
+    Use dict.items() instead of dict.iteritems()
+    
+    Because of Python3 compatibility.
+
+commit ea16e90b696ebb938b05a47aab38652d0687daaf
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Dec 8 09:21:45 2014 +0100
+
+    Add one more flag to test (for Python3)
+    
+    Also make the flags mandatory so that we don't require Python2 flags from
+    Python3 and vice versa.
+
+commit e64859a9822b587bf15dbd3347875231710c47c9
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Dec 8 09:20:32 2014 +0100
+
+    Make sure we work with strings when we think we do
+    
+    Instead of relying on RPM returning us something that really works like a
+    string, let's just make sure we have a real string in both Python[23].
+
+commit ba6da074d2e617b64ec05b4fcdd4de22695a5e72
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Dec 5 14:47:58 2014 +0100
+
+    New version - 0.33
+
+commit 6af561af43873dfefb5d75f813ad1ccf0f155261
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Dec 5 14:46:33 2014 +0100
+
+    Make sure fresh translations are always fetched
+    
+    'tx pull' by default skips 'already downloaded' files, but those files may be
+    completely out of date.
+
+commit e4995c24ebefc40465c548542fcf591425bf273e
+Author: Miro Hroncok <mhroncok@redhat.com>
+Date:   Fri Dec 5 12:31:48 2014 +0100
+
+    Add pieces needed to build the python3- subpackage (#985294)
+    
+    Although the code is the same we need two packages with the same contents -- one
+    for Python2, one for Python3.
+
+commit 25dd15c2bffb1a5e976c9c8b8b9ca6c7fe46b997
+Author: Miro Hroncok <mhroncok@redhat.com>
+Date:   Fri Dec 5 12:30:37 2014 +0100
+
+    Remove yum from requires and fix setuptools requires
+    
+    We don't need yum and we need the setuptools package, not setuptools-devel.
+
+commit bff47b25d0d66567bc05ce2906153a5d993a2081
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Dec 5 13:59:22 2014 +0100
+
+    raw_input is replaced by input in Python3
+
+commit 08fac2b7b61b10105c54b3bc879db0ed88beadd7
+Author: Miro Hroncok <mhroncok@redhat.com>
+Date:   Fri Dec 5 12:28:58 2014 +0100
+
+    Raise exception in a Python3 compatible way
+
+commit e60d40eeed47a607d63720ca23cfe5144bd15735
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Feb 11 11:09:55 2015 +0100
+
+    Add example code using python-meh
+    
+    It's not entirely easy to come up with the code that set's python-meh exeption
+    handling up. Anaconda does very complicated stuff to do so, but the minimal
+    example is short and quite clear and thus we should provide it to encourage
+    people to use python-meh.
+
+commit 792f2cfe0f7bdf21d83b6f653c40e5fb5a1f667b
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Feb 9 17:32:07 2015 +0100
+
+    Use /usr/bin/python2 in scripts
+    
+    Comply with the new packaging guidelines:
+    
+    https://fedoraproject.org/wiki/Packaging:Python#Multiple_Python_Runtimes
+    https://fedorahosted.org/fpc/ticket/327#comment:9
+
+commit 6565b79160201a8c259c090c03efd1faea27377b
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Sep 8 12:54:59 2014 +0200
+
+    Remove the --disable-overwrite parameter for the Transifex client
+    
+    It doesn't seem to be of any use.
+
+commit b3ff84434dec14d85995c800f0b1240b133d0d21
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Mon Apr 28 17:45:19 2014 +0200
+
+    New version - 0.32
+
+commit fc8ba2d1aac3712c1fd35f7c3337655cc2ca2d02
+Author: Martin Kolman <mkolman@redhat.com>
+Date:   Fri Mar 21 18:58:59 2014 +0100
+
+    New version - 0.31
+
+commit fdd4eb038a7cb1a80003bab8ff869b6ebb2ff12d
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Dec 18 13:02:02 2013 +0100
+
+    New version - 0.30
+
+commit 0d7c3364fd8f08e194f3edb62766d0e39573b5b9
+Author: David Shea <dshea@redhat.com>
+Date:   Mon Dec 16 15:10:05 2013 -0500
+
+    Exclude compiled versions of gui.py from the non-gui package
+
+commit 69fc510b93ecaff6504d04f170ac78c0879f6b1f
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Dec 3 10:09:00 2013 +0100
+
+    Skip callbacks providing no information
+
+commit 882e5df8bcf47935dd2e0e17f1e568709afb942c
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Nov 20 14:21:14 2013 +0100
+
+    New version - 0.29
+
+commit 31a4f02952138324c5e2b6a2d225fed1a65a6081
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Nov 19 08:44:12 2013 +0100
+
+    Split GUI out into a separate package
+    
+    Interactive exception handling and reporting generally doesn't require GUI so we
+    should allow using python-meh without pulling in the whole graphical stack.
+
+commit 64f123664fe7a1c8cfc5921c862d1200101a7909
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Nov 19 08:41:27 2013 +0100
+
+    Create archives in one Makefile target and reuse it
+    
+    Both 'make local' and 'make archive' should produce the same tarball they
+    differ only in commit tagging.
+
+commit 47a5dcdc60e5618305351a7335d8e412e750d864
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Nov 5 08:21:36 2013 +0100
+
+    New version - 0.28
+
+commit e62dea5255ee7345525f9505669aee50434bc917
+Author: Miro Hrončok <miro@hroncok.cz>
+Date:   Tue Oct 15 16:30:12 2013 +0200
+
+    Introduce support for Python 3 while keeping Python 2 working
+    
+    This commit introduces support for Python 3. Some of the behaviour is slightly
+    changed, however, it should work in general.
+    
+    Libreport is still not working with Python 3, but that should be the only
+    blocking thing now.
+    
+    Makefile and setup.py might need some modifications as well, currently only
+    make test3 has been added.
+
+commit 93f8914df26fb5bc719714f1d4298df4ae6f67cb
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Oct 9 13:52:32 2013 +0200
+
+    Sync spec with downstream
+
+commit a429bfff0524fe4a33d6b7da30ba09dca02d36e6
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Oct 9 13:45:31 2013 +0200
+
+    New version - 0.27
+
+commit d0900f6ce587879d2c7db3fa9531ef480c610970
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Oct 8 14:28:25 2013 +0200
+
+    Use join method instead of the joinfields function
+
+commit 36ec169e5982aeefce613eb38e5a0a152eab4c8e
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Oct 8 14:23:15 2013 +0200
+
+    Translate the hints on how to quit debugger and shell
+
+commit 713433813e86f18624abbf3257cc810b6e2c521c
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Oct 8 14:18:56 2013 +0200
+
+    Add a way to run shell when exception appears
+    
+    There may not be a way to get to a shell in text mode so we should provide it.
+
+commit 95c1ae7a830471c19675387cc85d6a8ec1cbdeb7
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Oct 8 14:12:59 2013 +0200
+
+    Get rid of constants that are no longer used anywhere
+
+commit 7cda22025a3ff1d843b667afe8c581518f7486b2
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Sep 23 09:05:09 2013 -0400
+
+    Filter local variables in a nicer way and fix docstring
+    
+    The localSkipList is used as a list of substrings that are searched in variable
+    names to determine if those should be skipped or not. Both the code and
+    docstring should reflect that in a readable way.
+
+commit e31d0249a903eb42da7dae26eae9e55826fc42c4
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Jul 23 13:27:42 2013 +0200
+
+    New version.
+
+commit 7b7f6b1ed9a5e29aa228bda70358abf0dd1d55ad
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Jul 22 13:59:32 2013 +0200
+
+    Output binary data correctly as hexa strings (#986515)
+
+commit 470fa9eec1d44df4d48cbb6461e863a4a449150a
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Jul 22 12:20:21 2013 +0200
+
+    Add newline before dumping callbacks' outputs
+
+commit a58d3d20dade714c9954412ab22827742d4b33cf
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Jun 18 12:25:48 2013 +0200
+
+    New version.
+
+commit 8c1e14bc78b0a9422c17589c9c7bca6b734411e5
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Jun 18 12:23:54 2013 +0200
+
+    Transifex now needs transifex.com
+
+commit 625247486e432bb475145eb3b04d34138daba793
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Dec 14 12:00:37 2012 +0100
+
+    Add and use the safe_string module and the SafeStr class
+    
+    safe_string module provides the 'SafeStr' class which is a class inheriting from
+    Python's 'str' class and overriding the __add__ method to allow safe appending
+    of ascii strings, utf-8 encoded unicode strings, unicode strings, binary data
+    represented by a string and objects with or without __str__ method.
+    
+    With this class we no longer have to check values for being of type UnicodeType,
+    and we can handle binary data correctly.
+    
+    Resolves: rhbz#886983
+    Resolves: rhbz#974032
+
+commit bff4e40908e9566e45ead4b8da8fd4a869c08f80
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed May 22 15:00:08 2013 +0200
+
+    Give translators hint about the cryptic strings
+    
+    The comments appear in the .pot file and also in Transifex next to the
+    to be translated string.
+
+commit 701007d6ff82148f7dd6105bfe67c08f8d535e11
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu May 2 13:01:18 2013 +0200
+
+    New version.
+
+commit b020679afa4cb3888b9217823eb243bbfbf288c2
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Apr 30 11:14:40 2013 +0200
+
+    Epoch of the package from RPM db can be None (#957789)
+    
+    None has to be replaced with some default ("0"), otherwise libreport raises
+    exception and bug reporting doesn't work.
+
+commit 193f7f110b7213a98c529dc67515868172c47b59
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Apr 17 12:41:36 2013 +0200
+
+    New version.
+
+commit 7c393a68c4c50a710daa02d2ab7d7860f90355ce
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Sat Apr 6 11:04:19 2013 +0200
+
+    Use Sphinx syntax for docstrings
+
+commit 8c308e02eb7193a5c0c2a8cb7981b6cc2ed90fdf
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Mar 26 14:52:31 2013 +0100
+
+    Allow a change of the I/O functions
+    
+    This is needed for Anaconda's text mode that has its own raw_input
+    function that has to be used also by python-meh. And it will come
+    handy when writing automated tests for python-meh's text interface.
+
+commit dd9bc56d04f804532b3d119a7f216b4d82bfa554
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Mar 19 12:22:42 2013 +0100
+
+    Reword the 'Debug' button warning (#948256)
+    
+    Getting to tty1 happens only in Anaconda running a non-live installation, so we
+    should just warn user it may happen. Also the GUI is now on tty7, but in any
+    case there is no point in getting back to tty7 manually, because until the
+    debugging session is finished the GUI is frozen.
+
+commit 500309cd3675dbd67718713bf5fd5a3ba3e450e4
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Apr 4 11:06:42 2013 +0200
+
+    New version.
+
+commit 32bd7b628d46d7ba82e9de8dc7555d7cf93cbe44
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Apr 3 12:05:08 2013 +0200
+
+    Some more stuff for ABRT/libreport (#929181)
+    
+    It needs it for better deduplication.
+
+commit 15cd207be109c300027b94e5f93dbbffab2fffdb
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Mar 28 10:43:14 2013 +0100
+
+    Tell ABRT we are reporting a Python excetion
+
+commit 9ad715a463cab93714017335f92e2b03774ee75f
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Mar 5 12:21:36 2013 +0100
+
+    Use named tuples instead of our magic tuples
+    
+    Using ExceptionInfo and DumpInfo named tuples makes code clearer and
+    simplifies documentation.
+
+commit 24b440274ec58635281ab4ccacf2c6ca3cdd5812
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Jan 22 12:51:34 2013 +0100
+
+    Add missing lines to changelog
+
+commit ef1cc21987eb0081194d3c261fca199a32c50197
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Jan 21 12:43:46 2013 +0100
+
+    New version.
+
+commit 0edc4d02d9e21e2b18c0f33096e08c5801e06da6
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Jan 15 12:52:27 2013 +0100
+
+    New purely textual text interface
+    
+    Since Anaconda supports purely textual (no curses-based) interface,
+    we need to provide it too.
+
+commit 8e10339dfb71d80931b2f7bb5d9e5d50d1d185a5
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Jan 15 12:49:31 2013 +0100
+
+    Add dumb enableNetwork implementation to GraphicalIntf
+    
+    enableNetwork is not implemented in the abstract class for user
+    interface. Not implementing it in any way in the GraphicalIntf class
+    may result in traceback.
+    
+    Also inherit AbstractSaveExceptionWindow from the object class.
+
+commit b51de7c81473a2c78ab8017929057c1079d7857e
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Jan 15 13:14:10 2013 +0100
+
+    Destroy main window after running it
+    
+    Also put an empty line before the pdb session to make the help
+    comment more visible.
+
+commit 4f30e4679098bd8403f0f1c6a93d073a7f6de1de
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Jan 15 12:46:56 2013 +0100
+
+    Get rid of the accountManager and use new libreport API
+    
+    While libreport supports the old API, we can get rid of some lines
+    by using the new one.
+
+commit 36406a526b87969ec5f7da1339b941785ad6af28
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Jan 14 13:01:42 2013 +0100
+
+    Add a way to override previously registered callback
+    
+    It may be needed to force the name for a callback even when there
+    already is a callback with the same name registered.
+
+commit 2b7192bc65f1af4c3bdc30bed38309b04dbcba16
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Jan 11 16:01:30 2013 +0100
+
+    Allow callbacks marked as attachment only
+    
+    Some callbacks may return a lot of data that would make the main
+    '*-tb' file much bigger. By giving an option to mark callback as
+    "attachment only" we can keep the main '*-tb' file's size and still
+    get stuff to bugzilla.
+
+commit 4eea6b719fda0c60713018f1d8a5e6fce6db14ec
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Jan 11 14:41:17 2013 +0100
+
+    Add support for callbacks providing additional data
+    
+    We provide a way to register files that should be appended to the data
+    collected about the crash. This patch adds the similar functionality,
+    but for the callbacks (calling programs, listing items in some additional
+    object, etc.).
+
+commit f9777a1c766ecaca4b395fb19d7859f24d51d424
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Dec 11 12:45:27 2012 +0100
+
+    New version.
+
+commit df5249e9e1c3936a0be916586c08b9f0a11512bf
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Dec 5 10:51:56 2012 +0100
+
+    Handle non-ascii dict keys and values correctly (#883641)
+    
+    Also add such case to the handle_unicode unittest.
+
+commit 74871808fb4ccc9a81774ac53a703a278af9d71e
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Nov 14 18:36:13 2012 +0100
+
+    New version.
+
+commit fb2817007f334d4eed0080af4323017a8c69d48f
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Nov 9 15:48:16 2012 +0100
+
+    Add test for handling unicode strings and files
+    
+    There were many bugs concerning these issues.
+
+commit 6b48d04bc8e48f80bc017388bd09c5441fa9bc7f
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Nov 9 15:06:25 2012 +0100
+
+    Read files as UTF-8 and ignore errors (#874250)
+    
+    We may be given files that are not ascii. This way we can handle both
+    utf-8 and ascii files correctly.
+
+commit 1e2d449b1415ed9edcaaef654fe5455b991f7edc
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Mar 21 15:25:05 2012 +0100
+
+    Add %check section to the spec file
+    
+    port of commits 9590d4aded93d73225d28ba0d1ffe1d6f9e8b2b6 and
+    7432b617df3b8cf001a03697fac5d881382252f0 from rhel6-branch
+
+commit 4ac9304a6b376bf9cc0edb40d523e3cb7a429f49
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Nov 9 15:47:10 2012 +0100
+
+    Fix tests
+    
+    Tests need to reflect changes made to some methods.
+
+commit 8b297d132701d2f5c08d0003caaa1beeeb204865
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Oct 25 11:58:52 2012 +0200
+
+    New version.
+
+commit e7df2b1849e41cbaa21fa791df635e26adfc818f
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Oct 15 18:56:08 2012 +0200
+
+    Handle tracebacks with no stack (#866441)
+    
+    Obviously such tracebacks exist.
+
+commit ef75b2628d64b8036818f06a9b31a3012e3f0b00
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Oct 15 18:41:59 2012 +0200
+
+    Parse component name correctly (#866526)
+    
+    Thanks to Jakub Filak <jfilak@redhat.com> for the original version
+    of this patch.
+
+commit f3dd9eec867c35dd6dd843a36ccebcd195a01e68
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Oct 15 09:20:16 2012 +0200
+
+    Spelling corrections (#865993)
+
+commit f69a9cd445374311c93fc95c03a5426b003a7568
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Oct 9 18:02:08 2012 +0200
+
+    New version.
+
+commit 82749fb3b7f5da71372adc792e2d462636049ce4
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Sep 21 11:55:08 2012 +0200
+
+    Handle unicode strings correctly (#854959)
+
+commit 519148e08a33a10daee7ba934820a1a9603410a8
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Sep 11 12:40:02 2012 +0200
+
+    New version.
+
+commit abab023aa2278f73ee7ab190e6bc840b9d2f967a
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Sep 6 13:31:56 2012 +0200
+
+    Do not overwrite process information with files having the same basename
+    
+    e.g. 'cmdline' can be overwritten when adding "/proc/cmdline" to the
+    problem data dictionary
+
+commit 31e242b50c4becd7106428de23c5e39fbd2a26e1
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Sep 6 13:28:38 2012 +0200
+
+    Encode dump as utf-8 before writing to file (#854959)
+    
+    Writing to file uses ascii codec by default, which causes tracebacks
+    when writing non-ascii characters.
+
+commit f06aed2a4bff04926f3cb6d4ad2a5089f5959262
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Aug 20 15:49:47 2012 +0200
+
+    New version.
+
+commit 2dfa5426d1a5ba2f2fcf78010d52de3c9913be73
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Aug 20 14:36:52 2012 +0200
+
+    Add main_window property to the MainExceptionWindow
+    
+    It's needed in Anaconda for adding the window to a Gtk.WindowGroup.
+
+commit 77210889e1a717f84a9c71687c63554a516eef35
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Aug 16 16:10:45 2012 +0200
+
+    Don't try to dump objects without __dict__
+    
+    Such objects cannot be dumped and we should just print their
+    string representation.
+
+commit 366951d7f0ae413b4fc480ea55f709fdac78fbbd
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Aug 16 16:11:47 2012 +0200
+
+    Change require from rpm to rpm-python
+    
+    rpm-python is what we need in meh/dump.py
+
+commit 589705877a9b0472e95f7d47659e89d8aaee5a7f
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Aug 3 20:31:20 2012 +0200
+
+    New version.
+
+commit 7d6d92edc7cb8d59dce0c88ee9fe063026e25223
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Aug 3 20:18:41 2012 +0200
+
+    Use just a basename of the attached file as the item name
+    
+    libreport doesn't allow item names containing '/' characters,
+    so let's use just the basename of the attached file (for attachments,
+    there will still be the full path in the program-tb file)
+
+commit 64f6fdad31ae03778cc2010be34f6a36e52dab6f
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Aug 3 20:11:15 2012 +0200
+
+    Set the type hint for the mainExceptionWindow to Dialog
+    
+    Using Dialog as a window type causes that it has no minimize, maximize
+    and close buttons.
+
+commit 4e4203a270e11bd78795ba70de088ee2192c555a
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Jul 11 10:54:04 2012 +0200
+
+    Store and then write out the string representation of the traceback and object dump
+    
+    We passed the filename of the file containing the traceback and object dump to
+    libreport, and MainExceptionWindow. But that meant libreport and MainExceptionWindow
+    had to read the file and save the content to its internal structure. We need to
+    write traceback and object dump to a file, but we can pass its contents as string
+    directly to libreport and MainExceptionWindow.
+    
+    There is a related patch for libreport removing the glue reading the file contents.
+
+commit 4229f60a87f573da40d5c9c7e070732610bfa399
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Jul 19 10:42:50 2012 +0200
+
+    New version.
+
+commit 7734b4e1ad3a2542bcc18a621dbf57124055a95e
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Jul 19 13:23:42 2012 +0200
+
+    Add files specified in the Config object as attachments to bugreports
+    
+    We append the contents of the files specified in the Config object
+    to the program-name-tb-XXXXX file, but with this patch, they will
+    also appear as attachments of the bugreport.
+
+commit 9f561219581a66997cc51ce11be9400ae47eaa3c
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Jul 19 09:59:25 2012 +0200
+
+    Put .po files to the tarball
+    
+    We now don't have .po files tracked by git and thus 'git archive'
+    ignores them. So we need to append them to the tarball.
+
+commit 6b7e90426b27d5869a5b608b3aeecb35a0b1d31d
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Jul 11 13:09:42 2012 +0200
+
+    Display hint how to quit the debugger
+    
+    People don't usually know that 'continue' command quits the debugger,
+    so let's display a little hint.
+
+commit 6c702839a323c5e8a3232d5bb9877f9f0e7523de
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Mon Jul 9 14:53:26 2012 +0200
+
+    Do not kill the process when 'continue' is used in pdb
+
+commit d2344fa9953709b0539f62de5238d6168ed148af
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Jun 20 14:03:04 2012 +0200
+
+    Port to Gtk3 and the new design
+
+commit aa748f312ec676986db515413fe0d4a36601f746
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Jun 20 17:22:14 2012 +0200
+
+    Remove the rc attribute and getrc methods
+    
+    These things are not necessary, we can return the return code directly
+    from the run() method.
+
+commit 38a6c4050d49243f79bbafd795320309eb647273
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Jun 19 13:54:58 2012 +0200
+
+    Fix 'all' and 'install' Makefile targets
+    
+    'all' cannot run 'tx pull', because build environments don't have
+    tx configured and 'install' should just install python-meh not
+    build it
+
+commit f6ea535d806752fa03dfeffd51a3a12c9d14e2c6
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Apr 12 14:53:29 2012 +0200
+
+    Migrate l10n to Transifex
+
+commit 21c8970ad8c39eda002d4ad833c7f13d62c1cba1
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Wed Dec 21 11:05:03 2011 +0100
+
+    New version.
+
+commit 0a02db895d3955cd154abd24e2f055aec672c7cd
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Nov 8 10:42:32 2011 +0100
+
+    use self.conf.* values when rpmdb queries fail (bugzilla needs to know at least valid component name)
+
+commit 04b70ff43483d7079217ea0b440f86cb3f5a47c9
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Oct 21 13:47:43 2011 +0200
+
+    add info about environment variables
+
+commit 5c07f108db69682aabd024207ddd8cb6f6d3a8ab
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Nov 1 17:50:19 2011 +0100
+
+    remove unused import subprocess
+
+commit 5fc3a0fe48e1b783f4527002a07665d9341a20d5
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Thu Oct 27 12:40:37 2011 +0200
+
+    remove "" from python's options list (additional space in 'cmdline:...' solved better)
+
+commit c8ecb846586a7ad330e05f1a067add6068d2e34e
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Fri Oct 21 12:24:45 2011 +0200
+
+    pass whole sys.argv in "cmdline: ..." info
+
+commit ad178a242d350cbccb687135677143e8fc0e574c
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Oct 18 11:22:06 2011 +0200
+
+    use a dictionary to pass args to report.createPythonUnhandledExceptionSignature and pass environment info this
+    way
+
+commit d5d99e90addea7790cab0d8500fa52f084702103
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Nov 1 17:33:39 2011 +0100
+
+    Move "import rpm" to where it's needed to avoid nameserver problems.
+
+commit be38ecc0d01cc40137bf7375432cbadf93848cb6
+Author: Michal Toman <mtoman@redhat.com>
+Date:   Tue Nov 1 17:22:19 2011 +0100
+
+    Change dependency to libreport-*.
+
+commit af5eb57546ffd7874ed48d35fce09fd56242b8ed
+Author: Vratislav Podzimek <vpodzime@redhat.com>
+Date:   Tue Nov 1 17:16:48 2011 +0100
+
+    Add abrt-like information to bug reports.
+
+commit af0c391214ad3d14ca728f2566f09f7baa82c25b
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Aug 25 09:36:45 2011 -0400
+
+    Propagate the screen attr when using text mode (jmoskovc).
+
+commit a90a6dc9f53b411d8dfb95fb06b7506b9c57f7c4
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Jan 25 11:11:42 2011 -0500
+
+    New version.
+
+commit b5445646ea6d46c60b53152093483307a39de12b
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Wed Jan 19 10:43:11 2011 -0500
+
+    Update the spec file URL to something valid (#670601).
+
+commit 79d4ebe0f7f1e25d3e420713c9bfe1ef41fca61d
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Wed Jan 19 10:42:45 2011 -0500
+
+    Don't use _D for Debug, since that's already used by the expander (#640929).
+
+commit 843960ebaac4dff217fcfa6424f6e3d7412c8d4c
+Author: ncfiedler <ncfiedler@fedoraproject.org>
+Date:   Sun Dec 5 16:22:55 2010 +0000
+
+    l10n: Added Low German translation
+    
+    Transmitted-via: Transifex (translate.fedoraproject.org)
+
+commit 65414d50ff5b66a19fd23f4abb816b9a6fd367cb
+Author: bluebat <bluebat@fedoraproject.org>
+Date:   Sat Sep 18 07:13:11 2010 +0000
+
+    l10n: Initial Traditional Chinese translation
+    
+    Transmitted-via: Transifex (translate.fedoraproject.org)
+
+commit 60b441e02938278e44555aaa46e32dad1b60af66
+Author: munzirtaha <munzirtaha@fedoraproject.org>
+Date:   Wed Jul 14 07:16:15 2010 +0000
+
+    l10n: Arabic translation committed. Thanks Fawaz from KSU
+    
+    Transmitted-via: Transifex (translate.fedoraproject.org)
+
+commit cb66d8b8d68a99a5eac636d5cf57829e3b79400e
+Author: warrink <warrink@fedoraproject.org>
+Date:   Sun Jul 4 13:11:49 2010 +0000
+
+    l10n: Updates to Dutch (Flemish) (nl) translation
+    
+    Transmitted-via: Transifex (translate.fedoraproject.org)
+
+commit c839aff9bdc49e15712c58ee187b0b866731ef68
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Jun 22 11:04:27 2010 -0400
+
+    New version.
+
+commit 5dfc751a862d6b463c3300f3e3728316d9723cdc
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Jun 22 10:43:32 2010 -0400
+
+    Treat classes like simple types, too.
+    
+    This avoid the "AttributeError: class KSOption has no attribute '__class__'"
+    traceback seen in a lot of anaconda exception reports.
+
+commit 8f75611e5649e4ed3a5f8e8216daaf48c47cf9db
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jun 10 16:09:02 2010 -0400
+
+    New version.
+
+commit 1cc7441cb71ab8bbfc1ffca89f4c9a41c6d85893
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jun 10 16:06:29 2010 -0400
+
+    Remove the requirement on python-bugzilla (#602794).
+
+commit 7a358350689b037dfff28fe239d1bf91f8101af6
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Apr 16 13:05:13 2010 -0400
+
+    Rename ba.po -> bs.po (#583055).
+
+commit 8de7d28b6af5c5d222061747f60af1d1c40f117e
+Author: ebegoli <ebegoli@fedoraproject.org>
+Date:   Thu Apr 15 23:02:25 2010 +0000
+
+    l10n: Updates to ba translation
+    
+    Transmitted-via: Transifex (translate.fedoraproject.org)
+
+commit a3bbcc2ccfb112fa72433c4bbd9b307dc2d520d7
+Author: ebegoli <ebegoli@fedoraproject.org>
+Date:   Thu Apr 15 22:54:45 2010 +0000
+
+    l10n: Initial version. Complete but tests have to be run on it.
+    
+    Transmitted-via: Transifex (translate.fedoraproject.org)
+
+commit a8ad186d60935d43fb3e5d4ef312033bd772f40d
+Author: mvdz <mvdz@fedoraproject.org>
+Date:   Sun Mar 21 23:12:08 2010 +0000
+
+    l10n: Added Ukrainian trasnlation.
+    
+    Transmitted-via: Transifex (translate.fedoraproject.org)
+
+commit ca864324121ec5b88e3e3297e1cc73b3fff33588
+Author: goeran <goeran@fedoraproject.org>
+Date:   Thu Mar 18 22:32:42 2010 +0000
+
+    l10n: Updates to Swedish (sv) translation
+    
+    Transmitted-via: Transifex (translate.fedoraproject.org)
+
+commit 521396211644cbad18bfd9513176d8a2fdd541df
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Mar 4 15:19:13 2010 -0500
+
+    New version.
+
+commit d986d986b4362cc191b268be08f08cd1b81baea1
+Author: ppapadeas <ppapadeas@fedoraproject.org>
+Date:   Mon Mar 1 10:36:52 2010 +0000
+
+    Sending translation for po/el.po
+
+commit 755669c91c338c2b4e86f759650d5299f7dc8b94
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Feb 19 11:45:06 2010 -0500
+
+    And add a requirement for report as well.
+
+commit 2b6b0831fab2f00bb1f8b8dec6e923994f6f59ae
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Mon Feb 15 10:27:45 2010 -0500
+
+    filer.py is now completely taken over by meh.
+
+commit a98765ab83cf254e690c83a443dbe879e6ebcede
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Feb 11 16:49:03 2010 -0500
+
+    Everything from savers.py has moved into report.
+
+commit 55d88bf882e8c2e5aeb8166dc89b4174bc4916dc
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Feb 11 16:47:26 2010 -0500
+
+    Remove unused UI code now that report handles all this for me.
+    
+    Also, move the gtk-specific UI code out of ExceptionHandler.runSave and into
+    the saveExceptionWindow method.  This allows doing the same thing for the
+    newt UI, too.
+
+commit 8ba328bf1a95124b87c32874332d34ba6fde9c5f
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Feb 11 16:26:48 2010 -0500
+
+    Switch ExceptionHandler to use report (#562656).
+
+commit f83836897725a06c560cd5b9a1b126b0556b5320
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jan 21 16:10:30 2010 -0500
+
+    Don't allow an exception when writing out an attribute stop the whole dump.
+
+commit 5f1acbc4f8b1c0da16935ba7ecfcc7dd8506b228
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Dec 11 11:23:06 2009 -0500
+
+    Credit where credit is due.
+
+commit 9cd455a056ac806249db347e48fc73b65e4d21c7
+Author: amitakhya <amitakhya@fedoraproject.org>
+Date:   Wed Dec 9 09:18:54 2009 +0000
+
+    Sending translation for Assamese
+
+commit 5a6bc0dbc37b99f2dc897bba08cf5b7b9c0bd13d
+Author: ypoyarko <ypoyarko@fedoraproject.org>
+Date:   Tue Dec 8 01:15:26 2009 +0000
+
+    Sending translation for Russian
+
+commit df03d7c069441ba72b4831852550e7da2edba873
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Nov 3 12:56:31 2009 -0500
+
+    New version.
+
+commit 565cba9da442f271cf93f85d7b4c962476d0cd68
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Nov 3 11:44:12 2009 -0500
+
+    Add a test case framework.
+    
+    This also adds a test case that checks the attrSkipList functionality to
+    make sure we don't run into those problems again.
+
+commit ab9811e021de1fb7e79ea08a072bcde29cc925f9
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Nov 3 11:43:13 2009 -0500
+
+    Move src -> meh for ease of test case writing.
+
+commit 3a90bd8e8c190956ed14dbd88f25d62eb757f054
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Nov 3 10:12:18 2009 -0500
+
+    Another attempt at making the attrSkipList work (#532612, #532737).
+    
+    In the most local frame, the name of whatever object we're dumping isn't
+    what the attrSkipList is, it's "obj".  Therefore the attrSkipList needs
+    to not start with the object's name, and dump needs to put "obj" on the
+    front of each attribute.
+
+commit b4e1107cef0bad5706bab5c3882080937b9c2d35
+Author: aguskov <aguskov@fedoraproject.org>
+Date:   Fri Oct 30 18:15:27 2009 +0000
+
+    Sending translation for Russian
+
+commit bdb02fd892154028d7afc145900fdb779e4b3913
+Author: astur <astur@fedoraproject.org>
+Date:   Sun Oct 25 11:09:51 2009 +0000
+
+    Sending translation for po/ast.po
+
+commit 23b15e9b56a65b4ee90e0df28608453f99a21149
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Oct 8 14:44:49 2009 -0400
+
+    New version.
+
+commit 070022eb90c43e9a0b28c494f0d41fd0699f8dd3
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Oct 8 14:36:21 2009 -0400
+
+    Make idSkipList work again.
+    
+    The problem was that basically nothing in the passed in attrSkipList could
+    ever get evaluated properly unless they're globals, because the environment
+    local to the eval() statement didn't contain much at all.  The solution is
+    to add the local environment from the frame where the traceback happened to
+    the environment the eval() runs in.
+
+commit 937b4a97a1007e4c13673dd1244ed5f96de38afd
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Oct 8 13:54:02 2009 -0400
+
+    Support dumping objects derived from Python's object.
+    
+    See the giant comment in _dumpClass for more information.
+
+commit 3597a3e327e57836f5f0fb0fc9efc8e37f5d6aba
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Oct 2 09:57:43 2009 -0400
+
+    Use the right method to set text on a snack.Entry (#526884).
+
+commit 8c94ff46b8604eced5373b426ca79f50c5073901
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Sep 29 14:23:38 2009 -0400
+
+    New version.
+
+commit 2ff4cb0d81abb628201a31e4edf2f4bab90221f4
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Sep 29 13:52:17 2009 -0400
+
+    Always compare version numbers as strings (#526188).
+    
+    Sometimes bugzilla gives us version numbers as strings, sometimes as integers
+    (for Fedora), and sometimes as floats (for RHEL).  Always comparing as strings
+    saves a lot of annoyance.
+
+commit ed4372014c485070962ee24cb2fd18eabd121f52
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Sep 25 15:31:20 2009 -0400
+
+    New version.
+
+commit 09786775a153367bf6b0babd41f836efa92051b7
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Sep 25 13:53:00 2009 -0400
+
+    Add a default description to bug reports.
+    
+    This means that on the save-to-bugzilla screen, there will typically be
+    a default description, and the user doesn't have to come up with their
+    own.  Most user don't do a fantastic job of this anyway.
+
+commit 7ecebdf04e413f7ecfa8ae7969009280dc97d1bf
+Author: raada <raada@fedoraproject.org>
+Date:   Wed Sep 23 17:51:40 2009 +0000
+
+    Sending translation for po/sv.po
+
+commit 80e2b4f1015b35c198cfc511b30cb4694df8d5ff
+Author: raven <raven@fedoraproject.org>
+Date:   Tue Sep 22 19:32:56 2009 +0000
+
+    Sending translation for Polish
+
+commit 55d8bc999f9a45d221baa7a607497033e5720eae
+Author: amitakhya <amitakhya@fedoraproject.org>
+Date:   Tue Sep 22 12:14:50 2009 +0000
+
+    Sending translation for Assamese
+
+commit 25eee9f90e8f7097a35c7375d11270762ed7cf6e
+Author: samfreemanz <samfreemanz@fedoraproject.org>
+Date:   Tue Sep 22 06:26:55 2009 +0000
+
+    Sending translation for French
+
+commit 0cab076c543878307640e6727ff6fffb4bbb3d23
+Author: kristho <kristho@fedoraproject.org>
+Date:   Mon Sep 21 22:26:41 2009 +0000
+
+    Sending translation for po/da.po
+
+commit d707eaa4fe04ff0bd8bf3ce82da6b6b1f0b3d05f
+Author: xconde <xconde@fedoraproject.org>
+Date:   Sun Sep 20 16:39:15 2009 +0000
+
+    Sending translation for po/ca.po
+
+commit 495030d873e2e96b82c8d1309d6be72bcccdc25f
+Author: ruigo <ruigo@fedoraproject.org>
+Date:   Sun Sep 20 13:34:58 2009 +0000
+
+    Sending translation for Portuguese
+
+commit 784a1536bf8c6c83df727e36b56f7c354bdc4bb3
+Author: ruigo <ruigo@fedoraproject.org>
+Date:   Sun Sep 20 12:49:11 2009 +0000
+
+    Sending translation for po/pt.po
+
+commit 617bd77d073a3664c166c476bb6c9e59dc0cf6aa
+Author: perplex <perplex@fedoraproject.org>
+Date:   Fri Sep 18 13:25:35 2009 +0000
+
+    Sending translation for po/it.po
+
+commit f2f30071093bd2e034b3e6a74ff3062262e1652b
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Sep 15 15:58:20 2009 -0400
+
+    Handle the user pressing Escape by continuing to show the dialog.
+
+commit f758d0e156aef9a02299cd2ce7b94ba9418095d5
+Author: nagyesta <nagyesta@fedoraproject.org>
+Date:   Tue Sep 15 15:43:10 2009 +0000
+
+    Sending translation for Hungarian
+
+commit 38e4eb2252b4517a1417b0d748ac5d78fee8ea1c
+Author: samfreemanz <samfreemanz@fedoraproject.org>
+Date:   Fri Sep 11 07:09:02 2009 +0000
+
+    Sending translation for po/fr.po
+
+commit 264079f4839b6b208e7e84a2f671c04f5c36ea46
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Sep 10 10:37:25 2009 -0400
+
+    New version.
+
+commit 8a5201e51d555bc71b859cc1d79ed576d316ad3c
+Author: amitakhya <amitakhya@fedoraproject.org>
+Date:   Thu Sep 10 10:16:51 2009 +0000
+
+    Sending translation for po/as.po
+
+commit 21cacccfe6e029477d4a6017701a182d3bc5fad9
+Author: hedda <hedda@fedoraproject.org>
+Date:   Thu Sep 10 06:24:24 2009 +0000
+
+    Sending translation for German
+
+commit b95ed5cb806325123c847d607d140cf7f424090c
+Author: jassy <jassy@fedoraproject.org>
+Date:   Thu Sep 10 06:08:33 2009 +0000
+
+    Sending translation for Punjabi
+
+commit 445888aa286c43e401b7bd10353e0aad1e0cbf32
+Author: kmilos <kmilos@fedoraproject.org>
+Date:   Wed Sep 9 22:15:36 2009 +0000
+
+    Sending translation for Serbian (Latin)
+
+commit 670c9a61f3b741c03b978c9614628e220444ac44
+Author: kmilos <kmilos@fedoraproject.org>
+Date:   Wed Sep 9 22:14:09 2009 +0000
+
+    Sending translation for Serbian
+
+commit 53a8e9a41a4eb1005e8ce62be7f8c3143bbef97d
+Author: shanky <shanky@fedoraproject.org>
+Date:   Wed Sep 9 18:42:58 2009 +0000
+
+    Sending translation for po/kn.po
+
+commit bb6f15b01d53eac8e8483d04b447759cacc7b3c8
+Author: rajesh <rajesh@fedoraproject.org>
+Date:   Wed Sep 9 09:09:42 2009 +0000
+
+    Sending translation for po/hi.po
+
+commit 0a47dc3826fa6d5b0c1730c9711a0f208292c84b
+Author: swkothar <swkothar@fedoraproject.org>
+Date:   Wed Sep 9 06:10:38 2009 +0000
+
+    Sending translation for Gujarati
+
+commit f437f4ba6378e5923cbd27254b97e7680f1a3ff9
+Author: jassy <jassy@fedoraproject.org>
+Date:   Tue Sep 8 15:51:59 2009 +0000
+
+    Sending translation for Punjabi
+
+commit 8addcb53cf91fc3809a7436f699145f9158d3423
+Author: jassy <jassy@fedoraproject.org>
+Date:   Tue Sep 8 11:31:23 2009 +0000
+
+    Sending translation for po/pa.po
+
+commit 46536cd0169a2d2b6a14a1a66a963d4a084d843a
+Author: swkothar <swkothar@fedoraproject.org>
+Date:   Tue Sep 8 10:49:08 2009 +0000
+
+    Sending translation for po/gu.po
+
+commit a0af1d5550cbde17275193374818a0c877f7c857
+Author: kkrothap <kkrothap@fedoraproject.org>
+Date:   Tue Sep 8 08:45:57 2009 +0000
+
+    Sending translation for po/te.po
+
+commit 5bcebfd7dcd62baaf7f6cf721851039ddaa7a894
+Author: runab <runab@fedoraproject.org>
+Date:   Mon Sep 7 18:07:10 2009 +0000
+
+    Sending translation for Bengali (India)
+
+commit 556ffe52571f8e6ba18984e966dbc31488765f5c
+Author: sandeeps <sandeeps@fedoraproject.org>
+Date:   Mon Sep 7 17:18:47 2009 +0000
+
+    Sending translation for po/mr.po
+
+commit 6ef2cecf9f533f42b8d2a5687b7753516a69e755
+Author: runab <runab@fedoraproject.org>
+Date:   Mon Sep 7 13:08:45 2009 +0000
+
+    Sending translation for po/bn_IN.po
+
+commit 7c4db933941c0736b65820eb253de04ef9ec56b1
+Author: anipeter <anipeter@fedoraproject.org>
+Date:   Mon Sep 7 10:45:09 2009 +0000
+
+    Sending translation for po/ml.po
+
+commit bd4b9c72009d2bb2e6d745ab43afc7f9ffd62fc4
+Author: mgiri <mgiri@fedoraproject.org>
+Date:   Mon Sep 7 07:50:51 2009 +0000
+
+    Sending translation for po/or.po
+
+commit 9919452894b183b615e42e4302ddb2376d0eab68
+Author: jensm <jensm@fedoraproject.org>
+Date:   Sat Sep 5 16:53:08 2009 +0000
+
+    Sending translation for po/de.po
+
+commit 9e27ced9e1a80f438be171614c8e42fe9e8e7969
+Author: eukim <eukim@fedoraproject.org>
+Date:   Wed Sep 2 03:25:02 2009 +0000
+
+    Sending translation for Korean
+
+commit b5cfca5d8a9f481809f2062689773c945096083b
+Author: ypoyarko <ypoyarko@fedoraproject.org>
+Date:   Wed Sep 2 00:41:59 2009 +0000
+
+    Sending translation for po/ru.po
+
+commit 5dcb6d43997c6109d40f9e73580ff6cf8512e8ea
+Author: kmilos <kmilos@fedoraproject.org>
+Date:   Tue Sep 1 20:02:18 2009 +0000
+
+    Sending translation for po/sr@latin.po
+
+commit b6cd959435b813b82b3da44cca014c4bf438d71e
+Author: kmilos <kmilos@fedoraproject.org>
+Date:   Tue Sep 1 20:01:38 2009 +0000
+
+    Sending translation for po/sr.po
+
+commit 98aa5a9c942dfe6533f6df20be30ca56dd97f88f
+Author: leahliu <leahliu@fedoraproject.org>
+Date:   Tue Sep 1 02:29:46 2009 +0000
+
+    Sending translation for Chinese (Simplified)
+
+commit b37a83be318e11696f41e05b26a81ea45dd1809c
+Author: zoltanh721 <zoltanh721@fedoraproject.org>
+Date:   Mon Aug 31 12:17:29 2009 +0000
+
+    Sending translation for po/hu.po
+
+commit 2335bbb382a0aca5789dc0c98a783f9b565f7ac7
+Author: vpv <vpv@fedoraproject.org>
+Date:   Sat Aug 29 21:02:51 2009 +0000
+
+    Sending translation for po/fi.po
+
+commit 187015c3f3b407c185fe99b393cf175d343af47b
+Author: pingman <pingman@fedoraproject.org>
+Date:   Sat Aug 29 12:48:38 2009 +0000
+
+    Sending translation for Chinese (Simplified)
+
+commit 3f00df0840ec8747beb9262ae9f2eddfbe92169b
+Author: hyuuga <hyuuga@fedoraproject.org>
+Date:   Sat Aug 29 11:02:33 2009 +0000
+
+    Sending translation for Japanese
+
+commit ea995a32a0b64ed1c19b618cda4a4175f5a02dc2
+Author: khasida <khasida@fedoraproject.org>
+Date:   Sat Aug 29 05:14:06 2009 +0000
+
+    Sending translation for po/ja.po
+
+commit 62a35758c5247c7ac64b11d63fbc0fafb663ec14
+Author: ifelix <ifelix@fedoraproject.org>
+Date:   Fri Aug 28 05:49:10 2009 +0000
+
+    Sending translation for po/ta.po
+
+commit 3b587cc18bf1b41e282d03d33dd69d2d5075f246
+Author: warrink <warrink@fedoraproject.org>
+Date:   Thu Aug 27 19:47:28 2009 +0000
+
+    Sending translation for Dutch
+
+commit ba360606de2c82b18450dd482f8e073b77c2aa79
+Author: warrink <warrink@fedoraproject.org>
+Date:   Thu Aug 27 15:12:28 2009 +0000
+
+    Sending translation for po/nl.po
+
+commit 24af4fdf8ddaf757cf0b1ace1c9f908f240de63b
+Author: eukim <eukim@fedoraproject.org>
+Date:   Thu Aug 27 04:35:44 2009 +0000
+
+    Sending translation for po/ko.po
+
+commit cae02318f1acd0f4b7f7b531bccdacf7cc42412a
+Author: igor <igor@fedoraproject.org>
+Date:   Wed Aug 26 22:54:27 2009 +0000
+
+    Sending translation for po/pt_BR.po
+
+commit 34bdd201ed1fcc4bd0a74471d2ba9324db1b2305
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Wed Aug 19 13:05:19 2009 -0400
+
+    New version.
+
+commit f87123ba843498fde72401ee7913bd5604fa5d34
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Wed Aug 19 11:48:20 2009 -0400
+
+    Add a title to the main exception dialog so it looks right in anaconda.
+
+commit 9c15826b03c3d2c0a6b599f30ed4857f48132f8c
+Author: beckerde <beckerde@fedoraproject.org>
+Date:   Tue Aug 18 22:53:31 2009 +0000
+
+    Sending translation for Spanish
+
+commit 2d1e7c6ae2ae7c4615ad49e3256ed0c11e693de7
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Aug 14 10:42:01 2009 -0400
+
+    Don't include an extra '/' in the displayed bug URL (#517515).
+
+commit 685950609de2e634ee9e7eac718c561faaf764ff
+Author: leahliu <leahliu@fedoraproject.org>
+Date:   Thu Aug 13 00:19:10 2009 +0000
+
+    Sending translation for po/zh_CN.po
+
+commit d39c482e19f6edfcd4cd804782c96b9c7d42f6df
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Wed Aug 12 15:48:20 2009 -0400
+
+    Now that there's .po files, package them.
+
+commit 7ecb2ff2cb81eb027750113b8a774c7856768372
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Wed Aug 12 15:41:26 2009 -0400
+
+    Use the new exception icon (#517164).
+
+commit c073748e692aa132a1a1e20917a9312ca4b9e172
+Author: logan <logan@fedoraproject.org>
+Date:   Wed Aug 12 14:04:58 2009 +0000
+
+    Sending translation for po/es.po
+
+commit ebb190ddbbf6f51a386888c167d3163643b20617
+Author: raven <raven@fedoraproject.org>
+Date:   Wed Jul 29 14:18:15 2009 +0000
+
+    Sending translation for po/pl.po
+
+commit 5c7bcca139b00ae6607f47c294797fee04719adc
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Tue Jul 28 22:52:49 2009 -0400
+
+    New version.
+
+commit 3693a90293903c671481227923879c1f003e461a
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 23 17:06:23 2009 -0400
+
+    More packaging fixes (#513486).
+
+commit 387d8ed3b22905c9a4a63ef35afe83c26a476a34
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 23 16:25:34 2009 -0400
+
+    Add some packaging cleanups.
+
+commit 932509c41d11361676a2a0f75e5173587f03a7f1
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 23 16:00:55 2009 -0400
+
+    Not all bugzilla versions are numbers - some are strings.
+
+commit ceac200ebc21c4941339e639d9731c97f2e346be
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 23 16:00:20 2009 -0400
+
+    We're not always writing to disk, so change the message.
+
+commit fcb46fb9bc48eae32b909406151ea205db0d696c
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 23 11:55:12 2009 -0400
+
+    Fix a bunch of errors pychecker found.
+
+commit 359dafa738560098fa93f4fee67afc63f8b9ef7d
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 23 11:39:22 2009 -0400
+
+    Add a convenience method for programs written by Red Hat.
+    
+    It doesn't make sense to use the same rather complicated block of code
+    over and over in every program.  So add a method to do this stuff for
+    us.
+
+commit a0fd74b1fcc544112d2cd2fc2378169d5eb0bb08
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Mon Jul 20 15:27:52 2009 -0400
+
+    Add a text interface to python-meh, which is needed for anaconda.
+
+commit a693ac8520b4fe2890b98f0076ef9db74d75d923
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Jul 17 15:17:39 2009 -0400
+
+    Compare the version number as an integer.
+
+commit ef8b34257cbb47511f13e42ee4dae30e22001c4c
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Jul 17 15:07:13 2009 -0400
+
+    Pull in a missing import.
+
+commit b754e2453940f08aac7b032e3d6bcbe2a0a4ad5c
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Jul 17 15:04:07 2009 -0400
+
+    The programName is in the Config object, not the ExceptionDump.
+
+commit 15be2067dd830583ba23dd5edc69fbdf21c245b7
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Jul 17 13:58:29 2009 -0400
+
+    Get rid of defaultProduct and defaultVersion.
+    
+    Instead, the caller should either supply their own values or use filer.getVersion
+    and filer.getProduct to query the system.
+
+commit f74492875725da302641e2e8d1df57ad3a973cb5
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Jul 17 10:49:41 2009 -0400
+
+    Add exception.png.
+
+commit 62ed14cabc3b1cbac8405d8bf30b32e6714be5f0
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Fri Jul 17 10:47:37 2009 -0400
+
+    Add the install locations to GLADEPATH and PIXMAPPATH.
+
+commit a732aaf509fe39ab81bf0f68b144c4904a1b378d
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 16 15:02:25 2009 -0400
+
+    Add i18n support.
+
+commit 1336079ccd485db7e1a42a48482bd85b1b540daa
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 16 14:33:39 2009 -0400
+
+    Add a bunch of packaging-related files.
+
+commit c50f4c1b7a81b5b742a61b9d5bbed1533860628b
+Author: Chris Lumens <clumens@redhat.com>
+Date:   Thu Jul 16 14:04:13 2009 -0400
+
+    Initial commit of python-meh module.

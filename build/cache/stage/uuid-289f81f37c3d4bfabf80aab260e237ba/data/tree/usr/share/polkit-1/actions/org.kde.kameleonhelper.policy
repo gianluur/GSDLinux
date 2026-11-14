@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE policyconfig PUBLIC
+"-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+"http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+<policyconfig>
+<vendor>Kameleon</vendor>
+<icon_name>color</icon_name>
+   <action id="org.kde.kameleonhelper.writecolor" >
+      <description xml:lang="ar">اكتب لون</description>
+      <description xml:lang="az">Rəngi yazmaq</description>
+      <description xml:lang="bg">Запис на цвят</description>
+      <description xml:lang="ca">Escriu un color</description>
+      <description xml:lang="cs">Bílá barva</description>
+      <description xml:lang="da">Skriv farve</description>
+      <description xml:lang="de">Farbe schreiben</description>
+      <description>Write color</description>
+      <description xml:lang="en_GB">Write colour</description>
+      <description xml:lang="eo">Skribkoloro</description>
+      <description xml:lang="es">Color de escritura</description>
+      <description xml:lang="eu">Idatzi kolorea</description>
+      <description xml:lang="fi">Kirjoita väri</description>
+      <description xml:lang="fr">Couleur d'écriture</description>
+      <description xml:lang="gl">Escribir unha cor</description>
+      <description xml:lang="he">כתיבת צבע</description>
+      <description xml:lang="hu">Szín írása</description>
+      <description xml:lang="ia">Scribe color</description>
+      <description xml:lang="is">Skriflitur</description>
+      <description xml:lang="it">Scrivi il colore</description>
+      <description xml:lang="ka">ჩაწერის ფერი</description>
+      <description xml:lang="ko">색상 기록</description>
+      <description xml:lang="lt">Rašyti spalvą</description>
+      <description xml:lang="lv">Rakstīt krāsu</description>
+      <description xml:lang="nl">Kleur schrijven</description>
+      <description xml:lang="nn">Skriv farge</description>
+      <description xml:lang="pl">Zapisz barwę</description>
+      <description xml:lang="pt_BR">Cor de escrita</description>
+      <description xml:lang="ro">Scrie culoare</description>
+      <description xml:lang="ru">Запись цвета</description>
+      <description xml:lang="sa">वर्ण लिखे</description>
+      <description xml:lang="sk">Zápis farby</description>
+      <description xml:lang="sl">Barva pisanja</description>
+      <description xml:lang="sq">Ngjyra e shkrimit</description>
+      <description xml:lang="sr">Упиши боју</description>
+      <description xml:lang="sv">Skrivfärg</description>
+      <description xml:lang="tr">Renk yaz</description>
+      <description xml:lang="ug">رەڭ ياز</description>
+      <description xml:lang="uk">Записування кольору</description>
+      <description xml:lang="zh_CN">写入颜色</description>
+      <description xml:lang="zh_TW">寫入顏色</description>
+      <message xml:lang="ar">اسمح بكتابة لون التمييز إلى مصابيح الجهاز</message>
+      <message xml:lang="az">Vurğu rəngini cihazın LED-lərinə yazılmasına icazə verir</message>
+      <message xml:lang="bg">Разрешаване на запис на акцентен цвят на светодиодите на устройството</message>
+      <message xml:lang="ca">Permet escriure l'accent de color a un dispositiu LED</message>
+      <message xml:lang="cs">Povolit zápis barvy zvýraznění do LED diod zařízení</message>
+      <message xml:lang="da">Tillad at skrive accentfarven til enhedens LEDs</message>
+      <message xml:lang="de">Weitergabe der Akzentfarbe an Geräte-LEDs erlauben</message>
+      <message>Allow writing accent color to device LEDs</message>
+      <message xml:lang="en_GB">Allow writing accent colour to device LEDs</message>
+      <message xml:lang="eo">Permesi skribadon de akcentkoloro al aparat-LEDoj</message>
+      <message xml:lang="es">Permitir color de acento de escritura a los LED del dispositivo</message>
+      <message xml:lang="eu">Gailuko LEDetan azentu-kolorea idazteko aukera ematen du</message>
+      <message xml:lang="fi">Salli korostusvärien kirjoittaminen laiteledeihin</message>
+      <message xml:lang="fr">Autoriser l'envoi de la couleur d'accentuation sur les diodes lumineuses du périphérique</message>
+      <message xml:lang="gl">Permitir escribir a cor de énfase en dispositivos LED.</message>
+      <message xml:lang="he">לאפשר כתיבת צבע משני לנוריות ההתקן</message>
+      <message xml:lang="hu">Lehetővé teszi kiemelőszínek írását az eszközök LED-jeire</message>
+      <message xml:lang="ia">Permette scriberaccento de color a dispositivo LEDs</message>
+      <message xml:lang="is">Leyfa ritun áherslulitar í LED-merki tækis</message>
+      <message xml:lang="it">Consenti la scrittura del colore secondario sui LED del dispositivo</message>
+      <message xml:lang="ka">მახვილის ფერების ჩაწერის დაშვება მოწყობილობის LED-ებზე</message>
+      <message xml:lang="ko">장치 LED에 강조색 기록</message>
+      <message xml:lang="lt">Leisti rašyti paryškinimo spalvą į įrenginio šviesos diodus</message>
+      <message xml:lang="lv">Atļaut rakstīt akcenta krāsu uz ierīces LED gaismām</message>
+      <message xml:lang="nl">Accentkleur toestaan te schrijven naar LED's van apparaat</message>
+      <message xml:lang="nn">Tillat skriving av kontrastfargen til LED-ar på tilkopla utstyr</message>
+      <message xml:lang="pl">Zezwól na zapisywanie barwy akcentującej do LEDów urządzenia</message>
+      <message xml:lang="pt_BR">Permitir a escrita de cor de destaque nos LEDs do dispositivo</message>
+      <message xml:lang="ro">Permite scrierea culorilor de accent în LED-urile dispozitivului</message>
+      <message xml:lang="ru">Возможность записи акцентного цвета на светодиоды устройства</message>
+      <message xml:lang="sa">डिवाइस LEDs मध्ये उच्चारणवर्णं लिखितुं अनुमतिं ददातु</message>
+      <message xml:lang="sk">Povoliť zápis farby zvýraznenia na LED diódy zariadenia</message>
+      <message xml:lang="sl">Dovoli pisanje poudarjene barve na LED diode naprave</message>
+      <message xml:lang="sq">Lejo shkrimin e ngjyrës theksuese në LED-et e pajisjes</message>
+      <message xml:lang="sr">Дозвољава упис акцентне боје у лампице уређаја</message>
+      <message xml:lang="sv">Tillåt att skriva accentfärger till enhetens LED:er</message>
+      <message xml:lang="tr">Vurgu rengini aygıt LED’lerine yazmaya olanak tanır</message>
+      <message xml:lang="ug">سىستېما كۈچەيتىلگەن رەڭنى ئۈسكۈنە LED غا يېزىشنى قوللايدۇ</message>
+      <message xml:lang="uk">Уможливлення запису кольору акценту на світлодіоди пристрою</message>
+      <message xml:lang="zh_CN">允许将系统强调色写入到设备灯效</message>
+      <message xml:lang="zh_TW">提供寫入強調色到裝置 LED 的支援</message>
+      <defaults>
+         <allow_inactive>yes</allow_inactive>
+         <allow_active>yes</allow_active>
+      </defaults>
+   </action>
+</policyconfig>

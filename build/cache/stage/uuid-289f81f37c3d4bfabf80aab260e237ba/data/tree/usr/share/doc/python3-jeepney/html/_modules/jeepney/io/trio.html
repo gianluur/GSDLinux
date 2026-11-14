@@ -1,0 +1,569 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jeepney.io.trio &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">jeepney.io.trio</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for jeepney.io.trio</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">array</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">errno</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">asynccontextmanager</span><span class="p">,</span> <span class="n">contextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">count</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">outcome</span><span class="w"> </span><span class="kn">import</span> <span class="n">Value</span><span class="p">,</span> <span class="n">Error</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">trio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trio.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Channel</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">Authenticator</span><span class="p">,</span> <span class="n">BEGIN</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney.bus</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_bus</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney.fds</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileDescriptor</span><span class="p">,</span> <span class="n">fds_buf_size</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney.low_level</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parser</span><span class="p">,</span> <span class="n">MessageType</span><span class="p">,</span> <span class="n">Message</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney.wrappers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProxyBase</span><span class="p">,</span> <span class="n">unwrap_msg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jeepney.bus_messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">message_bus</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MessageFilters</span><span class="p">,</span> <span class="n">FilterHandle</span><span class="p">,</span> <span class="n">ReplyMatcher</span><span class="p">,</span> <span class="n">RouterClosed</span><span class="p">,</span> <span class="n">check_replyable</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;open_dbus_connection&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;open_dbus_router&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Proxy&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="c1"># The function below is copied from trio, which is under the MIT license:</span>
+
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining</span>
+<span class="c1"># a copy of this software and associated documentation files (the</span>
+<span class="c1"># &quot;Software&quot;), to deal in the Software without restriction, including</span>
+<span class="c1"># without limitation the rights to use, copy, modify, merge, publish,</span>
+<span class="c1"># distribute, sublicense, and/or sell copies of the Software, and to</span>
+<span class="c1"># permit persons to whom the Software is furnished to do so, subject to</span>
+<span class="c1"># the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be</span>
+<span class="c1"># included in all copies or substantial portions of the Software.</span>
+<span class="nd">@contextmanager</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_translate_socket_errors_to_stream_errors</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">exc</span><span class="o">.</span><span class="n">errno</span> <span class="ow">in</span> <span class="p">{</span><span class="n">errno</span><span class="o">.</span><span class="n">EBADF</span><span class="p">,</span> <span class="n">errno</span><span class="o">.</span><span class="n">ENOTSOCK</span><span class="p">}:</span>
+            <span class="c1"># EBADF on Unix, ENOTSOCK on Windows</span>
+            <span class="k">raise</span> <span class="n">trio</span><span class="o">.</span><span class="n">ClosedResourceError</span><span class="p">(</span><span class="s2">&quot;this socket was already closed&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">trio</span><span class="o">.</span><span class="n">BrokenResourceError</span><span class="p">(</span>
+                <span class="s2">&quot;socket connection broken: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+
+
+
+<div class="viewcode-block" id="DBusConnection">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.DBusConnection">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DBusConnection</span><span class="p">(</span><span class="n">Channel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A plain D-Bus connection with no matching of replies.</span>
+
+<span class="sd">    This doesn&#39;t run any separate tasks: sending and receiving are done in</span>
+<span class="sd">    the task that calls those methods. It&#39;s suitable for implementing servers:</span>
+<span class="sd">    several worker tasks can receive requests and send replies.</span>
+<span class="sd">    For a typical client pattern, see :class:`DBusRouter`.</span>
+
+<span class="sd">    Implements trio&#39;s channel interface for Message objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">socket</span><span class="p">,</span> <span class="n">enable_fds</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">socket</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enable_fds</span> <span class="o">=</span> <span class="n">enable_fds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">Parser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_serial</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unique_name</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_lock</span> <span class="o">=</span> <span class="n">trio</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recv_lock</span> <span class="o">=</span> <span class="n">trio</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_leftover_to_send</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[memoryview]</span>
+
+<div class="viewcode-block" id="DBusConnection.send">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.DBusConnection.send">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialise and send a :class:`~.Message` object&quot;&quot;&quot;</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">serial</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">serial</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outgoing_serial</span><span class="p">)</span>
+            <span class="n">fds</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_fds</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">serialise</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span> <span class="n">fds</span><span class="o">=</span><span class="n">fds</span><span class="p">)</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">fds</span><span class="p">)</span></div>
+
+
+    <span class="c1"># _send_data is copied &amp; modified from trio&#39;s SocketStream.send_all() .</span>
+    <span class="c1"># See above for the MIT license.</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_send_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">fds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">did_shutdown_SHUT_WR</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">trio</span><span class="o">.</span><span class="n">ClosedResourceError</span><span class="p">(</span><span class="s2">&quot;can&#39;t send data after sending EOF&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">_translate_socket_errors_to_stream_errors</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_leftover_to_send</span><span class="p">:</span>
+                <span class="c1"># A previous message was partly sent - finish sending it now.</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_remainder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_leftover_to_send</span><span class="p">)</span>
+
+            <span class="k">with</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="k">as</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">fds</span><span class="p">:</span>
+                    <span class="n">sent</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">sendmsg</span><span class="p">([</span><span class="n">data</span><span class="p">],</span> <span class="p">[(</span>
+                        <span class="n">trio</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">trio</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">SCM_RIGHTS</span><span class="p">,</span> <span class="n">fds</span>
+                    <span class="p">)])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sent</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_remainder</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sent</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_send_remainder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">memoryview</span><span class="p">,</span> <span class="n">already_sent</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="n">already_sent</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+                <span class="k">with</span> <span class="n">data</span><span class="p">[</span><span class="n">already_sent</span><span class="p">:]</span> <span class="k">as</span> <span class="n">remaining</span><span class="p">:</span>
+                    <span class="n">sent</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">remaining</span><span class="p">)</span>
+                <span class="n">already_sent</span> <span class="o">+=</span> <span class="n">sent</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_leftover_to_send</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">except</span> <span class="n">trio</span><span class="o">.</span><span class="n">Cancelled</span><span class="p">:</span>
+            <span class="c1"># Sending cancelled mid-message. Keep track of the remaining data</span>
+            <span class="c1"># so it can be sent before the next message, otherwise the next</span>
+            <span class="c1"># message won&#39;t be recognised.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_leftover_to_send</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">already_sent</span><span class="p">:]</span>
+            <span class="k">raise</span>
+
+<div class="viewcode-block" id="DBusConnection.receive">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.DBusConnection.receive">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">receive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the next available message from the connection&quot;&quot;&quot;</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">recv_lock</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">get_next_message</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">msg</span>
+
+                <span class="c1"># Once data is read, it must be given to the parser with no</span>
+                <span class="c1"># checkpoints (where the task could be cancelled).</span>
+                <span class="n">b</span><span class="p">,</span> <span class="n">fds</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_data</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">b</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">trio</span><span class="o">.</span><span class="n">EndOfChannel</span><span class="p">(</span><span class="s2">&quot;Socket closed at the other end&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">fds</span><span class="p">)</span></div>
+
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_read_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_fds</span><span class="p">:</span>
+            <span class="n">nbytes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">bytes_desired</span><span class="p">()</span>
+            <span class="k">with</span> <span class="n">_translate_socket_errors_to_stream_errors</span><span class="p">():</span>
+                <span class="n">data</span><span class="p">,</span> <span class="n">ancdata</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">recvmsg</span><span class="p">(</span>
+                    <span class="n">nbytes</span><span class="p">,</span> <span class="n">fds_buf_size</span><span class="p">()</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">flags</span> <span class="o">&amp;</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">trio</span><span class="o">.</span><span class="n">socket</span><span class="p">,</span> <span class="s1">&#39;MSG_CTRUNC&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_close</span><span class="p">()</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Unable to receive all file descriptors&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">FileDescriptor</span><span class="o">.</span><span class="n">from_ancdata</span><span class="p">(</span><span class="n">ancdata</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># not self.enable_fds</span>
+            <span class="k">with</span> <span class="n">_translate_socket_errors_to_stream_errors</span><span class="p">():</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_leftover_to_send</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Our closing is currently sync, but AsyncResource objects must have aclose</span>
+<div class="viewcode-block" id="DBusConnection.aclose">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.DBusConnection.aclose">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">aclose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the D-Bus connection&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="DBusConnection.router">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.DBusConnection.router">[docs]</a>
+    <span class="nd">@asynccontextmanager</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">router</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Temporarily wrap this connection as a :class:`DBusRouter`</span>
+
+<span class="sd">        To be used like::</span>
+
+<span class="sd">            async with conn.router() as req:</span>
+<span class="sd">                reply = await req.send_and_get_reply(msg)</span>
+
+<span class="sd">        While the router is running, you shouldn&#39;t use :meth:`receive`.</span>
+<span class="sd">        Once the router is closed, you can use the plain connection again.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">trio</span><span class="o">.</span><span class="n">open_nursery</span><span class="p">()</span> <span class="k">as</span> <span class="n">nursery</span><span class="p">:</span>
+            <span class="n">router</span> <span class="o">=</span> <span class="n">DBusRouter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">router</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">nursery</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">router</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="k">await</span> <span class="n">router</span><span class="o">.</span><span class="n">aclose</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="open_dbus_connection">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.open_dbus_connection">[docs]</a>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">open_dbus_connection</span><span class="p">(</span><span class="n">bus</span><span class="o">=</span><span class="s1">&#39;SESSION&#39;</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">enable_fds</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DBusConnection</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Open a plain D-Bus connection</span>
+
+<span class="sd">    :return: :class:`DBusConnection`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bus_addr</span> <span class="o">=</span> <span class="n">get_bus</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
+    <span class="n">sock</span> <span class="p">:</span> <span class="n">trio</span><span class="o">.</span><span class="n">SocketStream</span> <span class="o">=</span> <span class="k">await</span> <span class="n">trio</span><span class="o">.</span><span class="n">open_unix_socket</span><span class="p">(</span><span class="n">bus_addr</span><span class="p">)</span>
+
+    <span class="c1"># Authentication</span>
+    <span class="n">authr</span> <span class="o">=</span> <span class="n">Authenticator</span><span class="p">(</span><span class="n">enable_fds</span><span class="o">=</span><span class="n">enable_fds</span><span class="p">,</span> <span class="n">inc_null_byte</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">socket</span><span class="p">,</span> <span class="s1">&#39;SCM_CREDS&#39;</span><span class="p">):</span>
+        <span class="c1"># BSD: send credentials message to authenticate (kernel fills in data)</span>
+        <span class="k">await</span> <span class="n">sock</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">sendmsg</span><span class="p">(</span>
+            <span class="p">[</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span><span class="p">],</span> <span class="p">[(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SCM_CREDS</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">(</span><span class="mi">512</span><span class="p">))]</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Linux: no ancillary data needed, bus checks with SO_PEERCRED</span>
+        <span class="k">await</span> <span class="n">sock</span><span class="o">.</span><span class="n">send_all</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">req_data</span> <span class="ow">in</span> <span class="n">authr</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">sock</span><span class="o">.</span><span class="n">send_all</span><span class="p">(</span><span class="n">req_data</span><span class="p">)</span>
+        <span class="n">authr</span><span class="o">.</span><span class="n">feed</span><span class="p">(</span><span class="k">await</span> <span class="n">sock</span><span class="o">.</span><span class="n">receive_some</span><span class="p">())</span>
+    <span class="k">await</span> <span class="n">sock</span><span class="o">.</span><span class="n">send_all</span><span class="p">(</span><span class="n">BEGIN</span><span class="p">)</span>
+
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">DBusConnection</span><span class="p">(</span><span class="n">sock</span><span class="o">.</span><span class="n">socket</span><span class="p">,</span> <span class="n">enable_fds</span><span class="o">=</span><span class="n">enable_fds</span><span class="p">)</span>
+
+    <span class="c1"># Say *Hello* to the message bus - this must be the first message, and the</span>
+    <span class="c1"># reply gives us our unique name.</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">conn</span><span class="o">.</span><span class="n">router</span><span class="p">()</span> <span class="k">as</span> <span class="n">router</span><span class="p">:</span>
+        <span class="n">reply</span> <span class="o">=</span> <span class="k">await</span> <span class="n">router</span><span class="o">.</span><span class="n">send_and_get_reply</span><span class="p">(</span><span class="n">message_bus</span><span class="o">.</span><span class="n">Hello</span><span class="p">())</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">unique_name</span> <span class="o">=</span> <span class="n">reply</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">conn</span></div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TrioFilterHandle</span><span class="p">(</span><span class="n">FilterHandle</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="p">:</span> <span class="n">MessageFilters</span><span class="p">,</span> <span class="n">rule</span><span class="p">,</span> <span class="n">send_chn</span><span class="p">,</span> <span class="n">recv_chn</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">rule</span><span class="p">,</span> <span class="n">recv_chn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_channel</span> <span class="o">=</span> <span class="n">send_chn</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">receive_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">aclose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_channel</span><span class="o">.</span><span class="n">aclose</span><span class="p">()</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aexit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">aclose</span><span class="p">()</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Future</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A very simple Future for trio based on `trio.Event`.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_outcome</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_event</span> <span class="o">=</span> <span class="n">trio</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_outcome</span> <span class="o">=</span> <span class="n">Value</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_outcome</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_event</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outcome</span><span class="o">.</span><span class="n">unwrap</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="DBusRouter">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.DBusRouter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DBusRouter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A client D-Bus connection which can wait for replies.</span>
+
+<span class="sd">    This runs a separate receiver task and dispatches received messages.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_nursery_mgr</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_rcv_cancel_scope</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">:</span> <span class="n">DBusConnection</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span> <span class="o">=</span> <span class="n">conn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_replies</span> <span class="o">=</span> <span class="n">ReplyMatcher</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filters</span> <span class="o">=</span> <span class="n">MessageFilters</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unique_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">unique_name</span>
+
+<div class="viewcode-block" id="DBusRouter.send">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.DBusRouter.send">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Send a message, don&#39;t wait for a reply</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="n">serial</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DBusRouter.send_and_get_reply">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.DBusRouter.send_and_get_reply">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_and_get_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Send a method call message and wait for the reply</span>
+
+<span class="sd">        Returns the reply message (method return or error message type).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">check_replyable</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rcv_cancel_scope</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">RouterClosed</span><span class="p">(</span><span class="s2">&quot;This DBusRouter has stopped&quot;</span><span class="p">)</span>
+
+        <span class="n">serial</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">outgoing_serial</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_replies</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span> <span class="n">Future</span><span class="p">())</span> <span class="k">as</span> <span class="n">reply_fut</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="n">serial</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="k">await</span> <span class="n">reply_fut</span><span class="o">.</span><span class="n">get</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="DBusRouter.filter">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.DBusRouter.filter">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rule</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">trio</span><span class="o">.</span><span class="n">MemorySendChannel</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bufsize</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a filter for incoming messages</span>
+
+<span class="sd">        Usage::</span>
+
+<span class="sd">            async with router.filter(rule) as receive_channel:</span>
+<span class="sd">                matching_msg = await receive_channel.receive()</span>
+
+<span class="sd">            # OR:</span>
+<span class="sd">            send_chan, recv_chan = trio.open_memory_channel(1)</span>
+<span class="sd">            async with router.filter(rule, channel=send_chan):</span>
+<span class="sd">                matching_msg = await recv_chan.receive()</span>
+
+<span class="sd">        If the channel fills up,</span>
+<span class="sd">        The sending end of the channel is closed when leaving the ``async with``</span>
+<span class="sd">        block, whether or not it was passed in.</span>
+
+<span class="sd">        :param jeepney.MatchRule rule: Catch messages matching this rule</span>
+<span class="sd">        :param trio.MemorySendChannel channel: Send matching messages here</span>
+<span class="sd">        :param int bufsize: If no channel is passed in, create one with this size</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">channel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">channel</span><span class="p">,</span> <span class="n">recv_channel</span> <span class="o">=</span> <span class="n">trio</span><span class="o">.</span><span class="n">open_memory_channel</span><span class="p">(</span><span class="n">bufsize</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">recv_channel</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">TrioFilterHandle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filters</span><span class="p">,</span> <span class="n">rule</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">recv_channel</span><span class="p">)</span></div>
+
+
+    <span class="c1"># Task management -------------------------------------------</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nursery</span><span class="p">:</span> <span class="n">trio</span><span class="o">.</span><span class="n">Nursery</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rcv_cancel_scope</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;DBusRouter receiver task is already running&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rcv_cancel_scope</span> <span class="o">=</span> <span class="k">await</span> <span class="n">nursery</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_receiver</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DBusRouter.aclose">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.DBusRouter.aclose">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">aclose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the sender &amp; receiver tasks&quot;&quot;&quot;</span>
+        <span class="c1"># It doesn&#39;t matter if we receive a partial message - the connection</span>
+        <span class="c1"># should ensure that whatever is received is fed to the parser.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rcv_cancel_scope</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rcv_cancel_scope</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rcv_cancel_scope</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Ensure trio checkpoint</span>
+        <span class="k">await</span> <span class="n">trio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+    <span class="c1"># Code to run in receiver task ------------------------------------</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Handle one received message&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_replies</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="k">for</span> <span class="nb">filter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filters</span><span class="o">.</span><span class="n">matches</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">filter</span><span class="o">.</span><span class="n">send_channel</span><span class="o">.</span><span class="n">send_nowait</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">trio</span><span class="o">.</span><span class="n">WouldBlock</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_status</span><span class="o">=</span><span class="n">trio</span><span class="o">.</span><span class="n">TASK_STATUS_IGNORED</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Receiver loop - runs in a separate task&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">trio</span><span class="o">.</span><span class="n">CancelScope</span><span class="p">()</span> <span class="k">as</span> <span class="n">cscope</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">task_status</span><span class="o">.</span><span class="n">started</span><span class="p">(</span><span class="n">cscope</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">receive</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_dispatch</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="c1"># Send errors to any tasks still waiting for a message.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_replies</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
+
+                <span class="c1"># Closing a memory channel can&#39;t block, but it only has an</span>
+                <span class="c1"># async close method, so we need to shield it from cancellation.</span>
+                <span class="k">with</span> <span class="n">trio</span><span class="o">.</span><span class="n">move_on_after</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">as</span> <span class="n">cleanup_scope</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="nb">filter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filters</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                        <span class="n">cleanup_scope</span><span class="o">.</span><span class="n">shield</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="k">await</span> <span class="nb">filter</span><span class="o">.</span><span class="n">send_channel</span><span class="o">.</span><span class="n">aclose</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="Proxy">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.Proxy">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Proxy</span><span class="p">(</span><span class="n">ProxyBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A trio proxy for calling D-Bus methods</span>
+
+<span class="sd">    You can call methods on the proxy object, such as ``await bus_proxy.Hello()``</span>
+<span class="sd">    to make a method call over D-Bus and wait for a reply. It will either</span>
+<span class="sd">    return a tuple of returned data, or raise :exc:`.DBusErrorResponse`.</span>
+<span class="sd">    The methods available are defined by the message generator you wrap.</span>
+
+<span class="sd">    :param msggen: A message generator object.</span>
+<span class="sd">    :param ~trio.DBusRouter router: Router to send and receive messages.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msggen</span><span class="p">,</span> <span class="n">router</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">msggen</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">router</span><span class="p">,</span> <span class="n">DBusRouter</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Proxy can only be used with DBusRequester&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_router</span> <span class="o">=</span> <span class="n">router</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_method_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">make_msg</span><span class="p">):</span>
+        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">make_msg</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">message_type</span> <span class="ow">is</span> <span class="n">MessageType</span><span class="o">.</span><span class="n">method_call</span>
+            <span class="n">reply</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_router</span><span class="o">.</span><span class="n">send_and_get_reply</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">unwrap_msg</span><span class="p">(</span><span class="n">reply</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">inner</span></div>
+
+
+
+<div class="viewcode-block" id="open_dbus_router">
+<a class="viewcode-back" href="../../../api/trio.html#jeepney.io.trio.open_dbus_router">[docs]</a>
+<span class="nd">@asynccontextmanager</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">open_dbus_router</span><span class="p">(</span><span class="n">bus</span><span class="o">=</span><span class="s1">&#39;SESSION&#39;</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">enable_fds</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Open a D-Bus &#39;router&#39; to send and receive messages.</span>
+
+<span class="sd">    Use as an async context manager::</span>
+
+<span class="sd">        async with open_dbus_router() as req:</span>
+<span class="sd">            ...</span>
+
+<span class="sd">    :param str bus: &#39;SESSION&#39; or &#39;SYSTEM&#39; or a supported address.</span>
+<span class="sd">    :return: :class:`DBusRouter`</span>
+
+<span class="sd">    This is a shortcut for::</span>
+
+<span class="sd">        conn = await open_dbus_connection()</span>
+<span class="sd">        async with conn:</span>
+<span class="sd">            async with conn.router() as req:</span>
+<span class="sd">                ...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="k">await</span> <span class="n">open_dbus_connection</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">enable_fds</span><span class="o">=</span><span class="n">enable_fds</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">conn</span><span class="o">.</span><span class="n">router</span><span class="p">()</span> <span class="k">as</span> <span class="n">rtr</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">rtr</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

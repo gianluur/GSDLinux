@@ -1,0 +1,3874 @@
+commit 40540480a4d67a714b6ebaa979c7521b96b1b483
+Author: Katerina Koukiou <k.koukiou@gmail.com>
+Date:   Thu Jul 23 14:18:26 2026 +0200
+
+    New version - 1.9.2
+
+commit 2fedb2b2c696570c967793914fd5ec335e24e23d
+Author: Katerina Koukiou <k.koukiou@gmail.com>
+Date:   Thu Jul 23 14:05:13 2026 +0200
+
+    Revert "fix: use blocking GLib main context iteration to prevent CPU busy-spin"
+    
+    This reverts commit 1112bbaf8eb6dc205c159b610e580b1c5b2c2e77.
+    
+    See: https://github.com/rhinstaller/kickstart-tests/issues/1710#issue-4957463505
+
+commit e61c233a42533a3c377c6978ac35d693a610803d
+Author: Katerina Koukiou <k.koukiou@gmail.com>
+Date:   Tue Jul 21 08:41:46 2026 +0200
+
+    New version - 1.9.1
+
+commit 52d6f2c277ac8b91758a0d4d6c953754e9f95330
+Author: Katerina Koukiou <k.koukiou@gmail.com>
+Date:   Thu Jul 16 17:34:49 2026 +0200
+
+    packit: enable pull request copr builds for Rawhide
+
+commit 1112bbaf8eb6dc205c159b610e580b1c5b2c2e77
+Author: Katerina Koukiou <k.koukiou@gmail.com>
+Date:   Thu Jul 16 17:00:33 2026 +0200
+
+    fix: use blocking GLib main context iteration to prevent CPU busy-spin
+    
+    GLibEventLoop._iterate_event_loop was calling context.iteration(False),
+    which returns immediately when no events are pending. When
+    process_signals(return_after=...) loops waiting for a signal that takes
+    minutes to arrive (e.g. installation completion in anaconda TUI), this
+    causes a 100% CPU busy-spin.
+    
+    Change the default to blocking iteration (may_block=True) so the GLib
+    context sleeps until a source fires. Add a blocking parameter to the
+    constructor so tests can opt into non-blocking mode.
+    
+    Resolves: rhbz#2344225
+
+commit 62f1cd1063b53d6ed2d9a9763aa37447ab3d3978
+Merge: 927f585 32f8a75
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 5 11:28:55 2024 +0100
+
+    Merge pull request #130 from rhinstaller/dependabot/github_actions/actions/checkout-4
+    
+    infra: bump actions/checkout from 3 to 4
+
+commit 32f8a7518e092f711e822da216f66d9851ac316a
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Mon Sep 4 14:42:03 2023 +0000
+
+    infra: bump actions/checkout from 3 to 4
+    
+    Bumps [actions/checkout](https://github.com/actions/checkout) from 3 to 4.
+    - [Release notes](https://github.com/actions/checkout/releases)
+    - [Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)
+    - [Commits](https://github.com/actions/checkout/compare/v3...v4)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: actions/checkout
+      dependency-type: direct:production
+      update-type: version-update:semver-major
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+
+commit 927f5859b890aeaa626f27adff0bf8e685e9bc02
+Merge: dcf47b0 26548ca
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Mar 3 12:31:44 2023 +0100
+
+    Merge pull request #129 from jkonecny12/master-fix-pot-creation
+    
+    Improve pot file generation
+
+commit 26548caaf6c4696a2d22b8680659f5b36ed7fe8c
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Feb 28 15:38:27 2023 +0100
+
+    Improve pot file generation
+    
+    Add a few arguments to the potfile
+    
+    - package name
+    - package version
+    - copyright holder
+    - mail for bug reporting
+    - sort pot file output (so it stays the same all the time)
+
+commit dcf47b0414e81ecd178bd3170978d8cbfb0917e8
+Merge: 23279dd ed62c3a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jan 2 15:50:29 2023 +0100
+
+    Merge pull request #127 from jkonecny12/master-spdx-license-migration
+    
+    Migrate to SPDX license
+
+commit ed62c3ab77f3bedd8062a4d6725d44d561777269
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Dec 19 13:40:25 2022 +0100
+
+    Migrate to SPDX license
+    
+    Detailed description is here:
+    https://fedoraproject.org/wiki/Changes/SPDX_Licenses_Phase_1
+
+commit 23279ddd0405241b728a1e13825bf8a688cb3c7e
+Merge: eca6177 11a0d71
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jan 2 12:05:37 2023 +0100
+
+    Merge pull request #128 from jkonecny12/master-specify-packit-srpm-deps
+    
+    Fix Packit configuration
+
+commit 11a0d717b5474eb025d10c6b2bf5969a70fffd64
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Dec 19 14:21:10 2022 +0100
+
+    Remove `metadata` from the packit.yaml
+    
+    The `metadata` field was deprecated from packit.
+
+commit ca589f84bac0281abb1919a052a4eadd98226c85
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Dec 19 14:14:42 2022 +0100
+
+    Add missing srpm_build_deps for packit
+    
+    Without this the project is failing on GH pull requests.
+
+commit eca6177e3b6ffb2a7268189bdbe07f8d52466950
+Merge: cb2bcbf 1645e2d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Oct 14 11:34:28 2022 +0200
+
+    Merge pull request #120 from rhinstaller/dependabot/github_actions/actions/checkout-3
+    
+    infra: bump actions/checkout from 2 to 3
+
+commit 1645e2d86483ae5170b9e9bb8c6cf13c66f0d0bb
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Fri Oct 14 09:15:43 2022 +0000
+
+    infra: bump actions/checkout from 2 to 3
+    
+    Bumps [actions/checkout](https://github.com/actions/checkout) from 2 to 3.
+    - [Release notes](https://github.com/actions/checkout/releases)
+    - [Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)
+    - [Commits](https://github.com/actions/checkout/compare/v2...v3)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: actions/checkout
+      dependency-type: direct:production
+      update-type: version-update:semver-major
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+
+commit cb2bcbf19fc00226ddda047ac03571ce7d56d3a5
+Merge: 447f148 5422a02
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Oct 14 11:14:56 2022 +0200
+
+    Merge pull request #119 from jkonecny12/master-fix-pylint
+    
+    Fix pylint issues
+
+commit 5422a02b819c174bf91f2c34ed382e03e37214ce
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Oct 7 15:01:58 2022 +0200
+
+    Disable a weird pylint cyclic-import issue
+    
+    Disable these errors happening only in the GH actions:
+    
+    ```
+    R0401(cyclic-import):tests/units/main/ticket_machine_test.py:1,0: : Cyclic import (simpleline -> simpleline.input.input_threading -> simpleline.event_loop.signals -> simpleline.event_loop)
+    R0401(cyclic-import):tests/units/main/ticket_machine_test.py:1,0: : Cyclic import (simpleline.render.screen -> simpleline.render.screen.input_manager)
+    R0401(cyclic-import):tests/units/main/ticket_machine_test.py:1,0: : Cyclic import (simpleline -> simpleline.input.input_threading)
+    R0401(cyclic-import):tests/units/main/ticket_machine_test.py:1,0: : Cyclic import (simpleline -> simpleline.event_loop.main_loop -> simpleline.event_loop)
+    R0401(cyclic-import):tests/units/main/ticket_machine_test.py:1,0: : Cyclic import (simpleline -> simpleline.event_loop.main_loop -> simpleline.event_loop.signals -> simpleline.event_loop)
+    R0401(cyclic-import):tests/units/main/ticket_machine_test.py:1,0: : Cyclic import (simpleline -> simpleline.render.screen_scheduler -> simpleline.render.screen.input_manager -> simpleline.event_loop)
+    R0401(cyclic-import):tests/units/main/ticket_machine_test.py:1,0: : Cyclic import (simpleline -> simpleline.render.screen_scheduler -> simpleline.render.screen.input_manager -> simpleline.input -> simpleline.input.input_handler -> simpleline.event_loop.signals -> simpleline.event_loop)
+    R0401(cyclic-import):tests/units/main/ticket_machine_test.py:1,0: : Cyclic import (simpleline -> simpleline.render.screen_scheduler)
+    R0401(cyclic-import):tests/units/main/ticket_machine_test.py:1,0: : Cyclic import (simpleline -> simpleline.render.screen_scheduler -> simpleline.render.screen.input_manager -> simpleline.render.screen)
+    R0401(cyclic-import):tests/units/main/ticket_machine_test.py:1,0: : Cyclic import (simpleline -> simpleline.render.screen_scheduler -> simpleline.render.screen.input_manager -> simpleline.render.screen -> simpleline.render.screen.signal_handler -> simpleline.event_loop.signals -> simpleline.event_loop)
+    ```
+    
+    Not sure why these happens but it seems to me like a bug. The
+    ticket_machine_test.py has just one simple import of TicketMachine.
+    
+    If these starts to happen also when running the container locally, I'll
+    look into that. Right now it seems to me like race in pylint or
+    something like that.
+
+commit 9736d4e8b7f90a9f434ac85cd4f1d456bc09942d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 6 15:45:25 2022 +0200
+
+    Fix newly discovered pylint issues
+    
+    New pylint version raised some new issues. Let's fix these.
+
+commit f98b1bb0e0f8fa0284d30399702690e408d93d5d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 6 15:44:04 2022 +0200
+
+    Add container-ci make target and use it in GitHub
+    
+    This will enable easy local testing on the Rawhide the same way as
+    tested in the GH workflows.
+
+commit 50a99fc973a15d3cf6720f1964b5fcb668fd7bd7
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 6 15:43:09 2022 +0200
+
+    Adapt pylintrc to a new pylint version
+    
+    On Rawhide is a new pylint version which removed some configuration
+    options from the pylintrc. Let's remove them in the project to solve the warnings.
+
+commit 447f148bacb97211b96ef1e7de7481decf93d6fc
+Merge: a66841b 7066448
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Oct 5 15:46:50 2022 +0200
+
+    Merge pull request #116 from VladimirSlavik/master-dependabot-actions
+    
+    Add dependabot updates for actions (#infra)
+
+commit 70664486826235d103a3d5b7805db1ff0144f06e
+Author: Vladimir Slavik <vslavik@redhat.com>
+Date:   Thu Sep 22 09:14:10 2022 +0200
+
+    Add dependabot updates for actions (#infra)
+    
+    Realistically, it will only bump actions/checkout once a year or so.
+
+commit a66841be75b1ea69e1ae23622f0dfed2d684ecb7
+Merge: cf7a049 b998465
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 14 17:53:50 2021 +0200
+
+    Merge pull request #114 from jkonecny12/master-fix-more-pylint-issues
+    
+    Do not force using f-strings by pylint
+
+commit b99846516495bada7b1d8ac38f2b9b34c871d6a2
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Oct 12 13:01:30 2021 +0200
+
+    Do not force using f-strings by pylint
+    
+    New warning introduced around pylint 2.11.1.
+
+commit cf7a049623432acbdb8ec23eeadbfa666761e109
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Oct 11 11:26:25 2021 +0200
+
+    New version - 1.9.0
+
+commit 79b7cd42f326df00dd4da2a47c7d37a0b8960bb5
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Oct 11 11:22:32 2021 +0200
+
+    Adapt Makefile bumpver target for x.y.z versioning
+
+commit af06456177166e50d3e66b2e1027ace194a4d215
+Merge: cd3fd2d 741ae90
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Oct 8 15:56:11 2021 +0200
+
+    Merge pull request #111 from jkonecny12/master-support-disable-concurrent-check-for-UIScreen
+    
+    Add support to disable concurrency check for UIScreen
+
+commit cd3fd2dd533040ef75003e46f47eb73535589b35
+Merge: 033650e ce4ea8b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Oct 8 15:56:04 2021 +0200
+
+    Merge pull request #112 from jkonecny12/master-fix-global-configuration-test
+    
+    Fix unit tests when launched by pytest
+
+commit 741ae90fdc37403159e172b5038aa1cd0abd5b25
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 7 11:38:28 2021 +0200
+
+    Add tests for UIScreen wide disabling of concurrency check
+
+commit ce4ea8be64e9c14e7b10714d30a82157aca2cf90
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 7 12:34:48 2021 +0200
+
+    Rename helper test classes to have Mock postfix
+    
+    When running the tests by pytest it starts collecting these classes because some
+    of them starts with the Test* prefix. Remove this from the name and use Mock
+    postfix in the name instead.
+
+commit 83557de5394047ccb17b1a6ca7793c2d5fd01c24
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 7 11:47:17 2021 +0200
+
+    Call App.initialize() in the setUp phase of GlobalConfiguration test
+    
+    Otherwise it will crash that the cls._app is not created.
+
+commit f0d896693b9c46b6ba76701365e46e61ae9821ca
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 7 11:37:41 2021 +0200
+
+    Abstract registering signal handler in the InputHandler constructor
+    
+    This small change is done to simplify testing of the code.
+
+commit e3ececef34c15517b92f2087c620c5a2e9c96560
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Oct 5 14:56:43 2021 +0200
+
+    Allow to disable concurrency check for all UIScreen inputs
+    
+    Right now it is possible to disable concurrency check for InputHandler. However,
+    this class is created on demand in the InputManager used by the UIScreen which
+    means that a users are not able to disable concurrency_check without
+    re-implementation of the InputManager and InputHandler which is really cumbersome.
+    
+    To solve this I'm adding a new property to InputManager and enable obtaining the
+    InputManager instance from the UIScreen.
+    
+    The concurrency check shouldn't be disabled if you don't have a strong reason to
+    do it. It was implemented because without the check it's really hard to debug
+    when multiple screens are asking for the input at once. The main reason to disable it
+    is for error reporting after the application has crashed.
+    
+    Related: rhbz#1807491
+
+commit 033650e3b4cccb13b3cee2b4b60f58290494620e
+Merge: 6113c0c cb816bc
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Oct 8 13:42:31 2021 +0200
+
+    Merge pull request #113 from jkonecny12/master-fix-pylint
+    
+    Fix pylint issues in 2.10.2 version
+
+commit cb816bc16fe8ec24059d31acafc6c26db6f8bcb9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 7 13:37:12 2021 +0200
+
+    Use {} and [] instead of dict() and list()
+    
+    Solve pylint warning and it's more appropriate I would say.
+
+commit 4a4798eade1a069c1f79b2ebd8e1eb9ca56e52bd
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 7 13:35:04 2021 +0200
+
+    Specify encoding for open()
+    
+    According to PEP 597 using open() is not recommended and pylint
+    shows a warning for this.
+
+commit 3d228d4294bc7dfa8ba004181f87d85f892f8ebc
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 7 13:29:41 2021 +0200
+
+    Remove 'u' prefix from strings
+    
+    It's not necessary from python3 because all python3 strings are unicode by
+    default.
+
+commit 6113c0c42702e7ccf5113bae716ca2edce0f57fb
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 23 16:50:19 2021 +0200
+
+    New version - 1.8.2
+
+commit 2ff62803147e49bbbff0ad963f9e9bb520defda5
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 23 16:45:19 2021 +0200
+
+    Remove changelog from the upstream spec file
+    
+    Packit is now handling releasing and it also solve changelog generation.
+
+commit 05361b5439eaadd797a99b124001dab0f3335763
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 23 14:50:57 2021 +0200
+
+    Fix spec file archive link
+    
+    By changing the tag name this link changed too. We have to correct that.
+
+commit f12e258ca0f7201f501547fab6e0aef2575d7bd8
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 23 11:55:24 2021 +0200
+
+    New version - 1.8.1
+
+commit 0446527f68fa5d72a4bc8db3a5b482a0c7f71b57
+Merge: 8de436e ea4dc81
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 20 15:14:24 2021 +0200
+
+    Merge pull request #105 from jkonecny12/master-improve-tag-naming
+    
+    Improve tag naming of this project
+
+commit 8de436e28b2053cbbf4697b3edd76d8818399d4f
+Merge: 7867e00 673d63b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 20 15:14:17 2021 +0200
+
+    Merge pull request #103 from jkonecny12/master-add-docs-to-tarball
+    
+    Add docs to tarball
+
+commit 673d63b500d5c8537eb0083c9c59d7b58a9d929a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 17 18:01:34 2021 +0200
+
+    Include also documentation to the tarball
+
+commit bc0596103be7927668b9b5e6fa59c89f7cc1c062
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 17 18:24:36 2021 +0200
+
+    Rename doc directory to docs
+    
+    Everywhere is docs used for the documentation directory not the `doc`.
+
+commit 5a057d6af7146aed6a70e6adadd985750804f91f
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 17 17:59:54 2021 +0200
+
+    Add explanations of what is included in the MANIFEST.in file
+
+commit ea4dc81ceaff9b0a7605f5e3b41e742de56b8098
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 17 18:53:32 2021 +0200
+
+    Update packit config to reflect new tag naming
+    
+    Version do not contain 'simpleline-' prefix anymore.
+
+commit 005de4c9adc1a22a13414d7e7d20f000f7d2a1ae
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 17 18:48:12 2021 +0200
+
+    Change tag name to just version
+    
+    The name of the project in tag name is giving me only problems. Get rid of this
+    from now on.
+
+commit 7867e0032f8781c4306f08fd214890b5c35c906f
+Merge: ecc60bf 0ac9623
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 20 15:01:00 2021 +0200
+
+    Merge pull request #104 from jkonecny12/master-fix-GH-workflow
+    
+    Fix GitHub workflow checkout
+
+commit 0ac9623cbaabe9ec1225674959bcccda34c49a1b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 17 18:42:34 2021 +0200
+
+    Fix GitHub workflow checkout
+    
+    In fedora container the checkout GitHub action doesn't work. Let's use Fedora
+    container only for test execution.
+
+commit ecc60bf94d5d551e985b9c641f319f118e9678b0
+Merge: 4ab260a 4ef341a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon May 10 16:35:23 2021 +0200
+
+    Merge pull request #96 from jkonecny12/master-use-packit-latest-alias
+    
+    Switch to packit new fedora-latest alias
+
+commit 4ef341aa44ead98efee61b31c894caf555f26cc4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Apr 9 14:48:30 2021 +0200
+
+    Switch to packit new fedora-latest alias
+    
+    This alias will always point to the latests Fedora which is not Rawhide. That
+    will enable us to just not care for this project.
+
+commit 4ab260a44f36a0cf9ebbbd2dd0e4669e60098cc3
+Merge: d239f2d b349237
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Apr 22 10:52:17 2021 +0200
+
+    Merge pull request #98 from jkonecny12/master-fix-pylint-duplicate-code
+    
+    Fix pylint duplicate code
+
+commit b34923765bced34c1ef867e59fc9f65037299f05
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Apr 20 17:05:43 2021 +0200
+
+    Disable duplicate-code in pylint test
+    
+    This error is nice but it can't be disabled and it really doesn't work for
+    examples or tests...
+    
+    See https://github.com/PyCQA/pylint/issues/214 for more details.
+
+commit a04fa75c19e14d308b2cbc46c192c7f62dbf7833
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Apr 20 16:56:13 2021 +0200
+
+    Remove duplicate of code between event loops
+    
+    This is cleaner solution to split the run to
+    initialization - specific implementation - after end specifics.
+
+commit d239f2d0eb845f88846fedf28e0c95bec08f29c1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Feb 22 17:27:30 2021 +0100
+
+    New version - 1.8
+
+commit 28bdce8156abc419fc3ef292756035f648fa3e72
+Merge: 1d7813c e5b9bb7
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Feb 22 17:23:01 2021 +0100
+
+    Merge pull request #90 from poncovka/master-translate_prompt_keys
+    
+    Don't translate the prompt keys
+
+commit 1d7813c4544aaf2bc27295d8e81aff9e6fefb838
+Merge: 5702fd3 68013b7
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Feb 22 17:10:27 2021 +0100
+
+    Merge pull request #93 from jkonecny12/master-add-missing-make-requirement
+    
+    Add missing make command to spec file
+
+commit 68013b76097351a2a765b3a3184ff164427c2c78
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Feb 18 16:10:18 2021 +0100
+
+    Add missing make command to spec file
+    
+    The make was removed from build-roots from F34 further. So we need to add it manually.
+
+commit 5702fd398a4c75d8d908f3806a9b17453717afe6
+Merge: d5c9732 df41761
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Feb 18 15:17:43 2021 +0100
+
+    Merge pull request #91 from jkonecny12/master-enable-fedora-devel-build
+    
+    Enable daily build for Anaconda-devel COPR repository
+
+commit e5b9bb7facfe14af8fb0eecd415690b8295a2aca
+Author: Vendula Poncova <vponcova@redhat.com>
+Date:   Wed Feb 17 12:26:19 2021 +0100
+
+    Don't translate the prompt keys
+    
+    Translated prompt keys are not supported by the simpleline library,
+    so don't mark them for translation.
+    
+    Related: rhbz#1892830
+
+commit df4176166f1cfa5c0c9c998f60abc9e0a0d2b734
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Feb 17 13:49:25 2021 +0100
+
+    Enable daily build for Anaconda-devel COPR repository
+
+commit d5c973240ba33d7d332014d4355cbf420806f682
+Merge: 25f06e8 43bca7e
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Feb 18 12:39:16 2021 +0100
+
+    Merge pull request #92 from jkonecny12/master-use-fedora-container-repositories
+    
+    Use Fedora container registry instead of Dockerhub
+
+commit 43bca7e2c6ce88d4dfafccbbbaa90053eae39a51
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Feb 17 17:34:16 2021 +0100
+
+    Use Fedora container registry instead of Dockerhub
+    
+    First, they are more up to date so we will avoid issue with bad GPG keys we have
+    now.
+    Second, there is no limit for downloads.
+
+commit 25f06e887ec8bbe1a670aeb65db449ee65af0dda
+Merge: 6c5e905 9e9122a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Dec 9 17:06:34 2020 +0100
+
+    Merge pull request #88 from jkonecny12/master-migrate-daily-builds-to-packit
+    
+    Migrate COPR daily COPR builds to Packit
+
+commit 9e9122ab300767a5026e1dc591fc80ab631b987d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Dec 4 12:59:46 2020 +0100
+
+    Migrate COPR daily COPR builds to Packit
+
+commit 6c5e905cbe4fc3670afa073a41bfa1633b691521
+Merge: fe92791 9a23f6b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Nov 24 15:33:32 2020 +0100
+
+    Merge pull request #87 from jkonecny12/master-enable-eln-build
+    
+    Add fedora-eln for build and test execution
+
+commit 9a23f6b34e3d1a1c9dc1d21b2c3044aa7b6843c1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Nov 12 12:30:18 2020 +0100
+
+    Test build on Fedora ELN
+    
+    This will enable us that we won't break future RHEL branching.
+    
+    Unfortunately Cruncher does not support ELN now so let's do just a copr build there.
+
+commit fe927912ffd3b79a34e6891412ca11b2c0fe488c
+Merge: 011a198 073b0a6
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Nov 10 19:32:06 2020 +0100
+
+    Merge pull request #84 from jkonecny12/master-remove-packit-get-version-action
+    
+    Remove packit get-current-action
+
+commit 073b0a69455407d22f65e1bb3a7ce084d00f5806
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Sep 23 15:13:01 2020 +0200
+
+    Remove packit get-current-action
+    
+    This is not required anymore thanks to this fix:
+    
+    https://github.com/packit/packit/issues/867#event-3791693297
+
+commit 011a19814c8c315c56d0b9070c9f0614c6caffd0
+Merge: d6f9f33 14631a6
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Nov 10 16:32:12 2020 +0100
+
+    Merge pull request #86 from martinpitt/github-ci
+    
+    Run tests in GitHub workflow
+
+commit 14631a6e6588eee5cc1eccd39ab7c0ced704c26b
+Author: Martin Pitt <martin@piware.de>
+Date:   Mon Nov 9 15:25:43 2020 +0100
+
+    Run tests in GitHub workflow
+
+commit d6f9f331cbc5985eaa598fa987711d801db50313
+Merge: 146bbc7 586705d
+Author: Martin Pitt <martinpitt@users.noreply.github.com>
+Date:   Tue Nov 10 07:10:43 2020 +0100
+
+    Merge pull request #85 from martinpitt/w0707
+    
+    Fix raise-missing-from (W0707) pylint warnings
+
+commit 586705d384b55811fc265ca8b6015ac2708b7dae
+Author: Martin Pitt <martin@piware.de>
+Date:   Mon Nov 9 15:16:41 2020 +0100
+
+    Fix raise-missing-from (W0707) pylint warnings
+    
+    Use `raise from` where appropriate. Silence the warning for the
+    ScreenScheduler class where it exits the main loop, as that is not
+    really exception propagation.
+
+commit 146bbc7e985f3369784ebcac83462c4695419877
+Merge: a173864 2cc1be2
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 7 12:13:26 2020 +0200
+
+    Merge pull request #82 from jkonecny12/master-improve-tests
+    
+    Improve test structure
+
+commit 2cc1be2a2432ba84c84eb7d863458a5686df69db
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 5 12:42:33 2020 +0200
+
+    Fix pylint to check test code correctly
+    
+    The tests folder is no longer a python module.
+
+commit c083219d925d7ae5c9d8af942b1a1a860cecba40
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 5 12:39:51 2020 +0200
+
+    Use script to run unit tests
+    
+    It's more versatile and also help with future adaptation for TMT test solution.
+
+commit 45a0adf3b55136b6e076e38f518ccf57d353cd42
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 5 12:37:38 2020 +0200
+
+    Use relative imports in tests
+    
+    This will improve usage of tests out of the source tree testing. Reason is that
+    the top level git has simpleline folder and current solution was `from test
+    import ...` which means that PYTHONPATH is set to the root of the git.
+
+commit dae36ed8c1a41b85ff290313b722ccdee4fd7253
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 5 12:18:41 2020 +0200
+
+    Change directory structure of unit tests
+    
+    Unit tests now have different structure which is more meaningful.
+
+commit a173864a429adf6d58df15ae7fd5cf5989ac4aa9
+Merge: 8f2d7ad 0d91852
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 5 10:27:07 2020 +0200
+
+    Merge pull request #80 from jkonecny12/master-remove-pocketlint
+    
+    Replace pocketlint with pylint
+
+commit 0d918524d915fd5b7cbcdc2073e7ceb393744b84
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 31 17:01:03 2020 +0200
+
+    Fix documentation of _process_screen method
+    
+    The documentation was a way outdated. It does something completely different
+    now.
+    
+    Make return statements consistent.
+
+commit 3e8a407f0ce0d29c77b825d2c5b64871b65507d1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 31 15:54:58 2020 +0200
+
+    Fix pylint issues
+
+commit 49afde22761eec3b35b6e3af06ce24d330c80979
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 31 15:48:08 2020 +0200
+
+    Use pylint instead of pocketlint
+    
+    Avoid using wrapper around pylint. It's much slower than pylint directly and not
+    giving us so much configuration possibilities.
+
+commit 8f2d7ad91a1118ecf5dcc763abc84d82801ed9b5
+Merge: deba26c ae169d8
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jul 29 12:01:30 2020 +0200
+
+    Merge pull request #78 from jkonecny12/master-add-coverage-report
+    
+    Add coverage support
+
+commit ae169d8391d1a5644e1f2836328cdd462f74e478
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jul 27 11:06:05 2020 +0200
+
+    Add coverage support
+    
+    We should have a way how to report unit-tests coverage.
+
+commit deba26c35f4bcbfa03b7d5fbb4ad1673bafbba57
+Merge: 4c721f1 5c12545
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jul 22 17:40:22 2020 +0200
+
+    Merge pull request #68 from jkonecny12/master-add-pypi-support
+    
+    Add pypi-upload to Makefile
+
+commit 4c721f11cf1176daa6614e3f199236e9dfc59c37
+Merge: 04965b2 dd49329
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jul 22 17:39:10 2020 +0200
+
+    Merge pull request #76 from jkonecny12/master-make-README-usable-on-PyPi
+    
+    Minor changes for PyPi distribution
+
+commit dd493299af5f046bf3aecf689f84d98cfb9c6ba8
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 14 18:43:54 2020 +0200
+
+    Make link to exmples directory in Readme
+    
+    This way it will be useful information even from PyPi page.
+
+commit 352323901f92474f7bb6f6ffc86043fd96baa89a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 14 18:43:31 2020 +0200
+
+    Fix homepage of the project in setup.py
+
+commit 5c1254515620c24ffc1eafa11bcfb9a0560cb117
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 14 14:38:09 2020 +0200
+
+    Fix classifiers in setup.py
+    
+    Add new one for UI and fix indentation.
+
+commit 8c8e98d03ff034692b44b170fea7b3fb8492a86a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 15 14:13:48 2020 +0200
+
+    Add pypi-upload to Makefile
+
+commit 04965b2970ffae8d3454e5c224605ecbd2a180bb
+Merge: 35d5064 3be5145
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 14 16:51:33 2020 +0200
+
+    Merge pull request #74 from jkonecny12/master-fix-packit-release-problems
+    
+    Enable packit auto release to Fedora
+
+commit 3be5145b06bc90d0e84014da307ad3a8e2825379
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 26 23:12:22 2020 +0200
+
+    Use correct variant of the field
+    
+    It was renamed by the packit.
+
+commit 7e0fa1f2dcd6f0b8b6e8a6f092bc4d6095cf7e58
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 26 11:53:31 2020 +0200
+
+    Propose Fedora update only to Fedora in development
+    
+    I want to make other releases then by myself in a dist-git.
+
+commit 6378b2809d81e6706cce258a1329e9bd8b22409e
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 26 11:13:18 2020 +0200
+
+    Add upstream tag template to packit for releasing
+    
+    Without this tag the release proposal will fail because of looking for
+    incorect version.
+
+commit 0b5134e6d1f6620f0591fb37b173fe21c5968439
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 26 10:36:28 2020 +0200
+
+    Packit will download archive from Source0 if needed
+    
+    Fix link to use release instead of archive. Archive does not contain
+    stuff like po files added manually during make invocation.
+
+commit 35d50649e58c5992a1e116f6f1d9d6d026a59c61
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jun 25 17:56:17 2020 +0200
+
+    New version - 1.7
+
+commit 38b09077378795bc8341d049f59575f0c355558a
+Merge: f4b51b6 06a0cb3
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 22 15:06:37 2020 +0200
+
+    Merge pull request #72 from jkonecny12/master-replace-copr-by-testing-farm
+    
+    Testing farm seems like a better option
+
+commit 06a0cb3393223a73f9bae7285de8ec4b2fe4ddc7
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jun 18 15:41:04 2020 +0200
+
+    Testing farm seems like a better option
+    
+    It should done the same.
+
+commit f4b51b687b8610368cbd89a8feeae8e7005c9000
+Merge: 9b771ef efc1174
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jun 18 14:56:19 2020 +0200
+
+    Merge pull request #64 from jkonecny12/master-enable-packit-test
+    
+    Enable packit
+
+commit efc117432de52004b124dffd62b5e5af82e75cc9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 17 14:39:12 2020 +0200
+
+    Fix upstream package name
+    
+    Upstream name is simpleline not python-simpleline.
+
+commit 0245c2f9bcbd17d104183d175999a459a0e425d8
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 17 14:05:00 2020 +0200
+
+    Copy archive to the project root for packit
+    
+    Packit seems to have problem with archive in a sub-directory so copy it
+    out for during archive creation.
+
+commit 03da41df0bda190da2763e21544ccfa7ade48f3f
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 17 09:48:03 2020 +0200
+
+    Use BUILD_ARGS for packit to remove wheel dependency
+    
+    By removing bdist_wheel from the BUILD_ARGS packit don't require
+    python3-wheel package installed.
+
+commit c9a174f8bdddcedaf6daeb4170d2f350c0476400
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 16 19:00:59 2020 +0200
+
+    Correct how packit sniffing package version
+    
+    The default solution will use `git describe` which is fine if you don't
+    have package name in the version tag. Use our tailored to fix this
+    issue.
+
+commit fe664606f588ce12deef4c5eb2e397c63af65d0f
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 16 18:21:27 2020 +0200
+
+    Add packit action to create archive correctly
+    
+    Archive is now created by setup.py which will be created in a dist
+    folder. Use this instead of taking whole git repository.
+
+commit 6711800aa4af81b4ddc65e3a314463389d162cac
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Sat Jan 25 16:14:12 2020 +0100
+
+    Simplify Packit configuration file
+    
+    Plenty of these values are not required anymore.
+    Run copr build for all fedoras including rawhide.
+
+commit bb78243412bc044744b95b221da9b0b948fce8a9
+Author: Dominika <dhodovsk@redhat.com>
+Date:   Fri Oct 18 15:59:48 2019 +0100
+
+    Enable copr builds and add packit config
+
+commit 9b771ef2c2e33cb2d246a1146a8edf39de0c3ee1
+Merge: 3e0e7db 724fa8c
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jun 18 13:58:10 2020 +0200
+
+    Merge pull request #71 from jkonecny12/master-support-change-setup-args
+    
+    Add possibility to change setup.py arguments
+
+commit 724fa8c5ba6475f985cfe16bad9640a4a0f090d8
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 17 09:48:03 2020 +0200
+
+    Add possibility to change setup.py arguments
+    
+    By default we want to create an archive with bdist_wheel which will also
+    create metadata for PYPI distribution. However, dbist_wheel have another
+    dependency package which may not be by default installed and it is not
+    required for spec file creation at all.
+    
+    Add setup.py arguments as Makefile variable.
+
+commit 3e0e7dbb7afb9567675a34ec5691e1d814595488
+Merge: 912a0c6 ecff524
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 17 13:04:02 2020 +0200
+
+    Merge pull request #70 from jkonecny12/master-fix-setup-email
+    
+    Fix typo in setup.py
+
+commit ecff524edb3a60687844d36bc619ae899625faf6
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 17 10:14:52 2020 +0200
+
+    Fix typo in setup.py
+
+commit 912a0c69ce81eb75936aa957013a8c7658540111
+Merge: d04df51 0d41330
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 16 17:20:12 2020 +0200
+
+    Merge pull request #69 from jkonecny12/master-migrate-weblate
+    
+    Migrate to Weblate translation platform
+
+commit 0d41330a008e2d08fcf521ef3da941ae055c7428
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 15 16:30:53 2020 +0200
+
+    Add translation badge from Weblate
+
+commit df299ad8814f84a76e34f4de86d622b79b4700ea
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 15 16:19:54 2020 +0200
+
+    Add potfile to the .gitignore
+    
+    It should not be part of this repository anymore.
+    
+    Related: rhbz#1836951
+
+commit c7031a169a2503ac804c427e6faec4f0665c576e
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 15 16:04:39 2020 +0200
+
+    Pause releasing when calling bumpver
+    
+    Related: rhbz#1836951
+
+commit 57d40eac25eb25e8bedc3102b5c6cf8ed43fe91d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 15 16:02:26 2020 +0200
+
+    Remove unused PREFIX from the Makefile
+
+commit 8972c2e34cef0c9146fa380d604e6b6917cc0e9b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 15 16:01:20 2020 +0200
+
+    Remove Zanata from the Simpleline
+    
+    We are now migrated to Weblate.
+    
+    Related: rhbz#1836951
+
+commit 15d61d5830b89d4d1abe975e6cd40cba7aefd595
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 15 15:56:38 2020 +0200
+
+    Switch po-push from Zanata to Weblate
+    
+    Resolves: rhbz#1836951
+
+commit 495de09b321ae59017cf82a539e6b9a14b2c40b7
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 15 15:49:58 2020 +0200
+
+    Download translations from Weblate
+    
+    Related: rhbz#1836951
+
+commit 7bf713d0fd97994bb608aee356e61f7f1838fe29
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 15 15:45:47 2020 +0200
+
+    Remove pot file from this repository
+    
+    Potfile will be only in the separate translation repository.
+    
+    Related: rhbz#1836951
+
+commit d04df5178450eeff55fde1061ed5448f81960fb8
+Merge: 032bb02 ba90fc9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 10 18:21:39 2020 +0200
+
+    Merge pull request #67 from jkonecny12/master-fix-missing-file
+    
+    Reflect rename of COPYING to LICENSE.md in manifest file
+
+commit ba90fc99fe4bbe7aa91ae3bc84d4c24bb6bb5bd9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 10 16:42:52 2020 +0200
+
+    Add new directories to .gitignore and make clean
+
+commit 52ef54a8bd5d66ac3057aaffc9ba7ffc198756cf
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 10 16:24:00 2020 +0200
+
+    Add Makefile PHONY targets
+
+commit 9adb0ed3831dad8e9979a336b562ef5b82fbed0c
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 10 16:19:16 2020 +0200
+
+    Simplify archive creation
+    
+    Use setup.py in all cases. Remove make local because there is no need
+    for that anymore.
+
+commit 81054932ea61d4202260d4a8701084352a1791cf
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 10 15:56:53 2020 +0200
+
+    Reflect rename of COPYING to LICENSE.md
+    
+    Otherwise build is failing because of missing file.
+    
+    Fix this in MANIFEST.in and spec files.
+
+commit 032bb027c3f6bead131db77c9090c24a2a50ee74
+Merge: 8fb77b4 85b2a45
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 10 13:36:46 2020 +0200
+
+    Merge pull request #66 from jkonecny12/master-add-copr-badge
+    
+    Add COPR badge for daily builds
+
+commit 8fb77b45cdedbef504785b15216de45d1eacef5d
+Merge: 3973611 1f36bde
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 10 13:36:13 2020 +0200
+
+    Merge pull request #65 from jkonecny12/master-change-license
+    
+    Change license from GPL to LGPLv3+
+
+commit 1f36bde8713087f420835b0eb55a6a098baf9b1a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 8 18:56:09 2020 +0200
+
+    Change license in spec file to LGPLv3+
+
+commit 85b2a45c4c01baf13c6a334aef7c729b64d68053
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 9 12:00:49 2020 +0200
+
+    Add COPR badge for daily builds
+
+commit 2fd75ad6eec9e0b01ec600f5ce954bedbae81238
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 8 18:55:33 2020 +0200
+
+    Improve setup.py
+    
+    Add missing information.
+
+commit 4fa0f1182217aa0c1a0c481acb8c047bf28167d4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 8 18:35:42 2020 +0200
+
+    Change license to LGPLv3 for all the files
+
+commit a8d63b9e8eb2eacbafb113a7983e7e8e6aeb7af1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 8 15:36:33 2020 +0200
+
+    Change License from GPLv2+ to LGPLv3+
+    
+    This library will have much better benefit from LGPL than GPL. GPL
+    license were inherited from Anaconda project where this project
+    were originated from. However, Anaconda is end user program but
+    Simpleline is general Text UI library. Such a library should be
+    available for anyone so LGPL is much better suited.
+    
+    The original code from Anaconda was contributed only by Anaconda team
+    members and all of them are/were Red Hat employees. All the new code in
+    simpleline is also contributed only by Anaconda team members who are
+    Red Hat employees. In that case re-licensing is not a problem here.
+
+commit 3973611d8a2704be7d08b9b1db732aa8e14766fb
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 22 11:49:30 2019 +0200
+
+    New version - 1.6
+
+commit fcaa82ac1a40d90d9166616f21a4edeea19fa306
+Merge: b61121f b24fd67
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 1 09:30:39 2019 +0200
+
+    Merge pull request #60 from poncovka/master-password_dialog
+    
+    Always close the password dialog
+
+commit b24fd679ae7aefb7d845b1ed1418fba603894f5c
+Author: Vendula Poncova <vponcova@redhat.com>
+Date:   Mon Jul 29 18:28:18 2019 +0200
+
+    Always close the password dialog
+    
+    The password dialog should be closed even if no password is provided.
+    Otherwise, it is not possible to continue, because the UI is blocked.
+
+commit b61121f3707826ebe0e025ea4dd81e07e4ddc2fd
+Merge: 36acc40 cf202d3
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jul 31 16:33:32 2019 +0200
+
+    Merge pull request #61 from jkonecny12/master-fix-pylint-issues
+    
+    Remove unnecessary pass statements
+
+commit cf202d3a59251c834fdcc355068c975d5bebcc69
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jul 31 09:56:01 2019 +0200
+
+    Remove unnecessary pass statements
+    
+    Fixing issues found by a new pylint version.
+
+commit 36acc4091bd699089b8503c7c54d094c8c3e722d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon May 13 11:51:35 2019 +0200
+
+    New version - 1.5
+
+commit 16fdf36f6f1d65d004f9f97935b1ac72fc179c44
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon May 13 11:46:03 2019 +0200
+
+    Update spec file from the downstream
+
+commit 47921a90b97c35a1c0396f65395aae1031863cca
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Nov 19 16:33:44 2018 +0100
+
+    New version - 1.4
+
+commit 6dfe482aaddcb57a5a7a2597a96b1ff913c51f70
+Merge: c4e7e38 8c64112
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Nov 19 16:27:59 2018 +0100
+
+    Merge pull request #59 from jkonecny12/master_add_test_to_run_app_with_empty_stack
+    
+    Kill the run call with an empty screen stack
+
+commit 8c641122a7b362d8ba6100d99ae40e6ddcfe7c3b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Nov 19 13:15:15 2018 +0100
+
+    Fix and add tests for the new changes (#1646568)
+
+commit e1c6d2c97331276312179467182eeee072753f3a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Nov 19 13:09:42 2018 +0100
+
+    Add should_run_with_empty_stack configuration (#1646568)
+    
+    This configuration will be by default False. It will kill the
+    application instead of staying in an infinite loop with no user
+    information.
+    
+    The infinite loop is sometimes required behavior. In that case a
+    developer can just set configuration to True so it will behave as
+    before.
+
+commit f669c7cdb4b78df3852f4b980fc049f5663ffb17
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Nov 19 13:07:59 2018 +0100
+
+    Remove wrong line in password_function conf
+
+commit c4e7e380476a4bf2f423566f9fdb4ca4d755eb14
+Merge: 9addbf4 473efda
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 11 11:42:40 2018 +0200
+
+    Merge pull request #58 from jkonecny12/master-tweak-makefile
+    
+    Tweak date lang settings in make bumpver command
+
+commit 473efdae886ceea04203a114e4121a89541d9126
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Oct 9 13:52:17 2018 +0200
+
+    Tweak date lang settings in make bumpver command
+
+commit 9addbf4f3415e7b412b5b79370707d79bfbf051e
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 20 15:21:49 2018 +0200
+
+    Drop python-pocketlint build dependency
+    
+    It is not required for build only for make ci call.
+
+commit cb37482da4263c157e9e3d157794c496d9fa4687
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 20 15:14:52 2018 +0200
+
+    Update spec file from Fedora
+
+commit 1c21ffdeda9eed27e5ad8ec16aee467f8daecd50
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 11 09:58:06 2018 +0200
+
+    New version - 1.3
+
+commit 4095d9d15fef7be66e5942f9b647cf3573fc4c10
+Merge: 4d27032 60822c9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 11 09:38:52 2018 +0200
+
+    Merge pull request #56 from jkonecny12/master-fix-logging
+    
+    Setup logging handler properly for a library
+
+commit 4d270325d784582fdbcd580e07c1cf581c952ecd
+Merge: 2045611 8f5791a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jun 7 11:52:55 2018 +0200
+
+    Merge pull request #57 from jkonecny12/master-fix-pylint
+    
+    Fix pylint errors raised by new pylint version
+
+commit 8f5791a0ea9b314cfe20f1695e2fa7a8e1a321a1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 5 16:47:57 2018 +0200
+
+    Fix pylint errors raised by new pylint version
+    
+    Most solved by pylint disable but there is one improvement.
+
+commit 60822c9b82ac05e2257a7867d68215d473d7e58e
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 5 13:00:29 2018 +0200
+
+    Setup logging handler properly for a library
+    
+    The logging settings can't be changed once it is configured. This is
+    especially bad in case of library. Use NullHandler which is recommended
+    by Python 3 documentation.
+    
+    https://docs.python.org/3/howto/logging.html#library-config
+
+commit 2045611190d025f6d98e3bdec8b350e8bcfc9a90
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue May 29 14:21:23 2018 +0200
+
+    New version - 1.2
+
+commit 273a71b1da1dd5d928b13e2850c74be102b06ad3
+Merge: 6372acb 5da467b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue May 29 13:45:46 2018 +0200
+
+    Merge pull request #53 from jkonecny12/master-fix-documentation
+    
+    Add missing documentation
+
+commit 5da467b8ce990436c1c23a21d4636de329cbdcab
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue May 15 17:13:42 2018 +0200
+
+    Document GlobalConfiguration class
+
+commit 9f8c49b5df93144f8bb29e5e981e732f75db4046
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon May 14 17:38:09 2018 +0200
+
+    Add advanced input processing section to docs
+    
+    This feature is already implemented but documentation is missing.
+
+commit 6372acb5a34d682f5e4039396d2206c088e75adc
+Merge: 9805f3d 84fcb16
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon May 28 11:27:13 2018 +0200
+
+    Merge pull request #55 from jkonecny12/master-more-robust-makefile
+    
+    Robust zanata check in the makefile
+
+commit 84fcb16a00edb611020d4bbcfaf72fd34131fd37
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon May 28 10:02:15 2018 +0200
+
+    Make makefile zanata check more robust
+    
+    The zanata package renamed between F28 and F27 which makes this check
+    valid only for F28 and later. This commit makes the check able to
+    work independent on package name; it just checks the binary.
+    
+    Also this will make packaging for other distributions easier.
+
+commit 9805f3d31baab18cc66586cc879df11f5762b842
+Merge: 8e328a5 bf0d458
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu May 24 08:36:03 2018 +0200
+
+    Merge pull request #54 from jkonecny12/master-fix-missing-newline-characters
+    
+    Add missing newline characters
+
+commit bf0d458153a526297cd1b8df064a28d54b963d90
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu May 17 11:52:35 2018 +0200
+
+    Add missing newline characters at the end
+    
+    When widget contained \n character at the end of the text this character
+    was skipped. Fix this behavior by extending the buffer at the end if
+    required.
+    
+    Also fix tests.
+
+commit c8c0b6cd71eb98cf327bbc17b0d05a9779d52596
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu May 17 11:51:34 2018 +0200
+
+    Abstract widget buffer extensions
+    
+    Hide those ugly computation parts to methods.
+
+commit bf7885e3fb752a25686cf0f9b9a8d94e055675a4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon May 14 17:37:04 2018 +0200
+
+    Use python 3 sphinx module
+
+commit 8e328a5763d417e3ec1a4177db5a597dc8458021
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Apr 10 15:16:37 2018 +0200
+
+    New version - 1.1
+
+commit 0454cc899981f8b6f46bec7e555077494cc27c3d
+Merge: 18fb380 58a69c2
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Apr 10 13:46:24 2018 +0200
+
+    Merge pull request #52 from jkonecny12/master-add-global-configuration-object
+    
+    Master add global configuration object
+
+commit 58a69c288ae8f3a909e9d7c4bd3da2fe796ec79d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Apr 10 13:06:32 2018 +0200
+
+    Add global configuration initialize test
+
+commit f841f76f2b663d3dd73ef0ebd71e3f6c150e25f4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Apr 10 11:24:23 2018 +0200
+
+    Use default password function from GlobalConfiguration
+    
+    Adapt tests to this change.
+
+commit 508e73789cea1a0054a6ffab91882cb20dd2980e
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Apr 10 10:59:38 2018 +0200
+
+    Add tests for GlobalConfiguration class
+
+commit 2f9c78781d9eefdd186998aa08cda31ddffc1a78
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Apr 10 11:01:16 2018 +0200
+
+    Move default width to GlobalConfiguration class
+    
+    Adapt rest of the code for this change.
+
+commit 579fe3db9fdd93a496089aac0567f24709c34ed2
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Apr 9 16:40:35 2018 +0200
+
+    Add GlobalConfiguration object
+    
+    This object will be used to set default application configuration. It
+    will be persistent and not attached to App.initialize() call.
+
+commit 9d6effabf76a30c7d39e88de2113df242f4c4476
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Apr 9 16:42:57 2018 +0200
+
+    Fix a missing article in docs.
+
+commit 18fb3805bee815b7cbb3d1eb6cc2f37d4122321f
+Merge: 0d6b9b1 64aca3b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Apr 9 12:58:35 2018 +0200
+
+    Merge pull request #51 from jkonecny12/master-improve-io-handling
+    
+    Improve IO handling
+
+commit 64aca3b2de41b16f452515d0a6af69f00f000673
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Apr 5 16:17:26 2018 +0200
+
+    Add tests for UIScreen get_user_input method
+    
+    This is blocking solution how to get input from a user in the screen.
+
+commit 6963bda55f109b9f38134615ae26a88c90cd4dd4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Apr 5 16:16:22 2018 +0200
+
+    Only InputManager is used to get input in UIScreen
+
+commit c4e17539695eea16efcf383e0e7a05d8073f7cfb
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Apr 5 15:36:33 2018 +0200
+
+    Move emit of InputReadySignal to InputRequest
+    
+    Thanks to this we don't need to read all data from InputRequest but
+    input request will do that internally.
+
+commit 653aa8a400341cb6946869ebea589153c7808ed5
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Mar 29 16:53:39 2018 +0200
+
+    Get only last input on concurrent input
+    
+    Input can be unsuccessful when there are multiple inputs waiting. Only
+    the last one will receive the input others are just dropped as failed.
+    
+    Add success attribute to the InputReadySignal signal and to the
+    InputHandler class.
+
+commit b9993718d88caafe73126509c2c3bc57764bb4ef
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Mar 28 13:41:13 2018 +0200
+
+    Add concurrency tests for InputHandler
+
+commit 6869e3a5a233c44605da2b25a8bfa9059e0a798f
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Mar 27 12:52:55 2018 +0200
+
+    Add requester source to the InputHandler (#1557472)
+    
+    This will be really helpful for debugging screens.
+    
+    Also it will automatically attach input signals to the requester
+    UIScreen.
+    
+    Resolves: rhbz#1557472
+
+commit c52b75ea79c2986a383abf6f82ea12e203be0bd2
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Mar 26 13:14:20 2018 +0200
+
+    Use InputManager as screen helper not in ScreenScheduler (#1557472)
+    
+    InputManager is better suited to be part of the UIScreen class than
+    ScreenScheduler.
+    
+    Related: rhbz#1557472
+
+commit a763572d292f15dfb99a1b1bd719c1e9fa5a0496
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Apr 3 17:02:11 2018 +0200
+
+    Add test to check InputThreadManager after initialization
+
+commit 237738cce897599e9cc8772636144f3a1ab39328
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Apr 3 17:00:14 2018 +0200
+
+    Reinitialize InputThreadManager when app is initialized
+    
+    InputThreadManager contains event loop which is invalid when
+    App.initialize() is called. So create new instance of InputThreadManager
+    on every App.initialize() call.
+
+commit c028073f3ae1f1c69c439e0cc4111a150ad5eca5
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Mar 23 16:46:10 2018 +0100
+
+    Input requests are now handled by InputThreadManager
+    
+    InputRequest object is created by InputHandler and used by
+    InputThreadManager singleton. So every InputRequest processing is
+    processed on one place.
+    
+    This should be able to handle concurrent input more properly but still
+    it is highly not recommended.
+
+commit fdf5dc664f825c9233c77ad3b1986abc1817752b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Mar 23 13:32:51 2018 +0100
+
+    Remove io_manager property from ScreenScheduler
+    
+    It is replaced by InputHandler now.
+
+commit 2d85359560d94a10871fa10a1939dbd020e002fa
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Mar 23 13:27:23 2018 +0100
+
+    Rename io_manager to input_manager
+
+commit 5b146a950d60e7febe0228aa1b19e081ea006037
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Mar 23 13:17:10 2018 +0100
+
+    Change IOManager to InputManager
+    
+    InputManager is split to InputHandler and ScreenScheduler only
+    general input processing is still there.
+    
+    Fix tests and add some missing tests.
+
+commit 3a36e59794f21d9dad097099b39fcc39a565b199
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Mar 22 18:27:01 2018 +0100
+
+    Move draw from IOManager to ScreenScheduler
+    
+    Thanks to this change the width was moved to App and it is the default
+    width for the whole application.
+
+commit 573f74b2069788cb776cbbdfe2521da0b76212b9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Mar 22 17:41:03 2018 +0100
+
+    Separate password input to PasswordInputHandler
+    
+    Separate InputHandler to PasswordInputHandler.
+
+commit 3e40d1df0f3bf475027ecb9b4d4d68bc8fbb08c4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Mar 22 16:47:44 2018 +0100
+
+    Add DEFAULT_WIDTH constant
+    
+    This constant will be used when no width is specified.
+
+commit 57c14150bc8e8a373f9cc205ea2f54d08ca0591b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Mar 22 13:54:53 2018 +0100
+
+    Add tests for InputHandler
+    
+    Tests are running for both base EventLoop and GLib loop.
+
+commit daa298240b6c3ce72cea4c393da588cfd1b26dc3
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Mar 22 12:19:35 2018 +0100
+
+    Replace get_input_without_check by new property
+    
+    It gives user more power to control this behavior.
+
+commit 9e7d023dfe7e06cc0cc741a601b4f5ed227e63c2
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Mar 22 12:04:45 2018 +0100
+
+    Separate input to a new module
+    
+    Originally this was a part of io_manager.
+    
+    Merge input with async input and add new properties and methods to
+    comfortable work with it.
+
+commit 0d6b9b1e8bac2c9acb6502f950614e8a120fad57
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Feb 28 10:07:34 2018 +0100
+
+    New version - 1.0
+
+commit 5ec84b1447242bb343c0ea633ada1d7ff85ee98f
+Merge: fd105ae 590b8ef
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Feb 27 14:24:21 2018 +0100
+
+    Merge pull request #50 from jkonecny12/master-support-processed-and-refresh
+    
+    Master support processed and refresh
+
+commit 590b8eff25e619d6b3c054f73b584aa08b76822d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Feb 23 16:33:58 2018 +0100
+
+    Fix docs based on the new PROCESSED feature
+
+commit c34f69a6702c55b6e12db87297da2c61e5dc49cf
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Feb 23 16:13:01 2018 +0100
+
+    Use new PROCESS_AND* in examples
+
+commit ec0ad61f26122996dfa485747e075bd5ad5f28ce
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Feb 23 16:02:14 2018 +0100
+
+    Add tests for PROCESSED_AND_{CLOSE|REDRAW}
+
+commit 7778cf2b32d56c4650abc216c6145f7796310c43
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Feb 23 16:37:16 2018 +0100
+
+    Use new PROCESSED_AND_{CLOSE|REDRAW} in advanced widgets
+
+commit 19f0c271032fac8afa53a2fb8a4326c054bea500
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Feb 23 15:38:37 2018 +0100
+
+    Support PROCESSED_AND_CLOSE UserInputState
+    
+    This state means that the user input was processed and the actual screen
+    should be closed.
+
+commit ed03716b7906d94db38c32b746566ff3c2ef8505
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Feb 23 15:35:39 2018 +0100
+
+    Rename UserInputResult to UserInputAction
+    
+    It is reaction on the user input. Also rename the value to be more
+    descriptive on what should be done not what was done.
+
+commit e9f53b8161a446492825ffef3f88a74a8d8abf3f
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Feb 23 15:26:05 2018 +0100
+
+    Support PROCESSED_AND_REDRAW
+    
+    This is especially helpful when we need to refresh screen after
+    something changed on the screen.
+
+commit fd105aec1317dc944b7989f00b7545e64aa6e837
+Merge: 406aa55 5e91a5b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jan 15 15:46:56 2018 +0100
+
+    Merge pull request #49 from jkonecny12/master-fix-readme-link
+    
+    Fix link to the documentation in README
+
+commit 5e91a5b4f267b2a3fae25af675b8975dcf132ce8
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 12 16:10:21 2018 +0100
+
+    Fix link to the documentation in README
+
+commit 406aa55bbb3088ea3bbcde59a34911a8cca250d8
+Merge: 89e4625 8846d85
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Dec 11 10:31:36 2017 +0100
+
+    Merge pull request #47 from jkonecny12/master-add-docs-link
+    
+    Add link to the documentation
+
+commit 8846d8556a4583dc6dfbd4bb577402f10dc7f0e1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Dec 8 14:21:39 2017 +0100
+
+    Add link to the documentation
+    
+    Documentation is build on readthedocs.
+
+commit 89e46252e0cf15cf36ccefdcebc3ba4cbfa030ea
+Merge: 7427ae3 602a784
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Dec 8 13:51:41 2017 +0100
+
+    Merge pull request #46 from jkonecny12/master-add-docs
+    
+    Add documentation
+
+commit 602a784a7336250a416b54e151b853c22891e1ca
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Nov 6 16:43:27 2017 +0100
+
+    Write documentation for Simpleline
+
+commit 340c0309da8bf61cfc12b0f77caa204223bccd28
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Nov 14 17:38:48 2017 +0100
+
+    Disable pylint error for doc copyright variable
+
+commit eeae36a83c8ccb08f3d566f07b25cf145028feef
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Nov 13 17:08:29 2017 +0100
+
+    Add new example used in the documentation
+    
+    Example for refresh, input and prompt.
+
+commit 7187eda4425c1d9c46b5c293cb1ecaafb7d1cefd
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Nov 13 09:22:04 2017 +0100
+
+    Mock modules for readthedocs
+
+commit 4fc55a585dec8f515031f0a4492952b8e92a1be1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Nov 7 16:28:10 2017 +0100
+
+    Do a small fixes to improve documentation
+    
+    Fix doc string and add __all__ to places where it give sense.
+
+commit b43f0d776aa5de06dc2695c4c98e85aff6ceb82a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Nov 3 22:09:17 2017 +0100
+
+    Get version from the spec file
+
+commit e0852fafbe596a19b66af5773dccd536a1a86b4a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Nov 3 13:14:49 2017 +0100
+
+    Add documentation skeleton
+    
+    Skeleton generated by the sphinx-quickstart-3 tool.
+    
+    Also exclude _build directory from the git.
+
+commit 7427ae3fd7ba7fd31aa65ded0cbc10ec8dd2e29a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 19 11:01:41 2017 +0200
+
+    New version - 0.8
+
+commit 15306cf6a3526f70cf8b4e9d667cf9d9f0a2afa0
+Merge: b50ad04 702ec63
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Oct 19 10:59:37 2017 +0200
+
+    Merge pull request #45 from jkonecny12/master-dump-screen-stack
+    
+    Dump screen stack on unhandled exception
+
+commit b50ad04f206e7818b16c2c8619496e22598e26f4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Oct 17 12:17:32 2017 +0200
+
+    New version - 0.7
+
+commit 838de9f383c06c52f8c5aea2a8dbce142d35368b
+Merge: dc87d14 9f83622
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Oct 17 12:07:28 2017 +0200
+
+    Merge pull request #44 from jkonecny12/master-fix-missing-container-callback
+    
+    Fix crash when container callback is not set
+
+commit 702ec6373bd5ad0d0dd8f5dd9de815152488316a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Oct 16 18:28:16 2017 +0200
+
+    Test clean-up
+
+commit f25865f5db0a974f5cb145caf3873b710eeaab88
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Oct 16 18:17:40 2017 +0200
+
+    Move and rename force_quit loop
+    
+    Force quit application is now a way how to kill application when
+    uncaught exception raised and it's not processed by a user. It was
+    moved to the AbstractEventLoop class and used by other loops. The
+    force kill application is now consistent for all the loops.
+    
+    Rename the method to kill_app_with_traceback() and it calls sys.exit.
+    
+    Print screen stack after exception.
+    
+    Change tests to work with this solution and add glib variants.
+
+commit 5fd3387c3b376727cf13e70177712557a07f7729
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Oct 16 10:29:31 2017 +0200
+
+    Add dump screen stack method
+
+commit 9f83622631684dbb81b382b933a1773069fb38ca
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Oct 16 10:34:52 2017 +0200
+
+    Fix crash when container callback is not set
+    
+    Add tests for this issue.
+
+commit dc87d14f138b4fc4bf537c2458d249880a766df9
+Merge: dd1bc38 dd8aef9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Oct 11 12:56:26 2017 +0200
+
+    Merge pull request #41 from jkonecny12/master-add-edit-screens
+    
+    Add edit screens
+
+commit dd8aef968f43b2442576840c2359e5f76883891a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Oct 10 11:19:55 2017 +0200
+
+    Add EntryWidget to show item title and value
+    
+    When add to a container with numbering it will show:
+    
+    N) title
+       value
+
+commit 7ffabab0019a3f44701cb96824c6f6d4ee6c0d1f
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Sep 11 15:28:49 2017 +0200
+
+    Add GetPasswordInputScreen for getting passwords
+    
+    An application can now obtain a user sensitive input by using this
+    advanced widget.
+
+commit 5dc50369c4a8f458987670ece7674e2f36fc4c93
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Sep 11 15:27:36 2017 +0200
+
+    UIScreen can have hidden input
+    
+    Add feature for hidden input to UIScreen.
+
+commit eb67caa7a15c4510f22f4796e28eb8f9c580903b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Sep 11 15:23:55 2017 +0200
+
+    Move getpass func inside locks
+    
+    The getpass function for getting user hidden input was called outside of
+    locked critical section.
+
+commit d0e009e91ef6e2eeddb63509878da78c9e4236ba
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Sep 11 14:31:55 2017 +0200
+
+    Implement GetInputScreen
+    
+    Ask for user input as a new screen.
+
+commit fb55bc86f533387ba4a3376c562f3d52e4e55b82
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Sep 12 13:29:45 2017 +0200
+
+    Do not print new line with empty container
+
+commit 1d7b6732655eaca4a2a55f2a3686052761d5537c
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Sep 11 13:57:42 2017 +0200
+
+    Add no_separator to UIScreen
+    
+    The no_separator property add an option to not print separator before
+    the screen.
+    
+    This can be used to merge multiple screens to one.
+
+commit 3d82578c426573bde3aae38bde739f30e458b436
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Sep 8 16:23:27 2017 +0200
+
+    Fix HelpScreen title
+
+commit dd1bc3835f5788d2e7dba216f2d7c2641c683d34
+Merge: f149e71 1f5b216
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Oct 10 13:22:16 2017 +0200
+
+    Merge pull request #43 from jkonecny12/master-tweak-tests
+    
+    Tweak tests and avoid duplicit running of them
+
+commit 1f5b216cfdbd514d40799fdeea599b81e274eaca
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Oct 9 13:05:33 2017 +0200
+
+    Remove original classes from GLib tests
+    
+    Without the del call it will run the original test again. This is
+    happening thanks to import.
+
+commit f149e71d00d4ea53a980fcdb60f18289cd339e4a
+Merge: c5b7cfd 1913ae0
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Oct 9 11:29:13 2017 +0200
+
+    Merge pull request #42 from jkonecny12/master-tweak-examples
+    
+    Fix and document examples
+
+commit 81f9b25daaed2e197aa9cdd90cadd89662d0876d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Oct 3 13:48:49 2017 +0200
+
+    Fix test case name
+
+commit 3b20d53b8ec9ae6c4be697971603c8ca25bcf0e3
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Oct 2 15:14:42 2017 +0200
+
+    Move tests to subfolder
+    
+    Now the tests folder contains pylint and simpleline_tests folders.
+
+commit 1913ae06fbf38ab2bbbd65115537de32983b9c99
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Sep 27 13:16:19 2017 +0200
+
+    Move base widgets as second example
+
+commit eceb774e5b8ce4381aa485e5b6c4620b733fc8b1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Sep 27 11:27:05 2017 +0200
+
+    Add example with basic widgets usage
+
+commit eca093269e8a8928820fe62ada8eb31a442a9396
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Sep 27 10:20:00 2017 +0200
+
+    Improve README.md
+
+commit 89070384932fa175cca4871095a309a2da21c167
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Sep 27 10:01:03 2017 +0200
+
+    Improve example starting script
+    
+    Now it is possible to specify example name with '/' suffix. This is
+    especially useful in case of using tab completion which will complete a
+    directory for you.
+
+commit 761abe2360d59df42af68188da5a0d03da90e3dc
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Sep 27 09:56:45 2017 +0200
+
+    Add glib loop example
+
+commit 40304025a81c3ec744e3bddf9da4262c917e0545
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Sep 27 09:41:38 2017 +0200
+
+    Add prefixes to examples to impress difficulty
+
+commit 0018233b94883c58f26908604036825c84cc2510
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Sep 26 17:12:19 2017 +0200
+
+    Add comments to the examples
+
+commit d3e4fa53c7140a8d3a23abc7b9b94ca776a136c0
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Sep 26 13:08:31 2017 +0200
+
+    Update examples to use new features
+
+commit c5b7cfd21c657ad214a863dad4089e8ae8d26800
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Sep 8 15:16:52 2017 +0200
+
+    New version - 0.6
+
+commit 4f6a454f534fbaa31f59661b3a7e694309a6cbfb
+Merge: a4cdd09 9857e6f
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Sep 6 11:41:24 2017 +0200
+
+    Merge pull request #35 from jkonecny12/master-add-glib-event-loop
+    
+    Add glib event loop
+
+commit 9857e6ff6267bd0a0d6e62d838238c8b49f5e832
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 31 13:41:26 2017 +0200
+
+    Implement the force quit all loops feature
+    
+    This is especially useful when error raised and we need to quit
+    everything without processing pending signals.
+
+commit 0f03a200dd08c875966d42f7e8deec0f33692949
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 28 14:51:41 2017 +0200
+
+    Improved GLib event loop testing
+    
+    Most of the related tests for event loop are used now even for GLib
+    event loop.
+
+commit c4ae432cba350656044a8e8d6bf3e6686672aaf4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 28 13:24:51 2017 +0200
+
+    Handle GLib event loop exceptions better
+    
+    All signal handlers are now test for exceptions and if any exception
+    raised the ExceptionSignal is enqueued. If this signal is not caught
+    by user this exception is printed and the application is killed.
+
+commit 2726a16c185928037433ce38e033915db4c1b57f
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 24 16:51:02 2017 +0200
+
+    Support for GLib event loop
+    
+    Also add python3 GLib to BuildRequires
+
+commit 3dd0e9f25d98faf9c0a4655679618b8fb89835eb
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 28 13:20:02 2017 +0200
+
+    Wrap exceptions from handlers as ExceptionSignal
+    
+    When exception happens in a signal handler it is caught and saved to
+    ExceptionSignal which is then enqueued.
+
+commit c2ae61b228354f2e6f05813ec6a15d1e798b4c3d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 25 12:44:22 2017 +0200
+
+    Only highest priority events are processed in one iteration
+    
+    It gives more sense that when you are processing events first of all the
+    highest priority events will be processed. If you want more events
+    processed you can re-run the process_signals() method.
+
+commit a4cdd09bbf83b187b0839c3fec3a8ab048af45b0
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Sep 4 14:57:37 2017 +0200
+
+    New version - 0.5
+
+commit 75ea96016bbd7403111e33c623dc2dc260dba774
+Merge: db63e73 a0ea061
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Sep 4 14:52:57 2017 +0200
+
+    Merge pull request #40 from jkonecny12/master-fix-input-exception
+    
+    Fix exception in Screen input caused infinite loop
+
+commit db63e73b7e7938ea531ddda38577e619c2038492
+Merge: 581bb97 f8ce393
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Sep 4 14:49:35 2017 +0200
+
+    Merge pull request #38 from jkonecny12/fix-running-loop-empty-loop
+    
+    Redraw on first scheduled screen (#1487326)
+
+commit ae50a7ab996c1aae4625f5afe54a3828bac5bff1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 24 16:49:12 2017 +0200
+
+    Move parts from MainLoop to AbstractEventLoop
+    
+    This is preparation for implementation of GLib event loop to
+    Simpleline.
+
+commit 9b8b5b82e1d7c2091a3806510b087bd52b077d28
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 30 10:09:00 2017 +0200
+
+    MainLoop won't wait in busy loop anymore
+    
+    When waiting on the asynchronous user input the MainLoop did the
+    infinity while loop. This is fixed now by using different conditions for
+    different processing events.
+    
+    Also small change in tests comments.
+
+commit bf0bfe21e38bc27ea285bb9406183bfa14c1e3f0
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 29 16:23:05 2017 +0200
+
+    Don't block loop when waiting on user input
+    
+    The new get_user_input_async() method added to be able to ask for the
+    user input without blocking the main loop or running process_events().
+    
+    This method is called as default for getting input from user for the
+    screens input() method.
+    
+    As a bonus side effect this will reduce recursion calls of the
+    process_events() method.
+    
+    Tests were modified to reflect these changes.
+
+commit 43af8a911e015a9494c0ca8b4c5e2e79cf4119f3
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 29 16:20:05 2017 +0200
+
+    Fix user input lock
+    
+    Lock used for user input should be instance variable otherwise
+    re-running of Simpleline App could result in undefined behavior.
+    
+    This is most important for running tests.
+
+commit 581bb97387a22e5da90c8509796f7f08f2ed23d1
+Merge: 90a0508 889457a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Sep 4 10:29:22 2017 +0200
+
+    Merge pull request #39 from jkonecny12/master-add-test-if-app-initialized
+    
+    Add test if app is initialized
+
+commit a0ea061eb0b7781f50ba292687d6093cc0049050
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Sep 4 09:51:49 2017 +0200
+
+    Fix exception in Screen input caused infinite loop
+
+commit 889457a87bf15d8f6656370ab29ce32d14c8f2a6
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Sep 1 13:21:31 2017 +0200
+
+    Add test if app is initialized
+
+commit f8ce393c95c00529af47bc246040a1217cbc6e00
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Sep 1 10:32:11 2017 +0200
+
+    Redraw on first scheduled screen (#1487326)
+    
+    The redraw signal was enqueued when instantiating ScreenScheduler. Which
+    caused exception when the process_signals() method was called with empty
+    screen stack.
+
+commit 90a0508b8c507a75b0d3c350b261394705d3306c
+Merge: 8a2e2b8 de3fbe7
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 31 08:12:39 2017 +0200
+
+    Merge pull request #36 from jkonecny12/master-fix-quit_dialog
+    
+    Redraw after YesNoDialog modal window close
+
+commit de3fbe758ed128fa8bf9a115725f3fc10cc2cfc9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 29 11:19:49 2017 +0200
+
+    Redraw after YesNoDialog modal window close
+    
+    Without this the application froze when the user canceling quitting
+    process.
+
+commit 8a2e2b843937219a9756797b4acc5b88fc073fe9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 18 13:09:39 2017 +0200
+
+    New version - 0.4
+
+commit 913ddd754900a36bf8aad5504c839eebb8bac0aa
+Merge: 3ea1839 17fc57d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 18 13:07:12 2017 +0200
+
+    Merge pull request #33 from jkonecny12/master-remove-merge-commits-from-changelog
+    
+    Remove merge commits from changelog
+
+commit 3ea1839c3fb26c4c04dba0fa042081c60a3ae235
+Merge: 7568558 544f467
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 18 13:06:19 2017 +0200
+
+    Merge pull request #34 from jkonecny12/master-make-SchedulerHandler-static
+    
+    Screen scheduling is moved to ScreenHandler
+
+commit 544f46766823f913ac7c18e90ef5146b66ac8e33
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 17 13:28:15 2017 +0200
+
+    Screen scheduling is moved to ScreenHandler
+    
+    ScreenScheduler was renamed to ScreenHandler and moved outside of
+    UIScreen scope.
+    
+    Now it feels more like pushing screen to scheduler.
+    
+    It has every method static and these methods.
+    
+    Result of this change:
+    Before:
+    screen.push_screen()
+    
+    Now:
+    ScreenHandler.push_screen(screen)
+
+commit 756855803dc3ef3410bb2dc33a410d7887037b5b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 17 12:23:00 2017 +0200
+
+    New version - 0.3
+
+commit 17fc57db624563b40dabd2e48310034499633a75
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 17 12:20:12 2017 +0200
+
+    Remove merge commits from changelog
+
+commit d76bff1718f2d957672735f7b137dcc6bb8ccc28
+Merge: 05dd724 0eb7003
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 17 12:15:53 2017 +0200
+
+    Merge pull request #32 from jkonecny12/master-tweak-quit-callback
+    
+    Rename quit callback and add args there.
+
+commit 05dd724a9c640fc897892189b097d13618104222
+Merge: 87b0c77 11dddad
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 17 12:13:17 2017 +0200
+
+    Merge pull request #31 from jkonecny12/master-fix-list-input-processing
+    
+    Master fix list input processing
+
+commit 11dddadef134f954927caa4da297eb6eb66da4af
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 15 14:43:02 2017 +0200
+
+    Fix bad input processing for list containers
+    
+    The list container resolved item reversed from the end of the list
+    when 0 or lower number was the user input. Worked the same as in
+    python `list[-1]` construct.
+    
+    Also add tests and move rest of the tests from the widgets_test.
+
+commit 87b0c776385ea86eb57c35007198d16405e4f1af
+Merge: ee312ee 5191b8c
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 16 11:44:50 2017 +0200
+
+    Merge pull request #30 from jkonecny12/master-support-container-without-width
+    
+    Master support container without width
+
+commit ee312ee0bfb2820c7d7773da2e26915329f1bf96
+Merge: b8503a3 1b65e95
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 16 11:44:12 2017 +0200
+
+    Merge pull request #29 from jkonecny12/master-remove-leftover-print
+    
+    Remove leftover print in containers parsing input
+
+commit 0eb700365597593ebfdfe897451cc4ca5321ddc3
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 16 11:40:51 2017 +0200
+
+    Rename quit callback and add args there.
+    
+    Quit callback in event loop now have an args argument which is passed
+    to the callback.
+    
+    Also rename it to set_quit_callback().
+    
+    Add test for the callback.
+
+commit 5191b8c4ed6329a2c4d54900a32f15cde82f4586
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 15 11:02:28 2017 +0200
+
+    Add tests for new container feature
+    
+    Move container tests to their own file.
+
+commit 7c9051bf6a9e3c9b10b848b3bbd1166b2c5893a8
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 14 09:54:23 2017 +0200
+
+    List containers take max width if not specified
+    
+    ListRowContainer and ListColumnContainer could have unspecified width.
+    They will take a maximal possible width and distribute this to columns.
+    
+    List containers will raise an exception if it is not possible to render
+    the container content. Or give a user hint to turn off numbering if it
+    can be rendered without the numbering.
+
+commit 1b65e95d2e15216b20849ddbcce38e02c1997365
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 14 10:11:39 2017 +0200
+
+    Remove leftover print in containers parsing input
+    
+    The Value Error was printed to the console. Now it is a debug log output
+    with more information.
+
+commit b8503a300d6d97707032df81c533581636233c47
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 14 09:54:23 2017 +0200
+
+    New version - 0.2
+
+commit 297f1f27f7173be5adee89da96584efab6dc8c32
+Merge: 642a458 c44eb57
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 14 08:24:28 2017 +0200
+
+    Merge pull request #26 from jkonecny12/master-fix-ExitMainLoop-exception
+    
+    The ExitMainLoop exception should kill whole app
+
+commit 642a45805760a1338f35336258930105f7a3e318
+Merge: ba51267 786c53d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 14 08:24:17 2017 +0200
+
+    Merge pull request #28 from jkonecny12/master-fix-container-callback
+    
+    Fix docs for container callbacks
+
+commit 786c53d0e782c9568b5b790f51e45d59874a4daf
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 11 16:03:13 2017 +0200
+
+    Fix docs for container callbacks
+
+commit ba51267d86ad7a5e2456b051575959f2ed81a03e
+Merge: 59472be 68d2cf5
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 11 11:32:09 2017 +0200
+
+    Merge pull request #25 from jkonecny12/master-fix-big-screen-printing
+    
+    Master fix big screen printing
+
+commit c44eb57bb061942a40a8da4402762b69faa5a986
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 10 16:29:41 2017 +0200
+
+    Remove missed test helper for local testing
+
+commit 586ce9d26a2d3b3d8324d8e52f0c62126623f326
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 10 15:23:10 2017 +0200
+
+    The ExitMainLoop exception should kill whole app
+
+commit e2934313b7ba6c3fcffaafdfabf034eb4781b38e
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 11 08:39:44 2017 +0200
+
+    Do not run an old event queue from modal screen
+    
+    When we end the event loop politely (self._run_loop) the modal screen
+    process signals in its own queue (which is correct) and then it's
+    going back through recursion calls of `processed_signals()` methods
+    however in this point there is an old event loop which will be
+    processed on the old screen. This may lead to unexpected behavior.
+    
+    This issue starts to be a big problem for follow up commit which will
+    change how the modal screen is ended.
+
+commit 59472bebdbec12b4125cfae7376e80683d5870a1
+Merge: d368829 761be9d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 10 16:21:34 2017 +0200
+
+    Merge pull request #23 from jkonecny12/master-add-possibility-to-end-loop-politely
+    
+    Add possibility to end loop politely
+
+commit d3688290b967e13a5089e0bb6952c763d4c1f071
+Merge: 3e085f1 d0b3325
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 10 16:08:15 2017 +0200
+
+    Merge pull request #24 from jkonecny12/master-fix-compatibility
+    
+    Keep backward compatibility for UIScreen args
+
+commit 761be9d748350e94ec2786a91763a677aabb1ebd
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 8 16:06:28 2017 +0200
+
+    Add possibility to end loop politely
+    
+    Raising exception has one big disadvantage that everything after
+    the exception rose won't be executed.
+    
+    Fix do not render when modal screen ends.
+    
+    Rename tests constants which were hard to read.
+
+commit 3e085f165d18b0dbd1f12a8b92cbf4287d9a7cb2
+Merge: d354ca0 0a59e61
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 10 15:59:41 2017 +0200
+
+    Merge pull request #22 from jkonecny12/master-add-logging
+    
+    Add logging to the Simpleline
+
+commit 68d2cf5c002b38e59c647fb33b826dc357ce8823
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 10 12:12:43 2017 +0200
+
+    Fix printing issues for bigger screens
+    
+    Missing line when screen was bigger than screen height. This is now
+    fixed.
+
+commit 38f2a879d56ae7424b9a0c6a1b4854af3e84c505
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 10 10:45:09 2017 +0200
+
+    Set default screen height to 30
+    
+    Only widgets was able to be merged in drawing and waiting for user
+    input, this changed in new simpleline.
+    
+    Title and blank lines wasn't counted to the whole screen height. This is
+    now fixed however to be more compatible with the old solution make the
+    screen higher.
+
+commit d0b3325002b3f3e30bbd44a202e440077e74219b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 9 16:18:30 2017 +0200
+
+    Keep backward compatibility for UIScreen args
+    
+    Save None instead of [] to UIScreen args parameter. This parameter is
+    used in methods like refresh().
+    
+    It is also expected behavior when everywhere is default None.
+
+commit 0a59e613fd6d04685649aee97b9031b903fb1738
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 8 14:45:21 2017 +0200
+
+    Add logging to the Simpleline
+
+commit d354ca0e03b3763b61ce9942da0ea2ac68a1dbe1
+Merge: e838eea 392efa6
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 9 10:48:37 2017 +0200
+
+    Merge pull request #19 from jkonecny12/master-rework-wait-on-input
+    
+    Rework wait on input
+
+commit e838eea60d4df54d6fffb985c8534ff3e0556349
+Merge: 90dd08a 44227a9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 9 10:48:14 2017 +0200
+
+    Merge pull request #21 from jkonecny12/master-fix-adv-widgets
+    
+    Reflect changes in adv_widgets
+
+commit 90dd08ab4f86790b87e937f4895d95ec6c2f48ff
+Merge: b918f0e 654a50c
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 8 15:14:37 2017 +0200
+
+    Merge pull request #20 from jkonecny12/master-move-InputState
+    
+    Move InputState next to UIScreen
+
+commit 392efa63d9b6fe3f0f6d6bc884ad12404f6c8f3c
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 7 15:13:57 2017 +0200
+
+    Wait on input thread to finish
+    
+    This is precaution to prevent that the thread will be still alive when
+    new input will be required.
+
+commit 3b20a9228df5fa47d62a05455428594d89fa8032
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 4 15:56:14 2017 +0200
+
+    return_after don't skip signals in recursion
+    
+    The process_signals method with return_after parameter now works even
+    when there is recursion in processing events.
+    
+    Add helper class for checking if signal was processed.
+    
+    The `enqueue_signal` method is now thread safe.
+
+commit cc2cd74d4e91bf9ef51f7f42650eade1a7c0d57f
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Aug 4 15:52:56 2017 +0200
+
+    Add TicketMachine helper class
+    
+    This is synchronization mechanism.
+    It is analogy for taking ticket and go to the line waiting. When
+    something will mark the line to go all the tickets from this line could
+    continue to work.
+
+commit 9e69894f2ac11aa22c59b69b021e82425fcbb303
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 3 13:03:50 2017 +0200
+
+    Return user input in the signal handler
+    
+    Remove queue and send the user data by the signal.
+
+commit b918f0edbd46ef94b1f7806b32d89e29e9795a5d
+Merge: f637319 4cfc0fd
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 8 10:16:54 2017 +0200
+
+    Merge pull request #16 from jkonecny12/master-modify-exception-handling
+    
+    Re-raise exception only when no handler available
+
+commit f63731986e72cf3f690897f75080aab1720fe115
+Merge: 86da0d8 dea04d7
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 8 10:05:19 2017 +0200
+
+    Merge pull request #18 from jkonecny12/master-ignore-pylint-with-lock
+    
+    Add temporal pylint-disable for with Lock
+
+commit 44227a94fd422f25a4aa26ff3b783544c16b6bd8
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 7 16:04:16 2017 +0200
+
+    Reflect changes in adv_widgets
+    
+    Use InputState.
+    Title is not the class variable now.
+    Use the WindowContainer.add_with_separator() method.
+
+commit 654a50c9c4ed72410f436bf102dfcef12b5d3482
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 7 15:28:33 2017 +0200
+
+    Move InputState next to UIScreen
+    
+    From the user perspective the UIScreen is the only class using this
+    enum.
+
+commit 15895a61cbe57988719a72a9256310e39be12283
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 7 15:42:40 2017 +0200
+
+    Break App's cyclic imports
+    
+    Import stuff in App on place where it is used.
+
+commit dea04d7a2cb4f166a2304d610634d08112b77029
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Aug 7 10:12:55 2017 +0200
+
+    Add temporal pylint-disable for with Lock
+    
+    Lock from threading module is context manager which means it can be used
+    with `with` statement. This is false positive for pylint which is fixed
+    in python3-astroid package in version 1.5.3.
+    
+    The python3-astroid 1.5.3. package is already in Fedora. However, it
+    contains old version of astroid thanks to packaging error.
+    
+    When this will be solved we can revert this PR.
+
+commit 4cfc0fd57494634d5e248b7ed4c99cd4b0500f23
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 2 10:47:46 2017 +0200
+
+    Re-raise exception only if no handler is registered
+    
+    This will make possible for application to disable exception handling in
+    the simpleline and handle exceptions other way.
+
+commit 86da0d82a730f3433518b3518754e83eee2836ce
+Merge: 91bd5f4 d5839af
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 3 12:11:21 2017 +0200
+
+    Merge pull request #15 from jkonecny12/master-thread-safe-eventqueue
+    
+    Make the EventQueue thread safe
+
+commit 91bd5f4979a2d2a910a9ecea224b8d07785174be
+Merge: 4a36dcb d286c78
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Aug 3 12:10:10 2017 +0200
+
+    Merge pull request #11 from jkonecny12/master-add-args-to-scheduler-shortcut
+    
+    Add args param to the scheduler_handler shortcuts
+
+commit d5839af43c5d7d02d34d9d572c56cc83713fc1d4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 2 10:42:06 2017 +0200
+
+    Make the EventQueue thread safe
+    
+    Add locks to the sources. We don't need to lock PriorityQueue this is
+    a thread safe implementation.
+
+commit 4a36dcbc76f61b5f3741eac088e054831b67af73
+Merge: 82a63c4 6951152
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 2 08:24:49 2017 +0200
+
+    Merge pull request #13 from jkonecny12/master-enhance-WindowContainer-add
+    
+    Add method add_with_separator to WindowContainer
+
+commit 82a63c41c2d17f5732f93971bb7bb07318a1440f
+Merge: 7d2b210 32f72ec
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Aug 2 08:24:00 2017 +0200
+
+    Merge pull request #12 from jkonecny12/master-fix-ready-collision
+    
+    Fix `ready` property collision with Anaconda
+
+commit d286c7874df510bad4bdc053c0535b46587140ca
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jul 31 14:56:14 2017 +0200
+
+    Add args param to the scheduler_handler shortcuts
+    
+    Also add documentation.
+
+commit af0c2d978af0f79472eacb7cec8c2049e978a741
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 1 13:45:49 2017 +0200
+
+    Fix bad param name for scheduling methods
+    
+    All schedule methods now have ui_screen parameter.
+
+commit 7d2b210cfee0d2f7efb8f1f3def7e7a9ff75cb0a
+Merge: 85616a5 84f5027
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 1 13:35:24 2017 +0200
+
+    Merge pull request #10 from jkonecny12/master-add-hidden-user-input
+    
+    Add hidden parameter to UIScreen get input
+
+commit 85616a5318763e68f8274ebdf0431eccdddfe565
+Merge: 7ce0480 6f53fc1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 1 13:02:13 2017 +0200
+
+    Merge pull request #8 from jkonecny12/master-remove-base-file
+    
+    Move App from base to __init__.py
+
+commit 7ce04808dd782b0531bac99606c0c8e0785acdc5
+Merge: ff23d39 009f1ab
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Aug 1 13:01:37 2017 +0200
+
+    Merge pull request #9 from jkonecny12/master-remove-quit-message
+    
+    Remove unused quit message
+
+commit 69511527288fcd782d26fc3dc19796f290571852
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jul 31 16:19:29 2017 +0200
+
+    Add method add_with_separator to WindowContainer
+    
+    This method is just a shortcut to calls:
+    
+    self.add()
+    self.add_separator()
+
+commit 32f72ec3a9e40559ca9dc705e32b22f60315c1a4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jul 31 16:05:00 2017 +0200
+
+    Fix `ready` property collision with Anaconda
+    
+    Anaconda is using ready property for spokes in GUI and TUI. To fix this
+    collision the ready property in simpleline is renamed to screen_ready.
+
+commit 84f5027e1689fd855b898190844af43493287703
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jul 31 13:57:36 2017 +0200
+
+    Add hidden parameter to UIScreen get input
+    
+    Add missing parameter to shortcut class.
+    
+    Also remove useless return from UIScreen.
+
+commit 009f1ab2536fdb254c6239cce41754f0f3af2925
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jul 31 11:05:20 2017 +0200
+
+    Remove unused quit message
+    
+    Quit message was used for the application quit UIScreen. This can also
+    be contained inside of a quit screen.
+    
+    Quit screen is now instance.
+
+commit 6f53fc178f38cb45ac51b7b459e266b4985a40c6
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jul 31 08:30:12 2017 +0200
+
+    Move App from base to __init__.py
+    
+    The base.py source file was used before refactoring it is much nicer to
+    have App in the main module instead.
+    
+    The SimplelineError exception was moved to its own source file. This
+    change is required to fix cyclic imports.
+
+commit ff23d395cc41041c02a66d3c2f3f04512e1314a7
+Merge: 4b0e036 29f3153
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jul 31 08:28:06 2017 +0200
+
+    Merge pull request #6 from jkonecny12/fix-make-potfile-generation
+    
+    Fix potfile generation
+
+commit 4b0e03632c2877492fef50eba4d1fff5490dfad9
+Merge: 2a8e5b9 9826814
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jul 31 08:27:58 2017 +0200
+
+    Merge pull request #7 from jkonecny12/master-fix-make-archive
+    
+    Fix make archive
+
+commit 98268140aa0a593091990e0d8b9917a8c1e0ed28
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jul 26 16:16:16 2017 +0200
+
+    Fix make archive
+
+commit 29f3153753ecd4ada1335b5b29fc7b4cf6c2bc6e
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jul 26 15:46:22 2017 +0200
+
+    Fix potfile generation
+    
+    More than one level of directories are now present in simpleline.
+    We need to find sources for potfile generation recursively now.
+
+commit 2a8e5b959d06578e34d8aee413e291ae6230fe86
+Merge: c7dc46a d2ebab9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jul 26 13:55:56 2017 +0200
+
+    Merge pull request #5 from jkonecny12/master-add-containers
+    
+    Add widget containers
+
+commit d2ebab95ba2aefd6501325122ae835e7734c192d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 25 16:48:40 2017 +0200
+
+    Examples now using WindowContainer
+
+commit ee7483dea394f15f73835b51b77770534aa9fc54
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 25 16:47:08 2017 +0200
+
+    Fix error when getting input directly
+    
+    Bad return value when the promp() method returns None.
+    
+    Add test for this issue.
+
+commit 86a6daa85f9d2151f014213b4327ff38d8c68919
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 25 15:18:41 2017 +0200
+
+    Add WindowContainer and use it in UIScreen
+    
+    WindowContainer is a line based container with title.
+    
+    This is replacement for UIScreen.window list.
+
+commit b6fe31ec4f874b5da098bc4e2d81a50e812d4db0
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 25 15:12:13 2017 +0200
+
+    Add SeparatorWidget
+    
+    SeparatorWidget will add blank lines.
+    
+    It is optimized way how to print blank lines.
+
+commit 97815e8066660b5174ad08bb389b1ddd6e51eda2
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 14 15:08:32 2017 +0200
+
+    Add input processing to containers
+    
+    Change KeyPattern methods for easier use in the input processing.
+    
+    Numbering is now enabled automatically and can be disabled in
+    constructor or by setting it to None.
+
+commit 0141967166625009bdcd88ecd7412ab56f14ec28
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 14 12:41:00 2017 +0200
+
+    Add containers numbering
+    
+    New class KeyPattern for creating number style.
+    
+    If the KeyPattern class is set use numbering, otherwise ignore
+    numbering.
+
+commit e60db8d64c4e40f9aa9c614b0f7764a304480d38
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jul 13 16:45:11 2017 +0200
+
+    Add containers, checkbox and center widget tests
+
+commit fed41e0218974c7e6058dc770213d7ae6edcf1f4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jul 12 11:18:21 2017 +0200
+
+    Add row and column list containers
+    
+    Row and column list containers were added. They work in similar way as
+    column widget, however, they are doing positioning to the specific
+    number of columns with the specific width automatically. By row or
+    column ordering.
+    
+    Move ColumnWidget in widgets.py because it is most complicated widget.
+    
+    Fix pylint errors in new pylint version.
+
+commit c7dc46ac5aaf54435ffe9e9744275981b57e732e
+Merge: ba334d8 ef776d8
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jul 12 15:45:24 2017 +0200
+
+    Merge pull request #4 from jkonecny12/master-split-renderer
+    
+    Rework Renderer and UIScreen
+
+commit ef776d8acdefd7f091b3367f8875ceea6765223a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jul 10 10:08:56 2017 +0200
+
+    Fix setup.py modules
+
+commit 846ab130e25e84a5f0e6ac8e54d0acdeccb79036
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 7 17:43:56 2017 +0200
+
+    Change INPUT_PROCESSED and INPUT_DISCARDED to Enum
+
+commit 124c4d3abd418c2dcd5e4c0217bea7323fc2aeda
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 7 17:24:52 2017 +0200
+
+    Rename renderer and event_loop in App class
+    
+    Now it is `get_screen_scheduler` and `get_event_loop`.
+
+commit c52f476f4d6159d7750a533a3eb0b218be336081
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 7 17:13:23 2017 +0200
+
+    Add scheduler_handler and rename switch_screen
+    
+    switch_screen and switch_screen_modal are now push_screen_*.
+    The SchedulerHandler adds a shortcuts to the UIScreen for screen
+    scheduling without an App class.
+
+commit f30d750af8d56878b2d7369d503ba5c2f33f0a70
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 7 16:57:07 2017 +0200
+
+    Process signals when waiting on user input
+
+commit 8544e1c6fd5012956b3b173706e0be6dba28d1b9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 7 16:34:29 2017 +0200
+
+    Move draw screen to the InOutManager
+    
+    Rename the original _do_redraw method to _process_screen. Drawing is now
+    done in the InOutManager.
+
+commit 06fa36319c5a7f772995fd666b51f2ace36897e3
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 7 16:17:29 2017 +0200
+
+    Change UIScreen properties
+    
+    Add input_required to specify if the screen should require user input
+    after draw is done.
+    Change window from variable to property.
+    Add setter for ready property.
+
+commit d6140149884ce2c218c42acb0c8e472d3d371117
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 7 15:21:25 2017 +0200
+
+    Move input processing to the InOutManager class
+    
+    Add new test for `set_pass_func()` method. It is used to set a custom
+    implementation of python 3 getpass.
+
+commit bf4eb5e28e07b9e5dadf44a0cd9205ca24b09934
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 7 10:34:04 2017 +0200
+
+    Move SignalHandler to the screen module
+    
+    The SignalHandler class is used only inside of UIScreen.
+
+commit 375fbea00cece7ce25ae7ac94706335448727f85
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 7 10:18:57 2017 +0200
+
+    Move ui_screen to the screen module
+    
+    Submodules for this module will be handlers and helpers inherited by
+    UIScreen.
+
+commit 5c5cade0725c89daed53e600ddef27d309e7dcf3
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 4 15:07:01 2017 +0200
+
+    Rename Renderer to ScreenScheduler
+
+commit ba334d84d663a781b21cb0add2bcbda878a4c9df
+Merge: e63c238 b37b3fc
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jul 10 10:05:35 2017 +0200
+
+    Merge pull request #3 from jkonecny12/master-change-close-to-signal
+    
+    Change close to signal
+
+commit b37b3fce209e8b76c80bc0679bac48946b3be1bd
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 4 14:43:51 2017 +0200
+
+    Change separator tests to reflect close as signal
+    
+    The old tests worked thanks to immediate close of the screen. It is not
+    possible to do that anymore. Tests are fixed by failing setup of the
+    screen instead of closing in refresh.
+    
+    Also remove a test duplicate.
+
+commit 937c54b229b59c6250882786c9ed83f55219b212
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 4 11:50:09 2017 +0200
+
+    Close screen is now signal
+
+commit abaf3d21a1639c0e4526a0d81c7318ba26020834
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 4 11:49:42 2017 +0200
+
+    Rename emit_draw_signal to redraw
+
+commit e63c2387d6344b72b581055846500e006fb9a87c
+Merge: fcf4190 d3f4030
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jul 7 09:57:46 2017 +0200
+
+    Merge pull request #2 from jkonecny12/master-fix-modal
+    
+    Fix modal screens
+
+commit d3f403040d7febe50b36ddac9031544799fda7c5
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 4 10:48:14 2017 +0200
+
+    Add missing doc for EventQueue and ScreeStack
+
+commit 75941b3d295392e588c0222fd11378e282b2e5ad
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jul 4 10:08:40 2017 +0200
+
+    Add tests for event queue
+
+commit e253e639e4ec572713dea21af96ac2acc0eb7575
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 30 16:51:08 2017 +0200
+
+    Modal screens are now executing new event loop
+    
+    It was removed before but when the input signals started to be processed
+    it is again required.
+    
+    Event loop now has `execute_new_loop()` and `close_loop()`.
+    
+    You need at least one event to the `execute_new_loop()` to avoid
+    infinite loop and start processing something.
+    
+    Modify tests to reflect new changes.
+    Add new test to find problems with freezing non-modal computations
+    before modal are done.
+
+commit 2b64c7934fdfc88f0bb933d6f26aaec0e0d87295
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 30 12:44:23 2017 +0200
+
+    Separator should be printed just before show_all()
+    
+    When a screen is closed inside of refresh() method it won't print
+    separator now.
+    
+    Add the test for this use-case.
+
+commit 37fa1bd472694fb8371cff0b6dd4360280614467
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jun 29 16:33:08 2017 +0200
+
+    Move screen scheduling tests to new file
+
+commit fcf41909427c9a953942c348b2b992239753a689
+Merge: 9c8f7bc 70a947d
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jul 3 16:28:21 2017 +0200
+
+    Merge pull request #1 from jkonecny12/master-refactorization
+    
+    Master refactorization
+
+commit 70a947decc5d6f12fa6fd0eadfbabb7eb8289cfd
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jun 29 12:00:08 2017 +0200
+
+    Implement small fixes and tweaks
+    
+    Renaming, removing and simplifications.
+
+commit ce8ad5802d4e0b4418c31b47d8f3afb0bb239157
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jun 29 11:48:21 2017 +0200
+
+    Move ScreenStack to render module
+
+commit ec653fa1725c5780bc0b697e01767e5961565999
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jun 29 11:44:21 2017 +0200
+
+    Add SimplelineError as base class for Exceptions
+
+commit cd411b7e9b0c37849df42b0dd910d419e3b6223c
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 28 14:35:32 2017 +0200
+
+    Clean up unused code and do a small tweaks
+    
+    App:
+    Remove the header property, we have no usage of this name.
+    
+    Renderer:
+    Remove the quit_message method. This can be replaced by quit_screen.
+    The nothing_to_render method is now property instead of a method.
+    Fix old name from before refactoring.
+
+commit 6548cc4708f34ae3dc60213731c2420f684d9c67
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 27 10:03:43 2017 +0200
+
+    Fix pylint errors
+
+commit 494513e99a959886eb0eee880b07780084b56c36
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 26 17:22:40 2017 +0200
+
+    Modify examples to reflect new changes
+
+commit 6a7eaddcf6f73e53f3425a87c44ae6a20ec67770
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 26 17:21:46 2017 +0200
+
+    Add emit_draw_signal to the SignalHandler
+    
+    It can be useful for screen to easily give command for drawing.
+
+commit c00114626e8702cd8de1f16eef538847b77f2a93
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 26 17:15:25 2017 +0200
+
+    Do not call draw when prompt is not present
+    
+    It can lead to a nasty behavior. When user don't want to use prompt
+    he/she should call redraw from the UIScreen manually to avoid drawing
+    from multiple screens.
+
+commit a0caf1c3cdc1d048106dacbd19fe9d9b1a59a421
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 26 17:14:28 2017 +0200
+
+    Remove old INPUT_* constants
+
+commit 24a487020683f63845a3c75952bccf78a316f728
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 26 12:45:14 2017 +0200
+
+    Do not redraw when input was processed
+    
+    Also remove unused parameter and misleading docstring.
+
+commit cf189d180d3f93ab4064fa66c64a6bad6da556ae
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 23 11:17:40 2017 +0200
+
+    Add license to all test classes
+
+commit 57c2186b8df4c5fcb97db50ea7f72def2f9a5094
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 23 11:05:19 2017 +0200
+
+    Add new tests for render_screen, renderer, widgets
+    
+    render_screen_test:
+    * closing screen
+    * failed screen setup
+    * running empty loop
+    
+    rendere_test:
+    * test quit screen callback
+    * test quit message
+    * test renderer width
+    
+    widgets_test:
+    * drawing simple widget
+    * drawing multi-line widget
+    * bigger widget than the screen height
+
+commit 2276ff6e124c13584615d1229c0e847e548d9c2b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 23 11:03:10 2017 +0200
+
+    Remove hubQ
+    
+    It is specific for Anaconda and now it's not used here anymore.
+
+commit d543e130fbb08afd34349d37a4fe9439d82b1ad4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 21 13:12:01 2017 +0200
+
+    Split input from drawing
+    
+    Input has rendering and input separated. There are separated methods
+    and signals now.
+    
+    Also add warning that screen height should be more than 4.
+
+commit cfeb2a47eb4a78ee0e3c706665105acd5eb0bd99
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 20 18:45:12 2017 +0200
+
+    Fix rendering errors by removing _redraw variable
+    
+    The _redraw variable was replaced by value in the RenderScreenSignal.
+    
+    The _do_redraw() method can now be called to process only input.
+
+commit adac45cc692a232cef6b1a5706c0583127fa693c
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 20 18:44:17 2017 +0200
+
+    Replace array with priority by Signal ordering
+    
+    Signals are now ordered by priority.
+
+commit c55fa687330105a8e6bf26bd45968df135103809
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 20 16:27:00 2017 +0200
+
+    Add tests for SignalHandler
+
+commit 0d3d4cdaec777735aeccf1893c26a6713c79986f
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 20 16:25:08 2017 +0200
+
+    Use SignalHandler
+    
+    The SignalHandler class should make the interaction with event_loop
+    much easier.
+
+commit 1b06330ae00196333d8dfc09acf4e1b5591d27bd
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 19 17:13:31 2017 +0200
+
+    Add screen rendering tests
+
+commit 641a75960bf36a855fa488fe7ea99ee6d77cf5e9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 19 17:09:11 2017 +0200
+
+    Raise exceptions instead of silently quitting
+    
+    Exception were silently ignored and the event loop ended normally.
+    Remove this behavior and raise the exceptions from the main loop.
+    
+    Because of that remove return value from run. It is not needed anymore.
+
+commit bc1ba95829de6139fa141073a42adba5ade9d4b4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 19 16:40:14 2017 +0200
+
+    Reflect code changes in tests
+
+commit 5636d688bba5d3961c4aa631ad5d8f5c6679c4f3
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 19 16:39:26 2017 +0200
+
+    Fix missing super().__init__() in Signals
+
+commit b0de927936650da2e4f6074f5077cb3a30a93b99
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jun 19 16:37:05 2017 +0200
+
+    Fix modal screen by removing execute_new_loop
+    
+    Modal screen here is not modal from the point of interaction with other
+    screens. We always operate with just a one screen. Meaning of modal here
+    is about drawing this screen immediately. For this we don't need a new
+    event loop we just need to start a new redraw.
+    
+    The method `execute_new_loop` was here just for modal window, so
+    removing everything which complicated code because of this feature.
+
+commit aaed3a406cd08a5251b8aed75539e9fbdf2baf17
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 16 17:19:48 2017 +0200
+
+    Fail when UIScreen is not closing itself
+    
+    When you call `close()` method in UIScreen class you are closing visible
+    widget not your widget. To prevent errors I've add check that will raise
+    exception when one widget closing other widget.
+    
+    This behavior can be changed by overriding `UIScreen.close()` method.
+
+commit d9cc20a65dd9cb7b296cc1d8cf27f68718dde337
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 16 16:34:47 2017 +0200
+
+    Add constants INPUT_PROCESSED and INPUT_DISCARDED
+    
+    Sadly because of cyclic dependencies I can't have them in UIScreen so
+    they are left in simpleline.render.__init__ source file.
+
+commit 50dd729b0b7a418e7b61fb8f40c504e0a2bf6ef7
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 16 15:49:17 2017 +0200
+
+    Fix issues in Renderer and MainLoop
+    
+    Missing super().__init__() call in MainLoop.
+    
+    Renderer width must be set as external property and the spacer
+    calculated when this property is set. We need it to be able to create
+    default renderer in the App class.
+    
+    Renderer had a bad _redraw set to False after screen was refresh and
+    showed, so when screen closed itself the next screen wasn't properly
+    drew.
+    
+    Renderer's _process_input() method now getting the active_screen as
+    parameter.
+
+commit 004db4b9d21e2e49e0ce7903a3fdd67464b508d4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 16 09:57:31 2017 +0200
+
+    Use RenderScreenSignal signal for rendering
+    
+    Add the RenderScreenSignal.
+    The do_redraw method is now registered callback for RenderScreenSignal.
+
+commit 7ace5d5e0c30d53c20e5d9584405981817ee15b9
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jun 15 16:55:07 2017 +0200
+
+    Add App.run as a shortcut to start application
+    
+    Add test for App.run too.
+
+commit 4160dada894d706186fcca40ed3ab9bb9141e52e
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 14 15:41:30 2017 +0200
+
+    Move widgets and adv_widgets to render module
+
+commit 9eeb7c58d4bee12b36ff5a0e31b473c23bfa602a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 14 15:40:03 2017 +0200
+
+    Fix cosmetic bugs in widgets
+
+commit daf9a02711317d2475f53836d77f70cbf1733eda
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 14 15:37:04 2017 +0200
+
+    Move prompt to render module
+
+commit 5764f221aad42a4cca828d2bb67eb23b29c9ef92
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 14 15:27:53 2017 +0200
+
+    Modify ScreenStack tests to reflect UIScreen changes
+
+commit 1c94769a2f62ec0bffa8edf68c94e3419d74bbf4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 14 15:23:44 2017 +0200
+
+    Modify UIScreen to use new App class structure
+
+commit 394c53b40127cb1b140585b0449cc341b73d39a1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 14 15:18:58 2017 +0200
+
+    Fix renderer tests after moving the Renderer class
+
+commit c6d9f4ba36ef445963f71e219db8c4b39e2455b7
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 14 14:55:12 2017 +0200
+
+    Move renderer to separate file renderer.py
+    
+    It is more obvious where the renderer is.
+    Add new "input is ready for processing" signal.
+    
+    Modify renderer to be usable with new event loop and App class.
+    Remove cyclic dependencies.
+
+commit 28d1fec1ffccfe7cfe1caa6b8828255edb82f2a1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jun 14 14:50:45 2017 +0200
+
+    Add quit_callback to the event loop abstract class
+
+commit 999813e409a7751dd2a1176c4c6755f3e4f294be
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 13 15:27:17 2017 +0200
+
+    Add tests for the App class
+
+commit c034181711714a55d1ac980a722be02732447aa8
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jun 8 16:30:01 2017 +0200
+
+    Change base class to singleton like class
+    
+    App has now its private implementation and it hold statically. This
+    means that you can't have multiple instances of App class.
+    
+    App class mainly contains:
+    * renderer
+    * event loop
+
+commit 227d02b152d0f3746a4c24b6260c185678342681
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 6 19:18:33 2017 +0200
+
+    Add tests for event loop processing
+
+commit 402b84b29c6310bedb80b31c4297e2c3cdc59e39
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 6 19:16:20 2017 +0200
+
+    Implementation of defualt event loop and signals
+    
+    Event loop can handle processing, enqueue, creating of new loop, and
+    registering handlers for events.
+    
+    Events implemented:
+    * ExceptionEvent
+    * RenderEvent
+
+commit 33669434258b0351efa16aff784eef753b654fa0
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jun 6 17:53:49 2017 +0200
+
+    Add abstract base classes for EventLoop and Event
+    
+    These classes could be overridden to use your desired event loop.
+
+commit f67076fa4080f8b91143645b178d590ed81f5659
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 2 14:52:06 2017 +0200
+
+    Remove ScheduleScreen tests
+    
+    They are now part of the Renderer tests.
+
+commit c5aa17cd4b141d755379310204037f9f9b0bca86
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 2 14:46:45 2017 +0200
+
+    Add tests for renderer
+
+commit 2968d1d027b897b688cebbf2f77bb06275d42685
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jun 2 13:21:46 2017 +0200
+
+    Extract renderer from App class to render directory
+    
+    UIScreen was also extracted.
+
+commit fa5e8918b7e152a0fb23f6d76c5cf4ba5cc7c61f
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed May 31 11:33:43 2017 +0200
+
+    Add tests for new ScreenStack and ScreenData
+
+commit 0d7ff6644ec71dc1a4a100c597096f2a54f0efe4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri May 26 17:00:06 2017 +0200
+
+    Extract screen stack to its own object and data class
+    
+    This shouldn't be part of the App directly. Next step will be to extract
+    renderer from the App source file.
+    
+    Modify the tests to pass. They needs to be change a bit more because
+    they are testing what should be tested elsewhere.
+
+commit 9c8f7bc034033a2383a0becfb3fbe63a8511bb04
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri May 5 09:20:11 2017 +0200
+
+    Modify comments in the spec file
+
+commit 1068dd2fe9782089e2072f0e24e9d04eae64aae4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu May 4 10:44:50 2017 +0200
+
+    Package is named python-simpleline
+    
+    It is better to name it without python version in case you need to add
+    support for another version later.
+    
+    The rpm generated file will be still python3-simpleline.
+
+commit 0663a601c84ca0f86b86133b1a81f13d906a91c5
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu May 4 10:16:55 2017 +0200
+
+    Fix spec file
+    
+    Drop clean section
+    Drop Group, it is not needed
+    Use make_build macro
+    Reorder check and install sections
+
+commit bc08b22b75ad2cfea3a1e39c7cd38c5a9be35e19
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 13 13:45:01 2017 +0100
+
+    Fix summary in the spec file
+
+commit 83240c3767f23d1a0c72d8a8c10c92b5d9ee3774
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 13 11:57:46 2017 +0100
+
+    Fix names according to tagging
+
+commit dd9e76e7136e84e9709484c5d0b590e1e444cbf8
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jan 12 19:27:00 2017 +0100
+
+    Fix the bad spec file name in Makefile
+
+commit 0d860fe65187f81e8e212865b78bacf6e26cc636
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jan 12 19:25:04 2017 +0100
+
+    Fix translations
+    
+    Remove .mo files from .gitignore
+    Fix N_ translations which were not translated.
+    Add for translation missing parts.
+    Fix bad gettext translation domain.
+
+commit c8e1c30cfd6932e03c2a447f2dec0fbf16700954
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jan 12 13:11:06 2017 +0100
+
+    Fix spec file and MANIFEST to fix build
+    
+    Remove Requires, improve spec description and fix MANIFEST file.
+    
+    Requirement for the python-meh library was removed. It is not imported
+    in the code anymore now.
+
+commit 5ac6f63adc9ed929f3bb090f68f33ae1aad5f4e0
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Thu Jan 12 13:00:21 2017 +0100
+
+    Improve README file
+
+commit 2088635b71735564663548cfba337419c52a3e70
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Wed Jan 11 12:33:21 2017 +0100
+
+    Cosmetic changes to polite code
+    
+    Remove some blank lines.
+    Change all CLASS.method() to super() calls.
+
+commit dc7e92a512dd89bc90958178a3f4955712937cd4
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jan 10 14:51:58 2017 +0100
+
+    Add tests for App.switch_screen* methods
+
+commit 5cbe2d9881816a8277aabe1b264d81fe17ecebd0
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jan 10 14:51:04 2017 +0100
+
+    Wrap too long docstring in App class
+
+commit b741a6f8fa3289940879d0334fe569095e30b22f
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jan 10 13:33:23 2017 +0100
+
+    Prompt don't warn when changing default options, add tests
+    
+    When the default(refresh, continue, help, quit) option was re-set
+    then warning was logged. Now it works properly without a warning
+    message.
+    
+    Add tests for Prompt.
+
+commit d16bb6059d03331e5936857139e3fb0078bd3e18
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jan 9 17:06:48 2017 +0100
+
+    Add few basic tests
+    
+    Remove dump test
+    Add schedule screen basic test
+    Add test if widgets are correctly rendered
+
+commit 925a3ac33f99a6a97b5629a97a9d5da37e173713
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jan 9 16:07:49 2017 +0100
+
+    Change old Anaconda logging in prompt.py
+    
+    Change log name from anaconda to simpleline.
+
+commit dea235b785af71c2ff195b17de72303755dbbf8b
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Jan 9 16:05:25 2017 +0100
+
+    Add help example and fix basic example
+    
+    Help example shows how to use HelpScreen.
+
+commit 4b24b25baa6ab4cd07aca91a0cc480fa770076f1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 6 16:51:01 2017 +0100
+
+    Add examples and remove __main__ from base.py
+    
+    Examples:
+    basic
+    ignore_continue
+    entry_counter
+    hub_spoke
+    
+    They should help new users to start with this library.
+
+commit 59958d14d92cd5f93671422fc0b0c5dd3bc4d521
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 6 16:48:35 2017 +0100
+
+    Fix bad arguments for setup method
+
+commit 66fe67110ab870bca2d72da4afabbbe16332e516
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 6 16:45:06 2017 +0100
+
+    Add callback which is called when screen is closing
+
+commit 11b5df9ef353fe1253192ecea6ead32523485d9a
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 6 16:20:33 2017 +0100
+
+    Use existing control keys from Prompt instead
+    
+    Remove the new solution, this is better one.
+
+commit 553bc4595c53b8af338316585779defd618f7389
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 6 16:18:46 2017 +0100
+
+    Add default exception handler
+    
+    Without this, when the exception raised, the application will end in
+    never ending cycle.
+
+commit d03d0963227b24da97abae393f1e94e3d4149883
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 6 16:16:59 2017 +0100
+
+    Change PasswordDialog for more general use-case
+
+commit 37758f1317103569639b5d9ab1e5a2ddeed6fa64
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 6 10:59:46 2017 +0100
+
+    Add missing import INPUT_PROCESSED
+
+commit 71a3d3581bc6fcbd759f867a796018094da252b1
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 6 10:54:24 2017 +0100
+
+    Change translated control keys as public constants
+    
+    This cloud be useful for developers to have the translated variants to
+    react on the control keys in their programs.
+
+commit 6f91f3157208a687598ec00c0778b65c22788c93
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 6 10:51:36 2017 +0100
+
+    Removed useless methods hide and show
+    
+    They were here to make API between TUI and GUI in Anaconda consistent,
+    but as far as I see, there is no use for it even in Anaconda.
+
+commit 34004dcb47ee5f8468ee86393e2614f422dfae4e
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Jan 6 10:50:15 2017 +0100
+
+    setup() method should now work properly
+    
+    UIScreen setup() method wasn't called before this patch at all.
+
+commit aa782357421a382d469678a410e52c2da46019ab
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jan 3 16:46:00 2017 +0100
+
+    Fix quit without YesNoDialog and add adv_widgets
+    
+    Advanced widgets are taken from Anaconda tuiobject.py without TUIObject
+    which is too Anaconda specific. This source file was modified to fix
+    problems caused by migration, mostly imports.
+    
+    App class has renamed __init__ parameter `yes_or_no_question` to
+    `quit_screen`. There could be used any UIScreen based widget.
+    
+    Fix quit without `quit_screen` set. The exit loop wasn't ended this way.
+    
+    Some minor cosmetic changes.
+
+commit 438e42a076652f0181dbb97d54f0a11710862f87
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jan 3 16:42:53 2017 +0100
+
+    Remove import * and add constants to __init__.py
+    
+    Add constants `INPUT_PROCESSED` and `INPUT_DISCARDED` which were missed
+    in first migration phase.
+    
+    Removed `from simpleline.something import *`. First of all I don't like
+    this construct and second it is messing imports.
+
+commit e8161b0ea74834ac40ea684c476e6b6e6b2ff311
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jan 3 12:38:14 2017 +0100
+
+    Fix few issues in build system
+    
+    Remove unused Makefile.am
+    Renamed spec file to have the same name as package
+    Fix Makefile and spec file
+    Add MANIFEST.in file for make local to work
+
+commit 253aaa32e5300094966c2a8cc0ef134462914caa
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Tue Jan 3 10:28:38 2017 +0100
+
+    Ignore mo files from translations
+
+commit 5438cd6c6df2e124a6b32d1903a5ae7b166123c8
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Dec 19 19:04:18 2016 +0100
+
+    RPM packaging is now working correctly
+
+commit 2ac1171b31c68e0d8620b865e1654b86cfa293fa
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Dec 19 14:12:00 2016 +0100
+
+    Fix address of FSF
+
+commit 4f38bea75aa6e585382cec2857620a6195990987
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Dec 19 13:27:39 2016 +0100
+
+    Fix issues in spec file
+
+commit 523e1a7a9a8db72e62b79b2a181c7362d6d62340
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Dec 16 16:34:11 2016 +0100
+
+    Fix git tagging name
+
+commit 4a6fb90d483e2dec2b1604fd850f652e2ec60f45
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Dec 16 16:23:44 2016 +0100
+
+    Ignore pylint-log
+    
+    Add to .gitignore
+
+commit eaf9167b8f7d9ba585e856b6f5b3ee94b3997bb2
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Dec 16 16:23:32 2016 +0100
+
+    Fix pylint issues
+
+commit 08012cbab6685856548faee7e305567a1b5d44fc
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Dec 16 14:53:52 2016 +0100
+
+    Add brief README
+
+commit c20c6222d862eaa48ee106e94357680bcd0ad9da
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Fri Dec 16 14:46:59 2016 +0100
+
+    Add build, compile, translation, test systems
+    
+    All controlled from Makefile
+
+commit 94026bf88dec1d538fe47b096db615ff4533f3bf
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Dec 12 18:20:41 2016 +0100
+
+    Remove dependencies on Anaconda
+    
+    Some code is taken from Anaconda to Simpleline (i18n, QueueFactory,
+    hubQ). Other parts are rewritten to remove dependencies.
+
+commit c920f761130812dbc1245523d359be0b11088441
+Author: Jiri Konecny <jkonecny@redhat.com>
+Date:   Mon Dec 12 13:06:34 2016 +0100
+
+    Copy code from Anaconda to this repo
+    
+    It isn't working now, we need to do modifications to remove dependencies
+    from Anaconda.

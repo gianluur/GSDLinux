@@ -1,0 +1,20 @@
+{
+  "calculator": {
+    "enabled": true,
+    "calcEngine": "default",
+    "trigger": "="
+  },
+  "quickCapture": {
+    "enabled": true
+  },
+  "dankPomodoroTimer": {
+    "enabled": true
+  },
+  "smartTimer": {
+    "enabled": false,
+    "noTrigger": true
+  },
+  "dankSoftwareDepot": {
+    "enabled": false
+  }
+}

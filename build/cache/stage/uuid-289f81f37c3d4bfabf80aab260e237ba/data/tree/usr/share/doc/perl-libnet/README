@@ -1,0 +1,86 @@
+NAME
+
+    libnet - Simple API to the client side of various internet protocols
+
+DESCRIPTION
+
+    libnet is a collection of Perl modules which provides a simple and
+    consistent programming interface (API) to the client side of various
+    protocols used in the internet community.
+
+    For details of each protocol please refer to the RFC. RFCs can be found in
+    various places on the web, for a starting point look at:
+
+        https://www.rfc-editor.org/
+
+    The RFCs implemented in this distribution are:
+
+        Net::FTP        RFC959          File Transfer Protocol
+        Net::NNTP       RFC977          Network News Transfer Protocol
+        Net::POP3       RFC1939         Post Office Protocol 3
+        Net::SMTP       RFC821          Simple Mail Transfer Protocol
+        Net::Time       RFC867          Daytime Protocol
+        Net::Time       RFC868          Time Protocol
+
+EXAMPLES
+
+    The demos directory does contain a few demo scripts. These should be run
+    from the top directory like:
+
+        demos/smtp.self -user my-email-address -debug
+
+    However, I do not guarantee these scripts to work.
+
+FEEDBACK
+
+    Patches, bug reports, suggestions or any other feedback is welcome.
+
+    Patches can be sent as GitHub pull requests at
+    <https://github.com/steve-m-hay/perl-libnet/pulls>.
+
+    Bug reports and suggestions can be made on the CPAN Request Tracker at
+    <https://rt.cpan.org/Public/Bug/Report.html?Queue=libnet>.
+
+    (Most of the modules in this library have an option to output a debug
+    transcript to STDERR. When reporting bugs/problems please, if possible,
+    include a transcript of a run.)
+
+    Currently active requests on the CPAN Request Tracker can be viewed at
+    <https://rt.cpan.org/Public/Dist/Display.html?Queue=libnet>.
+
+    Please test this distribution.  See CPAN Testers at
+    <https://www.cpantesters.org/> for details of how to get involved.
+
+    Previous test results on CPAN Testers can be viewed at
+    <https://www.cpantesters.org/distro/L/libnet.html> and
+    <https://fast2-matrix.cpantesters.org/?dist=libnet>.
+
+AVAILABILITY
+
+    The latest version of this module is available from CPAN (see "CPAN" in
+    perlmodlib for details) at
+
+    <https://metacpan.org/release/libnet> or
+
+    <https://www.cpan.org/authors/id/S/SH/SHAY/> or
+
+    <https://www.cpan.org/modules/by-module/libnet/>.
+
+    The latest source code is available from GitHub at
+    <https://github.com/steve-m-hay/perl-libnet>.
+
+INSTALLATION
+
+    See the INSTALL file.
+
+COPYRIGHT
+
+    Copyright (C) 1996-2007 Graham Barr.  All rights reserved.
+    Copyright (C) 2013-2017, 2020-2023, 2026 Steve Hay.  All rights reserved.
+
+LICENCE
+
+    This distribution is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself, i.e. under the terms of either the GNU
+    General Public License or the Artistic License, as specified in the LICENCE
+    file.

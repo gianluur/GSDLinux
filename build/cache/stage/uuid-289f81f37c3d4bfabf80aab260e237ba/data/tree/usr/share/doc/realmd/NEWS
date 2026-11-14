@@ -1,0 +1,294 @@
+0.17.1
+ * Kerberos: use fewer attributes for g_file_query_info() [gfo#36]
+ * service: use name instead of IP address with ad_server [rhbz#2129050]
+ * tools: add --do-not-touch-config option for AD [gfo#30]
+ * Use autoreconf and gettext
+ * samba: use new Samba-4.15 command line options [rhbz#2028530]
+ * syslog: avoid duplicate log messages [rhbz#2024248]
+ * ldap: add socket timeout [rhbz#1817869]
+ * Use target arch pkg-config to fix cross compilation [gfo#35]
+ * doc: add computer-name to realm man page
+ * configure: update some macros for autoconf-2.71
+ * build: add --with-vendor-error-message configure option [rhbz#1889386]
+ * distro: use authselect on Red Hat platforms
+
+0.17.0
+ * Use current idmap options for smb.conf [rhbz#1484072]
+ * Find NetBIOS name in keytab while leaving [rhbz#1370457]
+ * Work properly with Python 3
+ * discover: try to get domain name from hostname [rhbz#1619162]
+ * Set 'NEWEST' flag when resolving packages with PackageKit
+ * service: use "kerberos method" "secrets and keytab" [rhbz#1801195]
+ * Use startTLS with FreeIPA [gfo#23]
+ * service: use 'additional dns hostnames' with net ads join [rhbz#1867912]
+ * Fix pam misconfiguration for SUSE systems
+ * Also install libnss-winbind on Debian systems
+ * Kerberos: add default_domain and udp_preference_limit [rhbz#1791016]
+ * tools: add --use-ldaps option for discover, join and leave [rhbz#1826964]
+ * Fix nsswitch handling when joining and leaving domain for suse distro
+ * paths: install realmd in libexecdir [gfo#26]
+ * tools: enforce absolute path for install option [gfo#27]
+
+0.16.3
+ * Add os-name and os-version command line options
+ * Add computer-name support to realmd join CLI and config
+ * Don't fall over if a [domain] section in sssd.conf exists
+ * Fully qualify --computer-ou DN before passing to adcli
+ * Fix issue where diagnostics about package install hidden
+ * Updated translations
+
+0.16.2
+ * Be more liberal with domain name chars
+ * Increase timeout when calling PackageKit
+ * List package names with spaces between them [#89464]
+ * Install to $prefix/lib instead of $libdir
+
+0.16.1
+ * libsystemd build fix [#90519]
+ * Change default home directory to /home/%U@%D
+ * Add --automatic-id-mapping=no command line argument
+
+0.16.0
+ * Disable automatic AD joins by default [#89205]
+ * Validate text we receive from LDAP
+ * Prefer adcli for AD joins
+ * Remove hard dependency on PackageKit
+ * Fix crash when empty password is used with realm client
+
+0.15.2
+ * Fix PackageKit installation issue
+ * Remove our copy of valgrind.h
+ * Build fixes and tweaks
+
+0.15.1
+ * Build fixes for PackageKit changes [#76800
+ * Correct the polkit policy for non-desktop users [#78273]
+ * Don't crash if missing full_name_format in sssd.conf
+
+0.15.0
+ * Depend on Glib 2.36 or later
+ * Use safe printf when formatting sssd.conf full_name_format
+ * Fix logic issue when testing for EAGAIN [#71774]
+ * Build fixes
+
+0.14.6
+ * Set 'kerberos method = system keytab' in smb.conf properly [#69037]
+ * Limit Netbios name to 15 chars when joining AD domain [#69016]
+
+0.14.5
+ * Fix regression where --unattended conflicted with -U as in --user [#68112]
+ * Pass discovered server address to adcli [#68111]
+ * Fix failure message output
+
+0.14.4
+ * Fix up the [sssd] section in sssd.conf if it's screwed up
+ * Add an --unattended argument to realm command line client
+ * Clearer 'realm permit' manual page example
+ * Other documentation fixes
+
+0.14.3
+ * Populate LoginFormats properly when use_fully_qualified_names = False
+ * Several documentation fixes
+ * Set sssd.conf default_shell per domain
+ * Notify in terminal output when installing packages
+ * If joined via adcli, delete computer account with adcli as well
+ * If input is not tty, then just read from stdin without getpass()
+ * Force IPA joins so that computer can rejoin a domain
+ * Configure pam_winbind.conf appropriately when using winbind [#66831]
+ * Refer to FreeIPA as IPA [#66734]
+ * Support use of kerberos ccache to join when using winbind
+ * Don't create a top level directory in /var [#65435]
+ * Other build fixes
+
+0.14.2
+ * Rework discovery for changes in FreeIPA 3.0 [#64895]
+ * Remove simple_allow_users/groups when permit/deny access provider [#64903]
+ * When FreeIPA domain with manage-system, we want NTP, so --force-ntpd
+ * Only allow joining one manage-system=true domain [#64928]
+ * Return a specific error code when host name is invalid
+ * Enable oddjobd service on Fedora and RHEL
+
+0.14.1
+ * Don't use the slice allocator for small memory allocations [#56157]
+ * Don't do critical warning when service.Release() is called
+ * Just quit when Ctrl-C is pressed twice [#64538]
+ * Don't remove sssd domain if already removed
+ * Document the 'realm discover --all' option
+ * sssd-tools is no longer needed on Fedora
+ * Don't print journalctl command when cancelled [#64539]
+ * Enable sssd service even when in install mode [#64542]
+ * Use the full AD domain name as sssd.conf domain [#64544]
+ * When failing to write out data to subprocess, print errno
+ * Work around authconfig bug [#953851]
+ * Build fixes
+
+0.14.0
+ * Work around krb5 bugs in krb5_get_init_creds_password()
+ * Fine tune the regular expressions and formats for AD and IPA
+ * Put documentation about realmd.conf in a manual page [#64182]
+
+0.13.91
+ * Add support for permitting logins by group [#58397]
+ * Fix regression of service --debug argument
+ * Fix regression of discovery of FreeIPA
+ * Fix regression in 'realm join --one-time-password'
+ * Fix lots of possible uninitialized memory usage
+
+0.13.90
+ * Rework the discovery mechanisms for AD and IPA [#62863 #63907 #63907]
+ * Allow specifying of servers for discovery and join [#63907]
+ * Option to disable use of fully qualified names [#60637]
+ * Option to disable automatic package installs [#61215]
+ * Option for turning on realmd debugging [#61219]
+ * Option for 'manage-system' [#61858]
+ * Option to turn off automatic id mapping [#60679]
+ * Option for creating user principal on computer account [#62755]
+ * Options for setting OS name and version [#54489]
+ * On failure print out journal command [#63739]
+ * When realm is not joinable say so [#63631]
+ * Handle IPA bad password error code [#63738]
+ * Work around samba bug which requires LOGNAME envvar [#63956]
+ * Use allow-realm-logins by default if manage-system [#61858]
+ * Temp file handling fixes [#63910]
+ * Don't set sssd.conf parameters to defaults [#62519]
+ * Remove empty keytab if all entries have been flushed [#56029]
+ * Support for using kerberos credential cache to join [#56022]
+ * Refactor internals [#63434 #63906]
+
+0.13.3
+ * Fix permit/deny commands and implementation [#62517 #62518]
+ * Don't exit realmd when clients are still active [#61220]
+ * Send internal warnings/criticals/messages to syslog [#58084]
+ * Example domain fixes [#62215 #62372 #62214 #62162]
+ * Cleanup our 'net ads join' usage [#56023]
+ * Support realm login policy [#60628]
+ * Other tweaks and bug fixes [#62763 #62210 #60656 ...]
+ * Include a systemd unit file [#56012]
+ * Adding build support for SuSE [#55097]
+ * Check that package-kit finds all the packages we ask it to resolve [#60657]
+ * If PackageKit is not available, assume manual package installation [#60654]
+ * License clarification, we are LGPL v2.1 [#57943]
+ * Optionally use systemd's journal for logging [#62225]
+ * Documentation fixes and clarifications
+ * Build and testing fixes
+
+0.13
+ * Pull in translations from transifex
+ * Detect incorrect passwords when using 'net ads join' login via RPC
+ * Use ipa-client-install to provide join functionality for IPA domains
+ * Don't assume that we can use kerberos to validate admin password
+ * Allow specifying --membership-software when discovering a realm
+ * Only use the XDG user data directory if it exists
+ * Quit the daemon when SIGTERM or SIGINT received
+ * Implement cancellation of operations
+ * Documentation fixes
+ * Add documentation about realmd internals
+ * Update commands and packages for Debian
+ * Use /var/cache/realmd instead of /tmp
+ * Build fixes and lots of other bugs fixed
+
+0.12
+ * Add a --no-password option to realm join
+ * Check if domain is configured before trying to join
+ * Updated translations
+ * Build fixes
+
+0.11
+ * Support install mode, where we try not to use the DBus system bus
+ * Support caller based package installation
+ * Fix various bugs
+
+0.10
+ * Send diagnostics from subcommand to client as they come in
+ * Return configured realms back to callers
+ * Refuse to join a domain if hostname is localhost
+ * In realm permit or deny commands, fail when options are invalid
+ * Fix samba package names for Fedora changes
+ * Fix typo in realm manual
+ * Fix case where base dn in computer-ou doesn't match domain
+ * Don't crash when computer-ou is empty
+ * Fix problem where daemon goes away unexpectedly
+
+0.9
+ * Add support for deconfiguring a realm without removing computer account
+ * Cleanup the krb5.keytab from realmd itself, rather than relying on samba
+ * Fix problems running authconfig from a system service
+ * Automatically create home directories for logged in accounts on Fedora and RHEL
+ * Setup a default shell and home directory for AD users coming via sssd
+ * Restart the accouts-daemon after joining a domain
+ * Use lower case realm names
+ * Enable offline logins with sssd
+ * Make sure the allow-permitted-logins policy works with sssd even when
+   no permitted logins specified
+ * Use systemctl and service commands to manage services rather than DBus
+ * Move the realm command to /usr/sbin
+ * Make --verbose work with 'realm permit -all' and 'realm deny --all'
+ * Make sure realm permit/deny only work with configured realms
+ * Work around sssd simple access provider issues
+ * Use sss_cache to clear caches when removing a domain
+ * Make 'realm discover' only print out realm line per domain by default
+ * Only list configured realms in 'realm list' by default
+ * Bug fixes
+ * Documentation
+
+0.8.1
+ * Distribute debian settings file correctly
+
+0.8
+ * Cleaner, faster and robuster IPA discovery
+ * Don't refret the PackageKit cache when installing
+ * Add first translation, although gettext not hooked up yet
+ * Pass passwords directly to the samba 'net' command
+ * Better prompting for realm administrator/user password in realm tool
+ * Remove custom debug code, just use glib
+ * Support basic one-time-password and automatic joining
+ * Ignore temporarily DNS failures when discovering
+ * Add a generic kerberos provider, for discovering non AD/IPA realms
+ * Add support for specifying a computer OU LDAP DN when joining
+ * Don't require unstable glib
+ * Fix timeout in the realm tool
+ * Some build and testing fixes
+ * Other bug fixes
+
+0.7
+ * Refactor the DBus interface so we can add other realm types later
+ * Implement o.f.DBus.ObjectManager
+ * Some compat fixes for samba4
+ * Use better LoginFormats format
+ * Add DBus interface documentation
+ * Build fixes
+
+0.6
+ * Switch default AD client to sssd
+ * Support building with automake 1.12.x
+ * Cleaner DBus API which handles password based authentication
+   required for samba3's net command.
+ * Remove support for out of process providers
+ * Lots of bug fixes
+
+0.5
+ * Implement login policy concept
+ * Make the daemon exit-after-timeout work better
+ * Implement an AD provider based on sssd
+ * Fix accidental corruption of config files
+ * New 'realm' command with various sub-commands
+ * Display errors correctly in command line tools
+ * Add discovery of IPA servers
+ * Various bug fixes
+
+0.4
+ * Fix up license headers
+ * Don't use SOA for MSDCS subdomain, use SRV record directly
+
+0.3
+ * Build and packaging fixes
+
+0.2
+ * Add possibility for cancellation to the DBus interface
+ * Add provider Name and Version properties
+ * Clearer diagnostics on discovery
+ * Add realm-discover tool to identify a domain
+ * Add proper DBus service files
+
+0.1
+ * Initial release

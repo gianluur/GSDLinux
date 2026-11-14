@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="google-youtube">
+  <type>google-youtube</type>
+  
+  <name>YouTube</name>
+  <description>Upload files to YouTube</description>
+  <icon>im-youtube</icon>
+  <provider>google</provider>
+  <translations>kaccounts-providers</translations>
+</service>

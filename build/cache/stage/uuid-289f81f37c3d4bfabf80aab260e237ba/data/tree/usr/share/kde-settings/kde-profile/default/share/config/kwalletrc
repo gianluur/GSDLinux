@@ -1,0 +1,13 @@
+[Auto Allow]
+kdewallet=KDE Daemon,KDE Wallet Manager,KMail,Telepathy Authentication Handler
+ksirk=KDE Wallet Manager,KsirK
+
+[Auto Deny]
+kdewallet=
+
+[Wallet]
+#Close When Idle=false
+#Close on Screensaver=false
+#Enabled=true
+Leave Open=true
+#Prompt on Open=true

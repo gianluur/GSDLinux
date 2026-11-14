@@ -1,0 +1,1969 @@
+CHANGES
+-------
+
+  2.224 28 August 2026
+
+    * Update to version 2.224
+      Fri Aug 28 12:15:12 2026 +0100
+      04c15c022022020f12271071710f42296d98fb47
+
+    * remove 5.6-specific code and make 5.8 the min versionsupported
+      Wed Aug 26 16:06:31 2026 +0100
+      5e153a50913d012cb58016ad2782ce2bfb3bbc92
+
+    * Remove 5,6 from Travis build
+      Tue Aug 25 11:52:20 2026 +0100
+      952483f59dd4de7c70d747e330cbec7ae35706da
+
+    * remove dead backwards compatibility code
+      Tue Aug 25 11:48:21 2026 +0100
+      61a0b950e6466bc685b5a638a02a77db426be528
+
+    * remove redundant version checks
+      Tue Aug 25 11:48:21 2026 +0100
+      0de16bbbbe1baeec3f79583690a1003262b9302d
+
+    * fix test skip message with threaded perl 5.6
+      Tue Aug 25 11:48:21 2026 +0100
+      7992fb718dc041d3e04da635d7e9c542c10f66ce
+
+    * remove broken version check
+      Tue Aug 25 11:48:21 2026 +0100
+      92c2eb86890f840a44d87a749ef735537e2fa548
+
+    * simplify $needBinmode logic
+      Tue Aug 25 11:48:21 2026 +0100
+      86f96d52d96030c74e48ab44c07f48d252872aae
+
+    * fix ExtUtils::MakeMaker version check
+      Tue Aug 25 11:48:21 2026 +0100
+      8ed0a2ab1a9ce4e9048b2d90dc857ae3cbca0119
+
+    * more instances needed fixed for   #82
+      Tue Aug 25 11:23:00 2026 +0100
+      d7e0e2520af0f73d802e1288e02d1da15b926387
+
+    * make tests pass with spaces in $^X
+      Tue Aug 25 11:05:11 2026 +0100
+      674a7b6dc5ec6413ecf66f9d25e8a3b845bef226
+
+    * possible missing comma in file anyunc.pl Fixes #81
+      Sun Aug 2 15:48:54 2026 +0100
+      fe011442f2d40b436fcc19cd96e38fb08031d8bc
+
+    * Update zipdetails to version 4.009
+      Sat Jul 25 21:35:19 2026 +0100
+      3f0508d793e894d9baf134a5fea673b4677ab7c9
+
+    * Set  GlobMapper.pm to version 1.002.  Fixes #80
+      Tue Jul 21 23:10:54 2026 +0100
+      4dc945b0b64f8ead71b7bbba87407889bb0cf0cb
+
+    * Update CHENGES
+      Sat Jul 4 09:23:19 2026 +0100
+      cfbbd9e8f32c8279076be21591da0ef65bf4aecf
+
+  2.223 4 July 2026
+
+    * Fix typo in Makefile.PL Fixes #79
+      Sat Jul 4 09:22:42 2026 +0100
+      5e2d96044b22be0c6cd0ba408b671281d15e5a9c
+
+    * * Error:  Compress::Raw::Zlib version 2.222 required--this is only version 2.221
+      * Update to version 2.223 Fixes #79
+      Sat Jul 4 09:16:41 2026 +0100
+      b9031b0fc30ad378e6cfda5c3dfbede82ec6ac59
+
+    * Update to version 2.222
+      Fri Jul 3 13:08:15 2026 +0100
+      68f1713d94521e8990fa92f7947d0f5f92ead6ce
+
+    * Tag `:constants` no longer exports all constants Fixes #78, #64
+      Fri Jul 3 11:55:19 2026 +0100
+      a2a91df2d64c5731287e6ca9ad47462cd8907f32
+
+    * Bump actions/checkout from 6 to 7
+      Fri Jul 3 00:06:22 2026 +0100
+      941a75e143d7fc707483a30fc4b8097f406485e5
+
+  2.221 16 June 2026
+
+    * Version 2.221
+      Tue Jun 16 15:45:21 2026 +0100
+      245a6818d4215bb5ee6c27bb509caee5f8c4dd68
+
+    * update zipdetails  to version 4.008
+      Tue Jun 16 15:29:27 2026 +0100
+      1da3c5fcecf6fbe230a17ea9b358f50ef27d70f7
+
+    * Update reference for  the info-zip estrafld  file.
+      Tue Jun 16 15:25:06 2026 +0100
+      914f39406bc164221bfa94905ac1335669ddf446
+
+    * Add hex values for utf8 encoding as a comment
+      Tue Jun 16 14:30:54 2026 +0100
+      9d5ead52df529f96645e38f3a49924235f74092b
+
+    * Fix File::GlobMapper wildcard replacement after ordinary letters
+      Sat Jun 13 23:49:17 2026 +0100
+      3651e9eb3fca0bd3718d1d8b12e96b9e80096144
+
+    * Update to zipdetails 4.007
+      Mon Jun 1 22:55:05 2026 +0100
+      865b8388aa5d1028724ddde5e411c0868aa077c7
+
+    * Remove test for filename when not needed. Helps with EBCDIC support. #73
+      Sun May 31 15:23:31 2026 +0100
+      6a477fc83776a0fa5d2aea5d923cadd323985ad1
+
+    * IO-Compress: generalize for EBCDIC
+      Sat May 30 00:39:09 2026 +0100
+      648120dfc768a1de22ee2a76aacf17c61d13cac6
+
+  2.220 16 May 2026
+
+    * remove use of eval in globmapper. #73
+      Sat May 16 17:48:34 2026 +0100
+      f2db247bf90d4cc7ee2710be384946081f3b4610
+
+    * Update zipdetails to version 4.006.
+      Sat May 16 13:43:12 2026 +0100
+      33c89d03d6e746ed2ead4f2f6570d47864c61bc7
+
+    * Fix typo in fastForward #72
+      Fri May 15 23:18:39 2026 +0100
+      68db44076f4c1a86a2ffe53a958eac6cabaf72e2
+
+    * Fix issue with "rawdeflate` option in AnyInflate. #71
+      Fri May 15 22:56:20 2026 +0100
+      fba3efe40208bd07034b6a3cf6bf9fc3b8b4f215
+
+  2.219 9 March 2026
+
+    * Fix a few  typos
+      Mon Mar 9 12:03:18 2026 +0000
+      132941df2afe808142ca525f361d18ebb3a7f882
+
+    * Squash repeated semicolons
+      Mon Mar 9 12:02:15 2026 +0000
+      3cd732119e823688a26ba7fbf3a99bd0be18bc88
+
+    * Make dependent version checking consistent amd update module to version 2.219. Fixes #70
+      Mon Mar 9 11:51:37 2026 +0000
+      b81179d2db053da540d77af4a61ec449b91fca6e
+
+  2.218 8 March 2026
+
+    * Refresh zipdetails to version 4.005 Sourced from https://github.com/pmqs/zipdetails
+      Sun Mar 8 15:07:58 2026 +0000
+      13528f57cffecebdddc2f04e5d6dc7590b0acd3e
+
+    * version 2.218
+      Sun Mar 8 14:28:31 2026 +0000
+      3e0ff70d9dd75749a3c03efb666af8d7adff2a19
+
+    * Add SECURITY.md,  Fixes #69
+      Sun Mar 8 14:03:41 2026 +0000
+      b95e8a32051aa3d7d69e7e60acf3eb7c0c274a7b
+
+    * fix spelling typo
+      Tue Feb 24 19:47:01 2026 +0000
+      ecd61fa10ef1d1b9bc30662bfccf68d75118103a
+
+    * Refresh Changes file
+      Sun Feb 1 11:04:49 2026 +0000
+      c9f81969de01d90104f7abbaafe09608af92bbf1
+
+    * Update release date in README
+      Sun Feb 1 11:02:46 2026 +0000
+      ce5ff6ea860443bc27ca180993852eb6ef1a63e8
+
+    * Refresh zipdetails from https://github.com/pmqs/zipdetails
+      Sun Feb 1 10:58:21 2026 +0000
+      0fa7ba236438fb2e022f9f2bb92caac25f075cc5
+
+  2.217 1 February 2026
+
+    * Update release date in README
+      Sun Feb 1 11:02:46 2026 +0000
+      ce5ff6ea860443bc27ca180993852eb6ef1a63e8
+
+    * Refresh zipdetails from https://github.com/pmqs/zipdetails
+      Sun Feb 1 10:58:21 2026 +0000
+      0fa7ba236438fb2e022f9f2bb92caac25f075cc5
+
+    * Delete GZIP environment variable before running interop tests Fixes #24
+      Sat Jan 31 12:22:30 2026 +0000
+      6304ffa76606030467900b17de088504ce026a0d
+
+    * Update version to 2.217
+      Sat Jan 31 11:36:36 2026 +0000
+      6405df64a348fd953a0ddebb30422d20e2c1bd9f
+
+  2.216 31 January 2026
+
+      * Update version to 2.216
+        Fri Jan 30 22:20:17 2026 +0000
+        e88105b0fc002346dfcd9b501525bf454c83bf92
+
+      * IO::Compress @2.215: t/006zip.t fails due to missing test files #67
+        Fri Jan 30 22:11:20 2026 +0000
+        5e67a654844f4e05b3fefc54b2bc3b2041994d25
+
+  2.215 31 January 2026
+
+      * Fix version check in 000prereq.t
+        Fri Jan 30 11:59:07 2026 +0000
+        4fb2a081607db9285970edcfdcf50a94f504b378
+
+      * Update Changes for 2.215
+        Fri Jan 30 11:55:16 2026 +0000
+        b9cf3c64724584be2b739f6d26909eb4c90b7d2e
+
+      * Update version to 2.215 & change copyright year to 2026
+        Fri Jan 30 11:52:41 2026 +0000
+        2634d1c3a6e2ed9b0cee109c262d0ccf81a3bf91
+
+      * Add tests for handling zero and invalid datetime values in unzip functionality. Fix for #65
+        Sat Oct 25 19:52:01 2025 +0100
+        739698a7b1bb6814d1aa3c4a1b81374b16a9fea5
+
+      * Enhance _dosToUnixTime to handle zero and invalid datetime values; add tests for edge cases. Fixes #65
+        Sat Oct 25 19:50:08 2025 +0100
+        fd28c1d2374eee9811f6d0c5bddc0957abdf1da8
+
+  2.214 24 October 2025
+
+      * version 2.214
+        Fri Oct 24 16:33:36 2025 +0100
+        6eb77023e6c6ad9c6869f396f42fb1fe4f79ace2
+
+      * IO::Compress::Gzip accidentally modifies the `$EXPORT_TAGS{all}->@*` of other modules Fixes #64
+        Fri Oct 24 15:51:30 2025 +0100
+        d1774d5b634d0aaa634ecc29db28fcd878adbd87
+
+      * Fix indentation in Windows workflow YAML
+        Sun Oct 19 14:24:36 2025 +0100
+        bb02b9069f9a7c954ffe27be5bba5464b8882000
+
+      * Fix indentation in windows.yml exclude section
+        Sun Oct 19 14:19:31 2025 +0100
+        7c573858a7aac83806da6831a84171f4ce6bd19e
+
+      * Merge pull request #63 from masiuchi/fix/ci-errors
+        Sat Oct 18 16:48:45 2025 +0100
+        8cbbd4a881b53dc54cff309122094327edc376e3
+
+      * Exclude Perl 5.42 with "strawberry" distribution from GitHub Actions
+        Sat Oct 18 23:25:38 2025 +0900
+        407986d5f45f07b654c649c478e43e05e2b13db9
+
+      * Update FreeBSD image to 14.3 in Cirrus CI
+        Sat Oct 18 22:43:17 2025 +0900
+        3ffdaa03e98f4f75d1a80bd34d27caa2dabdf576
+
+      * Add dependabot.yml file to police workflow files
+        Thu Sep 4 17:18:18 2025 +0100
+        4678d7b55393d3bb00f8468b992f33c46f26f847
+
+      * Add perl 5.42 to workflow files
+        Thu Sep 4 17:17:27 2025 +0100
+        dca22a69dcda62c35bb088df7c3c203a458d3b73
+
+
+      * Fix for https://github.com/pmqs/Compress-Raw-Zlib/issues/34
+        Sat Aug 30 19:17:26 2025 +0100
+        3cb88fd9a1d5fee49aea9ef2aefbbb3231f3c585
+
+      * #59 fix typos in streamzip
+        Wed Nov 13 16:52:05 2024 +0000
+        e70223ed043fb11c0dcaad3204286ee0a263f58e
+
+  2.213 28 August 2024
+
+      * version 2.213
+        Wed Aug 28 16:06:42 2024 +0100
+        020520f78490bf1a6b7351febd16fc19f351ddfe
+
+      * add perl5.40 to workflows
+        Sun Jun 16 16:56:37 2024 +0100
+        6d7dd85763f7cd0894a890208156187b8cac6597
+
+      * #57 Add stub moduile IO/Compress.pm
+        Sat May 25 08:53:57 2024 +0100
+        c6a05a69d62b8169d482d1b30a333b0cec4f5a06
+
+  2.212 27 April 2024
+
+      * no functional changes
+
+  2.211 6 April 2024
+
+      * version 2.211
+        Sat Apr 6 14:14:55 2024 +0100
+        1276339652e8df49a29facd9ee1ae41d9c7dc994
+
+  2.208 31 March 2024
+
+      * Update zipdetails to version 4.002
+        Sun Mar 31 11:52:11 2024 +0100
+        f6610e32bfd5459483a193ef80cebd7cdc6092dd
+
+      * #56 cz-14gzopen.t fails on AFS filesystem
+        Wed Mar 6 11:59:54 2024 +0000
+        68dcf0aceeaec5491a61c8102968b3f004435ee8
+
+  2.207 18 February 2024
+
+      * Add bin/zipdetails 4.000
+
+      * Merge pull request #51 from rwp0/rwp0/fix-indirect-syntax
+        Thu Nov 23 12:17:30 2023 +0000
+        f1c70d0ef8ed7a91daae6a3ea6b10dc486db4463
+
+      * Fix indirect syntax
+        Mon Nov 6 13:23:07 2023 +0100
+        7bd8408ef428024985e39f1275875a5f0812fbbf
+
+  2.206 25 July 2023
+
+      * 2.206
+        Tue, 25 Jul 2023 16:37:44 +0100
+        6f00921ce36a80f6b507402cee71e9f3a9cc406d
+
+      * Merge branch 'master' of https://github.com/pmqs/IO-Compress
+        Sat, 22 Jul 2023 20:22:41 +0100
+        d561922b964796e94c94c89f69550de5b95fb342
+
+      * Merge pull request #50 from haarg/fix-version-check
+        Sat, 22 Jul 2023 19:13:38 +0100
+        9d4f8755024db3bc16a628fa736680cd6f0b90ab
+
+      * fix version checks to use correct method
+        Fri, 21 Jul 2023 18:36:29 +0200
+        c60f5c619f9a8c3038428724a01c6722e51e37a7
+
+      * drop rt.cpan from SUPPORT section
+        Tue, 18 Jul 2023 09:19:52 +0100
+        02fc4ab0b2c9c30c7014238f20bf02e2857d4c52
+
+  2.205 16 July 2023
+
+      * 2.205
+        Sun, 16 Jul 2023 20:26:06 +0100
+        5f8450648f1915451b0a7ccdd551ec84e18cb05c
+
+      * add perl 5.38
+        Thu, 13 Jul 2023 11:13:24 +0100
+        1dc60a0d48e74f3b707dc4f5c1f0b7b8bf54b10b
+
+      * add on workflow_dispatch
+        Fri, 9 Jun 2023 16:25:09 +0100
+        f99b28e94b29446a60e2f91c762a0f407d7725d4
+
+      * Add some OO examples
+        Fri, 9 Jun 2023 16:18:54 +0100
+        45457e70f8ad202196f20305ae4f8ee48e3cbded
+
+  2.204 8 February 2022
+
+      * Update Gzip.pm
+        https://github.com/pmqs/IO-Compress/pull/49
+        6d0514b86ceeab56884c43fd1e6f09f839c12b74
+        feab074420bf4059eb6fa9d0553a354e2dd33e95
+
+      * Allow Z_NULL
+        https://github.com/pmqs/Compress-Raw-Zlib/issues/17
+        c42da1483767bc8afbdb2d8b03ecda7b67b4d022
+
+
+  2.201 25 June 2022
+
+      * Disable zib header tests
+        Sat Jun 25 09:10:59 2022 +0100
+        63eb5d37291b40dbf07d191a09b7876168008cd4
+
+      * Version 2.201
+        Sat Jun 25 09:00:42 2022 +0100
+        af51310f68bb225d94eaa29b7f3d2bece1935dfd
+
+      * doc update https://github.com/pmqs/IO-Compress/issues/38
+        Thu Jun 23 23:00:31 2022 +0100
+        2002d4fd3b3a6f5de6c6c3dc5989cf42581c1758
+
+      * Changes for zlib-ng
+        Thu Jun 23 22:43:50 2022 +0100
+        2bd52d2918823cc567c3e92dd3d15f87cb4ee8f8
+
+      * Add perl 5.36
+        Sun Jun 5 13:34:18 2022 +0100
+        ede55370ed4c7eb3c66abc71bc25c7e4019b4c44
+
+      * force streaming zip file when writing to stdout https://github.com/pmqs/IO-Compress/issues/42
+        Sun Apr 24 19:43:19 2022 +0100
+        b57a3f83f404f5a24242680de5b406cfcf5c03ac
+
+      * read zip timestamp in localtime
+        Sun Apr 24 13:11:58 2022 +0100
+        0c838f43dc46f292714c82145c9add9932196b01
+
+      * streamzip: tighten up version tests for failing windows tests https://github.com/pmqs/IO-Compress/issues/41
+        Sun Apr 24 12:49:57 2022 +0100
+        3497645228235ea12c4d559d6dedd4cef47fc94a
+
+      * streamzip: update year
+        Sun Apr 24 12:11:35 2022 +0100
+        0ac0d1ef603d8854ffc35976196735b663764992
+
+      * Use Time::Local instead of  POSIX::mktime
+        Tue Apr 19 11:31:43 2022 +0100
+        64a106f1119cbc7dec8db52dca016bb8baacf2d4
+
+  2.106 12 April 2022
+
+      * bin/zipdetails
+        sync 2.104 from https://github.com/pmqs/zipdetails
+        Tue Apr 12 15:39:59 2022 +0100
+        3fe7b8788ab816bebddfdfbb1462d3f439c6b2f1
+
+  2.105 9 April 2022
+
+      * remove WeakDecrypt
+        95892a68780426909b75b4f3d465ff02e630834e
+        5b41f06a271267ef984a971047987b65ba197dd4
+
+  2.104 9 April 2022
+
+      * Sync zipdetails 2.100 from https://github.com/pmqs/zipdetails
+        95c19c89b72441b76294ce93f4acf7c5cea63565
+
+      * Update date in README
+        6b40bd67ee3c295085380cb6c321abf230b481df
+
+      * WeakDecrypt should not be listed in MANIFEST
+        https://github.com/pmqs/IO-Compress/issues/39
+        9e85a8bff391481d1005547cb51c11e02e4a5768
+
+      * Update versions to 2.104
+        cec4bcd8c3e8bef5708f7b5064e5048a02e8179f
+        cec4bcd8c3e8bef5708f7b5064e5048a02e8179f
+
+  2.103 3 April 2022
+
+      * Update version to 2.103
+        97f1893892eccac69b3a8033378b0b44d7c4f3ab
+
+      * Fix for inflateSyncs retrurn code change
+        4843e22285bf8e52c9b5b913d167a1545995c793
+
+      * Add constant for ZIP_CM_AES
+        91be04dd8dc2848e3c25b87ec498cf8ccc34187a
+
+      * Point links to rfcs to ietf.org
+        https://github.com/pmqs/IO-Compress/pull/37
+        a8f28b36cf4d77df1cfa0516867012425920a62f
+
+      * Rename test file to fix manifest warning
+        https://github.com/pmqs/IO-Compress/pull/36
+        955244f9ac0654d7e8d54115162da53c85d7178c
+
+      * Add perl 5.34
+        06f41883f62ed1b88b03c246b16e0b5ef72503bc
+
+      * Fix for Calling nextStream on an IO::Uncompress::Zip object in Transparent mode dies when input is uncompressed
+        https://github.com/pmqs/IO-Compress/issues/34
+        b0f93fe62f84b7d4d4bb8d2ea8e6d5432887103f
+
+      * IO::Compress: Generalize for EBCDIC
+        https://github.com/pmqs/IO-Compress/pull/32
+        90b51dbbd785e2c824cb0a93feef3b3dd5d075f2
+
+      * IO::Compress: Fix misspelling in 112utf8-zip.t
+        c22216b5d3202dce01ef17a271252f82520a6ab9
+
+      * Revert "Always have full zip64 entry in central directory"
+        7df4c9bc98667bc1afd1b4bc5a27d20f94e3cd9c
+
+      * Always have full zip64 entry in central directory
+        333648ee1dece6eb220060c7ec09806f6ebb9866
+
+      * update cpanm path on MacOS
+        33079902934885c515768a08d72e89243a5d01a9
+
+  2.102 28 February 2021
+
+      * Add IO_COMPRESS_SKIP_STDIN_TESTS to skip tests on Windows
+        https://github.com/pmqs/IO-Compress/issues/29
+        b0b511ec6a7dcfa4e372a8b8131767fcb39369b1
+
+  2.101 20 February 2021
+
+      * fix version numbers in meta files
+
+  2.100 7 January 2021
+
+      * bin/zipdetails version 2.02
+        7556eba2e174e77d8cdd914b27be1b63e0830d29 update to version 2.02
+        237e9e52f26b7de92398513aa79e8153e65184e6 more fixes for defalte bitmask
+        b03cddfa5c73984eb802fed1c7ad19f43b6522cc fix bitmask for deflate compression level
+
+      * trim whitespace
+        6f5af76d71de1f9d3d1af79dca2f945c318d4e82
+        878f24f8a2de69ccb6d99e6f62ac9eaa89818476
+
+      * some POD updates for zstd
+        1466d8ade3618a6779bd86e1feba81bbe1c6b7c6
+
+      * Fix warnings once in multiple locations
+        https://github.com/pmqs/IO-Compress/pull/27
+        fdf9958972ab34609c3dce33cb5014ca3a197e82
+
+      * Avoid duplicate use statements
+        https://github.com/pmqs/IO-Compress/pull/26
+        11b34f5738187c4bf73aafd243e317c0748553ce
+
+      * Avoid using indirect calls
+        https://github.com/pmqs/IO-Compress/pull/19
+        29a7c586f7adf9d029715d55de31382fd27e8ed3
+        d7a4f6e5af9f9b400f8f84cf38b4d74f4702b4e0
+
+  2.096 31 July 2020
+
+      * Add Zip support for Zstd
+        508258baeeec51ba49c3c07d2dda7c19e3194985
+
+      * Add support for Zip/Unzip with XZ compression
+        6d240d3b3514d627a751ec82fe71f2e236301e19
+        3c0046e8bc65ef467b9153722609654d3ccc5bbd
+
+  2.095 19 July 2020
+
+      * Add Support for Zstandard in AnyUncompress
+
+  2.094 13 July 2020
+
+      * bin/zipdetails version 2
+
+        7acb49ff4ca67051deaffd7f988556dae0dd884b small update
+        f5988eebc21a4d0b96e0b094e6e9bf8d3dcb1763 Better error messages for missing Zip64 records
+        d224dcc321dd1ff120345ac3a19286ecdc79776f Add note about warning output
+        4caa0e5117c4c214f457d90f9a87d00772a79622 Add --version option
+        6c045c859d2b6bab0398833f207d7f9b803bbbab Version 2
+        df97743ffa1da816936e8ef504c9d561d66bb0ed Beef up some error cases
+        073129c4f44ebd3cc2c5381ffa824fc09b474c29 Rename a couple of unused signatures
+        72568c7d9edfd3e2fb6647dce6ea511e9caa186c update comment
+        1088199809cabb9c565ac23f065988683aacd323 Merge branch 'master' of https://github.com/pmqs/IO-Compress
+        ad987ab95e3f3fa02fcf526736ad2da78d327460 Merge pull request #10 from fabiensanglard/master
+        ac76d1b3d3f23077b1700778226edd68c50d81a8 fix typo
+        5950d7e724479f0eceffe68ae515ac117ff6a5ef Don't output "Extra Payload" if length is zero
+        dbd3160decd9b761dbad7aaae2ec46c0173125ef Merge pull request #12 from fabiensanglard/extra
+        7ae4a98124c9195ca5286e3ac7d2cbe37fa2b644 Recover from bad extra subfield
+        3e12e62916da31c003a7273293bc32bb9a31f85f Fix typo
+        f3a0a4717433d32743f17d40adc30e11bea60868 Fix wrong START offset
+        6f078dca715473276556afb0b8582bb69efa7230 Typo for Implode string "Shannon-Fano Trees"
+        4e25fed1a8e29518fa38f0610a5ca33ca41e9d89 some small documentation updates.
+        1be04bf4bd5fb023ad276ecabdbc170823bac465 Add decoder for 'Open Packaging Growth Hint'
+        2da58735bdbd1149863014dd08a7cea0334f52d5 update compression method 16
+        82a9612676ae192747b8bcbf586b09408c3b72ce Add extra fields 0x20-0x23 from APPNOTE 6.3.5
+        bc5e2ffbc560b236bc3be0f977ce744f2a2afbfb remove trailing whitespace
+        3f70119190671b00eb432e36904aa9dbb2fb8f69 minor documentation changes
+
+  2.093 7 December 2019
+
+      * No changes
+
+  2.092 4 December 2019
+
+      * No changes
+
+  2.091 23 November 2019
+
+      * 000prereq.t: Drop LZMA Module as optional
+        00d3c110ce6fd6e77dbede3e3aa6125394141891
+        3697a7ced67d0989f2678514e9b04cbec3198f12
+        7494437856fb815ba2d6b8762ef6fc623a6384e2
+
+      * 011streamzip.t: Fixes for 5.6
+        2078eb58c5f483341ac7e5c6fc5d48a0a752c585
+        2f370b8ffb09b5cc5ad0830f9ef798b24a62f424
+        30101188220dddbfaf1c42a2a91b9bac147909ab
+
+  2.090 9 November 2019
+
+      * MANIFEST error for streamzip
+        https://github.com/pmqs/IO-Compress/issues/6
+        70dd9bb4d27bd23d47ac9392320f55c124bc347b
+
+  2.089 3 November 2019
+
+      * bin/streamzip
+        Add streamzip to EXE_FILES
+        https://github.com/pmqs/IO-Compress/issues/5
+        7f5ed78e5652125c9ba78aab720e18d384d59c00
+        fb8cd6480af6303f58fd2e12d4999cd1830f0c5f
+
+  2.088 31 October 2019
+
+      * t/105oneshot-zip-only.t
+        Fix reset of CompSize
+        6034da95f1dc5a594edc0d26e6add8d86990ad56
+
+      * Add Support Details
+        ad66b6ec4cf175a70e53f74572eed5f403648f11
+
+      * Update site for Bzip2 to sourceware
+        77497aeb2a234889a2b2c4ac7ea2f620895b16a9
+
+      * Fix number of tests
+        bc4e234449a82fb00f66af752dfc4c96097b2a4d
+
+      * Add streamzip script to bin
+        76d2795d0587bafb0cc398e97142740acba82a42
+
+      * zipdetails
+
+        * Update zipdetails to version 1.11
+         8958cb3aa90745a4b3369479846846fdca6b4f76
+
+        * Zip64 extra field typo
+          f186380d701fe5257f9fc92d69160dc6382cfc24
+
+      * t/105oneshot-zip-only.t
+        test with deflated directory
+        16bfffcf5089af67cb7f68685cc61d06409cba73
+
+      * t/105oneshot-zip-only.t
+        Add test for encrypted Zip files
+        5ad813115aed000f88d7df28261b43c00ae56525
+        2c64e255feb5a1ee33d033f7eccb6feca12ebe97
+
+      * Documentation Updates
+        https://github.com/pmqs/IO-Compress/issues/2
+        e1fd0d4eda0a8496981cbd83ad06906f4ae586a5
+
+      * Mention xz, lzma etc
+        https://github.com/pmqs/IO-Compress/issues/4
+        126f7b9da97b572d0fb89a9bdcc190c5405c72b8
+
+  2.087 10 August 2019
+
+      * IO::Uncompress::Unzip
+        nextStream not updating filehandle correctly
+        https://github.com/pmqs/IO-Compress/issues/3
+        25152f04f5b1bd9341502e42a5877c72eac3f291
+
+      * Added travis & appveyor files for CI in GitHub
+
+
+  2.086 31 March 2019
+
+      * IO::Compress::Zip & IO::Uncompress::Unzip
+        Added support for Language Encoding Flag via the EFS option.
+        Starting point was pull request https://github.com/pmqs/IO-Compress/pull/1
+
+      * zipdetails - some support for MVS (Z390) zip files
+
+      * IO::Uncompress::Base
+        Issue with trailing data after zip archive
+        #128626 for IO-Compress: mainframe zip archive
+
+      * t/cz-14gzopen.t
+        cperl error found in http://www.cpantesters.org/cpan/report/448cafc4-3108-11e9-9b6b-d3d33d7b1231
+        Perl has this: "Not enough arguments for Compress::Zlib::gzopen"
+        cperl uses this: "Not enough arguments for subroutine entry Compress::Zlib::gzopen"
+
+      * Handlers being called when optional modules are not installed
+        #128538:  $SIG{__DIE__}
+
+      *  #128194: Beef up diag when system returns error
+
+      * Moved source to github https://github.com/pmqs/IO-Compress
+
+      * Add META_MERGE to Makefile.PL
+
+      * Added meta-json.t & meta-yaml.t
+
+  2.084 5 January 2019
+
+      * IO::Uncompress::AnyUncompress.pm
+        Added support for IO::Uncompress::Zstd and IO::Uncompress::UnLzip
+
+  2.083 30 December 2018
+
+      * IO::Compress::*
+      * IO::Uncompress::*
+        The BinModeIn and BinModeOut options in are now no-ops.
+        ALL files will be read/written in binmode.
+
+      * IO::Uncompress::Unzip
+        Fixed issue with unziping a member from a streamed zip file.
+        Issue triggered by a libreoffice document.
+        Test added to 105oneshot-zip-only.t
+        Thanks to Fabrizio Pivari for the bug report.
+
+      * Added U64::isZero
+
+      * bin/zipdetails
+        Added 'Data Stream Alignment' (tag 0xa11e) to extra fields.
+        Field sourced from https://support.pkware.com/display/PKZIP/Proposed+ZIP+Format+Specification+Additions
+
+      * Compress::Zlib.pm
+        #125140: Tiny POD error in Compress::Zlib
+
+  2.081 4 April 2018
+
+      * previous release used $^W instead of use warnings. Fixed.
+
+  2.080 2 April 2018
+
+      * bin/zipdetails
+        #124003: zipdetails SYNOPSIS section got a typo: zipdetaile-> zipdetails
+
+      * IO::Uncompress::Base.pm
+        Changes for Archive::Zip::SimpleUnzip
+
+      * bin/zipdetails
+        Fix issues with zip64 archives.
+
+      * bin/zipdetails
+        Cope with zip archives where there is padding data after the compressed payload.
+        Example is Microsoft appx file.
+
+      * File::GlobMapper
+        #120580: File::GlobMapper::$VERSION needs increment; trailing whitespace
+
+      * t/cz-03zlib-v1.t
+        valgrind errors fixed in Compress::Raw::Zlib 2.0.75 for issue #121074
+        #121076: uninitialized errors from valgrind
+
+  2.074 19 Feb 2017
+
+      * Fix bad 2.073 release
+
+  2.073 18 Feb 2017
+
+      * #120239: [PATCH] ISA fixes for c3
+
+  2.072 12 Feb 2017
+
+      * Makefile.PL
+        #120084: Need Fix for Makefile.PL depending on . in @INC
+
+  2.070 28 Dec 2016
+
+      * File::GlobMapper
+        #117675: Fix prototype errors while lazy loading the module
+
+      * zipdetails
+        #116538: CVE-2016-1238: avoid loading optional modules from default .
+
+  2.069 26 Sept 2015
+
+      * IO::Compress::FAQ
+        - Added a section of bgzip
+          RT #103295: IO::Compress Feature request
+
+      * IO::Compress::Zip
+        - Zip64 needs to be first in extra field to workaround a Windows Explorer Bug
+          See http://www.info-zip.org/phpBB3/viewtopic.php?f=3&t=440 for details
+
+  2.068 23 Dec 2014
+
+      * Disable running of some of the slower test harnesses by default.
+        COMPRESS_ZLIB_RUN_MOST needs set to run them. Make life more
+        bearable on legacy platforms
+
+  2.067 8 Dec 2014
+
+      * RT #100257: IO::Compress::RawDeflate unnecessarily loads IO::Seekable
+
+  2.066 21 Sept 2014
+
+      * IO::Uncompress::Gzip
+        Documentation of ExtraFlags stated the XFL values for BEST_COMPRESSION
+        and BEST_SPEED use the values 2 & 4 respectively. They should
+        be 4 & 2. Code for setting XFL was correct.
+
+      * RT #95494: IO::Uncompress::Gunzip: Can no longer gunzip to in-memory
+        file handle
+
+  2.064 1 February 2014
+
+      * RT #90216: IO-Compress/t/050interop-gzip.t: Use android-compatible
+        flags when calling gzip
+
+  2.063 20 October 2013
+
+      * RT#89305: Typo in Compress::Zlib _combine function documentation
+
+  2.062 11 August 2013
+
+      * RT#87335: [PATCH] Fix up tests for imminent bleadperl changes
+
+      * RT#84647: typo fixes
+
+      * RT#86814: IO::Compress::Gzip test t/100generic-bzip2.t hangs on Cygwin
+
+  2.061 19 May 2013
+
+      * zipdetails (1.06)
+        Get it to cope with Android 'zipalign' non-standard extra fields.
+        These are used to make sure that a non-compressed member starts on
+        a 4 byte boundary.
+
+      * RT#84647: unzip example with IO::Uncompress::Unzip
+
+  2.060 7 January 2013
+
+      * Updated POD
+        RT# 82138: Example code not clear - gunzip() takes filenames!
+
+      * IO::Compress::Base
+        Remove the flush call when opening a filehandle.
+
+  2.059 10 December 2012
+
+      * IO::Compress::Base
+        Added "Encode" option.
+        Fixes the encoding half of RT# 42656. Decode is still TODO
+
+  2.058 12 November 2012
+
+      * RT# 81119: Latest IO::Compress 2.057 fails tests on 5.8.x
+
+  2.057 10 November 2012
+
+      * IO::Compress::Zip
+        Allow member name & Zip Comment to be "0"
+
+      * IO::Compress::Base::Common
+        Remove "-r" test - the file open will catch this.
+        RT# 80855: IO::Compress::Base::Common returns that it cannot read readable files in NFS
+
+      * RT# 79820: Install to 'site' instead of 'perl' when perl version is 5.11+
+
+      * General Performance improvements.
+
+  2.055 5 August 2012
+
+      * FAQ
+        Added a few paragraphs on how to deal with pbzip2 files
+        [RT# #77743: Interoperability problems with pbzip2]
+
+      * Compress::Zip
+        speed up compress, uncompress, memGzip & memGunzip.
+        [RT# #77350: Compress::Zlib::uncompress() is slowed down needlessly
+                     by parameter validation
+
+  2.052 29 April 2012
+
+      * IO::Compress::Zip
+        Force a ZIP64 archive when it contains >= 0xFFFF entries.
+
+      * Typos in POD
+        [RT# #76130: Gunzip Pod typo in OO section: $$output instead of $$input
+
+  2.049 18 February 2012
+
+      * IO::Compress::Zip
+        Error in t/cz-03zlib-v1.t that caused warnings with 5.15
+        [RT# 110736: warnings from cpan/IO-Compress/t/cz-03zlib-v1.t]
+
+  2.048 29 January 2012
+
+      * Set minimum zlib version to 1.2.0
+
+      * IO::Compress test suite fails with Compress::Raw::Zlib 2.047
+        and zlib < 1.2.4
+        [RT# 74503]
+
+  2.047 28 January 2012
+
+      * Set minimum Perl version to 5.6
+
+      * IO::Compress::Zip
+        - In one-shot zip, set the Text Flag if "-T" thinks the file is a
+          text file.
+        - In one-shot mode, wrote mod time & access time in wrong order
+          in the "UT" extended field.
+
+  2.046 18 December 2011
+
+      * Minor update to bin/zipdetails
+
+      * Typo in name of IO::Compress::FAQ.pod
+
+      * IO::Uncompress::Unzip
+        - Example for walking a zip file used eof to control the outer
+          loop. This is wrong.
+
+      * IO::Compress::Zip
+        - Change default for CanonicalName to false.
+          [RT# 72974]
+
+  2.045 3 December 2011
+
+      * Restructured IO::Compress::FAQ.pod
+
+  2.044 2 December 2011
+
+      * Moved FAQ.pod under the lib directory so it can get installed
+
+      * Added bin/zipdetails
+
+      * IO::Compress::Zip
+        - In one-shot mode enable Zip64 mode if the input file/buffer
+          >= 0xFFFFFFFF bytes.
+
+      * IO::Compress::FAQ
+        - Updates
+
+  2.043 20 November 2011
+
+      * IO::Compress::Base
+        - Fixed issue that with handling of Zip files with two (or more)
+          entries that were STORED. Symptom is the first is uncompressed
+          ok, but the next will terminate early if the size of the file is
+          greater than BlockSize.
+          Regression test added to t/006zip.t
+          [RT# 72548]
+
+  2.042 17 November 2011
+
+      * IO::Compress::Zip
+        - Added exUnixN option to allow creation of the "ux" extra field.
+          This allows 32-bit UID/GID to be stored.
+        - In one-shot mode use exUnixN rather than exUnix2 for the UID/GID.
+
+      * IO::Compress::Zlib::Extra::parseExtraField
+        - Fixed bad test for length of ID field
+          [RT# 72329 & #72505]
+
+  2.040 28 October 2011
+
+      * t/105oneshot-zip-only.t
+        - CanonicalName test failure on Windows
+          [RT# 68926]
+
+      * IO::Compress::Zip
+        - ExtAttr now populates MSDOS attributes
+
+  2.039 28 October 2011
+
+      * IO::Compress::Zip
+        - Added CanonicalName option.
+          Note this option is set to true by default.
+        - Added FilterName option
+
+      * IO::Unompress::Base
+        - Fixed issue where setting $\ would corrupt the uncompressed data.
+          Thanks to Steffen Goeldner for reporting the issue.
+
+      * t/050interop-*.t
+        - Handle case when external command contains a whitespace
+          RT #71335
+
+  2.037 22 June 2011
+
+      * IO::Uncompress
+        - get globmapper tests working on VMS
+          [RT# 68926]
+
+      * IO::Uncompress::Unzip
+        - Fixed limitation where Streamed Stored content was not supported.
+
+  2.036 18 June 2011
+
+      * IO::Compress::Zip & IO::Uncompress::Unzip
+        - Added support for LZMA (method 14) compression/uncompresion.
+
+      * IO::Compress::Unzip
+        - Fixed CRC issue when compression is Store or Bzip2 and Strict option
+          is set.
+
+      * IO::Compress::Zip
+        - Fixed Zip64 issue where the content size is exactly 0xFFFFFFFF
+
+  2.035 6 May 2011
+
+      * RT #67931: Test failure on Windows
+
+  2.034 2 May 2011
+
+      * Compress::Zlib
+        - Silence pod warnings.
+          [RT# 64876]
+
+        - Removed duplicate words in pod.
+
+      * IO::Compress::Base
+
+        - RT #56942: Testsuite fails when being run in parallel
+
+        - Reduce symbol import - patch from J. Nick Koston
+
+        - If the output buffer parameter passed to read has a value of
+          undef, and Append mode was specified when the file was opened,
+          and eof is reached, then the buffer paramer was left as undef.
+          This is different from when Append isn't specified - the buffer
+          parameter is set to an empty string.
+
+        - There are a couple of issues with reading a file that contains an
+          empty file that is compressed.
+          Create with -- touch /tmp/empty; gzip /tmp/empty.
+          Issue 1 - eof is not true immediately. Have to read from the file
+                    to trigger eof.
+          Issue 2 - readline incorrectly returns an empty string the first
+                    time it is called, and (correctly) undef thereafter.
+          [RT #67554]
+
+  2.033 11 Jan 2011
+
+      * Fixed typos & spelling errors.
+        [perl# 81816]
+
+  2.032 4 Jan 2011
+
+      * IO::Uncompress::Base
+        - An input file that had a valid header, and so would allow
+          creation of the uncompression object, but was then followed by
+          corrupt data would trigger an infinite loop when using the
+          input line oprator.
+          [RT #61915]
+
+      * IO::Compress::Gzip
+        - XFL default settings for max compression & fastest algorithm were
+          the wrong way around. Thanks to Andrey Zholos for spotting this.
+
+      * IO::Compress::Base::Common
+        - Fixed precedence problem in parameter parsing code.
+
+  2.030 22 July 2010
+
+      * IO::Compress::Zip
+        - Updates to documentation.
+        - Changes default value for ExtAttr on Unix to 0100644
+
+      * IO::Uncompress::Unzip
+        Reworked the "Name" option and examples in the pod.
+
+      * IO::Uncompress::Base
+        Fixed problem with nextStream not returning 0 when there is no
+        next stream and Transparent is false.
+
+  2.027 24 April 2010
+
+      * Compress::Zlib
+        Remove autoload code from Zlib.pm.
+        [perl #74088]
+
+  2.026 7 April 2010
+
+      * IO::Uncompress::Zip
+        - Some updates to IO::Compress::Zip documentation.
+        - Fixed default setting for ExtAttr.
+
+
+  2.025 27 March 2010
+
+      * IO::Uncompress::Unzip
+        The "Name" option wasn't documented.
+
+      * Allow zlib version check to be disabled by setting
+        TEST_SKIP_VERSION_CHECK environment variable.
+        [RT #54510]
+
+  2.024 7 January 2010
+
+      * Compress::Zlib
+        Get memGunzip & memGzip to set $gzerrno
+        [RT# 47283]
+
+      * Compress::Zlib
+        Export memGunzip, memGzip and zlib_version on demand
+        [RT# 52992]
+
+      * examples/io/anycat
+        This sample was using IO::Uncompress::AnyInflate. Much better to
+        use IO::Uncompress::AnyUncompress.
+
+  2.023 9 November 2009
+
+      * IO::Compress::AnyUncompress
+        Added support for lzma_alone & xz.
+
+  2.022 9 October 2009
+
+      * IO::Compress - Makefile.PL
+        Fix for core.
+
+  2.021 30 August 2009
+
+      * IO::Compress::Base.pm
+        - Less warnnings when reading from a closed filehandle.
+          [RT# 48350]
+        - Fixed minor typo in an error message.
+          [RT# 39719]
+
+      * Makefile.PL
+        The PREREQ_PM dependency on Scalar::Util got dropped when
+        IO-Compress was created in 2.017.
+        [RT# 47509]
+
+      * IO::Compress::Zip.pm
+        - Removed restriction that zip64 is only supported in streaming
+          mode.
+        - The "version made by" and "extract" fields in the zip64 end
+          central record were swapped.
+        - In the End Central Header record the "offset to the start of the
+          central directory" will now always be set to 0xFFFFFFFF when
+          zip64 is enabled.
+        - In the End Central Header record the "total entries in the
+          central directory" field will be set to 0xFFFF if zip64 is
+          enabled AND there are more than 0xFFFF entries present.
+
+      * IO::Uncompress::Unzip.pm
+        - Don't consume lots of memory when walking a zip file. This makes
+          life more bearable when dealing with zip64.
+
+      * Compress::Zlib.pm
+        - documented that memGunzip cannot cope with concatenated gzip data
+          streams.
+
+      * Changed test harness so that it can cope with PERL5OPT=-MCarp=verbose
+        [RT# 47225]
+
+      * IO::Compress::Gzip::Constants.pm
+        - GZIP_FEXTRA_MAX_SIZE was set to 0xFF. Should be 0xFFFF.  This
+          issue came up when attempting to unzip a file created by MS
+          Office 2007.
+
+  2.020 3 June 2009
+
+      * IO::Uncompress::Base.pm
+        - Fixed problem with LimitOutput where a call to uncompress
+          created more uncompressed output, but didn't consume any of
+          the input buffer. The symptom is the underlying compression
+          library (zlib or bzip2) thinks the input stream is corrupt.
+          [RT #46582]
+
+  2.019 4 May 2009
+
+      * IO::Uncompress::Adapter::Bunzip2
+        - Fixed problem with EOF check.
+
+  2.018 3 May 2009
+
+      * IO::Uncompress::Bunzip2
+        - The interface to Compress-Raw-Bzip2 now uses the new LimitOutput
+          feature. This will make all of the bzip2-related IO-Compress modules
+          less greedy in their memory consumption.
+
+      * IO::Compress::Zip
+        - Fixed exTime & exUnix2
+
+        - Fixed 'Use of uninitialized value in pack' warning when using
+          ZIP_CM_STORE.
+
+  2.017 30 March 2009
+
+      * Merged IO-Compress-Base, IO-Compress-Bzip2, IO-Compress-Zlib &
+        Compress-Zlib into IO-Compress.
+
+      * The interface to Compress-Raw-Zlib now uses the new LimitOutput
+        feature. This will make all of the zlib-related IO-Compress modules
+        less greedy in their memory consumption.
+
+      * Removed MAN3PODS from Makefile.PL
+
+      * A few changes to get the test harness to work on VMS courtesy of
+        Craig. A. Berry.
+
+      * IO::Compress::Base & IO::Uncompress::Base
+        Downgraded some croaks in the constructors to just set $! (by letting
+        the code attempt to open a file and fail).
+        This makes the behavior more consistent to a standard open.
+        [RT #42657]
+
+      * IO::Uncompress::Base
+        Doing a seek with MultiStream could drop some of the uncompressed
+        data. Fixed.
+
+      * IO::Compress::Zip
+        - Fixed problem with the uncompressed & uncompressed fields when
+          zip64 is enabled. They were set to 0x0000FFFF instead of
+          0xFFFFFFFF. Also the ZIP64 extra field was 4 bytes short.
+          Problem spotted by Dino Chiesa.
+
+      * IO::Uncompress::Unzip
+        - use POSIX::mktime instead of Time::Local::timelocal to convert
+          the zip DOS time field into Unix time.
+
+      * Compress::Zlib
+        - Documented Compress::Zlib::zlib_version()
+
+
+  2.015 3 September 2008
+
+      * Makefile.PL
+        Backout changes made in 2.014
+
+  2.014 2 September 2008
+
+      * Makefile.PL
+        Updated to check for indirect dependencies.
+
+  2.013 18 July 2008
+
+      * IO::Compress::Base
+        - Allow IO::Compress::Base::Parameters::parse to accept an
+          IO::Compress::Base::Parameters object.
+
+  2.012 15 July 2008
+
+      * IO::Compress::Base
+        - Silenced an uninitialised value warning when reading a line
+          at a time from a zip file where the content uses ZIP_CM_STORE.
+          [Problem spotted & fixed by Jeff Holt]
+
+      * IO::Compress::Base & IO::Uncompress::Base
+        - local-ise $!, $? et al in the DESTROY methods.
+
+  2.011 17 May 2008
+
+      * IO::Compress::Base
+        - Fixed problem that prevented the creation of a zip file that
+          contained more than one compression method.
+
+      * IO::Compress::Base::Common
+        - The private Validator class in this module clashes with another
+          CPAN module. Moved Validator into the IO::Compress::Base::Common
+          namespace.
+          [RT #35954]
+
+      * IO::Uncompress::Unzip
+        - Print an error message if the zip file contains a
+          member compressed with bzip2 and IO::Uncompress::Bunzip2 is
+          not available.
+        - Could not cope with mixed compression zip files. For example a
+          zip file that contains both STORED and DEFLATED content.
+          [RT #35573]
+
+  2.010 5 May 2008
+
+      * Fixed problem that meant Perl 5.10 could not upgrade this module.
+        [RT #35342 & 35341]
+
+  2.009 20 April 2008
+
+      * Removed the alpha status from File::GlobMapper
+
+      * IO::Compress::Base
+        When writing output never output a zero length buffer.
+        Done to improve interoperability with other tied filenandle
+        modules.
+
+      * Changed IO::Uncompress::Base to not use the offset parameter of
+        the read method when reading from a filehandle.
+
+        The object returned from Net::FTP::retr implements a non-standard
+        read method. The third parameter is used for a timeout value
+        rather than an offset.
+        [rt.cpan#33231]
+
+      * Changed IO::Uncompress::Base to not use the eof method when
+        reading from a filehandle.
+
+        The object returned from Net::FTP::retr implements both the read
+        method and the eof method. Unfortunately the implementation of
+        the read method uses non-buffered IO (by using sysread) while
+        the eof method uses buffered IO. Mixing buffered and non-buffered
+        IO results in data corruption.
+
+      * IO::Compress::Zip
+
+        - Added exUnix2 option to allow storing of UID & GID.
+        - When running on a Unix derivative the ExtAttr option now defaults
+          to the equivalent of 0666. For all other systems the default
+          remains 0.
+
+      * Compress::Zlib
+        - Minor documentation issue with flush.
+          [rt.cpan.org #31446]
+
+
+  2.008 2 November 2007
+
+      * Minor documentation changes in README
+
+      * t/compress/truncate.pl
+        EBCDIC Cleanup.
+
+      * IO::Compress::Gzip::Constants.pm
+        Tidied up the character classes used to defined invalid
+        FNAME & FCOMMENT fields for EBCDIC.
+
+      * Compress::Zlib
+        lib/Compress/Zlib.pm -- 1.x Backward Compatibility issues
+        gzclose - documented return value was wrong, should be 0 for ok.
+        gzflush - return value didn't match 1.x, should return 0 if ok.
+        [rt.cpan.org #29215] and Debian bug #440943 http://bugs.debian.org/440943
+
+  2.006 1 September 20007
+
+      * Makefile.PL
+        Added INSTALLDIRS directive to install as a core module when built
+        on a perl >= 5.9.
+
+      * IO::Uncompress::RawDeflate
+
+        - Fixed export problem - "$RawDeflateError" and "rawdeflate" were
+          not being exported with ":all".
+
+      * Compress::Zlib
+        - t/03zlib-v1.t
+          Fixed crc32 and adler32 tests in to remove ascii assumption.
+
+        - lib/Compress/Zlib.pm
+          Make gzreadline not support $/, just like in Compress::Zlib 1.x
+          Folk who want $/ with readline support can get it in
+          IO::Uncompress::Gunzip.  [rt.cpan.org #28663] and
+          Debian bug #435656 http://bugs.debian.org/435656
+
+
+  2.005 18 June 2007
+
+      * Stephen Turner reported a problem when using IO::Uncompress::Gunzip
+        with XML::Parser. Turns out there were two issues.
+
+        Firstly an IO::Uncompress object isn't an IO::Handle. It is now.
+
+        Secondly the implementation of "read" wasn't honouring this
+
+            SCALAR will be grown or shrunk to the length actually read.
+
+        In particular it didn't do the right thing on EOF.
+        This has been fixed.
+
+      * IO::Compress::Gzip & IO::Uncompress::Gunzip
+
+        - RFC1952 says that the FNAME & FCOMMENT header fields must be ISO
+          8859-1 (LATIN-1) characters. The code can optionally police this.
+          Added a fix for this logic when running on EBCDIC.
+
+      * Compress::Zlib
+        Added info about removing Compress::Zlib version 1, before
+        installing version 2.
+
+  2.004 3 March 2007
+
+      * Made seek less wasteful of memory.
+
+      * IO::Compress::Zip
+
+        - Added Zip64 documentation.
+
+        - Fixed extended timestamp.
+          Creation time isn't available in Unix so only store the
+          modification time and the last access time in the extended field.
+
+        - Fixed file mode.
+
+        - Added ExtAttr option to control the value of the "external file
+          attributes" field in the central directory.
+
+        - Added Unix2 extended attribute ("Ux").
+          This stores the UID & GID.
+
+      * IO::Compress::Gzip
+
+        - Fixed 050interop-gzip.t for Windows
+
+      * IO::Compress::Bzip2
+
+        - Fixed 050interop-bzip2.t for Windows
+
+      * Compress::Zlib
+
+        - rewrote memGzip using IO::Compress::Gzip::gzip
+
+  2.003 2 January 2007
+
+      * Added explicit version checking
+
+  2.002 29 December 2006
+
+      * Documentation updates.
+
+      * Added IO::Handle to the ISA test in isaFilehandle
+
+      * Add an explicit use_ok test for Scalar::Util in the test harness.
+        The error message reported by 01misc implied the problem was
+        somewhere else.
+        Also explicitly check that 'dualvar' is available.
+
+      * Compress::Zlib
+        - Fix append mode with gzopen.
+          rt-cpan.org 24041
+
+        - Allow gzopen to read from and write to a scalar reference.
+
+  2.001 1 November 2006
+
+      * Remove beta status.
+
+  2.000_14 26 October 2006
+
+      * IO::Uncompress::Base
+        Added support for $/ in record mode
+
+      * IO::Uncompress::Base
+        The readline interface was substantially slower than the 1.x
+        equivalent. This has now been sorted.
+        Thanks to Andreas J. Koenig for spotting the problem.
+
+      * IO::Uncompress::AnyUncompress
+        Added IO::Uncompress::Lzf to the list of supported uncompressors.
+
+      * IO::Uncompress::Base
+        Added TrailingData to one-shot interface.
+
+      * IO::Uncompress::AnyUncompress
+        Remove raw-deflate (RFC1951) from the default list of compressors
+        to check.
+        It can still be included if the new RawInflate parameter is
+        supplied.
+        This change was made because the only way to tell if content is
+        raw-deflate is to attempt to uncompress it - a few false positives
+        have popped up recently, which suggests that auto-detecting raw
+        deflate is far from perfect.
+        The equivalent change has been made to IO::Uncompress::AnyInflate.
+        [Core patch #28445]
+
+      * Don't check that filehandles are writable. It would seem that
+        "-w *STDOUT" on windows returns false.
+        [Core Patch #28415]
+
+      * IO::Uncompress::Deflate
+        Beefed up the magic signature check. Means less false positives
+        when auto-detecting the compression type.
+
+      * IO::Uncompress::UnZip
+        Tighten up the zip64 extra field processing to cope with the case
+        wheere only some of the local header fields are superseded.
+
+      * IO::Uncompress::AnyInflate
+        Remove raw-deflate (RFC 1951) from the default list of compressors
+        to check.
+        It can still be included if the new RawInflate parameter is
+        supplied.
+        This change was made because the only way to tell if content is
+        raw-deflate is to attempt to uncompress it - a few false positives
+        have popped up recently, which suggests that auto-detecting raw
+        deflate is far from perfect.
+        The equivalent change has been made to IO::Uncompress::AnyUncompress.
+        [Core patch #28445]
+
+  2.000_13 20 June 2006
+
+      * Store compress & uncompressed sizes as 64-bit.
+
+      * For one-shot uncompression, like this
+
+            unzip "some.zip" => \@a, MultiStream => 1;
+
+        Push each uncompressed stream from "some.zip" onto @a.
+
+      * Added IO::Compress::Base::FilterEnvelope
+
+      * Added IO::Uncompress::Base::nextStream
+
+      * The '-' filehandle now maps to either *STDIN or *STDOUT.
+        This keeps mod_perl happier. Was using these before
+
+            new IO::File("<-")
+            new IO::File(">-")
+
+      * Preliminary support for reading zip files with zip64 members.
+
+  2.000_12 3 May 2006
+
+      * Moved the code for creating and parsing the gzip extra field into
+        IO::Compress::Zlib::Extra.pm so that IO::Compress::Zip &
+        IO::Uncompress::Unzip can use it as well.
+
+      * Added ExtraFieldLocal & ExtraFieldCentral options to IO::Compress::Zip.
+        These allow the creation of user-defined extra fields in the local
+        and central headers, just like the ExtraField option in
+        IO::Compress::Gzip.
+
+      * Moved the zip constants into IO::Compress::Zip::Constants
+
+      * Added exTime option to IO::Compress::Zip.
+        This allows creation of the extended timestamp extra field.
+
+      * Added Minimal option to IO::Compress::Zip.
+        This disables the creation of all extended fields.
+
+      * Added TextFlag option to IO::Compress::Zip.
+
+      * Documented Comment and ZipComment options in IO::Compress::Zip.
+
+      * Compress::Zlib
+        Fixed gzread to zap the output buffer to an empty string when zero
+        bytes are requested. This matches the behaviour of C::Z 1.x
+
+  2.000_11 10 April 2006
+
+      * Transparent + InputLength made more robust where input data is not
+        compressed.
+
+      * Updated Documentation for zip modules.
+
+      * Changed IO::Compress::Zip 'Store' option to 'Method' and added
+        symbolic constants ZIP_CM_STORE, ZIP_CM_DEFLATE and ZIP_CM_BZIP2 to
+        allow the compression method to be picked by the user.
+
+      * Added support to allow bzip2 compressed data to be written/read
+        with IO::Compress::Zip and IO::Uncompress::Unzip.
+
+      * Beefed up 050interop-gzip.t to check that the external gzip command
+        works as expected before starting the tests. This means that
+        this test harness will just be skipped on problematic systems.
+
+      * Merged core patch 27565 from Steve Peters. This works around a
+        problem with gzip on OpenBSD where it doesn't seem to like
+        compressing files < 10 bytes long.
+
+      * Beefed up 050interop-bzip2.t to check that the external bzip2 command
+        works as expected before starting the tests. This means that
+        this test harness will just be skipped on problematic systems.
+
+  2.000_10 13 March 2006
+
+      * AnyUncompress doesn't assume  that IO-Compress-Zlib is installed any
+        more.
+
+      * Documentation updates.
+
+      * Compress::Zlib
+        Changed gzread so that its behaviour matches C::Z::gzread 1.x if it
+        is called after eof. In this case it will write an empty string
+        into the output parameter. This change is solely for backward
+        compatibility reasons.
+
+  2.000_09 3 March 2006
+
+      * Released to CPAN.
+
+  2.000_08 2 March 2006
+
+      * Split IO::Compress::Base into its own distribution.
+
+      * Split IO::Compress::Bzip2 into its own distribution.
+
+      * Added opened, autoflush and input_line_number.
+
+      * Beefed up support for $.
+
+      * Split IO::Compress::Zlib into its own distribution.
+
+      * Beefed up support for zip/unzip
+
+      * Breakout zlib specific code into separate modules.
+
+      * Limited support for reading/writing zip files
+
+  2.000_06 5 October 2005
+
+      * Added eof parameter to Compress::Zlib::inflate method.
+
+      * Fixed issue with 64-bit
+
+  2.000_05 4 October 2005
+
+      * Renamed IO::* to IO::Compress::* & IO::Uncompress::*
+
+  2.000_04 23 September 2005
+
+      * Fixed some more non-portable test that were failing on VMS.
+
+      * fixed problem where error messages in the oneshot interface were
+        getting lost.
+
+  2.000_03 12 September 2005
+
+      * Fixed some non-portable test that were failing on VMS.
+
+      * Fixed export of zlib constants from the IO::* classes
+
+  2.000_02 6 September 2005
+
+      * Split Append mode into Append and Merge
+
+      * Fixed typos in the documentation.
+
+      * Added pod/FAQ.pod
+
+      * Added libscan to Makefile.PL
+
+      * Added InputLength for IO::Gunzip et al
+
+  2.000_01 22 August 2005
+
+      * Fixed VERSION in Compress::Gzip::Constants
+
+      * Removed Compress::Gzip::Info from the distribution.
+
+  2.000_00 21 August 2005
+
+      * First Beta relase of Compress::zlib rewrite.
+
+Compress-Zlib version 1 Changes
+
+  1.38 - 6 September 2005
+
+      * Integrate core change 25304 -- Symbian Update
+
+      * Added libscan to Makefile.PL
+
+  1.37 - 12 August 2005
+
+      * Change to t/03examples.t for VMS from Abe Timmerman
+
+  1.36 - 3 August 2005
+
+      * Renamed zlib-src-1.2.3 to zlib-src to help VMS
+
+      * Fixed Makefile.PL for VMS
+
+      * Fixed t/03examples.t for VMS
+
+      * Added a couple of notes about incompatibility with Unix compress.
+
+  1.35 - 16 July 2005
+
+      * Updated zlib source to 1.2.3
+
+      * Fixed problem with where two calls to gzclose would hang the debugger.
+        See https://rt.cpan.org/Ticket/Display.html?id=13789
+
+      * Added code from Alexey Tourbin to use XSLoader when available,
+        and DynaLoader otherwise.
+
+      * Documented that the compress & uncompress functions were not
+        the same as the Unix utilities of the same name.
+
+      * Fixed 05gzsetp -- it left a temp file hanging around.
+
+      * Integrate core change 24787 - SvUPGRADE returns void in blead
+
+      * Integrate core change 24788 - Makefile.PL adjustments for the core
+
+
+  1.34 - 30 January 2005
+
+      * Fixed typo in the README
+
+      * Fixed examples.t on Win32 where paths have embedded whitespace.
+
+      * Fix for Cygwin and core integration from Jos I. Boumans
+
+      * Upgrade zlib source to 1.2.2
+
+  1.33 - 14 January 2004
+
+      * Reworked Makefile.PL to avoid creating a private copy of zlib.
+        This both simplifies the build, plus it makes life easier for VMS.
+
+      * Patches for Makefile.PL to get it to work on VMS supplied by
+        Craig A. Berry.
+
+      * memGunzip has very slow on FreeBSD. Turns out to be down to
+        the way realloc works on FreeBSD. Changed both inflate & deflate
+        to use exponentially increasing buffer sizes when they need to
+        realloc. Thanks to Peter Jeremy for the lowdown on FreeBSD
+        memory allocation.
+
+  1.32 - 26 November 2003
+
+      * Steve Hay reported a problem on rt.cpan.org with Windows and
+        MSCV++ 6.0 where the source from the zlib directory was getting
+        installed with the rest of the module.
+        https://rt.cpan.org/Ticket/Display.html?id=1741
+
+        This has been fixed by renaming the "zlib" directory to "zlib-src"
+        thus avoiding a conflict with the name of this Perl module.
+
+      * Fixed a bug in the inflate method where the input buffer is an
+        lvalue (via substr). Problem & solution reported by Salvador Fandiqo.
+
+      * Tightened up the logic in Makefile.PL when BUILD_ZLIB is
+        True. Issue spotted by Ralf S. Engelschall.
+
+  1.31 - 29 October 2003
+
+      * Reinstated the creation of .bak files - $^I seems to need a
+        backup file on Windows. For OpenVMS, the extension _bak is used.
+
+  1.30 - 28 October 2003
+
+      * Bundled a sub-set of the zlib source with the module and changed
+        the default make behaviour to build with the included zlib source.
+        The previous behaviour of using a pre-built zlib library is
+        still available for those that want it.
+
+      * Added prototypes to the subs in Zlib.pm that didn't already have
+        them. Patch from Ed Avis.
+
+      * No .bak files are created by Makefile.PL any more - this keep
+        distclean much happier. Patch suggested by Ed Avis.
+        This also fixes a similar problem reported by Dr. Martin Zinser
+        on OpenVMS.
+
+      * Documentation for some of the gz functions updated.
+
+      * Format strings modified in DispStream to keep OpenVMS happy.
+        Problem reported by Dr. Martin Zinser.
+
+
+  1.22 - 17 June 2003
+
+      * Makefile.PL now displays a warning about not installing
+        Compress::Zlib via the CPAN shell.
+
+      * Fix to allow intermingling of gzread & gzreadline - patch
+        supplied by Doug Perham.
+
+      * memGunzip will silently now work if the gzip trailer is
+        missing. Some HTTP Origin Servers seem to leave it out.
+
+  1.21 - 28 April 2003
+
+      * Tests 148 & 150 from t/02zlib.t were failing on redhat 9.
+
+      * Added a few words about the problems with Mac OS X to the README file.
+
+  1.20 - 4 April 2003
+
+      * Fixed bug in gzopen where $gzerrno wasn't being set correctly.
+        The symptom was $gzerrno was set to Z_MEM_ERROR although the file
+	was opened ok. If gzopen failed, $gzerrno was being set correctly.
+	This problem wasn't spotted before because the typical test
+	to determine whether gzopen passed or failed was to check its
+	return value.
+
+  1.19 - 31 October 2002
+
+      * fixed a problem with t/02zlib.t that was failing with redhat 8.
+
+  1.18 - 24 October 2002
+
+      * fixed a Win32 problem in t/02zlib.t by changing sysread to read.
+
+      * zlib 1.0.5 & older doesn't have gzsetparams & gzeof. Added a new
+        variable to config.in to flag an old version of zlib. Split
+        out the tests for gzsetparams into t/05gzsetp.t
+
+  1.17 - 23 May 2002
+
+      * Moved the test to check the versions of libz & zlib.h into a separate
+        file and added troubleshooting notes to README.
+
+      * In gzopen, only attempt to call "tell" for normal files.
+
+      * Fixed to work in taint mode.
+
+      * Broke changes out of README into Changes file.
+
+      * Replaced internal use of Z_PARTIAL_FLUSH symbol with Z_SYNC_FLUSH.
+        zlib.h says  /* will be removed, use Z_SYNC_FLUSH instead */
+
+  1.16 - 13 December 2001
+
+      * Fixed bug in Makefile.PL that stopped "perl Makefile.PL PREFIX=..."
+        working.
+
+  1.15 - 4th December 2001
+
+      * Changes a few types to get the module to build on 64-bit Solaris
+
+      * Changed the up/downgrade logic to default to the older constructs, and
+        to only call a downgrade if specifically requested. Some older versions
+        of Perl were having problems with the in-place edit.
+
+      * added the new XS constant code.
+
+  1.14 - 27th August 2001
+
+      * Memory overwrite bug fixed in "inflate". Kudos to Rob Simons for
+        reporting the bug and to Anton Berezin for fixing it for me.
+
+  1.13 - 31st June 2001
+
+      * Make sure config.in is consistent when released.
+
+  1.12 - 28th April 2001
+
+      * Modified Makefile.PL to only enable the warnings pragma if
+        using perl 5.6.1 or better.
+
+  1.11 - 17th February 2001
+
+      * Added logic in Makefile.PL to toggle between using $^W and
+        the warnings pragma in the module.
+
+      * The module, the examples & the test harness are now all strict
+        & warnings clean.
+
+  1.10 - 5th February 2001
+
+      * fixed a bug in memGunzip. Used Z_ERR instead of Z_DATA_ERROR.
+
+  1.09 - 15th January 2001
+
+      * Silenced a few compiler warnings.
+
+      * Updated zlib home site in README & Zlib.pm to www.info-zip.org
+
+      * Minor typo in Zlib.pm - a link used AUTHORS instead of AUTHOR
+        -- spotted by Frank Martini.
+
+      * Mention Archive::Zip
+
+      * added memGunzip. This is largely based on code provided by Jim Leonard.
+
+      * $deflate->flush can now take an optional parameter. Valid
+        values are Z_NO_FLUSH, Z_PARTIAL_FLUSH, Z_SYNC_FLUSH, Z_FULL_FLUSH
+        and Z_FINISH. The default is Z_FINISH.
+
+  1.08 - 6 Jan 2000
+
+      * uncompress was clobbering its input parameter. Now it doesn't.
+        This bug was spotted by Deven T. Corzine.
+
+      * If a variable that only ever contained a number was given
+        to compress or deflate, it would not be compressed properly. Now
+        it will be coerced to a string and then compressed. This bug
+        was spotted by Deven T. Corzine.
+
+  1.07 - 27 Nov 1999
+
+      * ANSI-ified the static functions in Zlib.xs
+
+      * Added the ability to build zlib along with the module.
+        This feature is 90% based on a Makefile provided by Gurusamy
+        Sarathy.
+
+  1.06 - 20 Sep 1999
+
+      * Fixed a nasty problem where inflate could truncate the data
+        returned. Thanks to Douglas Thomson <dougt@mugc.cc.monash.edu.au>
+        for both spotting the problem and fixing the bug.
+
+      * Added a note about the undocumented features in zlib that are
+        required when accessing zip files.
+
+      * gzclose will now get called automatically when the gzip object is
+        destroyed.
+
+  1.05 - 3 June 1999
+
+      * Previous release used newSVpvn, which doesn't exist in 5.004_04
+        or earlier. Changed to use newSVpv instead.
+
+      * The module needs Perl 5.004 or better, so updated the version
+        checking in Zlib.pm and Makefile.PL
+
+  1.04 - 27 May 1999
+
+      * Bug 19990527.001: compress(undef) core dumps -- Fixed.
+
+  1.03 - 17 Mar 1999
+
+      * Updated to use the new PL_ symbols.
+        Means the module can be built with Perl 5.005_5*
+
+  1.02 - 31 Jan 1999
+
+      * The return codes for gzread, gzreadline and gzwrite were
+        documented incorrectly as returning a status code.
+
+      * The test harness was missing a "gzclose". This caused problem
+        showed up on an amiga. Thanks to Erik van Roode for reporting
+        this one.
+
+      * Patched zlib.t for OS/2. Thanks to Ilya Zakharevich for the patch.
+
+  1.01 - 23 Nov 1997
+
+      * A number of fixes to the test suite and the example scripts to
+	allow them to work under win32. All courtesy of Gurusamy
+	Sarathy.
+
+  1.00 - 14 Nov 1997
+
+      * Fixed crc32 & adler32. They were very broken.
+
+      * The following functions can now take a scalar reference in
+	place of a scalar for their buffer parameters:
+
+    	    compress
+    	    uncompress
+    	    deflate
+    	    inflate
+    	    crc32
+    	    adler32
+
+	This should mean applications that make use of the module don't
+	have to copy large buffers around.
+
+
+      * Normally the inflate method consumes I<all> of the input buffer
+	before returning. The exception to this is when inflate detects
+	the end of the stream (Z_STREAM_END). In this case the input
+	buffer need not be completely consumed. To allow processing of
+	file formats that embed a deflation stream (e.g. zip, gzip),
+	the inflate method now sets the buffer parameter to be what
+	remains after inflation.
+
+	When the return status is Z_STREAM_END, it will be what remains
+	of the buffer (if any) after deflation. When the status is Z_OK
+	it will be an empty string.
+
+	This change means that the buffer parameter must be a lvalue.
+
+      * Fixed crc32 and adler32. They were both very broken.
+
+      * Added the Compress::Zlib::memGzip function.
+
+  0.5 - Confirmed that no changes were necessary for zlib 1.0.3, or 1.0.4.
+
+	The optional parameters for deflateInit and inflateInit can now
+	be specified as an associative array in addition to a reference
+	to an associative array. They can also accept the -Name
+	syntax.
+
+	gzopen can now optionally take a reference to an open
+	filehandle in place of a filename. In this case it will call
+	gzdopen.
+
+	Added gzstream example script.
+
+  0.4 - Upgrade to support zlib 0.99
+
+	Added dictionary interface.
+
+	Fixed bug in gzreadline - previously it would keep returning
+	the same buffer. This bug was reported by Helmut Jarausch
+
+	Removed dependency to zutil.h and so dropped support for
+
+	    DEF_MEM_LEVEL (use MAX_MEM_LEVEL instead)
+	    DEF_WBITS     (use MAX_WBITS instead)
+
+  0.3 - Added prototype specification.
+
+  0.2 - Fixed a minor allocation problem in Zlib.xs
+
+  0.1 - first alpha release. 2nd October 1995

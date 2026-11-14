@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org">
+<meta http-equiv="Content-Type" content=
+"text/html; charset=us-ascii">
+<title>Chapter&nbsp;22.&nbsp;Dynamic Boost on Linux</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.68.1">
+<link rel="start" href="index.html" title=
+"NVIDIA Accelerated Linux Graphics Driver README and Installation Guide">
+<link rel="up" href="installationandconfiguration.html" title=
+"Part&nbsp;I.&nbsp;Installation and Configuration Instructions">
+<link rel="prev" href="dynamicpowermanagement.html" title=
+"Chapter&nbsp;21.&nbsp;PCI-Express Runtime D3 (RTD3) Power Management">
+<link rel="next" href="xcompositeextension.html" title=
+"Chapter&nbsp;23.&nbsp;Using the X Composite Extension">
+</head>
+<body>
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter&nbsp;22.&nbsp;Dynamic Boost
+on Linux</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href=
+"dynamicpowermanagement.html">Prev</a>&nbsp;</td>
+<th width="60%" align="center">Part&nbsp;I.&nbsp;Installation and
+Configuration Instructions</th>
+<td width="20%" align="right">&nbsp;<a accesskey="n" href=
+"xcompositeextension.html">Next</a></td>
+</tr>
+</table>
+<hr></div>
+<div class="chapter" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title"><a name="dynamicboost" id=
+"dynamicboost"></a>Chapter&nbsp;22.&nbsp;Dynamic Boost on
+Linux</h2>
+</div>
+</div>
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt><span class="section"><a href=
+"dynamicboost.html#Introductiond7a86">Introduction</a></span></dt>
+<dt><span class="section"><a href=
+"dynamicboost.html#HardwareRequire1d82a">Hardware
+Requirements</a></span></dt>
+<dt><span class="section"><a href=
+"dynamicboost.html#SoftwareRequirea030b">Software
+Requirements</a></span></dt>
+<dt><span class="section"><a href=
+"dynamicboost.html#ConfigurationSt5d898">Configuration
+Steps</a></span></dt>
+</dl>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="Introductiond7a86"
+id="Introductiond7a86"></a>Introduction</h2>
+</div>
+</div>
+</div>
+<p>The <code class="filename">nvidia-powerd</code> daemon provides
+support for the NVIDIA Dynamic Boost feature on Linux platforms.
+Dynamic Boost is a system-wide power controller which manages GPU
+and CPU power, according to the workload on the system. By shifting
+power between the GPU and the CPU, Dynamic Boost can deliver more
+power to the component that would benefit most from it, without
+impacting the system's total thermal and electrical budgets. This
+optimizes overall system performance per watt.</p>
+<p>Dynamic Boost will be active when the notebook system is powered
+by AC or running on battery, provided there is enough load on the
+GPU. Dynamic Boost is intended to improve performance on balanced
+as well as heavily GPU-bound or CPU-bound applications. Dynamic
+Boost requests the CPUFreq Governor to set the CPU frequency by
+updating the <code class=
+"filename">/sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq</code>
+sysfs entries.</p>
+<p>Note:</p>
+<div class="orderedlist">
+<ol type="1">
+<li>
+<p>Dynamic Boost will enforce that the total power consumption of
+the system remains within the total power limit reported by the
+SBIOS. In some rare cases when running on DC battery, this may
+result in a performance loss relative to performance with Dynamic
+Boost disabled, but will help preserve battery life.</p>
+</li>
+<li>
+<p>The firmware of the system controls the behavior of Dynamic
+Boost and may disable the controller under certain conditions, for
+example, when the battery has low residual charge. Dynamic Boost
+will be enabled automatically when the system firmware notifies the
+driver that the conditions are favorable to enable it again.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name=
+"HardwareRequire1d82a" id="HardwareRequire1d82a"></a>Hardware
+Requirements</h2>
+</div>
+</div>
+</div>
+<p>Dynamic Boost is supported only on platforms that meet all of
+the following requirements:</p>
+<div class="orderedlist">
+<ol type="1">
+<li>
+<p>Notebook form factor.</p>
+</li>
+<li>
+<p>Turing or newer GPUs.</p>
+</li>
+<li>
+<p>Intel CometLake or newer Intel chipsets, or AMD Renoir, Cezanne,
+Rembrandt, or newer AMD chipsets.</p>
+</li>
+<li>
+<p>SBIOS support for Dynamic Boost</p>
+<p>Run the following command to check if the SBIOS supports Dynamic
+Boost:</p>
+<p><strong class="userinput"><code>cat
+/proc/driver/nvidia/gpus/domain:bus:device.function/power</code></strong></p>
+<p>See <a href="faq.html#busid">&ldquo;What is the format of a PCI
+Bus ID?&rdquo;</a> for information on how to determine the
+PCI-BUS-ID.</p>
+<p>Alternatively, use the following command:</p>
+<p><strong class="userinput"><code>nvidia-settings -q
+DynamicBoostSupport</code></strong></p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name=
+"SoftwareRequirea030b" id="SoftwareRequirea030b"></a>Software
+Requirements</h2>
+</div>
+</div>
+</div>
+<p>The system must fulfill all of the following requirements:</p>
+<div class="orderedlist">
+<ol type="1">
+<li>
+<p>Use the <span><strong class="command">systemd</strong></span>
+init daemon.</p>
+</li>
+<li>
+<p>Support the <span><strong class="command">D-Bus</strong></span>
+message bus system.</p>
+</li>
+<li>
+<p>Use the <span><strong class="command">cpufreq</strong></span>
+infrastructure.</p>
+</li>
+<li>
+<p>The following <span><strong class=
+"command">sysfs</strong></span> files are required for Dynamic
+Boost to function in AC mode:</p>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p><code class=
+"filename">/sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq</code></p>
+</li>
+<li>
+<p>(Intel CPU based notebooks only) <code class=
+"filename">/sys/devices/system/cpu/cpu*/cpufreq/base_frequency</code>
+<code class=
+"filename">/sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_max_freq</code></p>
+</li>
+<li>
+<p>(AMD CPU based notebooks only) <code class=
+"filename">/sys/bus/cpu/devices/cpu*/acpi_cppc/nominal_freq</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Additionally, the following <span><strong class=
+"command">sysfs</strong></span> files are required for Dynamic
+Boost to function in Battery (DC) mode:</p>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p><code class="filename">/sys/class/power_supply/BAT*/*</code></p>
+</li>
+<li>
+<p><code class="filename">/sys/class/hwmon/hwmon*/name</code></p>
+</li>
+<li>
+<p><code class=
+"filename">/sys/class/hwmon/hwmon*/temp1_input</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name=
+"ConfigurationSt5d898" id="ConfigurationSt5d898"></a>Configuration
+Steps</h2>
+</div>
+</div>
+</div>
+<p>Note: The following commands must be run with root
+permissions</p>
+<div class="orderedlist">
+<ol type="1">
+<li>
+<p>Copy the dbus configuration file <code class=
+"filename">nvidia-dbus.conf</code> from <code class=
+"filename">/usr/share/doc/NVIDIA_GLX-1.0/</code> to <code class=
+"filename">/etc/dbus-1/system.d</code>. If the <code class=
+"filename">/etc/dbus-1/system.d</code> directory does not exist,
+create it before copying the file and reboot the system so that
+dbus can scan the newly created directory in the next boot.</p>
+</li>
+<li>
+<p>To enable the nvidia-powerd service, causing it to start
+automatically on boot:</p>
+<p><strong class="userinput"><code>systemctl enable
+nvidia-powerd.service</code></strong></p>
+</li>
+<li>
+<p>To start the nvidia-powerd service:</p>
+<p><strong class="userinput"><code>systemctl start
+nvidia-powerd.service</code></strong></p>
+</li>
+</ol>
+</div>
+<p>Steps to Stop and disable the nvidia-powerd service:</p>
+<div class="orderedlist">
+<ol type="1">
+<li>
+<p>To stop the service:</p>
+<p><strong class="userinput"><code>systemctl stop
+nvidia-powerd.service</code></strong></p>
+</li>
+<li>
+<p>To disable the service such that it does not automatically start
+on boot:</p>
+<p><strong class="userinput"><code>systemctl disable
+nvidia-powerd.service</code></strong></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href=
+"dynamicpowermanagement.html">Prev</a>&nbsp;</td>
+<td width="20%" align="center"><a accesskey="u" href=
+"installationandconfiguration.html">Up</a></td>
+<td width="40%" align="right">&nbsp;<a accesskey="n" href=
+"xcompositeextension.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">
+Chapter&nbsp;21.&nbsp;PCI-Express Runtime D3 (RTD3) Power
+Management&nbsp;</td>
+<td width="20%" align="center"><a accesskey="h" href=
+"index.html">Home</a></td>
+<td width="40%" align="right" valign="top">
+&nbsp;Chapter&nbsp;23.&nbsp;Using the X Composite Extension</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

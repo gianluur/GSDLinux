@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-cbm-d81">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Commodore 1581 disk image</comment>
+  <sub-class-of type="application/x-raw-disk-image"/>
+  <alias type="application/x-d81"/>
+  <glob pattern="*.d81"/>
+</mime-type>

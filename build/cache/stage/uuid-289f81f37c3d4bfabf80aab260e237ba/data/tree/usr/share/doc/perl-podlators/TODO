@@ -1,0 +1,23 @@
+                           podlators To-Do List
+
+This is a somewhat random and unordered list of things I'd like to see
+fixed or improved, but which I've not yet had a chance to do.  Patches for
+any of the following are very much welcome.
+
+ * Escape all hyphens in the text of L<some-command> links.
+
+ * Add a =for license stanza that takes license text and embeds it as a
+   *roff comment.
+
+ * Abstract the shared code between Pod::Man and Pod::Text to a new
+   Pod::Simple inheritance layer that both modules can use.
+
+ * Suppress the URL for L<|> if the link is just the anchor part of the
+   tag with mailto: added to the front.  Also strip the mailto: part if
+   there is no anchor text.
+
+ * Add a test suite for the pod2man and pod2text driver programs.
+
+ * Update coding style to my current standards.
+
+ * Optionally suppress the generation of empty man pages in Pod::Man.

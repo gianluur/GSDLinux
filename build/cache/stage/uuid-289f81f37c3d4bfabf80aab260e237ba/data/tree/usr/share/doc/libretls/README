@@ -1,0 +1,77 @@
+README(7)           Miscellaneous Information Manual          README(7)
+
+NAME
+     LibreTLS —— libtls for OpenSSL
+
+DESCRIPTION
+     LibreTLS  is a port of libtls from LibreSSL to OpenSSL.  libtls is
+     “a new TLS library, designed to make it easier to write  foolproof
+     applications”.
+
+     libtls  provides  an excellent new API, but LibreSSL can be diffi‐
+     cult to install on systems which already  use  OpenSSL.   LibreTLS
+     aims to make the libtls API more easily and widely available.
+
+   Releases
+     LibreTLS is based on LibreSSL-portable sources.  LibreTLS releases
+     track  LibreSSL releases, starting with version 3.2.0.  If patches
+     must be released between LibreSSL releases, the  letter  ‘p’  fol‐
+     lowed  by an increasing digit starting from 1 will be added to the
+     version number.
+
+     LibreTLS     release     tarballs     are      available      from
+     https://causal.agency/libretls/.
+
+   Compatibility
+     The  libtls provided by LibreTLS is ABI-compatible with the libtls
+     provided by the corresponding LibreSSL release.
+
+     The behaviour of LibreTLS and LibreSSL differs  in  how  the  root
+     certificates  are  loaded  by  default.  LibreSSL uses a hardcoded
+     path to a CA bundle file, while LibreTLS uses the default CA loca‐
+     tions of OpenSSL, which may include a CA  directory.   To  restore
+     the behaviour of LibreSSL, call tls_config_set_ca_file(3) with the
+     path returned by tls_default_ca_cert_file(3).  All other behaviour
+     should be identical.
+
+     LibreTLS  targets  the  OpenSSL  1.1.1  series.   Due  to a bug in
+     OpenSSL, only  versions  1.1.1b  and  newer  are  known  to  work.
+     LibreTLS  is  compatible with OpenSSL 3.0.0 but hasn't been ported
+     away from deprecated APIs.
+
+   Platform Support
+     LibreTLS should work on the same platforms  as  LibreSSL-portable,
+     though  it  has not been thoroughly tested on platforms other than
+     Linux, FreeBSD and macOS.
+
+   License
+     libtls consists of all new code developed as part of OpenBSD under
+     OpenBSD's preferred license of ISC.  Some compat sources are under
+     the 3-clause BSD license or the MIT license.
+
+     LibreTLS is not encumbered by the dual-licensing of OpenSSL  under
+     both  the  OpenSSL  license and the original SSLeay license, which
+     are incompatible  with  the  GNU  General  Public  License.   When
+     OpenSSL 3.0 is released under the Apache 2.0 license, software un‐
+     der  the  GPLv3  will be able to link against LibreTLS and OpenSSL
+     without additional permissions.
+
+INSTALLING
+     To install from a release tarball, run the following:
+
+           ./configure
+           make all
+           make install
+
+     To install from a git checkout, autoconf, automake and libtool are
+     required.  Run the following  before  continuing  with  the  steps
+     above:
+
+           autoreconf -fi
+
+AUTHORS
+     LibreTLS is maintained by June McEnroe <june@causal.agency>.
+
+     LibreSSL is developed by The OpenBSD project.
+
+Causal Agency              February 27, 2022                  README(7)

@@ -1,0 +1,10 @@
+SECURITY
+
+This file discusses security related issues with pcsc-lite and how to
+handle them.
+
+
+Application suggestions:
+
+Make sure you Disconnect when you are not using the reader.  Also be sure to
+ReleaseContext before exiting your program.

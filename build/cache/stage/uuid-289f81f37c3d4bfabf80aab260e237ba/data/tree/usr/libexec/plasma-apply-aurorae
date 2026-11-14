@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+# TODO Plasma 7: Drop aurorae.knsrc, use knsrc file provided by KWin.
+
+if [ -f "/usr/libexec/kwin-applywindowdecoration" ]; then
+    "/usr/libexec/kwin-applywindowdecoration" "$@"
+elif [ -f "/usr/libexec/kwin-applywindowdecoration-x11" ]; then
+    "/usr/libexec/kwin-applywindowdecoration-x11" "$@"
+else
+    echo "Neither kwin_x11 nor kwin_wayland is installed"
+    exit 1
+fi

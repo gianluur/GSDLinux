@@ -1,0 +1,32 @@
+Copyright (C) 2012-2026 Simon Josefsson.  Licensed under the GPLv3+.
+
+Current limitations of Libpskc:
+
+* No functions to set fields, only to read them.
+
+* The EncryptionKey and MACMethod types are not supported.
+
+* Only PlainValue data fields are supported (i.e., EncryptedValue and
+  ValueMAC fields are not supported).
+
+* No extensions are implemented.
+
+Otherwise Libpskc is believed to be a complete PSKC implementation
+conforming to the PSKC standard RFC 6030, including the following
+features:
+
+* Parse PSKC data and print human readable information.
+
+* Validate PSKC data against XML Schema.
+
+* Sign and verify PSKC data using XML Digital Signatures.
+
+Note that the GnuTLS backend of xmlsec does not implement loading
+private keys from memory in PEM format.  You will get an error message
+similar to this:
+
+func=xmlSecGCryptAppKeyLoadMemory:file=app.c:line=236:obj=unknown:subj=unknown:error=9:feature is not implemented:details=xmlSecKeyDataFormatPem
+func=xmlSecGCryptAppKeyLoad:file=app.c:line=189:obj=unknown:subj=xmlSecGCryptAppKeyLoadMemory:error=1:xmlsec library function failed:filename=./pskc-ee-key.pem
+
+Currently the only known solution is to use the OpenSSL backend
+instead.

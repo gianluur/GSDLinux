@@ -36,7 +36,7 @@ modules:
       - |
         cat > /usr/lib/dracut/dracut.conf.d/40-iso.conf <<'EOF'
         compress="xz"
-        add_dracutmodules+=" qemu qemu-net livenet dmsquash-live anaconda "
+        add_dracutmodules+=" qemu qemu-net livenet dmsquash-live "
         early_microcode="no"
         EOF
       - |
@@ -44,40 +44,33 @@ modules:
         kver=$(ls /usr/lib/modules)
         env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"
 
-  - type: script
-    snippets:
-      - |
-        mkdir -p /usr/lib/image-builder/bootc
-        cat > /usr/lib/image-builder/bootc/iso.yaml <<'EOF'
-        label: "GSDLinux-Installer"
-        grub2:
-          entries:
-            - name: "Install GSDLinux (bootc)"
-              linux: "/images/pxeboot/vmlinuz inst.stage2=hd:LABEL=GSDLinux-Installer systemd.unit=anaconda.target console=tty0 inst.graphical selinux=0 rhgb quiet"
-              initrd: "/images/pxeboot/initrd.img"
-        EOF
+  # ------------------------------------------------------------------
+  # 4. Mask a service that does not work on a live ISO
+  # ------------------------------------------------------------------
 
+  # ------------------------------------------------------------------
+  # 5. Configuring anaconda
+  # ------------------------------------------------------------------
   - type: script
     snippets:
       - |
         cat > /usr/share/anaconda/interactive-defaults.ks <<'EOF'
-        bootc --source-imgref registry:IMAGE-NAME --target-imgref IMAGE-NAME
+         bootc --source-imgref containers-storage:localhost/gsdlinux:latest --target-imgref localhost/gsdlinux:latest
         EOF
 
   - type: script
     snippets:
+      # Anaconda environment adjustments
       - "echo 'install:x:0:0:root:/root:/usr/libexec/anaconda/run-anaconda' >> /etc/passwd"
       - "echo 'install::14438:0:99999:7:::' >> /etc/shadow"
       - "passwd -d root"
       - "mv /usr/share/anaconda/list-harddrives-stub /usr/bin/list-harddrives"
       - "mv /usr/share/dnf5/repos.d /etc/anaconda.repos.d"
-
-      - "systemctl set-default anaconda.target"
-      - "systemctl enable anaconda.service"
-
+      - "ln -s /lib/systemd/system/anaconda.target /etc/systemd/system/default.target"
       - "rm -v /usr/lib/systemd/system-generators/systemd-gpt-auto-generator"
       - "ln -s /usr/lib/systemd/system/anaconda-shell@.service /usr/lib/systemd/system/autovt@.service"
 
+      # Configure logind for the Anaconda shell
       - |
         mkdir -p /usr/lib/systemd/logind.conf.d
         cat > /usr/lib/systemd/logind.conf.d/anaconda-shell.conf <<'EOF'

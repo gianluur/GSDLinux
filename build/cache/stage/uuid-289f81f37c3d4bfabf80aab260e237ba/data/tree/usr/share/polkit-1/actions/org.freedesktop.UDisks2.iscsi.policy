@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN" "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+<policyconfig>
+  <vendor>The UDisks Project</vendor>
+  <vendor_url>https://github.com/storaged-project/udisks</vendor_url>
+  <icon_name>drive-removable-media</icon_name>
+  <!-- ###################################################################### -->
+  <!-- Manage iSCSI -->
+  <action id="org.freedesktop.udisks2.iscsi.manage-iscsi">
+    <description>Manage iSCSI</description>
+    <description xml:lang="zh-Hans-CN">管理 iSCSI</description>
+    <description xml:lang="uk">Керування iSCSI</description>
+    <description xml:lang="tr">iSCSI'yı yönet</description>
+    <description xml:lang="sv">Hantera iSCSI</description>
+    <description xml:lang="sl">Upravljajte iSCSI</description>
+    <description xml:lang="sk">Spravovať iSCSI</description>
+    <description xml:lang="ru">Управление iSCSI</description>
+    <description xml:lang="pt-BR">Gerenciar iSCSI </description>
+    <description xml:lang="pl">Zarządzanie iSCSI</description>
+    <description xml:lang="nn">Administrer iSCSI</description>
+    <description xml:lang="nl">Beheer iSCSI</description>
+    <description xml:lang="lt">Tvarkyti iSCSI</description>
+    <description xml:lang="kk-Cyrl">iSCSI басқару</description>
+    <description xml:lang="ka">"iSCSI"-ის მართვა</description>
+    <description xml:lang="it">Gestisci iSCSI</description>
+    <description xml:lang="id">Kelola iSCSI</description>
+    <description xml:lang="hu">iSCSI kezelése</description>
+    <description xml:lang="hi">iSCSI प्रबंधित करें</description>
+    <description xml:lang="fur">Gjestìs iSCSI</description>
+    <description xml:lang="fr">Gérer un iSCSI</description>
+    <description xml:lang="fi">iSCSI hallinta</description>
+    <description xml:lang="es">Administrar iSCSI</description>
+    <description xml:lang="en-GB">Manage iSCSI</description>
+    <description xml:lang="de">iSCSI verwalten</description>
+    <description xml:lang="da">Håndter iSCSI</description>
+    <description xml:lang="cs">Spravovat iSCSI</description>
+    <description xml:lang="ca">Gestiona l'iSCSI</description>
+    <description xml:lang="bg">Управляване на iSCSI</description>
+    <description xml:lang="af">Bestuur iSCSI</description>
+    <message>Authentication is required to manage iSCSI</message>
+    <message xml:lang="zh-Hans-CN">管理 iSCSI 需要身份验证</message>
+    <message xml:lang="uk">Щоб отримати доступ до керування iSCSI, слід пройти розпізнавання</message>
+    <message xml:lang="tr">iSCSI'yı yönetmek için kimlik doğrulaması gerekli</message>
+    <message xml:lang="sv">Autentisering krävs för att hantera iSCSI</message>
+    <message xml:lang="sl">Za upravljanje iSCSI je potrebno preverjanje pristnosti</message>
+    <message xml:lang="sk">Spravovanie iSCSI vyžaduje overenie totožnosti</message>
+    <message xml:lang="ru">Для управления iSCSI требуется подтверждение подлинности пользователя</message>
+    <message xml:lang="pt-BR">Autenticação é necessária para gerenciar iSCSI </message>
+    <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zarządzać iSCSI</message>
+    <message xml:lang="nn">Treng autentisering for å administrera iSCSI</message>
+    <message xml:lang="nl">Authenticatie is vereist om iSCSI te beheren</message>
+    <message xml:lang="lt">Norint tvarkyti iSCSI, reikia patvirtinti tapatybę</message>
+    <message xml:lang="kk-Cyrl">iSCSI басқару үшін аутентификация керек</message>
+    <message xml:lang="ka">"iSCSI"-ის მართვას ავთენტიკაცია სჭირდება</message>
+    <message xml:lang="it">È richiesto autenticarsi per gestire iSCSI</message>
+    <message xml:lang="id">Perlu otentikasi untuk mengelola iSCSI</message>
+    <message xml:lang="hu">Hitelesítés szükséges az iSCSI kezeléséhez</message>
+    <message xml:lang="hi">iSCSI को प्रबंधित करने के लिए प्रमाणीकरण आवश्यक है</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par gjestî iSCSI</message>
+    <message xml:lang="fr">Une authentification est nécessaire pour gérer un iSCSI</message>
+    <message xml:lang="es">Se requiere autenticación para gestionar iSCSI</message>
+    <message xml:lang="en-GB">Authentication is required to manage iSCSI</message>
+    <message xml:lang="de">Legitimierung ist zum Verwalten von iSCSI-Anordnungen erforderlich</message>
+    <message xml:lang="da">Der kræves godkendelse for at håndtere iSCSI</message>
+    <message xml:lang="cs">Pro správu iSCSI je vyžadována autentizace</message>
+    <message xml:lang="ca">Es requereix autenticació per gestionar l'iSCSI</message>
+    <message xml:lang="bg">За управляване на iSCSI е необходима идентификация</message>
+    <message xml:lang="af">Verifiëring is nodig om iSCSI te bestuur</message>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+  </action>
+</policyconfig>

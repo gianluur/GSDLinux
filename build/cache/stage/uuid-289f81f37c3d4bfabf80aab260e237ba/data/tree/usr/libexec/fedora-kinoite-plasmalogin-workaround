@@ -1,0 +1,23 @@
+#!/bin/bash
+# See: https://forge.fedoraproject.org/kde/tickets/issues/684
+
+set -euo pipefail
+
+echo "Checking plasmalogin entries in /etc/shadow & /etc/gshadow"
+
+if [[ $(grep -c "plasmalogin" "/etc/shadow") -eq 0 ]]; then
+    echo "plasmalogin:!*:::::::" >> "/etc/shadow"
+    echo "Added missing plasmalogin entry to /etc/shadow"
+else
+    echo "Nothing to do for /etc/shadow"
+fi
+
+if [[ $(grep -c "plasmalogin" "/etc/gshadow") -eq 0 ]]; then
+    echo "plasmalogin:!*::" >> "/etc/gshadow"
+    echo "Added missing plasmalogin entry to /etc/gshadow"
+else
+    echo "Nothing to do for /etc/gshadow"
+fi
+
+echo "Writing stamp file: /etc/.fedora-kinoite-plasmalogin-workaround"
+touch /etc/.fedora-kinoite-plasmalogin-workaround

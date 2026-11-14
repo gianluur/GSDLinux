@@ -1,0 +1,376 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Brazilian-Portuguese "INCLUDE">
+]>
+
+<book id="krfb" lang="&language;">
+
+<bookinfo>
+<title
+>Manual do &krfb;</title>
+
+<authorgroup>
+<author
+>&Brad.Hards; &Brad.Hards.mail; </author>
+<othercredit role="translator"
+><firstname
+>Marcus</firstname
+><surname
+>Gama</surname
+><affiliation
+><address
+><email
+>marcus.gama@gmail.com</email
+></address
+></affiliation
+><contrib
+>Tradução</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>&Brad.Hards;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>25/07/2016</date>
+<releaseinfo
+>5.0 (Applications 16.08)</releaseinfo>
+
+<abstract>
+<para
+>O &krfb; é um aplicativo de servidor que lhe permite compartilhar a sua sessão atual com um usuário em outra máquina, que poderá usar um cliente de <acronym
+>VNC</acronym
+> para ver ou mesmo controlar a máquina. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdenetwork</keyword>
+<keyword
+>krfb</keyword>
+<keyword
+>VNC</keyword>
+<keyword
+>RFB</keyword>
+<keyword
+>krdc</keyword>
+<keyword
+>Compartilhamento da Tela</keyword>
+<keyword
+>Controle Remoto</keyword>
+<keyword
+>Assistência Remota</keyword>
+<keyword
+>Tela Remota</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Introdução</title>
+
+<para
+>O &krfb; é um aplicativo de servidor que lhe permite compartilhar a sua sessão atual com um usuário em outra máquina, que poderá usar um cliente de <acronym
+>VNC</acronym
+> para ver ou mesmo controlar a máquina. </para>
+
+<para
+>Você, tipicamente, iria usar o &krfb; com o cliente de <acronym
+>VNC</acronym
+> do &kde;, o &krdc;, uma vez que corresponde mais aproximadamente às funcionalidades especiais do &krfb;. </para>
+
+<para
+>O &krfb; não necessita que você inicie uma nova sessão de X - ele pode compartilhar a atual. Isto torna-o muito útil quando você quiser que alguém o ajude a executar uma tarefa. </para>
+
+<para
+>Por favor comunique quaisquer problemas ou pedidos de funcionalidades para as listas de discussão do &kde; ou envie um erro para <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+</chapter>
+
+<chapter id="what-is-RFB">
+<title
+>O protocolo do 'Buffer de Quadro Remoto' (Buffer de Quadro Remoto)</title>
+
+<para
+>Este capítulo contém uma breve descrição do protocolo do Buffer de Quadro Remoto usado pelo &krfb; e pelos outros sistemas compatíveis. Se você já estiver familiarizado com o Buffer de Quadro Remoto, poderá ignorar este capítulo com segurança. </para>
+
+<para
+>A implementação de alto nível de um sistema que use o protocolo Buffer de Quadro Remoto é conhecido como Virtual Network Computer (Computador de Rede Virtual), ou mais frequentemente por <acronym
+>VNC</acronym
+>. </para>
+
+<para
+>O Buffer de Quadro Remoto (ou, do inglês, <acronym
+>RFB</acronym
+> para abreviar) é um protocolo simples para o acesso remoto às interfaces gráficas dos usuários. Funciona ao nível do buffer de quadro, o que corresponde grosseiramente à imagem desenhada na tela, o que significa que pode ser aplicado a todos os sistemas de janelas (incluindo o X11, &MacOS; e &Microsoft; &Windows;). Os aplicativos do Buffer de Quadro Remoto existem para várias plataformas e poderão ser redistribuídos livremente. </para>
+
+<para
+>No protocolo do Buffer de Quadro Remoto, o aplicativo que executa na máquina onde o usuário se encontra (que contém o tela, o teclado e o mouse) é chamado de cliente. O aplicativo que é executado na máquina onde se localiza o buffer de quadro (que está rodando o sistema de janelas e os aplicativos que o usuário se encontra controlando remotamente) é por sua vez chamado de servidor. O &krfb; é o servidor do &kde; para o protocolo do Buffer de Quadro Remoto. O &krdc; é o cliente do &kde; para o protocolo do Buffer de Quadro Remoto. </para>
+
+<para
+>Ocupa uma quantidade razoável de tráfego de rede enviar uma mensagem do buffer de quadro, como tal o Buffer de Quadro Remoto trabalha melhor com as conexões de alta largura de banda, como as das redes locais. É ainda possível usar o &krfb; sobre outras conexões, mas é improvável que a performance seja tão boa. </para>
+
+</chapter>
+
+<chapter id="using-krfb">
+<title
+>Usando o &krfb;</title>
+
+<sect1 id="main-windw">
+<title
+>Janela principal do &krfb;</title>
+<para
+>É muito fácil usar o &krfb; - ele tem uma interface simples, tal como é mostrada na figura abaixo. </para>
+
+<para>
+<screenshot>
+<screeninfo
+>Aqui está uma captura de tela do &krfb;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="screenshot.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Janela principal do &krfb;</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Quando você quiser permitir a alguém acessar seu ambiente de trabalho, você precisa habilitar a opção <guilabel
+>Ativar o Compartilhamento de Ambiente de Trabalho</guilabel
+>, que irá iniciar o servidor. </para>
+
+<sect2 id="connection-details">
+<title
+>Detalhes da conexão</title>
+
+<para
+>O <guilabel
+>Endereço</guilabel
+> contém o endereço do computador e o número da porta, separados por dois-pontos. O endereço é apenas uma dica - você pode usar qualquer endereço que pode alcançar seu computador. O &krfb; tenta adivinhar seu endereço a partir da configuração da rede, mas nem sempre é bem sucedido na tentativa. Se seu computador estiver atrás de um firewall, ele pode ter um endereço diferente ou ser inalcançável a partir de outros computadores. </para>
+<para
+>Você pode alterar a porta na página <guilabel
+>Rede</guilabel
+> no diálogo de configuração. </para>
+<para
+>O próximo campo é preenchido com uma senha gerada automaticamente. Clique no ícone à direita do campo para alterar a senha. </para>
+</sect2>
+
+<sect2 id="unattended-access">
+<title
+>Acesso não assistido</title>
+
+<para
+>Qualquer usuário remoto com a senha de compartilhamento de tela precisará ser autenticado. Se o acesso não supervisionado estiver ativado e o usuário remoto fornecer a senha para o modo não supervisionado, o acesso ao compartilhamento de tela será concedido sem confirmação explícita. </para>
+<para
+>Por padrão, a senha para este modo está vazia. Para alterá-la, clique no botão e insira uma senha. </para>
+<para
+>Se o acesso não supervisionado for permitido, provavelmente você deverá especificar uma senha. </para>
+
+<para
+>Se a máquina for um servidor e você estiver usando &krfb; para administração remota, provavelmente desejará usar o acesso não assistido. </para>
+
+</sect2>
+
+<sect2 id="transfer-login-information">
+<title
+>Transferir informações de login</title>
+
+<para
+>O &krfb; não possui mais o recurso de convite como nas versões anteriores. Portanto, você precisa transferir as informações de login por conta própria usando um e-mail ou um convite pessoal. </para>
+<para
+>Se você não conseguir criptografar o e-mail (ou tornar a conexão segura, em alternativa), o envio de uma senha por e-mail é um risco de segurança muito sério, uma vez que qualquer pessoa conseguirá ler a senha e o endereço do e-mail à medida que passa na rede. Isto significa que terceiros poderão tomar o controle da sua máquina. </para>
+<para
+>Se você não conseguir criptografar a mensagem de e-mail, talvez seja melhor usar um convite pessoal, telefonar à pessoa a quem vai dar o acesso, verificar a identidade dessa pessoa e fornecer a informação solicitada dessa forma. </para>
+
+<note>
+<para
+>O &krfb; usa o sistema de senhas normal do <acronym
+>RFB</acronym
+>, que não transfere a sua senha de forma legível pela rede. Em vez disso, usa um sistema de 'desafio e resposta'. Isto é razoavelmente seguro, desde que a senha seja guardada em segurança. </para>
+</note>
+
+</sect2>
+
+<sect2 id="krfb-qqit">
+<title
+>Sair do &krfb;</title>
+
+<para
+>Se você fechar a janela principal do &krfb; clicando no ícone de fechar janela ou usando o atalho <keycombo action="simul"
+>&Alt;<keycap
+>F4</keycap
+></keycombo
+>, o servidor continuará em execução, o que é indicado por um ícone na bandeja do sistema. Para encerrar o &krfb;, use <menuchoice
+><guimenu
+>Arquivo</guimenu
+><guimenuitem
+>Sair</guimenuitem
+></menuchoice
+> na janela principal ou clique com o botão direito do mouse no ícone na bandeja do sistema e selecione <guimenuitem
+>Sair</guimenuitem
+>. </para>
+</sect2>
+
+</sect1>
+
+<sect1 id="krfb-configuration">
+<title
+>Configurando o &krfb;</title>
+<para
+>Além da interface principal do &krfb; mostrada e descrita abaixo, você também poderá controlar o &krfb; usando a opção <guimenuitem
+>Configurar...</guimenuitem
+> na janela principal do &krfb;. A configuração do &krfb; possui duas páginas, tal como mostrado abaixo: </para>
+
+<para
+>A página de <guilabel
+>Rede</guilabel
+> permite o controle do porta que o &krfb; usa, tal como mostrado abaixo. </para>
+
+<para>
+<screenshot>
+<screeninfo
+>Configuração do &krfb; (Página de Rede)</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="configuration_network.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Configuração do &krfb; (Página de Rede)</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>A opção de <guilabel
+>Anunciar o serviço na rede local</guilabel
+> controla se o &krfb; notifica o serviço na rede local usando o SLP (sigla, do inglês, para Protocolo de Localização de Serviço). Esta é normalmente uma boa ideia, mas só funciona realmente bem com um cliente que entenda o Protocolo de Localização de Serviço como o &krdc;. </para>
+
+<para
+>Se você selecionar a opção <guilabel
+>Usar porta padrão</guilabel
+>, então o &krfb; irá localizar uma porta. Se desmarcar esta opção, você poderá indicar uma porta em particular. Indicar uma porta personalizada poderá ser útil se você estiver fazendo redirecionamento de portas na 'firewall'. Observe que, se o Protocolo de Localização de Serviço estiver ativo, ele irá tratar automaticamente da identificação da porta correta. </para>
+
+<para
+>A página <guilabel
+>Segurança</guilabel
+> permite configurar se a pessoa que se conecta ao servidor &krfb; pode controlar a área de trabalho ou apenas visualizá-la. </para>
+
+<para>
+<screenshot>
+<screeninfo
+>Configuração do &krfb; (Página de Segurança)</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="configuration_security.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Configuração do &krfb; (Página de Segurança)</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+</sect1>
+
+<sect1 id="krfb-connection">
+<title
+>Conectando ao &krfb;</title>
+
+<para
+>Sempre que alguém se conecta ao &krfb; na sua máquina, você irá receber uma notificação semelhante à da figura seguinte, a menos que você esteja aceitando conexões não supervisionadas sem confirmação. </para>
+<para>
+<screenshot>
+<screeninfo
+>Janela de Conexão do &krfb;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="connection.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Janela de Conexão do &krfb;</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Se você <guibutton
+>Aceitar a Conexão</guibutton
+>, o cliente poderá prosseguir com a autenticação, que necessita da senha correta para login. Se você <guibutton
+>Recusar a conexão</guibutton
+>, então a tentativa de conexão será terminada. </para>
+
+<para
+>A opção <guilabel
+>Permitir ao usuário remoto controlar o teclado e o mouse</guilabel
+> determina se este cliente só observa ou se pode tomar o controle da sua máquina. </para>
+
+</sect1>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Créditos e licença</title>
+
+<para
+>&krfb; </para>
+<para
+>Direitos autorais do programa 2002 Tim Jansen <email
+>tim@tjansen.de</email
+> </para>
+<para
+>Contribuições: <itemizedlist
+> <listitem
+><para
+>Ian Reinhart Geiser <email
+>geiseri@kde.org</email
+></para>
+</listitem>
+</itemizedlist>
+</para>
+
+<para
+>Direitos autorais da documentação &copy; 2003 &Brad.Hards; &Brad.Hards.mail; </para>
+
+<para
+>Tradução de Marcus Gama <email
+>marcus.gama@gmail.com</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: xml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab 
+-->

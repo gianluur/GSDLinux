@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org">
+<meta http-equiv="Content-Type" content=
+"text/html; charset=us-ascii">
+<title>Chapter&nbsp;42.&nbsp;GPUDirect RDMA Peer Memory
+Client</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.68.1">
+<link rel="start" href="index.html" title=
+"NVIDIA Accelerated Linux Graphics Driver README and Installation Guide">
+<link rel="up" href="installationandconfiguration.html" title=
+"Part&nbsp;I.&nbsp;Installation and Configuration Instructions">
+<link rel="prev" href="addressingcapabilities.html" title=
+"Chapter&nbsp;41.&nbsp;Addressing Capabilities">
+<link rel="next" href="gsp.html" title=
+"Chapter&nbsp;43.&nbsp;GSP Firmware">
+</head>
+<body>
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter&nbsp;42.&nbsp;GPUDirect RDMA
+Peer Memory Client</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href=
+"addressingcapabilities.html">Prev</a>&nbsp;</td>
+<th width="60%" align="center">Part&nbsp;I.&nbsp;Installation and
+Configuration Instructions</th>
+<td width="20%" align="right">&nbsp;<a accesskey="n" href=
+"gsp.html">Next</a></td>
+</tr>
+</table>
+<hr></div>
+<div class="chapter" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title"><a name="nvidia-peermem" id=
+"nvidia-peermem"></a>Chapter&nbsp;42.&nbsp;GPUDirect RDMA Peer
+Memory Client</h2>
+</div>
+</div>
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt><span class="section"><a href=
+"nvidia-peermem.html#Background03f8e">Background</a></span></dt>
+<dt><span class="section"><a href=
+"nvidia-peermem.html#Usaged9d8e">Usage</a></span></dt>
+<dt><span class="section"><a href=
+"nvidia-peermem.html#ModuleParameterb2f08">Module
+Parameters</a></span></dt>
+<dt><span class="section"><a href=
+"nvidia-peermem.html#KnownIssues57784">Known Issues</a></span></dt>
+</dl>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="Background03f8e" id=
+"Background03f8e"></a>Background</h2>
+</div>
+</div>
+</div>
+<p>GPUDirect RDMA (Remote Direct Memory Access) is a technology
+that enables a direct path for data exchange between the GPU and a
+third-party peer device using standard features of PCI Express.</p>
+<p>The NVIDIA GPU driver package provides a kernel module,
+<code class="filename">nvidia-peermem.ko</code>, which provides
+Mellanox InfiniBand based HCAs (Host Channel Adapters) direct
+peer-to-peer read and write access to the NVIDIA GPU's video
+memory. It allows GPUDirect RDMA-based applications to use GPU
+computing power with the RDMA interconnect without needing to copy
+data to host memory.</p>
+<p>This capability is supported with Mellanox ConnectX-3 VPI or
+newer adapters. It works with both InfiniBand and RoCE (RDMA over
+Converged Ethernet) technologies.</p>
+<p>Mellanox OFED (Open Fabrics Enterprise Distribution) or MOFED,
+introduces an API between the InfiniBand Core and peer memory
+clients such as NVIDIA GPUs, called PeerDirect, see <a href=
+"https://community.mellanox.com/s/article/howto-implement-peerdirect-client-using-mlnx-ofed"
+target=
+"_top">https://community.mellanox.com/s/article/howto-implement-peerdirect-client-using-mlnx-ofed</a>.</p>
+<p>The <code class="filename">nvidia-peermem.ko</code> module
+registers the NVIDIA GPU with the InfiniBand subsystem by using
+peer-to-peer APIs provided by the NVIDIA GPU driver.</p>
+<p>This module, originally maintained by Mellanox on GitHub, is now
+included with the NVIDIA Linux GPU driver. The original GitHub
+project at <a href="https://github.com/Mellanox/nv_peer_memory"
+target="_top">https://github.com/Mellanox/nv_peer_memory</a> should
+be considered deprecated and only critical bugs will be addressed
+for existing installations.</p>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="Usaged9d8e" id=
+"Usaged9d8e"></a>Usage</h2>
+</div>
+</div>
+</div>
+<p>The kernel must have the required support for RDMA peer memory
+either through additional patches to the kernel or via Mellanox
+OFED package (MOFED) as a prerequisite for loading and using
+<code class="filename">nvidia-peermem.ko</code>.</p>
+<p>It is possible that the <span><strong class=
+"command">nv_peer_mem</strong></span> module from the GitHub
+project may be installed and loaded on the system. Installation of
+<code class="filename">nvidia-peermem.ko</code> will not affect the
+functionality of the existing <code class=
+"filename">nv_peer_mem</code> module. But, to load and use
+<code class="filename">nvidia-peermem.ko</code>, users must disable
+the <span><strong class="command">nv_peer_mem</strong></span>
+service. Additionally, it is encouraged to uninstall the
+<span><strong class="command">nv_peer_mem</strong></span> package
+to avoid any conflict with <code class=
+"filename">nvidia-peermem.ko</code> since only one module can be
+loaded at any time.</p>
+<p>Stop the <span><strong class=
+"command">nv_peer_mem</strong></span> service:</p>
+<pre class="screen">
+    # service nv_peer_mem stop
+</pre>
+<p></p>
+<p>Check if <code class="filename">nv_peer_mem.ko</code> is still
+loaded after stopping the service:</p>
+<pre class="screen">
+    # lsmod | grep nv_peer_mem
+</pre>
+<p>If <code class="filename">nv_peer_mem.ko</code> is still loaded,
+unload it with:</p>
+<pre class="screen">
+    # rmmod nv_peer_mem
+</pre>
+<p></p>
+<p>Uninstall <span><strong class=
+"command">nv_peer_mem</strong></span> package:</p>
+<p>For DEB based OS:</p>
+<pre class="screen">
+    # dpkg -P nvidia-peer-memory
+</pre>
+<p></p>
+<pre class="screen">
+    # dpkg -P nvidia-peer-memory-dkms
+</pre>
+<p>For RPM based OS:</p>
+<pre class="screen">
+    # rpm -e nvidia_peer_memory
+</pre>
+<p></p>
+<p>After ensuring kernel support and installing the GPU driver,
+<code class="filename">nvidia-peermem.ko</code> can be loaded with
+the following command with root privileges in a terminal
+window:</p>
+<pre class="screen">
+    # modprobe nvidia-peermem
+</pre>
+<p>Note: If the NVIDIA GPU driver is installed before MOFED, the
+GPU driver must be uninstalled and installed again to make sure
+<code class="filename">nvidia-peermem.ko</code> is compiled with
+the RDMA APIs that are provided by MOFED.</p>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name=
+"ModuleParameterb2f08" id="ModuleParameterb2f08"></a>Module
+Parameters</h2>
+</div>
+</div>
+</div>
+<code class="computeroutput">peerdirect_support</code>: this
+parameter takes the following integer values:
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>0, which is the default and is appropriate for a kernel that has
+the PeerDirect APIs roughly corresponding to MOFED 5.1.</p>
+</li>
+<li>
+<p>1, which is required in combination with the legacy PeerDirect
+APIs, as currently shipping in MOFED 5.0 and older releases,
+notably in MOFED LTS.</p>
+</li>
+</ul>
+</div>
+<p>As a reference, in the legacy PeerDirect APIs, the
+<span><strong class="command">peer_memory_client</strong></span>
+structure declared in <span><strong class=
+"command">peer_mem.h</strong></span> has the two extra function
+pointers shown below:</p>
+<pre class="screen">
+  void* (*get_context_private_data)(u64 peer_id);
+  void  (*put_context_private_data)(void *context);
+</pre>
+<p>Note that MOFED LTS as well as MOFED 5.0 and previous releases
+ship with legacy PeerDirect APIs. So for example, when using MOFED
+LTS, GPUDirect RDMA support for the Mellanox HCAs will not work
+correctly unless <code class=
+"computeroutput">peerdirect_support</code> is set to one.</p>
+<p>Instead for MOFED 5.1 or newer, the default value of zero is
+appropriate, so no special actions are needed.</p>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="KnownIssues57784"
+id="KnownIssues57784"></a>Known Issues</h2>
+</div>
+</div>
+</div>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>Currently, there is no service to automatically load
+<code class="filename">nvidia-peermem.ko</code>. Users need to load
+the module manually.</p>
+</li>
+<li>
+<p>When loading <code class="filename">nvidia-peermem.ko</code> on
+a kernel with legacy PeerDirect APIs, the module parameter
+<code class="computeroutput">peerdirect_support</code> has to be
+set to one.</p>
+</li>
+<li>
+<p>The <code class="computeroutput">PeerDirect</code> APIs shipping
+in MOFED releases 5.1 and later are affected by a lock inversion
+bug which may lead to a kernel-side deadlock. This is tracked by
+the NVIDIA-internal reference number <code class=
+"computeroutput">2696789</code>. PeerDirect APIs in newer MOFED
+releases belonging to some branches, like <code class=
+"computeroutput">5.3-1.0.0.1.43</code>, offer an opt-in feature to
+mitigate that problem. Starting from this release the <code class=
+"filename">nvidia-peermem.ko</code> kernel module explicitly
+enables it, unless <code class=
+"computeroutput">peerdirect_support</code> is set to one.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href=
+"addressingcapabilities.html">Prev</a>&nbsp;</td>
+<td width="20%" align="center"><a accesskey="u" href=
+"installationandconfiguration.html">Up</a></td>
+<td width="40%" align="right">&nbsp;<a accesskey="n" href=
+"gsp.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">
+Chapter&nbsp;41.&nbsp;Addressing Capabilities&nbsp;</td>
+<td width="20%" align="center"><a accesskey="h" href=
+"index.html">Home</a></td>
+<td width="40%" align="right" valign="top">
+&nbsp;Chapter&nbsp;43.&nbsp;GSP Firmware</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

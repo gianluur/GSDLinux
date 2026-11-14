@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-cbm-g64">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Commodore 1541 GCR disk image</comment>
+  <sub-class-of type="application/x-raw-disk-image"/>
+  <alias type="application/x-c64-rawdisk"/>
+  <alias type="application/x-g64"/>
+  <glob pattern="*.g64"/>
+  <glob pattern="*.g41"/>
+</mime-type>

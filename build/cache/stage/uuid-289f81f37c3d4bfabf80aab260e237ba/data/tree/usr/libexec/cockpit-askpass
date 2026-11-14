@@ -1,0 +1,6 @@
+#!/usr/bin/python3
+import sys
+from cockpit._vendor.ferny.interaction_client import main
+if __name__ == '__main__':
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
+    sys.exit(main())

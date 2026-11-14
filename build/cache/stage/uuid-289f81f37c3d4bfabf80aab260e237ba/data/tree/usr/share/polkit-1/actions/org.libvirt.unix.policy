@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN" "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+<!--
+Policy definitions for libvirt daemon
+
+Copyright (C) 2012 Red Hat, Inc.
+Copyright (C) 2007 Daniel P. Berrange <berrange redhat com>
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library.  If not, see
+<http://www.gnu.org/licenses/>.
+-->
+<policyconfig>
+  <action id="org.libvirt.unix.monitor">
+    <description>Monitor local virtualized systems</description>
+    <description xml:lang="ro">Monitorizează sistemele locale virtualizate</description>
+    <description xml:lang="zh-Hant-TW">監控本地虛擬化系統</description>
+    <description xml:lang="zh-Hans-CN">监控本地虚拟化系统</description>
+    <description xml:lang="uk">Спостереження за локальними віртуалізованими системами</description>
+    <description xml:lang="sv">Övervaka lokala virtualiserade system</description>
+    <description xml:lang="sr-Cyrl">Надгледај локалне виртуелизоване системе</description>
+    <description xml:lang="pt">Monitor de sistemas virtualizados locais</description>
+    <description xml:lang="ko">로컬 가상화된 시스템 감시</description>
+    <description xml:lang="it">Monitora sistemi virtualizzati locali</description>
+    <description xml:lang="es">Monitor local de sistemas virtualizados</description>
+    <description xml:lang="cs">Monitorovat lokální virtualizované systémy</description>
+    <message>System policy prevents monitoring of local virtualized systems</message>
+    <message xml:lang="ro">Politica sistemului împiedică monitorizarea sistemelor virtualizate locale</message>
+    <message xml:lang="zh-Hant-TW">系統策略禁止監控本地虛擬化系統</message>
+    <message xml:lang="zh-Hans-CN">系统策略禁止监控本地虚拟化系统</message>
+    <message xml:lang="uk">Правила системи забороняють спостереження за локальними віртуалізованими системами</message>
+    <message xml:lang="sv">Systempolicyn förhindrar övervakning av lokala virtualiserade system</message>
+    <message xml:lang="sr-Cyrl">Системска политика спречава надгледање локалних виртуелизованих система</message>
+    <message xml:lang="pt">Política do sistema previne monitorização de sistemas virtualizados locais</message>
+    <message xml:lang="ko">시스템 정책이 로컬 가상화 시스템의 감시하기를 방해합니다</message>
+    <message xml:lang="it">Policy di sistema impedisce il monitoraggio di sistemi virtualizzati locali</message>
+    <message xml:lang="es">Normativa del sistema previene monitorizar sistemas virtualizados locales</message>
+    <message xml:lang="cs">Systémová zásada brání monitorování lokálních virtualizovaných systémů</message>
+    <defaults>
+      <!-- Any program can use libvirt in read-only mode for monitoring,
+             even if not part of a session -->
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+  </action>
+  <action id="org.libvirt.unix.manage">
+    <description>Manage local virtualized systems</description>
+    <description xml:lang="ro">Gestionează sistemele virtualizate locale</description>
+    <description xml:lang="zh-Hant-TW">管理本地虛擬化系統</description>
+    <description xml:lang="zh-Hans-CN">管理本地虚拟化系统</description>
+    <description xml:lang="uk">Керування локальними віртуалізованими системами</description>
+    <description xml:lang="sv">Hantera lokala virtualiserade system</description>
+    <description xml:lang="sr-Cyrl">Управљај локалним виртуелизованим системима</description>
+    <description xml:lang="pt">Gerir sistemas virtualizados localmente</description>
+    <description xml:lang="ko">로컬 가상화 시스템을 관리합니다</description>
+    <description xml:lang="it">Gestisci sistemi virtualizzati locali</description>
+    <description xml:lang="es">Gestión local de sistemas virtualizados</description>
+    <description xml:lang="cs">Spravovat lokální virtualizované systémy</description>
+    <message>System policy prevents management of local virtualized systems</message>
+    <message xml:lang="ro">Politica sistemului împiedică gestionarea sistemelor virtualizate locale</message>
+    <message xml:lang="zh-Hant-TW">系統策略禁止管理本地虛擬化系統</message>
+    <message xml:lang="zh-Hans-CN">系统策略禁止管理本地虚拟化系统</message>
+    <message xml:lang="uk">Правила системи забороняють керування локальними віртуалізованими системами</message>
+    <message xml:lang="sv">Systempolicyn förhindrar hantering av lokala virtualiserade system</message>
+    <message xml:lang="sr-Cyrl">Системска политика спречава управљање локалним виртуелизованим системима</message>
+    <message xml:lang="pt">Política do sistema previne gestão de sistemas virtualizados locais</message>
+    <message xml:lang="ko">시스템 정책이 로컬 가상화 시스템의 관리를 방해합니다</message>
+    <message xml:lang="it">Policy di sistema impedisce la gestione di sistemi virtualizzati locali</message>
+    <message xml:lang="es">Normativa del sistema previene gestión de sistemas virtualizados locales</message>
+    <message xml:lang="cs">Systémová zásada brání správě lokálních virtualizovaných systémů</message>
+    <defaults>
+      <!-- Any program can use libvirt in read/write mode if they
+             provide the root password -->
+      <allow_any>auth_admin_keep</allow_any>
+      <allow_inactive>auth_admin_keep</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+  </action>
+</policyconfig>

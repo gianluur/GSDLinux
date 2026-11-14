@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-xbox360-xdbf">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Xbox 360 resource database file</comment>
+  <acronym>XDBF</acronym>
+  <expanded-acronym>Xbox Database File</expanded-acronym>
+  <sub-class-of type="application/octet-stream"/>
+  <generic-icon name="application-octet-stream"/>
+  <glob pattern="*.xdbf"/>
+  <glob pattern="*.gpd"/>
+</mime-type>

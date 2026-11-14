@@ -1,0 +1,225 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File descriptor support &mdash; Jeepney 0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=03cfa1a5" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Blocking I/O" href="blocking.html" />
+    <link rel="prev" title="Authentication" href="auth.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Jeepney
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../integrate.html">Connecting to DBus and sending messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messages.html">Making and parsing messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bindgen.html">Generating D-Bus wrappers</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="core.html">Core API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_msgs.html">Common messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auth.html">Authentication</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">File descriptor support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.FileDescriptor"><code class="docutils literal notranslate"><span class="pre">FileDescriptor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.FileDescriptor.to_file"><code class="docutils literal notranslate"><span class="pre">FileDescriptor.to_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.FileDescriptor.to_socket"><code class="docutils literal notranslate"><span class="pre">FileDescriptor.to_socket()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.FileDescriptor.to_raw_fd"><code class="docutils literal notranslate"><span class="pre">FileDescriptor.to_raw_fd()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.FileDescriptor.fileno"><code class="docutils literal notranslate"><span class="pre">FileDescriptor.fileno()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jeepney.FileDescriptor.close"><code class="docutils literal notranslate"><span class="pre">FileDescriptor.close()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#jeepney.NoFDError"><code class="docutils literal notranslate"><span class="pre">NoFDError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blocking.html">Blocking I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="threading.html">Blocking I/O with threads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trio.html">Trio integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="asyncio.html">Asyncio integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io_exceptions.html">I/O Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Design &amp; Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dbus-background.html">What is D-Bus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release-notes.html">Release notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Jeepney</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API reference</a></li>
+      <li class="breadcrumb-item active">File descriptor support</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/fds.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="file-descriptor-support">
+<h1>File descriptor support<a class="headerlink" href="#file-descriptor-support" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="jeepney.FileDescriptor">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">FileDescriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/fds.html#FileDescriptor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.FileDescriptor" title="Link to this definition"></a></dt>
+<dd><p>A file descriptor received in a D-Bus message</p>
+<p>This wrapper helps ensure that the file descriptor is closed exactly once.
+If you don’t explicitly convert or close the FileDescriptor object, it will
+close its file descriptor when it goes out of scope, and emit a
+ResourceWarning.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.FileDescriptor.to_file">
+<span class="sig-name descname"><span class="pre">to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffering</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/fds.html#FileDescriptor.to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.FileDescriptor.to_file" title="Link to this definition"></a></dt>
+<dd><p>Convert to a Python file object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">fd</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The arguments are the same as for the builtin <code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code> function.</p>
+<p>The <a class="reference internal" href="#jeepney.FileDescriptor" title="jeepney.FileDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileDescriptor</span></code></a> can’t be used after calling this. Closing
+the file object will also close the file descriptor.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the descriptor does not refer to a regular file, or it doesn’t have
+the right access mode, you may get strange behaviour or errors while
+using it.</p>
+<p>You can use <code class="xref py py-func docutils literal notranslate"><span class="pre">os.stat()</span></code> and the <code class="xref py py-mod docutils literal notranslate"><span class="pre">stat</span></code> module to check the
+type of object the descriptor refers to, and <code class="xref py py-func docutils literal notranslate"><span class="pre">fcntl.fcntl()</span></code>
+to check the access mode, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span><span class="o">.</span><span class="n">S_ISREG</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">fd</span><span class="o">.</span><span class="n">fileno</span><span class="p">())</span><span class="o">.</span><span class="n">st_mode</span><span class="p">)</span>  <span class="c1"># Regular file?</span>
+
+<span class="n">status_flags</span> <span class="o">=</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">fcntl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">F_GETFL</span><span class="p">)</span>
+<span class="p">(</span><span class="n">status_flags</span> <span class="o">&amp;</span> <span class="n">os</span><span class="o">.</span><span class="n">O_ACCMODE</span><span class="p">)</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDONLY</span>  <span class="c1"># Read-only?</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.FileDescriptor.to_socket">
+<span class="sig-name descname"><span class="pre">to_socket</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/fds.html#FileDescriptor.to_socket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.FileDescriptor.to_socket" title="Link to this definition"></a></dt>
+<dd><p>Convert to a socket object</p>
+<p>This returns a standard library <code class="xref py py-func docutils literal notranslate"><span class="pre">socket.socket()</span></code> object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">fd</span><span class="o">.</span><span class="n">to_socket</span><span class="p">()</span> <span class="k">as</span> <span class="n">sock</span><span class="p">:</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;xyz&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The wrapper object can’t be used after calling this. Closing the socket
+object will also close the file descriptor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.FileDescriptor.to_raw_fd">
+<span class="sig-name descname"><span class="pre">to_raw_fd</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/fds.html#FileDescriptor.to_raw_fd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.FileDescriptor.to_raw_fd" title="Link to this definition"></a></dt>
+<dd><p>Convert to the low-level integer file descriptor:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">raw_fd</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">to_raw_fd</span><span class="p">()</span>
+<span class="n">os</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">raw_fd</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;xyz&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">raw_fd</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="#jeepney.FileDescriptor" title="jeepney.FileDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileDescriptor</span></code></a> can’t be used after calling this. The caller
+is responsible for closing the file descriptor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.FileDescriptor.fileno">
+<span class="sig-name descname"><span class="pre">fileno</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/fds.html#FileDescriptor.fileno"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.FileDescriptor.fileno" title="Link to this definition"></a></dt>
+<dd><p>Get the integer file descriptor</p>
+<p>This does not change the state of the <a class="reference internal" href="#jeepney.FileDescriptor" title="jeepney.FileDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileDescriptor</span></code></a> object,
+unlike the <code class="docutils literal notranslate"><span class="pre">to_*</span></code> methods.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jeepney.FileDescriptor.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/jeepney/fds.html#FileDescriptor.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.FileDescriptor.close" title="Link to this definition"></a></dt>
+<dd><p>Close the file descriptor</p>
+<p>This can safely be called multiple times, but will raise RuntimeError
+if called after converting it with one of the <code class="docutils literal notranslate"><span class="pre">to_*</span></code> methods.</p>
+<p>This object can also be used in a <code class="docutils literal notranslate"><span class="pre">with</span></code> block, to close it on
+leaving the block.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="jeepney.NoFDError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">jeepney.</span></span><span class="sig-name descname"><span class="pre">NoFDError</span></span><a class="reference internal" href="../_modules/jeepney/fds.html#NoFDError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jeepney.NoFDError" title="Link to this definition"></a></dt>
+<dd><p>Raised by <a class="reference internal" href="#jeepney.FileDescriptor" title="jeepney.FileDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileDescriptor</span></code></a> methods if it was already closed/converted</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="auth.html" class="btn btn-neutral float-left" title="Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="blocking.html" class="btn btn-neutral float-right" title="Blocking I/O" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017, Thomas Kluyver.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

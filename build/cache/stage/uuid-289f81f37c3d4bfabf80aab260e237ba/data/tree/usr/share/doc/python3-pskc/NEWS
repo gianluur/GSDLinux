@@ -1,0 +1,147 @@
+changes from 1.3 to 1.4
+-----------------------
+
+* drop support for Python 3.6 and 3.7 (support Python 3.8 - 3.14)
+* include type hints for mypy
+* no longer use defusedxml with lxml because nowadays lxml guards against
+  everything that defusedxml is for
+* PSKC.signature.certificate now has type str instead of bytes but still
+  supports assigning bytes
+* various small fixes and documentation improvements
+
+
+changes from 1.2 to 1.3
+-----------------------
+
+* drop support for Python 2.7 and 3.5 (support Python 3.6 - 3.12)
+* typo fixes in documentation
+* have test suite not rely on current date/time
+* update certificates in tests to support newer cryptography
+
+
+changes from 1.1 to 1.2
+-----------------------
+
+* sort namespace declarations alphabetically in generated XML
+* accept keys as bytearray values
+* spelling fixes in documentation
+* command-line utilities now support using - as stdin
+* test and build environment improvements
+* drop support for Python 3.4
+* add support for Python 3.8 - 3.10 (was already working out-of-the-box)
+
+
+changes from 1.0 to 1.1
+-----------------------
+
+* portability fixes for test suite
+* add a remove_encryption() function
+* always write a 1.0 PSKC version, even when another version was read
+* correctly write a PSKC file with a global IV
+* correctly write a PSKC file without a MAC key
+* add a pskc2pskc script for converting a legacy PSKC file to a RFC 6030
+  compliant version and for adding or removing encryption
+* add a csv2pskc script for generating a PSKC file from a CSV file
+* make all the scripts (pskc2csv, pskc2pskc and csv2pskc) entry points so
+  they are available on package installation
+
+
+changes from 0.5 to 1.0
+-----------------------
+
+* fix a bug in writing passphrase encrypted PSKC files on Python3
+* fix a typo in the pin_max_failed_attempts attribute (the old name is
+  available as a deprecated property)
+* switch from pycrypto to cryptography as provider for encryption functions
+  because the latter is better supported
+* switch to using the PBKDF2 implementation from hashlib which requires
+  Python 2.7.8 or newer
+* use defusedxml when available (python-pskc now supports both standard
+  xml.etree and lxml with and without defusedxml)
+* support checking and generating embedded XML signatures (this requires the
+  signxml library which is not required for any other operations)
+* add limited support for very old draft PSKC versions (it is speculated that
+  this resembles the "Verisign PSKC format" that some applications produce)
+* support Camellia-CBC and KW-Camellia encryption algorithms
+* support any hashing algorithm available in Python
+* add a --secret-encoding option to pskc2csv to allow base64 encoded binary
+  output
+* support naming the CSV column headers in pskc2csv
+* add a manual page for pskc2csv
+* a number of documentation, code style and test suite improvements
+
+
+changes from 0.4 to 0.5
+-----------------------
+
+* numerous compatibility improvements for reading PSKC files that do not
+  follow the RFC 6030 schema exactly: specifically accept a number of old
+  Internet Draft specifications that preceded RFC 6030 and support an
+  ActivIdentity file format
+* split device information from key information (keep old API available) to
+  allow multiple keys per device (this is not allowed by RFC 6030 but was
+  allowed in older Internet Drafts)
+* accept MAC to be over plaintext in addition to ciphertext
+* fall back to using encryption key as MAC key
+* refactoring of some encryption, parsing and serialising functionality into
+  separate modules for better maintainability
+* add configuration for running test suite via Tox
+* addition of a large number of test cases, bringing the branch coverage to
+  100%
+* documentation improvements
+* drop official support for Python 2.6 (the module still works but is just no
+  longer tested with it)
+
+
+changes from 0.3 to 0.4
+-----------------------
+
+* add support for writing encrypted PSKC files (with either a pre-shared key
+  or PBKDF2 password-based encryption)
+* extend may_use() policy checking function to check for unknown policy
+  elements and key expiry
+* add a number of tests for existing vendor PSKC files and have full line
+  coverage with tests
+* be more lenient in handling a number of XML files (e.g. automatically
+  sanitise encryption algorithm URIs, ignore XML namespaces and support more
+  spellings of some properties)
+* support reading password or key files in pskc2csv
+* support Python 3 in the pskc2csv script (thanks Mathias Laurin)
+* refactoring and clean-ups to be more easily extendible (thanks Mathias
+  Laurin)
+
+
+changes from 0.2 to 0.3
+-----------------------
+
+* support writing unencrypted PSKC files
+* include a sample pskc2csv script in the source code
+* fix an issue with XML namespaces for PBKDF2 parameters
+* support Python 3
+* update documentation
+
+
+changes from 0.1 to 0.2
+-----------------------
+
+* raise exceptions on parsing, decryption and other problems
+* support Python 2.6 and multiple ElementTree implementations (lxml is
+  required when using Python 2.6)
+* support more encryption algorithms (AES128-CBC, AES192-CBC, AES256-CBC,
+  TripleDES-CBC, KW-AES128, KW-AES192, KW-AES256 and KW-TripleDES) and be
+  more lenient in accepting algorithm URIs
+* support all HMAC algorithms that Python's hashlib module has hash functions
+  for (HMAC-MD5, HMAC-SHA1, HMAC-SHA224, HMAC-SHA256, HMAC-SHA384 and
+  HMAC-SHA512)
+* support PRF attribute of PBKDF2 algorithm
+* support creating PSKC objects and keys
+* when accessing values for which a MAC is present, a MAC failure will raise
+  an exception (DecryptionError)
+* many code cleanups
+* improve test coverage
+
+
+changes in 0.1
+--------------
+
+Initial release

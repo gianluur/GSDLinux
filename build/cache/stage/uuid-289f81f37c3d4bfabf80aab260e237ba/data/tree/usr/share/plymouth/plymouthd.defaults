@@ -1,0 +1,8 @@
+# Distribution defaults. Changes to this file will get overwritten during
+# upgrades.
+[Daemon]
+Theme=bgrt
+ShowDelay=0
+DeviceTimeout=15
+# XkbExtraEscButton=0x1008ff2a  # Power button (XKB_KEY_XF86PowerOff)
+UseSimpledrmNoLuks=1

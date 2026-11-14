@@ -1,0 +1,668 @@
+nilfs-utils-2.2.11  Wed Apr 3, 2024 JST
+
+	* fix two bugs related to mount table parsing. One of these is an
+	  important one that fixes an issue where lscp and other tools would
+	  cause an error if the mount point path name contains characters
+	  such as spaces:
+	  - libnilfs: fix nilfs_open failure for mount points with escaped
+	    characters
+	  - libcleaner: fix asymmetry in mount table open/close handling
+
+nilfs-utils-2.2.10  Mon Mar 4, 2024 JST
+
+	* fix bugs:
+	  - libnilfsgc, cleanerd, nilfs-resize: treat scrapped segments as
+	    unprotected
+	  - nilfs-resize: fix abnormal message output when shrinking file
+	    system
+	  - nilfs-resize: fix abnormal minimum size error output for sizes less
+	    than 4KiB
+	  - nilfs-resize: fix abnormal truncation when specifying size with
+	    fraction
+	  - lib/sb.c: fix super block read failure from disk image file
+	  - nilfs-tune: add missing -f option in help message
+	  - nilfs-tune: fix the exit code when mount is detected
+	  - nilfs-tune: fix usage of wrong endian conversion macro
+	  - umount_libmount: fix error messages
+	  - libnilfs: fix error code when nilfs_open failed to find nilfs
+	  - libnilfs: nilfs_open: identify the mount point device
+	  - libnilfs: nilfs_open: use last matched mount
+	  - nilfs-{clean,resize}: fix duplicate option error output
+	  - bin/*: correct error message for invalid long option specification
+	* fix perl errors of the checkpatch script:
+	  - checkpatch: fix perl errors due to unescaped left braces in regex
+	* improve cleanerd state management in the libmount version of the
+	  mount program:
+	  - mount_libmount: fix umount failure after remount
+	* improve nilfs-resize command to shrink filesystem even when there are
+	  only active segments:
+	  - nilfs-resize: force file system update in active segment only
+	    situation
+	  - nilfs-resize: allow active segment search function to return block
+	    count
+	  - libnilfs: add functions to get pathname or FD of mount point
+	    directory
+	* mkfs.nilfs2: do not create obsolete .nilfs file
+	* make installation of kernel uapi header files optional:
+	  - Move the kernel uapi header file to "linux" subdirectory
+	  - Make installation of kernel uapi header files optional
+	* improve the mount checks in disk image file mount via loop devices
+	  - libmountchk: determine if image file is mounted via a loop device
+	  - mkfs.nilfs2: use libmountchk to check the mount status of target
+	    device
+	* improve message output:
+	  - nilfs-resize: output the minimum device size in insufficient free
+	    space message
+	  - nilfs-resize: switch singular/plural forms of "segment" in message
+	    text
+	  - nilfs-resize: make the progress bar more accurate
+	  - nilfs-resize: rename function nilfs_resize_inuse_segments()
+	  - mkfs.nilfs2, nilfs-resize, nilfs-tune: output error cause when open
+	    fails
+	  - nilfs-tune: do not display version information by default
+	* backport some changes to bring the API (ioctl) and disk format
+	  header files up to date:
+	  - nilfs-utils: import uapi headers nilfs2_api.h and nilfs2_ondisk.h
+	  - nilfs2: do not use unexported cpu_to_le32()/le32_to_cpu() in uapi
+	    header
+	* backport patches that bug fixes etc. depend on:
+	  - util.h: add likely()/unlikely() macros
+	  - nilfs-utils: use unlikely()/likely() macros
+	  - nilfs2_fs.h: move nilfs_rec_len_{from,to}_disk() to mkfs.h
+	  - nilfs.h: move BUG() macro to util.h
+	  - compat.h: gather definition of FIFREEZE and FITHAW
+	  - compat.h: include the compatible definition for PATH_MAX
+	  - compat.h: ensure to declare major() and minor() macros
+	  - mount_libmount: generalize mount entry search function
+	  - nilfs-resize: add kernel-doc style comments to major functions
+	  - nilfs-resize: add and apply error message macros
+	  - nilfs-resize: add macro to print message when in verbose mode
+	* clean up some early definitions from nilfs.h that are undesirable
+	  as being in a shared file:
+	  - nilfs.h: move byte order conversion macros to compat.h
+	  - nilfs.h: eliminate sector_t and nilfs_blkoff_t
+	* update README file:
+	  - README: describe an example of separating libraries into a
+	    subdirectory
+
+nilfs-utils-2.2.9  Mon Jun 20, 2022 JST
+
+	* {mount,umount}.nilfs2: use libmount by default
+	* fix build warnings in Autoconf 2.70 or later:
+	  - configure.ac: use AC_CONFIG_HEADERS instead of AC_CONFIG_HEADER
+	  - configure.ac: remove AC_PROG_CC_C99 macro
+	  - configure.ac: use AC_USE_SYSTEM_EXTENSIONS instead of AC_GNU_SOURCE
+	  - configure.ac: use LT_INIT instead of AC_PROG_LIBTOOL
+	  - configure.ac: remove obsolete AC_HEADER_STDC marco
+	  - configure.ac: remove obsolete AC_HEADER_TIME marco
+	  - do not use AC_TYPE_SIGNAL and RETSIGTYPE
+	* fix gcc8 -Wstringop-truncation warnings:
+	  - mkfs, nilfs-tune: fix gcc8 warnings for volume name buffers
+	  - nilfs-tune: fix gcc8 warnings at user_string() and group_string()
+	* update documents:
+	  - README: update git repository url
+	  - README: alter URLs referenced in the developer notes
+	  - README: remedy a note about dependency on the selinux library
+
+nilfs-utils-2.2.8  Tue Aug 20, 2019 JST
+
+	* fix some build issues:
+	  - use _POSIX_MAX_INPUT
+	  - mount.nilfs: drop include rpc/types.h
+	  - libmount, libblkid: fix order of autoconf probing
+	  - mkfs.nilfs2: fix library order of libuuid
+	* fix bugs:
+	  - mkfs.nilfs2: fix underflow in calculation of minimum number of
+	    segments
+	  - mkfs.nilfs2: fix wrong suggestion of minimum device size
+	* update maintainer's email address
+
+nilfs-utils-2.2.7  Sun Nov 5, 2017 JST
+
+	* Fix conflicting data buffer error; this fixes a cleanerd crash
+	  issue in some high loads that leads the file system to a disk
+	  full.
+
+nilfs-utils-2.2.6  Mon Oct 10, 2016 JST
+
+	* dumpseg: fix misuse of endian conversion macro for ss_nblocks
+	* libnilfs: fix potential memory access overrun at
+	  nilfs_psegment_is_valid()
+	* libnilfs: fix potential underflow at nilfs_psegment_is_end()
+	* libnilfs: fix potential underflow of p_maxblocks at
+	  nilfs_psegment_init()
+	* libnilfs: add missing errno setting at nilfs_sb_write()
+	* libnilfs: add sanity check on segment summary header size
+	* libnilfs: check range of finfo and binfos before reading them
+	* libnilfs: add sanity check for block counts in finfo
+	* libnilfs: get rid of HAVE_MUNMAP
+	* ChangeLog: fix typos
+
+nilfs-utils-2.2.5  Sun Sep 4, 2016 JST
+
+	* fix the problem that checkpoints and blocks with a future timestamp
+	  are not reclaimed:
+	  - Add cnormap, a new checkpoint number reverse mapper
+	  - vector: add clear operation
+	  - vector: add insert operation
+	  - lssu: use nilfs_cnormap
+	  - cleanerd: use nilfs_cnormap
+	* fix the problem that cleanerd timeout can be too long when the
+	  system time is changed to earlier time:
+	  - compat.h: add operations on timespecs
+	  - cleanerd: use timespec and clock_gettime()
+	  - cleanerd: use monotonic clock for cleanerd->target
+	* fix other problems that can happen when the system time is changed
+	  to earlier time:
+	  - cleanerd: use ppoll() to wait for incoming mq-message
+	  - cleanerd: do not skip segments with a future timestamp
+	  - cleaner_ctl: add wait API function that supports relative timeout
+	  - cleaner_exec: use monotonic clock to wait for cleanerd
+	  - mount/fstab.c: use monotonic clock to wait for mtab lock
+	  - lssu: do not mark protected flag for segments with a future
+	    timestamp
+	* fix bugs:
+	  - cleaner_exec: fix device name in a message of nilfs_wait_cleanerd()
+	  - cleanerd: fix error return value of oom_adjust()
+	  - cleanerd: do not ignore error messages of oom_adjust()
+	  - cleanerd: add missing free() calls for canonicalized path names
+	  - lssu, rmcp: close nilfs object cleanly in error cases
+	  - vector: fix potential overflow in nilfs_vector_get_new_element()
+	  - mount/fstab.c: fix unstable errno references
+	* improve checkpatch script:
+	  - improve operator spacing check
+	  - add user space output functions to logFunctions
+	  - handle output functions with "_()" macro
+	* fix coding style issues:
+	  - remove FSF mailing address from GPL notices
+	  - add missing line spacing
+	  - mount/fstab.c: fix typo "attemps" in comment
+	  - use tabs for code indent
+	  - fix unnecessary line continuations for output messages
+	  - fix quoted string split across lines
+	  - fix suspect code indent for conditional statements
+	  - remove unnecessary else after return or break
+	  - remove unnecessary return statements
+	  - adjust long declarations to avoid checkpatch warning
+	  - keep code lines short
+	  - cleanerd: do not use volatile for protection_period static variable
+	* minor-amendments:
+	  - vector: reject zero-byte element
+	  - configure.ac: add stdint.h to headers to be checked
+	  - cleanerd, lssu: handle absolute time with signed type variables
+	  - cleanerd: initialize sigaction struct for safety
+	* cleanups:
+	  - clean up osrg.net e-mail addresses
+	  - use err(), warn() and their variants
+	  - use EXIT_SUCCESS and EXIT_FAILURE
+	  - use ARRAY_SIZE() macro
+	  - etc
+
+nilfs-utils-2.2.4  Wed Apr 27, 2016 JST
+
+	* lib/nilfs.c: add missing initialization of nilfs->n_opts
+	* lib/cleaner_exec.c: use _exit() to safely terminate child processes
+	* update checkpatch.pl and misspelled words dictionary (spelling.txt)
+	* lib/Makefile.am: do not set -fPIC and -static manually
+	* lib/Makefile.am: use AM_CFLAGS and AM_CPPFLAGS for simplicity
+	* lib/crc32.c: make crc32tab array static const
+	* remove obsolete email addresses
+	* AUTHORS: update header line of author list
+
+nilfs-utils-2.2.3  Sun Feb 15, 2015 JST
+
+	* lscp: accelerate backward checkpoint listing
+	* lib/nilfs.c: fix potential leak at nilfs_open()
+	* get rid of unnecessary null checks before calling free()
+	* get rid of my_free() wrapper function
+
+nilfs-utils-2.2.2  Fri Sep 19, 2014 JST
+
+	* mount.nilfs2: invoke cleanerd even if no-mtab option is specified;
+	  this fixes failure of cleanerd invocation under systemd 216+.
+	* lscp: always show snapshots, even if marked minor.
+
+nilfs-utils-2.2.1  Sat Aug 23, 2014 JST
+
+	* nilfs-clean: do not override min_reclaimable_blocks if -m option
+	  is not used.
+	* nilfs_cleanerd.conf: try to use set_suinfo ioctl by default
+	* nilfs_cleanerd.conf: set min_reclaimable_blocks parameter to 10
+	  percent to more reduce relocation of static data.
+	* libnilfs: set errno when device doesn't contain valid NILFS data
+	* mkfs.nilfs2: fix gcc warning "array subscript is above array bounds"
+	* bin/*: improve error message on failure of nilfs_open()
+	* install nilfs-* executables to /usr/sbin to resolve warnings of
+	  adequate (Debian package quality testing tool).
+	* nilfs_cleanerd: link libraries statically to make nilfs_cleanerd
+	  self-contained in /sbin directory.
+	* fix typos in messages, manpages, source files, and ChangeLog file.
+
+nilfs-utils-2.2.0  Tue Apr 8, 2014 JST
+
+	* lscp: show block count by default
+	* lssu: add option to print count of live blocks
+	* lssu: display "p" flag on protected segments
+	* fix build of dist archives
+	* lib/gc.c: refactor reclaim function
+	* lib/gc.c: add optimized version of nilfs_xreclaim_segments
+	* cleanerd: use nilfs_xreclaim_segment()
+	* cleanerd: add a no_timeout flag to enable faster loop
+	* lib/nilfs.c: add support for NILFS_IOCTL_SET_SUINFO ioctl
+	* lib/nilfs.c: add NILFS_OPT_SET_SUINFO
+	* nilfs-clean: add cmdline param min-reclaimable-blocks
+	* move generic macros into util.h
+	* fix coding style issues
+	* bump up version of nilfs-utils written in manpages
+
+nilfs-utils-2.1.6  Sun Jan 26, 2014 JST
+
+	* cleanerd: fix wrong cleaner speed of manual clean mode
+	* add missing initializations of ioctl arguments
+	* cleanerd: adjust the OOM killer
+	* mkfs: check sizes of important structs at build time
+	* cleanerd: rework daemonize() of cleanerd
+	* cleaner_exec.c: get process ID of cleanerd through pipe
+	* mount.nilfs2: ensure that gcpid option is dropped if the value
+	  is zero
+	* lib/nilfs.c: remove broken readonly fs check at nilfs_sync()
+	* lib/nilfs.c: add missing comments of API functions
+	* allow to make without libblkid
+	* remove redundant selinux library references
+	* compile legacy {mount,umount}.nilfs2 with libselinux
+	* add --with-libmount build option
+	* add checkpatch script
+	* fix many coding style issues
+	* a minor update in lscp manpage
+	* update README file
+	* update AUTHORS file
+
+nilfs-utils-2.1.5  Thu May 2, 2013 JST
+
+	* mkfs.nilfs2: check presence of existing volume on device.
+	* mkfs.nilfs2: erase the first and the second sectors unless boot
+	  sector exists.
+	* mkcp: add --print option.
+	* add omitted comments for structures in nilfs2_fs.h.
+	* add autogen script.
+	* fix missing bold font termination in nilfs.8 man page.
+	* update README file.
+	* update AUTHORS file.
+
+nilfs-utils-2.1.4  Fri Jul 6, 2012 JST
+
+	* umount.nilfs2: use binary exponential backoff for waiting for
+	  cleanerd's shutdown in order to speed up unmount.
+	* mount.nilfs2: fix wrong error handling in do_mount_one routine;
+	  this fixes the bug that gcpid attribute is not updated properly
+	  in the mtab file when cleanerd restarted after rw->{ro,rw} remount.
+	* nilfs-resize: do not use sync() system call.
+	* nilfs-resize: fix early give-up of fs-shrinking.
+	* mount.nilfs2: support context, fscontext, defcontext, and
+	  rootcontext SELinux mount options.
+	* add --with-selinux configuration option.
+	* mount.nilfs2: use realloc instead of malloc(new_s); free(s) in
+	  string manipulation of options.
+	* cleanup usage of _PATH_*; this eliminates deprecated macros MOUNTED
+	  and MNTTAB from nilfs-utils.
+	* update AUTHORS file.
+
+nilfs-utils-2.1.3  Wed Jun 20, 2012 JST
+
+	* Imported mtab fixes from util-linux-2.17.2 including mtab lock
+	  fix, memory usage fix, list logic fix in update_mtab, permission
+	  fix on locktime, and so forth.
+	* nilfs_cleanerd: try to update log cursor when gc aborted
+	  due to hitting protected segments.
+	* libnilfsgc: try the last hit snapshot number in live/dead
+	  determination
+	* libnilfsgc: insert sanity check for snapshot numbers
+
+nilfs-utils-2.1.2  Sat Jun 2, 2012 JST
+
+	* libnilfsgc: fix broken live/dead determination function
+	* libnilfsgc: do not add live duration of cpfile/sufile to removal
+	  periods
+	* mount.nilfs2.8: add missing nobarrier/nodiscard options
+	* update years in copyright notice
+	* fix a typo in nilfs-clean manpage
+	* improve error message printed when failing to create checkpoint
+	  number converter.
+
+nilfs-utils-2.1.1  Sat Jan 14, 2012 JST
+
+	* umount.nilfs2 (libmount): send proper error code to complain function
+	* rmcp: print sensible error message on permission failure
+	* nilfs-tune: catch and handle missing device argument
+	* correct parser function use for 64-bit integer inputs
+	* rmcp/chcp: sanity check for positive checkpoint number
+	* mkfs.nilfs2: support -h command line option
+	* Add .gitignore rules for generated binaries
+	* Remove kern_compat.h
+	* cleanups
+
+nilfs-utils-2.1.0  Wed Nov 23, 2011 JST
+
+	* fix build error due to missing dependency to myrealpath library
+	  from libnilfscleaner library.
+	* update README file.
+
+nilfs-utils-2.1.0-rc2  Sun Aug  7, 2011 JST
+
+	* add libmount support
+	* automate selection of libraries for posix semaphore and mqueue
+	* fix autoreconf error caused by a lack of m4 directory
+	* fix gcc warnings
+	* update README file
+
+nilfs-utils-2.1.0-rc1  Mon May 30, 2011 JST
+
+	* add nilfs-clean program.
+	* add nilfs-resize program.
+	* nilfs_cleanerd: allow subsecond values for time interval parameters.
+	* lscp: hide internal checkpoint by default and add all option to
+	  show them.
+	* libnilfs: add APIs for filesystem resizing
+	* separate one shot garbage collection function to libnilfsgc library.
+	* add libnilfscleaner library which gives control function of
+	  cleaner daemon.
+	* nilfs_cleanerd: fix overflow of time out value
+	* nilfs_cleanerd: fix move block errors on cpfile and sufile
+	* nilfs-tune: move out check_mount function to library
+
+nilfs-utils-2.0.23  Sat Apr 30, 2011 JST
+
+	* make gc safe for duplicate invocation
+	* block interrupt signals while holding cleaner lock
+
+nilfs-utils-2.0.22  Sat Apr 16, 2011 JST
+
+	* use root directory instead of .nilfs file to issue NILFS API
+	  ioctls.
+	* use posix semaphore instead of advisory lock against .nilfs file
+	  to make nilfs tools and cleanerd exclusive; this and the previous
+	  change make the .nilfs file unnecessary.
+	* allow lscp command to display per-checkpoint block count.
+	* do not include blocks of dat, cpfile and sufile in the block
+	  count of initial checkpoint; the block count feature of the
+	  upcoming kernel (2.6.39) is per check point, and these three
+	  meta data files do not belong to any checkpoints.
+	* support option to manipulate fs-features in mkfs.nilfs2 and
+	  nilfs-tune.
+	* support relative pathnames in command line of nilfs_cleanerd.
+	* include crc function in libnilfs library to make it
+	  self-contained.
+	* fix incorrect initial value of number of inodes.
+	* fix message duplication in nilfs-tune for invalid options.
+	* update nilfs2_fs.h header file
+	* uniform the style of commentary outputs in nilfs-tune.
+	* fix a few warnings reported by the recent libtoolize.
+	* cleanups
+
+nilfs-utils-2.0.21  Fri Jan 21, 2011 JST
+
+	* get rid of the warning telling disk format is unstable
+	* change license of libraries and header files to LGPL; crc was
+	  replaced with an LGPL implementation along with this.
+	* discard blocks at mkfs time
+	* add verbose option to mkfs.nilfs2
+	* kill gcc warnings
+
+nilfs-utils-2.0.20  Sun Sep 26, 2010 JST
+
+	* add tune tool, nilfs-tune. (thanks to Jiro SEKIBA)
+	* add write routines of super blocks to nilfs library
+	* add version option to every utility
+	* enable long style options for bin directory utilities
+	* apply workaround of rec_len overflow with 64KB block size to
+	  mkfs.nilfs2
+	* extend super block to support feature tests
+	* insert feature compatibility check in nilfs library
+	* replace lseek64 and off64_t with lseek and off_t respectively;
+	  AC_SYS_LARGEFILE autoconf macro is applied to make the latters
+	  properly detect and use 64-bit implementation.
+
+nilfs-utils-2.0.19  Mon Aug  9, 2010 JST
+
+	* add uhelper option support.  This is required to control nilfs2
+	  partitions from udisks/palimpsest.
+	* enlarge maximum size of volume name to 80 bytes
+	* update man pages; described new mount options (norecovery and
+	  discard) and change on the default of errors= mount option.
+	* import changes in nilfs2_fs.h upto kernel 2.6.35.
+	* extend the range of application of autoconf
+
+nilfs-utils-2.0.18  Sat Apr 10, 2010 JST
+
+	* allow cleanerd to suspend GC based on the number of free
+	  segments (thanks to David Arendt)
+	* add mount option to disable garbage collection
+	* add AUTHORS file
+	* do cleanup for conf-file parser of cleanerd
+
+nilfs-utils-2.0.17  Sat Mar 13, 2010 JST
+
+	* add COPYING file to prevent insertion of the GPLv3 preamble by
+	  newer automake.
+
+nilfs-utils-2.0.16  Sat Mar 13, 2010 JST
+
+	* add pseudo mount option "-o pp=<seconds>" which sets protection
+	  period (thanks to David Smid)
+	* fix build against newer glibc
+	* update mount.nilfs2 manpage to reflect mount option changes
+
+nilfs-utils-2.0.15  Thu Dec 31, 2009 JST
+
+	* delete install-exec-hooks to do chown to root
+	* delete install-exec-hook to run ldconfig in /lib
+	* deleted struct nilfs_dat_group_desc
+	* move definition of struct nilfs_btree_node
+	* change support email address to linux-nilfs
+
+nilfs-utils-2.0.14  Mon Jul 20, 2009 JST
+
+	* fix privilege escalation vulnerability in mkfs.nilfs2
+	* make the invocation of badblocks safer
+	* fix failure of nilfs_open for devices aliased as a symlink
+	* add -p option to cleanerd which overrides protection period
+	* fix code checker warnings reported by Eric Sandeen
+	* drop suid/sgid in proper order when invoking cleaner
+	* drop other suid bits for safety
+	* code cleanups
+
+nilfs-utils-2.0.13  Mon Jun 22, 2009 JST
+
+	* fix a bug of a nilfs library function leading to the cleanerd
+	  failure on mount.  The bug typically arises when the mount
+	  directory path ends with a slash symbol.  This was caused by a
+	  lack of pathname canonicalization on the argument.
+	* fix the problem that lssu didn't display segments properly
+	  when the number of segments was specified with -n option.
+	* enhance command line parser of rmcp so that it can handle range
+	  of checkpoint numbers.
+	* change rmcp to prompt user to use chcp when rmcp is tried
+	  against snapshots.
+	* add fallback mode to cleanerd which does retries in case of
+	  memory shortage.  In the fallback mode, cleanerd does the
+	  retries decreasing the number of cleaning segments.
+	* add retry_interval directive to nilfs_cleanerd.conf which
+	  specifies the retry interval in the fallback mode.
+	* cleanup of cleanerd main loop
+
+nilfs-utils-2.0.12  Thu Apr  2, 2009 JST
+
+	* fix problem of libnilfs which didn't follow symbolic links for
+	  devices.
+	* fix incorrect behavior of mkfs.nilfs2 with -q option
+	* fix command line buffer overflow error for mkfs -c
+	* settle mess for bind mounts.
+	* fix a bug in device check of mount.nilfs2 which confirm device is
+	  accessible or not.
+	* rewrite lscp command to interleavingly call nilfs_get_cpinfo()
+	  and list its result.
+	* rewrite lssu command to interleavingly call nilfs_get_suinfo()
+	  and list its result.
+	* lscp and lssu supported options which specify the start index and
+	  the number of items to be listed.
+	* revise manpages of lscp and lssu.
+	* dumpseg changed to print some details of segment header.
+	* delete style comments for emacs editor.
+
+nilfs-utils-2.0.11  Fri Mar 13, 2009 JST
+
+	* force mount.nilfs2 to print a message to warn possible
+	  on-disk format change.
+	* follow minor changes on nilfs_fs.h which are for supporting
+	  nanosecond timestamps.
+
+nilfs-utils-2.0.10  Sat Mar  7, 2009 JST
+
+	* enhance mkfs.nilfs2 to make secondary super block.
+	* add support of the secondary super block to nilfs library.
+	* add minor flag for checkpoints created by internal operations.
+	  This allows userland application to identify whether each
+	  checkpoint is created by file system change or internal operations
+	  such as garbage collection or checkpoint mode change.
+	  lscp now displays 'i' flag on those minor checkpoints.
+	* clean up sketch file.
+
+nilfs-utils-2.0.9  Wed Mar  4, 2009 JST
+
+	* fix cleanerd bug causing removal of protected checkpoints.
+	  This is the bugfix of the problem reported by Nori-san.
+	* add comments to cleanerd functions.
+	* mkfs add inode entries for reserved meta data files.  This would help
+	  to remove future compatibility problems.
+	* cleanups; remove unnecessary type casting of cleanerd and library,
+	  remove trailing white spaces, and so on.
+
+nilfs-utils-2.0.8  Thu Feb 19, 2009 JST
+
+	* follow the change of ioctl API. Architecture dependent problems
+	  related to the API was fixed.
+	* cleanerd sleeps without timedwait ioctl which was abandoned along
+	  with the API change.
+	* cleanerd uses a sequence counter instead of volatile active
+	  state of segments to checks whether a given segment is not
+	  unreclaimable.
+
+nilfs-utils-2.0.7  Wed Feb 11, 2009 JST
+
+	* fix possible infinite loop in lscp.
+	* fix incorrect termination detection of nilfs_psegment_for_each()
+	* fix calculation of finfo offset that will break compatibility for
+	  future extension of segment summary.
+	* fix a wrong memmove size calculation in cleanerd.
+	* avoid possible infinite loop of lssu and cleanerd that may occur
+	  for inconsistent file systems.
+	* insert some check code in cleanerd to verify consistency of the
+	  number of snapshots.
+	* mkfs.nilfs2 zeroes out the head and tail of device.
+	* make sketch file deprecated.
+	* add tag files gtags to .gitignore.
+	* clean up nilfs_file_next and nilfs_binfo_total_size.
+	* import recent updates of nilfs_fs.h.
+
+nilfs-utils-2.0.6  Fri Oct 17, 2008 JST
+
+	* fix the cleanerd bug that causes a kernel panic for more than
+	  512 snapshots.
+	* tighten checks before calling mount syscall.
+
+nilfs-utils-2.0.5  Mon Jul 14, 2008 JST
+
+	* add fake option (-f) to mount.nilfs2.
+	* fix a problem related to the fake option support in which a gcpid
+	  option remains in /etc/mtab even after ro-remount succeeded.
+	* push forward check of /etc/mtab.
+
+nilfs-utils-2.0.4  Fri Jun 20, 2008 JST
+
+	* fix the segmentation fault problem of mount.nilfs2 that occurs
+	  if it is invoked without passing through /sbin/mount.
+	* allow ro/rw-mount options for mount.nilfs2.
+	* apply the patch that renames a member prefix of struct nilfs_suinfo
+	  in nilfs_fs.h, which was required to avoid a compile-time error
+	  of the nilfs2 kernel module on IA64 machines.
+
+nilfs-utils-2.0.3  Thu May 22, 2008 JST
+
+	* fix the problem of 'make dist-bzip2' that it produces a tarball
+	  without man pages.  This fixes it by using dist_man_MANS instead
+	  of man_MANS.  This release is equivalent to the previous release
+	  for the rest.
+
+nilfs-utils-2.0.2  Tue May 20, 2008 JST
+
+	* add man pages for nilfs2 and its utilities.
+	* move declaration of nilfs_persistent_group_desc struct into the
+	  nilfs_fs.h file.  This structure defines on-disk format of ifile
+	  group descriptor, and should be declared in nilfs_fs.h.
+
+nilfs-utils-2.0.1  Mon Mar 24, 2008 JST
+
+	* import changes on nilfs_fs.h to prepare for future extensions.
+	* import changes on nilfs_fs.h to avoid checkpatch.pl errors and
+	  warnings.
+	* fix gcc-4.2 warnings on 64-bit machines
+	* remove expanded rcs keywords
+	* add .gitignore
+
+nilfs-utils-2.0.0  Mon Feb 18, 2008 JST
+
+	* add a missing error handling of cleanerd.
+
+nilfs-utils-2.0.0-testing-9  Wed Feb 13, 2008 JST
+
+	* Fixed a hang problem that arose under a near disk full condition.
+	* Fixed the problem that a NILFS partition mounted at boot time could
+	  not be unmounted manually.  This problem came from the standard
+	  behavior of most Linux distributions where the /var/run directory was
+	  cleaned after a boot time mount process.  The clean-up job removed
+	  the PID file of cleanerd and caused its shutdown failure.
+	  The cleanerd and mount/umount programs were fairly changed for this
+	  fix; now /etc/mtab is used instead to keep a PID of the cleanerd.
+
+nilfs-utils-2.0.0-testing-8  Thu Dec 27, 2007 JST
+
+nilfs-utils-2.0.0-testing-7  Thu Nov 29, 2007 JST
+
+	* add cast for 64bit environment.
+	* modify some error messages.
+
+nilfs-utils-2.0.0-testing-6  Mon Oct 22, 2007 JST
+
+	* Changed the message of "No such device" error printed by mount.nilfs2
+	  to make it more understandable.
+
+nilfs-utils-2.0.0-testing-5  Mon Oct 15, 2007 JST
+
+nilfs-utils-2.0.0-testing-4  Thu Oct 11, 2007 JST
+
+	* Add a new argument to nilfs_sync() API to allow utilities (e.g. mkcp)
+	  to get the number of generated checkpoint atomically.
+	* Fixed an installation error due to a lookup failure of ldconfig
+	  that occurs on some distros.
+
+nilfs-utils-2.0.0-testing-3  Tue Jul 24, 2007 JST
+
+	* Allow regular files to be used with mkfs.nilfs2.
+	  
+	  The current implementation of mkfs.nilfs2 is limited to block devices
+	  only, because of the use of the BLKGETSIZE64 ioctl(). That patches
+	  allows mkfs.nilfs2 to format regular files, in addition to block
+	  devices.
+	  
+	  Signed-off-by: Thomas Petazzoni <thomas.petazzoni@enix.org>
+
+nilfs-utils-2.0.0-testing-2  Tue Jun 20, 2007 JST
+
+	* Fixed a problem that the lscp and other userland tools might
+	  fail on Ubuntu 6 if a samba mounted partition exists.
+
+nilfs-utils-2.0.0-testing  Wed Jun 13, 2007 JST
+
+	* The first release.
+	* Implemented the Garbage Collector.
+	* Rewrote almost all of the source code.

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-wii-u-rom">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Wii U disc image</comment>
+  <sub-class-of type="application/x-cd-image"/>
+  <generic-icon name="application-x-cd-image"/>
+  <alias type="application/x-wii-u-iso-image"/>
+  <glob pattern="*.wud"/>
+  <glob pattern="*.wux"/>
+</mime-type>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="owncloud-storage">
+  <type>dav-storage</type>
+  <name>Storage</name>
+  <icon>kaccounts-owncloud</icon>
+  <provider>owncloud</provider>
+  <translations>kaccounts-providers</translations>
+
+  <template>
+    <group name="dav">
+        <setting name="host"></setting>
+        <setting name="storagePath"></setting>
+    </group>
+  </template>
+</service>

@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+"dtd/kdedbx45.dtd" [
+<!ENTITY % addindex "IGNORE">
+<!ENTITY % Brazilian-Portuguese "INCLUDE"
+> <!-- change language only here -->
+]>
+	
+<article lang="&language;" id="thumbnail">
+<title
+>thumbnail</title>
+<articleinfo>
+<authorgroup>
+<author
+>&Carsten.Pfeiffer; &Carsten.Pfeiffer.mail;</author>
+<othercredit role="translator"
+><firstname
+>Lisiane</firstname
+> <surname
+>Sztoltz Teixeira </surname
+><affiliation
+><address
+> <email
+>lisiane@conectiva.com.br</email
+></address
+></affiliation
+><contrib
+>Tradução</contrib
+></othercredit
+> 
+</authorgroup>
+<date
+>11/12/2016</date>
+<releaseinfo
+>Applications 16.12</releaseinfo>
+</articleinfo>
+<para
+>O KIO do 'thumbnail' é usado pelo &kde; para transparência de rede e geração persistente de miniaturas.</para>
+
+<para
+>Este KIO usa plugins para gerar as miniaturas reais. Você pode habilitar a visualização destas miniaturas do submenu <menuchoice
+><guimenu
+>Exibir</guimenu
+> <guisubmenu
+>Visualizar</guisubmenu
+></menuchoice
+>, disponível no &dolphin; ou modo de gerenciador de arquivos do &konqueror;.</para>
+
+<para
+>O KIO do 'thumbnail' não é útil diretamente para um usuário, mas se você for um desenvolvedor, pode usá-lo dentro de seus próprios aplicativos para criar visualizações de arquivos.</para>
+
+<para
+>Veja a documentação nos arquivos fonte para mais informações. Você encontrará isto na pastas <ulink url="https://commits.kde.org/kio-extras?path=thumbnail"
+>thumbnail</ulink
+> </para>
+
+</article>

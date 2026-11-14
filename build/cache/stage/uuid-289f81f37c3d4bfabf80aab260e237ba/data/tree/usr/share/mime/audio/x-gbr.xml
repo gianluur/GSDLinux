@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="audio/x-gbr">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Game Boy Ripped audio</comment>
+  <acronym>GBR</acronym>
+  <expanded-acronym>Game Boy Ripped</expanded-acronym>
+  <generic-icon name="audio-x-generic"/>
+  <glob pattern="*.gbr"/>
+</mime-type>

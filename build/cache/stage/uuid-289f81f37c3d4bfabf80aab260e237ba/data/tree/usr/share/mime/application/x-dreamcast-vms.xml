@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-dreamcast-vms">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Dreamcast VMS save file</comment>
+  <acronym>VMS</acronym>
+  <expanded-acronym>Visual Memory System</expanded-acronym>
+  <sub-class-of type="application/octet-stream"/>
+  <generic-icon name="application-octet-stream"/>
+  <glob pattern="*.vms"/>
+</mime-type>

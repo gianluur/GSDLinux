@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-xbox360-executable">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Xbox 360 executable</comment>
+  <acronym>XEX</acronym>
+  <expanded-acronym>Xbox 360 Executable</expanded-acronym>
+  <sub-class-of type="application/x-executable"/>
+  <generic-icon name="application-x-executable"/>
+  <glob pattern="*.xex"/>
+</mime-type>

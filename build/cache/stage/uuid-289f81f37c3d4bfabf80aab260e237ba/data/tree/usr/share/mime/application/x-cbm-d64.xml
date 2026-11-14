@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-cbm-d64">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Commodore 64 (1541) disk image</comment>
+  <sub-class-of type="application/x-raw-disk-image"/>
+  <alias type="application/d64"/>
+  <alias type="application/x-c64-datadisk"/>
+  <alias type="application/x-d64"/>
+  <glob pattern="*.d64"/>
+  <glob pattern="*.d41"/>
+</mime-type>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-xbox360-stfs">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Xbox 360 package</comment>
+  <acronym>STFS</acronym>
+  <expanded-acronym>Secure Transacted File System</expanded-acronym>
+  <sub-class-of type="application/x-archive"/>
+  <generic-icon name="package-x-generic"/>
+  <glob pattern="*.fxs"/>
+  <glob pattern="*.exs"/>
+</mime-type>

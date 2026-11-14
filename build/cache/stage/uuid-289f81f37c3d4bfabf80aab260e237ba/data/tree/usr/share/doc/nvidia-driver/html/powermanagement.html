@@ -1,0 +1,500 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org">
+<meta http-equiv="Content-Type" content=
+"text/html; charset=us-ascii">
+<title>Chapter&nbsp;20.&nbsp;Configuring Power Management
+Support</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.68.1">
+<link rel="start" href="index.html" title=
+"NVIDIA Accelerated Linux Graphics Driver README and Installation Guide">
+<link rel="up" href="installationandconfiguration.html" title=
+"Part&nbsp;I.&nbsp;Installation and Configuration Instructions">
+<link rel="prev" href="procinterface.html" title=
+"Chapter&nbsp;19.&nbsp;Using the /proc File System Interface">
+<link rel="next" href="dynamicpowermanagement.html" title=
+"Chapter&nbsp;21.&nbsp;PCI-Express Runtime D3 (RTD3) Power Management">
+</head>
+<body>
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter&nbsp;20.&nbsp;Configuring
+Power Management Support</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href=
+"procinterface.html">Prev</a>&nbsp;</td>
+<th width="60%" align="center">Part&nbsp;I.&nbsp;Installation and
+Configuration Instructions</th>
+<td width="20%" align="right">&nbsp;<a accesskey="n" href=
+"dynamicpowermanagement.html">Next</a></td>
+</tr>
+</table>
+<hr></div>
+<div class="chapter" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title"><a name="powermanagement" id=
+"powermanagement"></a>Chapter&nbsp;20.&nbsp;Configuring Power
+Management Support</h2>
+</div>
+</div>
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt><span class="section"><a href=
+"powermanagement.html#Overview21f77">Overview</a></span></dt>
+<dt><span class="section"><a href=
+"powermanagement.html#PreservingVideo31185">Preserving video memory
+allocations</a></span></dt>
+<dt><span class="section"><a href=
+"powermanagement.html#SystemdConfigur74e29"><span><strong class=
+"command">systemd</strong></span> Configuration</a></span></dt>
+<dt><span class="section"><a href=
+"powermanagement.html#ExercisingPower89cc2">Exercising power
+management with <span><strong class=
+"command">systemd</strong></span></a></span></dt>
+<dt><span class="section"><a href=
+"powermanagement.html#KnownIssuesAndWf438e">Known Issues and
+Workarounds</a></span></dt>
+</dl>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="Overview21f77" id=
+"Overview21f77"></a>Overview</h2>
+</div>
+</div>
+</div>
+<p>The NVIDIA Linux driver includes support for the suspend
+(suspend-to-RAM) and hibernate (suspend-to-disk) system power
+management operations, such as ACPI S3 and S4 on the x86_64
+platform. When the system suspends or hibernates, the NVIDIA kernel
+drivers prepare in-use GPUs for the sleep cycle, saving state
+required to return these GPUs to normal operation when the system
+is later resumed. The NVIDIA Linux driver also supports S0ix-based
+s2idle system suspend (suspend-to-idle), if both the platform and
+the NVIDIA GPU support it.</p>
+<p>To be most effective, the driver needs to preserve the contents
+of video memory during suspend and restore it during resume. When
+the open kernel modules are in use, this is handled automatically.
+For the proprietary driver, see the "systemd configuration" section
+below for more details.</p>
+<p>If video memory preservation is not enabled, the resulting loss
+of video memory contents is partially compensated for by the
+user-space NVIDIA drivers, and by some applications, but can lead
+to failures such as rendering corruption and application crashes
+upon exit from power management cycles.</p>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name=
+"PreservingVideo31185" id="PreservingVideo31185"></a>Preserving
+video memory allocations</h2>
+</div>
+</div>
+</div>
+<p>To save potentially large portions of video memory, the NVIDIA
+driver supports the following two methods:</p>
+<div class="variablelist">
+<dl>
+<dt><span class="term"><code class="computeroutput">Save
+allocations in an unnamed temporary file</code></span></dt>
+<dd>
+<p>During suspend, the NVIDIA driver uses an unnamed temporary file
+to save potentially large portions of video memory. By default,
+this data is stored in tmpfs on the open kernel modules, and in the
+filesystem that backs <code class="filename">/tmp</code> if using
+the proprietary driver. This location can be changed with the
+<code class="computeroutput">NVreg_TemporaryFilePath</code>
+nvidia.ko kernel module parameter, e.g. <code class=
+"computeroutput">NVreg_TemporaryFilePath=/run</code>. The
+destination file system needs to support unnamed temporary files,
+and it needs to be large enough to accommodate all the utilized
+video memory copies for the duration of the power management
+cycle.</p>
+<p>When determining a suitable size for the video memory backing
+store, it is recommended to start with the overall amount of video
+memory supported by the GPUs installed in the system. For example:
+<code class="computeroutput">nvidia-smi -q -d MEMORY |grep 'FB
+Memory Usage' -A1</code>. Each <code class=
+"computeroutput">Total</code> line returned by this command
+reflects one GPU's video memory capacity, in MiB. The sum of these
+numbers, plus 5% of margin, is a conservative starting point for
+the size of the video memory backing store.</p>
+<p>Please note that file systems such as <code class=
+"filename">/tmp</code> and <code class="filename">/run</code> are
+often of the type <code class="computeroutput">tmpfs</code>, and
+potentially relatively small. Most commonly, the size of the type
+of the file system used is controlled by <span><strong class=
+"command">systemd</strong></span>. For more information, see
+<a href=
+"https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems"
+target=
+"_top">https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems</a>.
+To achieve the best performance, file system types other than
+<code class="computeroutput">tmpfs</code> are recommended at this
+time.</p>
+<p>When the open kernel modules are in use, this is handled
+automatically. To unlock the full functionality of the interface
+with the proprietary driver, the NVIDIA Linux kernel module
+<code class="computeroutput">nvidia.ko</code> needs to be loaded
+with the <code class=
+"computeroutput">NVreg_PreserveVideoMemoryAllocations=1</code>
+module parameter. This changes the video memory save/restore
+strategy to save and restore all video memory allocations. The
+<code class="computeroutput">/proc/driver/nvidia/suspend</code>
+power management mechanism is required when using this parameter
+(see the "systemd configuration" section below for more
+details).</p>
+</dd>
+<dt><span class="term"><code class="computeroutput">S0ix-based
+power management</code></span></dt>
+<dd>
+<p>S0ix is a mode of system-level power management in which idle
+platform components can be powered off. The NVIDIA Linux driver
+supports S0ix-based <span><strong class=
+"command">s2idle</strong></span> system suspend on specific
+notebook and desktop systems. For an NVIDIA GPU to participate in
+S0ix, the GPU can be powered off, but its video memory contents
+must be preserved. The driver preserves video memory contents by
+either putting video memory in self refresh or copying its contents
+to system memory, as described below. Keeping video memory in self
+refresh uses more power while suspended than powering it off, but
+avoids copying its contents and can reduce transition latency. When
+video memory is copied, transition latency and system memory
+requirements depend on the amount of video memory in use.</p>
+<p>S0ix is disabled by default, and can only be enabled when all of
+the following conditions are met:</p>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>The platform firmware must advertise low-power S0 idle
+support.</p>
+<p>Check that the S0ix Power Management <code class=
+"computeroutput">Platform Support</code> field reports <code class=
+"computeroutput">Supported</code>:</p>
+<p><code class="computeroutput">cat
+/proc/driver/nvidia/gpus/&lt;Domain&gt;:&lt;Bus&gt;:&lt;Device&gt;.0/power</code></p>
+</li>
+<li>
+<p>The kernel must support the <span><strong class=
+"command">s2idle</strong></span> state and it must be the selected
+system sleep state.</p>
+<p>Check the selected system sleep state with:</p>
+<p><code class="computeroutput">cat /sys/power/mem_sleep</code></p>
+<p>The active value is enclosed in brackets, so the output must
+contain <code class="computeroutput">[s2idle]</code>. If
+<span><strong class="command">s2idle</strong></span> is listed but
+not selected, select it for the current boot with:</p>
+<p><code class="computeroutput">echo s2idle | sudo tee
+/sys/power/mem_sleep</code></p>
+<p>To select it by default at boot, use the <code class=
+"computeroutput">mem_sleep_default=s2idle</code> kernel
+command-line parameter. See <a href=
+"https://docs.kernel.org/admin-guide/pm/sleep-states.html" target=
+"_top">Linux kernel system sleep states documentation</a> for more
+information.</p>
+</li>
+<li>
+<p>The NVIDIA GPU supports video memory self refresh mode.</p>
+<p>Check that the <code class="computeroutput">Video Memory Self
+Refresh</code> field reports <code class=
+"computeroutput">Supported</code>:</p>
+<p><code class="computeroutput">cat
+/proc/driver/nvidia/gpus/&lt;Domain&gt;:&lt;Bus&gt;:&lt;Device&gt;.0/power</code></p>
+</li>
+<li>
+<p>The GPU and its upstream PCIe path support Runtime D3 (RTD3),
+including the required ACPI firmware interfaces. See <a href=
+"dynamicpowermanagement.html" title=
+"Chapter&nbsp;21.&nbsp;PCI-Express Runtime D3 (RTD3) Power Management">
+Chapter&nbsp;21, <i>PCI-Express Runtime D3 (RTD3) Power
+Management</i></a> for supported configurations and information
+about checking Runtime D3 status.</p>
+</li>
+</ul>
+</div>
+<p>If the platform, kernel, GPU, and RTD3 capability requirements
+above are met, enable the feature by setting <code class=
+"computeroutput">NVreg_EnableS0ixPowerManagement=1</code> when
+loading <code class="computeroutput">nvidia.ko</code>, or configure
+it in a module configuration file and reboot. After the driver is
+loaded, the <code class="computeroutput">Status</code> field under
+<code class="computeroutput">S0ix Power Management</code> in the
+GPU power file reports <code class="computeroutput">Enabled</code>
+when the driver's S0ix feature gate is enabled. This status does
+not confirm every upstream ACPI operation or replace validation of
+an actual suspend/resume cycle.</p>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>During the S0ix suspend, if video memory usage is equal to or
+less than a certain threshold, then the driver will copy video
+memory contents to system memory and power off the video memory
+along with the GPU. This will help in saving power. If sufficient
+system memory cannot be reserved, the driver falls back to video
+memory self refresh.</p>
+</li>
+<li>
+<p>During the S0ix suspend, if video memory usage is above a
+certain threshold, then the video memory will be kept in
+self-refresh mode while the rest of the GPU is powered down.</p>
+</li>
+</ul>
+</div>
+<p>By default, this threshold is 256 MB and it can be changed with
+the <code class=
+"computeroutput">NVreg_S0ixPowerManagementVideoMemoryThreshold</code>
+module parameter of <code class=
+"computeroutput">nvidia.ko</code>.</p>
+</dd>
+</dl>
+</div>
+<p>All the module parameters can be set on the command line when
+loading the NVIDIA Linux kernel module <code class=
+"computeroutput">nvidia.ko</code>, or via the distribution's kernel
+module configuration files (such as those under
+/etc/modprobe.d).</p>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name=
+"SystemdConfigur74e29" id=
+"SystemdConfigur74e29"></a><span><strong class=
+"command">systemd</strong></span> Configuration</h2>
+</div>
+</div>
+</div>
+<p>This section is specific to the <code class=
+"filename">/proc/driver/nvidia/suspend</code> interface. This is
+required if using the proprietary driver with the <code class=
+"computeroutput">NVreg_PreserveVideoMemoryAllocations=1</code>
+kernel module parameter or advanced CUDA features (such as UVM).
+The NVIDIA Linux kernel driver requires no configuration if the
+default power management mechanism is used.</p>
+<p>In order to take advantage of the <code class=
+"filename">/proc</code> interface, a system management tool like
+<span><strong class="command">systemd</strong></span> needs to be
+configured to access it at appropriate times in the power
+management sequence. Specifically, the interface needs to be used
+to suspend or hibernate the NVIDIA kernel drivers just before
+writing to the Linux kernel's <code class=
+"filename">/sys/power/state</code> interface to request entry into
+the desired sleep state. The interface also needs to be used to
+resume the NVIDIA kernel drivers immediately after the return from
+a sleep state, as well as immediately after any unsuccessful
+attempts to suspend or hibernate.</p>
+<p>The following example configuration documents integration with
+the <span><strong class="command">systemd</strong></span> system
+and service manager, which is commonly used in modern GNU/Linux
+distributions to manage system start-up and various aspects of its
+operation. For systems not using <span><strong class=
+"command">systemd</strong></span>, the configuration files provided
+serve as a reference.</p>
+<p>The <span><strong class="command">systemd</strong></span>
+configuration uses the following files:</p>
+<div class="variablelist">
+<dl>
+<dt><span class="term"><code class=
+"computeroutput">/usr/lib/systemd/system/nvidia-suspend.service</code></span></dt>
+<dd>
+<p>A <span><strong class="command">systemd</strong></span> service
+description file used to instruct the system manager to write
+<code class="computeroutput">suspend</code> to the <code class=
+"filename">/proc/driver/nvidia/suspend</code> interface immediately
+before accessing <code class="filename">/sys/power/state</code> to
+suspend the system.</p>
+</dd>
+<dt><span class="term"><code class=
+"computeroutput">/usr/lib/systemd/system/nvidia-suspend-then-hibernate.service</code></span></dt>
+<dd>
+<p>A <span><strong class="command">systemd</strong></span> service
+description file used to instruct the system manager to write
+<code class="computeroutput">suspend</code> to the <code class=
+"filename">/proc/driver/nvidia/suspend</code> interface immediately
+before accessing <code class="filename">/sys/power/state</code> to
+suspend the system.</p>
+<p>The <span><strong class=
+"command">suspend-then-hibernate</strong></span> suspend method
+requires systemd version 248 or higher.</p>
+</dd>
+<dt><span class="term"><code class=
+"computeroutput">/usr/lib/systemd/system/nvidia-hibernate.service</code></span></dt>
+<dd>
+<p>A <span><strong class="command">systemd</strong></span> service
+description file used to instruct the system manager to write
+<code class="computeroutput">hibernate</code> to the <code class=
+"filename">/proc/driver/nvidia/suspend</code> interface immediately
+before accessing <code class="filename">/sys/power/state</code> to
+hibernate the system.</p>
+</dd>
+<dt><span class="term"><code class=
+"computeroutput">/usr/lib/systemd/system/nvidia-resume.service</code></span></dt>
+<dd>
+<p>A <span><strong class="command">systemd</strong></span> service
+description file used to instruct the system manager to write
+<code class="computeroutput">resume</code> to the <code class=
+"filename">/proc/driver/nvidia/suspend</code> interface immediately
+after returning from a system sleep state.</p>
+</dd>
+<dt><span class="term"><code class=
+"computeroutput">/lib/systemd/system-sleep/nvidia</code></span></dt>
+<dd>
+<p>A <span><strong class="command">systemd-sleep</strong></span>
+script file used to instruct the system manager to write
+<code class="computeroutput">resume</code> to the <code class=
+"filename">/proc/driver/nvidia/suspend</code> interface immediately
+after an unsuccessful attempt to suspend or hibernate the system
+via the <code class="filename">/proc/driver/nvidia/suspend</code>
+interface.</p>
+<p>For the <span><strong class=
+"command">suspend-then-hibernate</strong></span> method of system
+sleep, this script is responsible for resuming and then hibernating
+the GPU if the system wakes due to a low battery warning. This
+feature requires systemd version 248 or newer.</p>
+</dd>
+<dt><span class="term"><code class=
+"computeroutput">/usr/bin/nvidia-sleep.sh</code></span></dt>
+<dd>
+<p>A shell script used by the <span><strong class=
+"command">systemd</strong></span> service description files and the
+<span><strong class="command">systemd-sleep</strong></span> file to
+interact with the <code class=
+"filename">/proc/driver/nvidia/suspend</code> interface. The script
+also manages VT switching for the X server, which is currently
+needed by the NVIDIA X driver to support power management
+operations.</p>
+</dd>
+</dl>
+</div>
+<p>These files are installed and enabled by nvidia-installer
+automatically if systemd is detected. Installation of systemd units
+can be disabled by specifying the <span><strong class=
+"command">--no-systemd</strong></span> installer option.</p>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name=
+"ExercisingPower89cc2" id="ExercisingPower89cc2"></a>Exercising
+power management with <span><strong class=
+"command">systemd</strong></span></h2>
+</div>
+</div>
+</div>
+<p>This section is specific to the <code class=
+"filename">/proc/driver/nvidia/suspend</code> interface, when
+configured as described above. When the default power management
+mechanism is used instead, or when the <code class=
+"filename">/proc</code> interface is used without
+<span><strong class="command">systemd</strong></span>, then the use
+of <code class="computeroutput">systemctl</code> is not
+required.</p>
+<p>To suspend (suspend-to-RAM) or to hibernate (suspend-to-disk),
+respectively, use the following commands:</p>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p><code class="computeroutput">sudo systemctl suspend</code></p>
+</li>
+<li>
+<p><code class="computeroutput">sudo systemctl hibernate</code></p>
+</li>
+</ul>
+</div>
+<p>For the full list of sleep operations supported by
+<span><strong class="command">systemd</strong></span>, please see
+the systemd-suspend.service(8) man page.</p>
+</div>
+<div class="section" lang="en">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name=
+"KnownIssuesAndWf438e" id="KnownIssuesAndWf438e"></a>Known Issues
+and Workarounds</h2>
+</div>
+</div>
+</div>
+<div class="itemizedlist">
+<ul type="disc">
+<li>
+<p>On some systems, where the default suspend mode is <code class=
+"filename">"s2idle"</code>, the system may not resume properly due
+to a known timing issue in the kernel. The suspend mode can be
+verified by reading the contents of the file <code class=
+"filename">/sys/power/mem_sleep</code>. The following upstream
+kernel changes have been proposed to fix the issue:</p>
+<p><a href=
+"https://lore.kernel.org/linux-pci/20190927090202.1468-1-drake@endlessm.com/"
+target=
+"_top">https://lore.kernel.org/linux-pci/20190927090202.1468-1-drake@endlessm.com/</a></p>
+<p><a href=
+"https://lore.kernel.org/linux-pci/20190821124519.71594-1-mika.westerberg@linux.intel.com/"
+target=
+"_top">https://lore.kernel.org/linux-pci/20190821124519.71594-1-mika.westerberg@linux.intel.com/</a></p>
+<p>In the interim, the default suspend mode on the affected systems
+should be set to <code class="filename">"deep"</code> using the
+kernel command line parameter <code class=
+"filename">"mem_sleep_default"</code> -</p>
+<p><span><strong class=
+"command">mem_sleep_default=deep</strong></span></p>
+</li>
+<li>
+<p>On some Linux kernel versions, resuming from suspend might lead
+to the following harmless kernel warning:</p>
+<p><code class="computeroutput">WARNING: CPU: 2 PID: 1746 at
+include/linux/rwsem.h:80 follow_pte+0x1de/0x200</code></p>
+<p>and a call trace that points to <code class=
+"computeroutput">nv_revoke_gpu_mappings_locked</code> in
+<code class="filename">nvidia.ko</code>.</p>
+<p>This issue was introduced in Linux kernel commit 29ae7d96d166
+(kernel v6.10) and resolved by Linux kernel commit 6da8e9634bb7
+(kernel v6.12), though one or both of these commits may have been
+backported to older Linux distribution kernels.</p>
+<p>If you are hitting this warning, please upgrade to kernel 6.12
+or later. The warning is harmless and does not affect GPU
+functionality.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href=
+"procinterface.html">Prev</a>&nbsp;</td>
+<td width="20%" align="center"><a accesskey="u" href=
+"installationandconfiguration.html">Up</a></td>
+<td width="40%" align="right">&nbsp;<a accesskey="n" href=
+"dynamicpowermanagement.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">
+Chapter&nbsp;19.&nbsp;Using the <code class=
+"computeroutput">/proc</code> File System Interface&nbsp;</td>
+<td width="20%" align="center"><a accesskey="h" href=
+"index.html">Home</a></td>
+<td width="40%" align="right" valign="top">
+&nbsp;Chapter&nbsp;21.&nbsp;PCI-Express Runtime D3 (RTD3) Power
+Management</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

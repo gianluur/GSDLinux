@@ -1,0 +1,5 @@
+#!/usr/bin/sh
+
+/usr/bin/swtpm_localca "$@"
+
+exit $?

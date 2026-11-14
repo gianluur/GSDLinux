@@ -1,0 +1,35 @@
+MenuBar=Disabled
+
+[Desktop Entry]
+FullScreen=true
+shouldShowMenuBarComingFromFullScreen=false
+shouldShowToolBarComingFromFullScreen=true
+
+[General]
+LockSidebar=true
+ShowSidebar=false
+
+[MainWindow]
+MenuBar=Disabled
+
+[Recent Files]
+File1[$e]=$HOME/Documents/Universita'/Informatica/Slide/01-fdinf2026-informazione-codifica.pdf
+File10[$e]=$HOME/Documents/Universita'/Informatica/Slide/07-fdinf2026-architettura-von_neumann_v2.pdf
+File2[$e]=$HOME/Documents/Universita'/Informatica/Slide/02-fdinf2026-oggetti_digitali_v2.pdf
+File3[$e]=$HOME/Documents/Universita'/Informatica/Slide/03-fdinf2026-sistemi-di-numerazione_v2.pdf
+File4[$e]=$HOME/Documents/Universita'/Informatica/Slide/04-fdinf2026-rappresentazione-numeri-relativi.pdf
+File5[$e]=$HOME/Documents/Universita'/Informatica/Slide/05-fdinf2026-numeri-reali.pdf
+File6[$e]=$HOME/Documents/Universita'/Informatica/Slide/06-fdinf2026-boole.pdf
+File7[$e]=$HOME/Documents/Universita'/Informatica/Slide/07_fdinf2026-architettura-von_neumann.pdf
+File8[$e]=$HOME/Downloads/ORARI-CUMANA-in-vigore-dal-giorno-11-settembre-2026-REV.pdf
+File9[$e]=$HOME/Documents/Universita'/Informatica/Slide/00_FdInf_intro_2026_v2.pdf
+Name1[$e]=01-fdinf2026-informazione-codifica.pdf
+Name10[$e]=07-fdinf2026-architettura-von_neumann_v2.pdf
+Name2[$e]=02-fdinf2026-oggetti_digitali_v2.pdf
+Name3[$e]=03-fdinf2026-sistemi-di-numerazione_v2.pdf
+Name4[$e]=04-fdinf2026-rappresentazione-numeri-relativi.pdf
+Name5[$e]=05-fdinf2026-numeri-reali.pdf
+Name6[$e]=06-fdinf2026-boole.pdf
+Name7[$e]=07_fdinf2026-architettura-von_neumann.pdf
+Name8[$e]=ORARI-CUMANA-in-vigore-dal-giorno-11-settembre-2026-REV.pdf
+Name9[$e]=00_FdInf_intro_2026_v2.pdf

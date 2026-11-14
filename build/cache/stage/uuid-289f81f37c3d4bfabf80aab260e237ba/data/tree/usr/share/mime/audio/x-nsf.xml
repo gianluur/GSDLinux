@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="audio/x-nsf">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Nintendo Sound Format audio</comment>
+  <acronym>NSF</acronym>
+  <expanded-acronym>Nintendo Sound Format</expanded-acronym>
+  <generic-icon name="audio-x-generic"/>
+  <glob pattern="*.nsf"/>
+</mime-type>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="inode/vnd.kde.kio.smb.printer">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Shared Network Printer (SMB)</comment>
+  <icon name="printer"/>
+</mime-type>

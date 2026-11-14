@@ -1,0 +1,14 @@
+2024-04-13  Simon Josefsson  <simon@josefsson.org>
+
+	We no longer manually curate a ChangeLog file.
+	You may use `git log` to show git commit log messages.
+
+	If you downloaded this file through a tarball, you will have to
+	retrieve the git repository to read commit history, see README for
+	links to the repository.
+
+	This file used to be automatically generated from git history, but
+	that made it impossible to re-create the tarball from a "git
+	archive"-style copy of the project.
+
+	* ChangeLog: Rewrite.

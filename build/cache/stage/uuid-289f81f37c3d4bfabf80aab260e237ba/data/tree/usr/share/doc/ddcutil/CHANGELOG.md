@@ -1,0 +1,1705 @@
+## [3.0.2] 2026-09-23
+
+#### Added
+
+- Built-in DDC ignore list. Added the Valve Index HMD (VLV / product 0x91a8, model
+  "Index HMD") to be ignored by default as DDC/CI reads on I2C slave 0x37 cause the 
+  headset's firmware to stop responding to EDID reads. Equivalent to using 
+  ***--ignore-mmid VLV-Index_HMD-37288***.
+  - PR #637: Add built-in ignore list which includes Valve Index
+  - Issue #632: DDC/CI probing wedges a Valve Index HMD 
+
+#### Changed
+- Do not write traced function stack to syslog on error reading /dev/i2c device.  
+  Created perception of failure when in fact there was none.
+
+#### Fixed
+
+- Disable use of a single multi-message ioctl to read EDIDs. This was introduced
+  in release 3.0.0 to handle displays whose EDID otherwise failed to read. Under
+  certain conditions, this had a severe performance impact if there was no 
+  EDID to be read. It may also have triggered an otherwise unexplained amdgpu
+  driver crash that was reported.
+  Related issues: 
+  - Issue #620: Dell P2725DE not detected: EDID read returns CEA extension block
+  - Issue #629; AMDGPU disappears  from PCI bus and freezes Plasma immediately 
+    after login
+  - Issue #634: Slow performance after 3.0.0 executing setvcp 10 + 5
+- Build failure with --enable-usb=no due to missing include. 
+  Pull request #636
+- Build systemd/dbus tests only when support for them is enabled. 
+  Pull request #638
+- Command **configure --disable-drm** now terminates with an error message.
+  Building without DRM has not worked for some time.
+- Fix **ddca_redetect_displays()** if libddcutil built without display watch detection.
+- **ddca_get_display_refs()** and **ddca_get_display_info_list2()** could put a 
+  bogus message in the data returned by **ddca_get_error_detail()** even when the 
+  API calls succeeded. 
+
+## [3.0.1] 2026-09-13
+
+#### Fixed
+
+- Examining /dev/i2c devices in parallel during initilaization caused system 
+  crashes on AMD Navi video devices. KDE Plasma failed to start. 
+  Reverted to serial examination by default, as was done in release 2.2.7.
+  Users of non-AMD video devices are stil able to perform parallel checking
+  by using option ***--i2c-bus-checks-async-min***.  Addresses issues #628,
+  #629, #630.
+- When building **ddcutil**, **make check** builds and executes unit tests. 
+  The test of function **is_command_in_path()** failed because command 
+  **which** was not present in the user's shell. The function was rewritten 
+  entirely in C.
+
+## [3.0.0] 2026-09-10
+
+### Gemeral
+
+#### Added
+
+- Option ***--bus-drm-connector***: lets the user explicitly specify the I2C 
+  bus number/DRM connector name pairing for a display, for cases where the 
+  sysfs card-connector directory does not record the bus number and ddcutil's
+  alternative edid-based association fails or is ambiguous. Addresses issue
+  #608: "Failed to find connector name error with modified EDID"
+  The option argumnt is a quoted string specifying the i2c bus number and 
+  connector name, e.g. ***--bus-drm-connector "5 card1-DP-1"***.
+  - A user specified pairing is an override. It applies when the bus number is
+    not available from the sysfs drm card-connector directory, e.g. with the 
+    Nvidia proprietary driver. It takes precedence over ddcutil's matching the 
+    bus number to card-connector directory by edid comparison, which can fail
+    in 2 situations: 
+    - Multiple displays have the same edid in the monitor.
+    - The user has specified an alternative edid as an in-core firmware update, 
+      which is reported in the DRM card-connector edid attribute.
+      This in-core update does not change the edid that **ddcutil** reads directly
+      from the monitor using I2C.
+  - The option can be specified multiple times, once per I2C bus. The bus number 
+    and the connector name are validated when options are processed. Specifying 
+    the same bus number more than once is an error.
+  - The DRM connector id is read from sysfs, so a user specified pairing is 
+    reported, and participates in display change detection, in the same way as 
+    one that ddcutil determines on its own.
+  - To avoid a non-backward-compatible API change in enum **DDCA_Drm_Connector_Found_By**,
+    the value **DDCA_DRM_CONNECTOR_NOT_FOUND** is used externally for this situation.
+- Option ***--max-setvcp-and-verify-tries***: Specifies the maximum number of 
+  set-then-verify cycles executed by command **setvcp --verify**. The default
+  value is 1.  This option partially addresses issue #626: "Set VCP write is 
+  ignored on an LG display when initial DDC checks are skipped".
+
+#### Changed
+
+- Adjusted the tuning of slave-address x37 detection. The retry interval is now 100ms 
+  for all drivers.  Max tries remains at 3, but is increased to 5 if an attempt fails 
+  with status EBUSY. Addresses issue #607.
+- Reduce command initialization time. 
+- Command ***setvcp***: Relative value changes can now also be specified as 
+  PLUS/MINUS (case-insensitive), in addition to +/-. e.g. **ddcutil setvcp 10 plus 5**. 
+- The handler that writes a crash report to the system log, which hitherto
+  handled **SIGSEGV** only, now also catches **SIGBUS**, **SIGILL**, **SIGFPE** 
+  and **SIGABRT**. 
+- Reduce duplicative messages in the system log when trace output is redirected
+  to the system log.
+- When reading the edid using I2C, first attempts to use a single combined 
+  **I2C_RDWR** ioctl transaction (send the EDID block-read packet and read the
+  response as one multi-message transaction), as is done in kernel DRM processing, 
+  before falling back to the previous separate write-then-read calls. This
+  (a) enables reading the edid on certain monitors that are not otherwise 
+      readable. Based on pull request #621: Try a single combined I2C_RDWR 
+      transaction when reading the EDID
+  (b) marginally improves perormance by reducing I2C bus round trips
+
+#### Fixed
+
+- The test that ddcutil was using to determine the reliability of sysfs drm
+  attributes edid, status, and connected was itself unreliable.  By default, 
+  ddcutil only regards drivers that are part of the kernel, e.g. i915, amdgpu, 
+  nouveau, as reliable in this regard.  In particular, the proprietary nvidia
+  video driver is not. Accelerations that rely on these attributes are by 
+  default available only to reliable drivers. For nvidia, reliability is 
+  only an issue if displays are connected and disconnected after boot. Option 
+  ***--force-sysfs-reliable*** forces all drivers, in particula nvidia, 
+  to be regarded as reliable.
+- Do not ignore /dev/i2c devices on SOC systems whose adapter class cannot be
+  read because the display adapter is not found. Addresses pull request #619: 
+  "Do not ignore sysfs class being zero".
+- Fixed numerous minor bugs and memory leaks identified by Claude unit tests 
+  and Coverity scan. 
+  
+### Building
+
+- Added a suite of standalone unit tests, covering most of the C source tree.
+  - The tests target each module's pure, hardware-independent logic (parsing, 
+    data structures, report formatting, etc.); modules that are essentially all
+    direct hardware/file I/O are only covered where a genuinely pure helper exists.
+  - Test sources live in directory src/unit_tests; the corresponding
+    executables are built in parallel directory src/unit_test_executables. 
+    They are built and run by **make check**.
+- Build: do not include **execinfo.h** on non-glibc (musl) Linux systems.
+  Pull request #613.
+- Added explicit #include statements for header files that had previously 
+  relied on indirect inclusion.
+  In particular, added a missing **backtrace.h** include in **failsim.c**, 
+  which failed to compile under **--enable-failsim** with modern GCC.
+- Removed vestigial **swig**, **cffi**, and **cython** references from the
+  build files, along with their archived source trees.
+
+### Shared Library
+
+The shared library **libddcutil** is backwardly compatible with those in
+ddcutil 2.2.1 and later. The SONAME is unchanged as libddcutil.so.5. 
+The released library file is libddcutil.so.5.6.0.
+
+#### Added
+
+- **ddca_elapsed_nanosec()**: number of nanoseconds since the library was
+  initialized. Enables adjusting the client timestamps to match those from
+  **libddcutil**. 
+
+#### Performance Changes
+
+- The display watch thread now blocks in poll() on the watched fd plus a
+  termination eventfd, instead of sleeping in timed polling loops
+- Interruptible sleep execution is reimplemented using a termination event
+  instead of looping over multiple short sleep operations. Eliminates the watch
+  thread's periodic wakeups (up to 10 per second) which degrade idle power 
+  residency when libddcutil is embedded in a long-running process such as 
+  KDE PowerDevil. Addresses issue #617: "ddcutil wakes up every 
+  100ms to check for monitors even when nothing connected"
+- A burst of udev events, common following a resume, is coalesced to
+  avoid a storm of redundant bus rescans.
+- Do not try to open a /dev/i2c device whose DRM connector reports "disconnected".
+  Applies only to in kernel video drivers (e.g. amdgpu, i915, nouveau), not to
+  the proprietary Nvidia driver, for which the status attribute is unreliable.
+
+#### EACCES Error Changes
+
+Further work to reduce the impact of EACCES errors that can occur when opening 
+/dev/i2c devices immediately after initiailzation and after resume from sleep.
+The cause is udev not having yet applied permissions specified by uaccess.
+In particular, adddresses issue #581:"ddcutil 2.2.5 causes KDE Plasma freeze due 
+to excessive i2c permission checks"
+
+- Recovery from the transient loss of /dev/i2c permissions (EACCES errors) 
+  when opening /dev/i2c devices after resume from sleep or at login is now
+  entirely by retry.
+- Mitigations for the transient EACCES errors opening /dev/i2c devices after
+  resume from sleep, There is a brief window during which the /dev/i2c devices
+  exist but udev has not yet reapplied uaccess ACLs, so open() fails.
+  (KDE bug 522329, reported as 100% single-core CPU and desktop lag on wake)
+  - Reworked detection and handling of resume from sleep.
+  - Rate-limit the expensive EACCES diagnostics. Diagnostics are emitted at most
+    once per 10 seconds (set by parm **DEFAULT_EACCES_DIAGNOSTIC_INTERVAL_SEC** 
+    in parms.h), instead of once per bus open.
+- Coalesce a burst of UDEV messages so that detected monitors are checked only
+  once instead of after UDEV event is received.
+- Defer display change processing until the EACESS window passes, to avoid 
+  briefly treating every monitor as disconnected.   
+
+#### Miscellaneous Changes
+
+- Watch mode **xevent** is unsupportedd. If no watch mode is specified, or 
+  ***--watch-mode dynamic*** is given, the watch mode resolves to **udev** if
+  udev is enabled, **poll** if not.  If ***--watch-mode xevent*** is explicitly
+  specified it will be respected, but execution  will not work properly; it is 
+  recognized solely for testing purposes.
+- API cleanup: 
+  - const-qualify string input parameters (and some return values),
+  - added explicit **void** to empty parameter lists
+  - documented that the caller is responsible for freeing the result of 
+    **ddca_get_display_refs()** and **ddca_end_capture()**.
+- Substantial refactoring and thread-safety hardening of the display watch
+  subsystem (**src/dw**) Access to the shared display and bus tables is now
+  serialized against the watch thread.
+- **ddca_stop_watch_displays()** now always waits for the watch thread to
+  terminate.
+
+#### Fixed
+
+- The default recheck thread declared DDC enabled, and emitted
+  **DDCA_EVENT_DDC_ENABLED**, whenever a recheck completed without error,
+  even if DDC communication was not yet working. In releases through 2.2.6,
+  combined with an incorrect constant in event construction (fixed in 2.2.7),
+  this produced DDCA_EVENT_DDC_ENABLED events reporting ddc working: false
+  (KDE bug 517290). The event is now emitted only when DDC communication is
+  confirmed working; otherwise the recheck is requeued.
+- **ddca_report_displays()** now respects API quiescing. Previously, calling it
+  concurrently with **ddca_redetect_displays()** could crash by dereferencing
+  display references freed by the redetection.
+- Segfault (reported under KDE) when a display disconnected while in use, caused
+  by a NULL **dref->detail** in **i2c_check_open_bus_alive()**. Reads of
+  **dref->detail** are now guarded against concurrent disconnect in several
+  functions.
+- **ddca_unregister_display_status_callback()**: Status codes for success
+  and not-found were swapped.
+- **ddca_dbgrpt_display_ref()**: The opaque **DDCA_Display_Ref** was being
+  cast directly to an internal **Display_Ref** instead of being resolved 
+  by lookup, causing a segfault.
+- Option ***--syslog*** passed in either the **ddca_init2()** libopts parm
+  or the config file was not recognized.
+- Thread safety: 
+  - A TOCTOU (Time of Check to Time of Use) race on **dref->flags** in the 
+    recheck worker thread, 
+  - A race on **retry_thread_sleep_factor_millisec**, and a TOCTOU race in 
+    **compile_and_eval_regex()**.
+  - Fixed a use-after-free crash caused by unsynchronized access to the
+    per-thread data table in **ptd_get_per_thread_data()**, which could
+    occur under concurrent libddcutil API calls.
+- Additional thread safety issues found by Coverity static analysis: 
+  - Serialized several unsynchronized reads of shared global state that is 
+    written under a mutex:
+    - the detected-display list and bus-open-error list, 
+    - the retry **maxtries** setting 
+    - the active API-call count and display-lock owner fields 
+  - Closed a check-then-act (lock evasion) window when discarding detected
+    displays.
+
+
+## [2.2.7] 2025-05-08
+
+#### EACCES Errors
+
+Calling open() on a /dev/i2c device for which the user has RW permission
+sometimes (rarely) fails with Linux error EACCES. This elusive problem has most
+frequently been reported on Framework computers and Arch based distributions.
+
+Reverting to using group i2c instead of udev token uaccess to grant permission
+appears to resolve the problem, but this is not certain.
+
+The problem commonly occurs after a resume from sleep. The best (but not certain)
+explanation for these events is as follows. The userid, group id, and mode bits are
+permanent attributes of the device inode.  They survive suspend/resume intact. 
+On the other hand, udev rule TAG+="uaccess" works by having systemd-logind set a 
+POSIX ACL on the device node for the current seat user. After resume, the kernel 
+driver re-registers the device, which can trigger a new add uevent. Logind needs
+to process that event, creating a window during with an EACCES error is possible. 
+In short, it is a race condition.
+
+To address this problem, pauses are inserted at several points, including before 
+opening a /dev/i2c device, if the call occurs immediately after a resume from sleep.  
+
+In addition, if an open() call fails with errno EACCES, the ACL API is used to 
+recheck device permissions. If the API reports that the /dev/i2c device does have
+the proper permissions, the open() call is retried for an extended period of time 
+on the presumption that it will eventually succeed.  If the ACL API does not
+report that the /dev/i2c device has proper permissions, the open() is nonetheless 
+retried once. 
+
+The behavior of open() calls and watching for display connection/disconnection has
+been parameterized in several ways. For many parameters, there is a tension: if 
+the delay time is too large, true EACCES errors can flood the system, making the 
+UI unresponsive; if the delay time is too small not enough time may be given for 
+the permissions to resolve.
+
+File src/base/parms.h contains the default values of several of these parameters.
+The following options have been added for those most likely to be adjusted: 
+
+- ***~~pause-after-resume-ms***  The number of milliseconds libddcutil may pause 
+  after dbus reports a resume from sleep.  The default is 500, set by 
+  DEFAULT_AFTER_RESUME_MS in parms.h.
+- ***-max-eacces_retry-ms*** Limits the number of milliseconds for retrying open() 
+  calls when it appears likely, having checked the ACL, that the open() call will 
+  succeed eventually. The default is 3000, set by DEFAULT_EACCES_RETRY_MS in parms.h. 
+- ***--enable/disable-early-permission-checks***  Perform basic permission checks
+  before performing operations that might generate a flurry of EACCES errors.  
+  The drawback of this option is that the basic permission might be performed too
+  soon, generating permission failures that might otherwise resolve by the time
+  the open() calls are actually needed.  The default is enable, set by 
+  ENABLE_EARLY_PERMISSION_CHECKS in parms.h
+
+In addition, many parameters can be adjusted using utility options (***--fN***,
+***--iN***, etc.). The current definitions of the utility options are reported by
+command **ddcutil noop --settings**. These options exist to simplify testing; 
+there is no guarantee that their effect will be the same from one release to the next.
+
+#### Added 
+
+- Extensive diagnostics are written to the system log if opening a /dev/i2c
+  device fails with errno EACCES.
+- Implemented a basic segfault handler.  It writes the traced function stack
+  of the current thread to the system log, then invokes the prior handler. 
+- Option ***max-eacces-retry-ms***. (See above.)  
+
+#### Changed
+
+- Option ***--skip-ddc-checks***: is now valid only for command line **ddcutil**, 
+  not shared library **libddcutil**. If specified in config file ddcutilrc, it 
+  must now be in the [ddcutil] section, not the [global] section.
+- The installed udev rules file, 60-ddcutil-i2c.rules now sets group i2c and 
+  mode 0660 as well as using token uaccess to assign /dev/i2c permissions. 
+  Users encountering the transient EACCES errors may need to use the old group
+  permissions method. 
+
+#### Fixed
+
+- man page ddcutil: Replace example "getvcp supported" by "getvcp all". 
+  Group "supported" was replaced long ago by "all". Issue #579.
+- segfault in diagnose_open_failure_to_syslog(). Issue #596
+- Error parsing option ***--maxtries***.
+- Attempting to run command line programs lsof, getfacl (which can occur whan 
+  analyzing unexpected behaviour or as part command **environment**) 
+  caused a segfault when those programs were not found on the user's system.
+  Addresses segfault reported in issue #590.
+- In syslog messages, the reported thread id might actually be the process id. 
+- Change the sample rules file in data/etc/udev/rules.d/60-ddcutil-i2c.rules, 
+  which is normally installed in /usr/share/ddcutil/data/60-ddcutil.rules, to
+  conform to the file normally installed in 
+  /usr/lib/udev/rules.d/60-ddcutil-i2c.rules. Both files now Loosen the video
+  display adapter test to look at only the first byte of the adapter class, 
+  which must be x03. Pull request #597.
+- Fix incorrect ioctl call in **hiddev_get_report()**, used for monitors using
+  USB rather that I2C for communication with their Virtual Control Panel.
+- When reading the EDID bytewise using **get_edid_bytes_directly_using_fileio()**
+  (currently done only for test purposes), only every other byte was saved.
+- Incorrect call to i2c-dev set address ioctl.
+- General source cleanup using Claude Code
+  - Fix a large number of typos and other errors in messages, mostly trace and 
+    syslog messages.
+  - Update Doxygen documentaion.
+  - Consistenly make **#include "config.h"** the first include.
+  - Consistenly set AM_CFLAGS = $(AM_CLAGS_STD) in the Makefile.am in each of
+    the subdirectories of src
+- Avoid a possible buffer overflow when printing an EDID field such as 
+  serial number that contains invalid ASCII characters
+- Write error message during **getvcp --brief*** regarding sysfs drm connector 
+  not found to stderr, not stdout.  Issue #598.   
+- More consistent formatting of syslog output.
+- Use atomic variables to fix time of use to time of check (TOCTOU) race 
+  conditions identified by Claude Code.
+
+### Building
+
+- Add autoconf **config** option ***--enable-dbus***/***--disable-dbus***. 
+  The default is enabled.  Needed to watch for sleep events.
+- ddcutil now depends on packages libacl1  and libdbus-1. The corresponding
+  development packages must be installed.
+
+### Shared Library
+
+The shared library **libddcutil** is backwardly compatible with the one in 
+ddcutil 2.2.1. The SONAME is unchanged as libddcutil.so.5. The released library
+file is libddcutil.so.5.5.1.
+
+#### Added
+
+- Added a thread that watches for dbus PrepareForSleep messages, in order to 
+  calculate the time since the most recent return from sleep.  If opening a 
+  /dev/i2c device fails with errno EACCES shortly after returning from sleep, 
+  the open is retried.
+- Option ***~~pause-after-resume-ms*** (See above.)
+- Option ***--enable/disable-early-permission-checks*** (See above.)
+
+#### Changed
+
+- Re-enable reporting of laptop display connection/disconnection. 
+  Do not check DDC operation for the laptop /dev/i2c bus or for any
+  bus unresponsive on slave address x37.
+- When watching for display connection/disconnection using watch-mode UDEV: 
+  - watch for UDEV notifications for subsystem i2c-dev as well as drm.
+  - write udev event detail to the system log
+- **dw_hotplug_change_handler()**: write additonal messages to the system log
+  when a /dev/i2c device unexpectedly no longer exists
+
+#### Fixed
+
+- In **dw_create_display_status_event()**, the test for event type
+  DDCA_EVENT_DDC_DISABLED incorrectly used flag DDCA_DISPLAY_EVENT_DDC_WORKING.
+- **ddca_redetect_displays()**: Recover from an unexpected system state that
+  previously triggered assert() failures. Diagnostics are written to the system
+  log. If display watch is not running on entry to the function, it is not 
+  restarted at the end. 
+  Addresses issue #595, (powerdevil crashes with assertion failure in libddcutil
+  after resume from sleep/hibernate) and KDE bug 517571 (KDE Power Management 
+  Crash in DDCutilPrivateSingleton::redetect after letting laptop sleep).
+
+## [2.2.6] 2026-03-11
+
+Release 2.2.6 replaces release 2.2.5, which was reported to hang KDE Plasma
+at login.
+
+### General
+
+#### Changed
+
+- Use up to date macros in Autotools configuration file configure.ac: 
+  AC_SYSTEM_EXTENSIONS, AC_PROG_CC conditionally replaces AC_PROG_C99.
+- Allow VCP feature numbers to be specified as a single hex digit, 
+  e.g. "getvcp 2".
+
+#### Fixed
+
+- Ignore case when processing options ***--mfg***, ***--model***, and ***--sn***.
+- Changes for glib 2.43, which is stricter about preserving const-ness of 
+  function string arguments.
+- Command **traceable-functions** failed if a non-traceable function was 
+  specified on the command line or in the ddcutil configuration file. 
+
+### Shared Library
+
+The shared library **libddcutil** is backwardly compatible with the one in 
+ddcutil 2.2.1. The SONAME is unchanged as libddcutil.so.5. The released library
+file is libddcutil.so.5.5.0.
+
+#### Added
+
+- Added API function **ddca_set_non_table_vcp_value2()**. Unlike 
+  **ddca_set_non_table_vcp_value()**, which is now deprecated, the new function
+  never performs verification. 
+
+#### Changed 
+
+- Ignore laptop displays when processing display connection and disconnection.
+- Add "AMDGPU DM i2c OEM bus" to list of names of I2C buses to be ignored. 
+  These buses are used to control display controller features like RGB lighting.  
+- Eliminate use in libddcutil of linux api function **access()** to check if 
+  the user has RW access to a /dev/i2c device. Bug reports suggest this 
+  function may not always respect UDEV token UACCESS.
+- More extensive syslog trace messages. Needed to aid in remote debugging, 
+  particularly for KDE PowerDevil.
+- Functions in the call trees from **ddca_get_...vcp_value()** and 
+  **ddca_set_...vcp_value()** consistenty return Error_Info structs instead of
+  status codes to improve diagnostic messages written to the system log and 
+  information returned by **ddca_get_error_detail()**. 
+ 
+#### Fixed
+
+- Issue #581 "ddcutil 2.2.5 causes KDE Plasma freeze due to excessive 
+  permission checks".  For some undetermined reason, despite the logged on user
+  having RW access to /dev/i2c-devices, attempting to open these devices sometimes 
+  fails with Linux error EACCES. Functions **ddca_init2()** and **ddca_init()**
+  now fail with status code EACCESS if the logged on user does not have RW 
+  permission for all /dev/i2c devices that might possibly be used for DDC 
+  communication.  As the cause of the permission loss is unclear, function 
+  **ddca_start_watch_displays()** similarly checks if the logged on user has 
+  RW access, and returns DDCRC_INVALID_OPERATION in case of failure.  Callers
+  should check for failure of these functions and not repeatedly call them to
+  avoid a flood of permission failures. 
+- Issue #585, "Displays with I2C bus name DPMST not detected". It was possible
+  that the video adapter for a /dev/i2c devices was not located, causing MST
+  connected displays to not be detected.(Fix based on diagnosis by Diego Nunes.) 
+- Issue #587, "Assert failure in ddc_packet_io.c", due to an inconsistent
+  data structure in ddc_open_display(). The inconsistency was apparently caused 
+  by a race condition in display change detection. Added mutex. Also addresses 
+  issue #586.
+- Clear the display locks table during **ddca_redetect_displays()**.
+
+
+## [2.2.5] 2026-01-26 
+
+Release 2.2.5 replaces release 2.2.4, which failed to build on aarch64.
+
+### General
+
+#### Fixed
+
+- Compilation failure in function xvrpt_vstring() when building on aarch64. 
+  Issue $574.
+
+### Shared Library
+
+#### Changed
+
+- **ddca_start_watch_displays()**: issue warning if displays exist for which 
+  the EDID is readable using sysfs but not I2C.
+- API functions that write a feature value (**ddca_set_non_table_vcp_value()** etc.) 
+  return DDCRC_DISCONNECTED if called before libddcutil has been notified by 
+  UDEV that the display has been removed.
+- **ddca_report_display_info()**, **ddca_report_display_info2()**: do not include the
+  display number in the report as this is meaningless for shared library clients.
+
+## [2.2.4] 2026-01-21
+
+### General
+
+Display selection has been reworked to be more flexible while also simpler internally. 
+Previously, options ***--display***, ***--bus***, ***--edid***, etc. were regarded as 
+identifiers that uniquely picked a display.  Generally speaking, only one identifier
+could be given, with special handling for the combination of ***--mfg***, ***--model***,
+and ***-sn***.  
+
+With this change identifiers are now treated as selection criteria. More than one
+can be specified.  To be chosen, the display must satisfy all the criteria given.  
+As before if no selection options are specified, ***--display 1*** is assumed.
+
+#### Added
+
+- Option ***--edp-ambiguous***. Normally, if the DRM connector name contains the string 
+  "eDP", it reliably indicates that the connected display, typically a laptop display, 
+  does not implement DDC/CI, and no further checking is needed.  Owing to a bug in the 
+  amdgpu driver, there have been instances where "eDP" is in the DRM connector name for 
+  an external display that does support DDC/CI. There will be no fix for this bug, which
+  occurs only when the BIOS is operating in CSM mode, not EFI mode. If this option is 
+  given, the contents of the EDID are also checked when "eDP" is in the connector name
+  to confirm that display really is a laptop display. This test is imperfect, so 
+  ***--edp-ambiguous*** should only be used as a workaround for the amdgpu bug.
+- Option ***--ignore bus*** takes as its argument the /dev/i2c bus number for I2C bus 
+  that should be completely ignored. This option can be specified multiple times.  
+  It provides a workaround for obscure bugs.
+
+#### Changed
+
+- Option ***--edid***: If the value given starts with "...", the remainder of the value 
+  is some number of hex digits, which are compared against the final bytes of the EDID
+  for display selection.
+- For commands that require a monitor, if no monitors implementing DDC/CI exist,
+  the error message is "No displays implementing DDC/CI found" instead of "Display not 
+  found". Suggested in issue #540. 
+- Command **detect**:  Insert the word "correctly" into the phrase "Monitor correctly
+  uses unsupported feature flag" to make clear that this is not an error.
+- Command **capabilities**: Change message "Read cached capabilities string from ..."
+  to "Obtained cached capabilities string from ..." so as to be clear that the 
+  string was read from a file, not that it possibly will be.
+
+#### Fixed 
+
+- "eDP" in a DRM connector name once again always implies a laptop or other display 
+  that does not implement DDC/CI. This test was relaxed in release 2.2.1 (commit 
+  8580c3d...) as a workaround for issue #384 caused by a bug in the amdgpu driver. 
+  Unfortunately, the workaround caused some laptop displays to be treated as if 
+  they implemented DDC/CI, with resulting errors.  Addresses issue #559.
+  For handling the extremely rare case of "eDP" in the DRM connector name for an
+  external monitor, option ***--edp-ambiguous*** has been added.
+- Command **detect**: For laptop displays, do not output a monitor-model-id and UDF 
+  file name as these are meaningless.
+- Segfault in function xvrpt_vstring() caused by an extermely log capabilities string.
+  Addresses issue #568.
+- If ddc_write_read() fails, only call ddc_check_open_bus_alive() when executing in
+  libdcutil. The test is not meaningful when executing in command line ddcutil.
+  In the case where a display's EDID was obtained from sysfs but is not readable
+  using I2C, ddc_write_read_with_retry() repeatedly calls i2c_check_open_bus_alive(), 
+  which fails with multiple waits, markedly slowing command **detect**. As a result, 
+  GNOME extensions were seen to hang the user interface.  Addresses issue #559.
+- Build failure on aarch64
+
+### Shared Library
+
+The shared library **libddcutil** is backwardly compatible with the one in 
+ddcutil 2.2.1. The SONAME is unchanged as libddcutil.so.5. The released library
+file is libddcutil.so.5.4.1. 
+
+#### Fixed
+
+- Segfault in dw_start_watch_displays() when Wayland-X11 bridge is not running.
+  Change based on pull request #563. 
+- Race condition failure in ddca_open_display2() triggered by disconnecting and 
+  connecting display in KDE PowerDevil.  Make setting Display_Ref flag 
+  DREF_DISCONNECTED and Display_Ref variable detail=NULL an atomic operation. 
+  Fixes the problem identified in issue #556.
+- Option ***--ignore-hiddev*** was not being processed for libdcutil.
+
+
+## [2.2.2] 2025-11-13
+
+### General
+
+#### Added
+
+- Option ***--trcback***: report call stack that led to specified function
+  (initial implementation). Requires ***--enable-traced-function-stack***.
+- Option ***--trace-to_syslog***: Direct trace output to the system log, without 
+  disabling other destinations.
+
+#### Changed
+
+- Option ***--enable-traced-function-stack*** is now the default.
+- Additional messages reporting configuration file errors. In particular, 
+  section names and the names of keys within each section are validated.
+  Section names other than [global], [ddcutil], and [libddcutil] are flagged
+  as errors.
+- If possible, obtain list of PNP ids from /usr/share/hwdata/pnp.ids instead
+  of using hardcoded list.
+- Reword the parser explanation of options ***--verify*** and ***--noverify***
+  for clarity.
+
+#### Fixed
+
+- Command **setvcp --verify** and API function **ddca_set_non_table_vcp_value()**: 
+  were not performing verification,
+- Command **getvcp --verbose**: output was partially in a format intended for syslog
+- **ddca_display_ref_from_handle()**: was not converting internal to external display 
+  reference, causing a segfault. Issue #528.
+- Relax the check of the device class when determining if a device is a video 
+  controller.   Look only at the first byte in sysfs device attribute class.  
+  An AMD Ryzen AI 9 365 based system was seen to report 0x038000, not 0x030000.  
+  Addresses issue #530.
+- Build failed with an undefined reference error when configure option ***--disable-drm***
+  was specified. API function **ddca_redetect_displays()** now returns 
+  DDCRC_INVALID_OPERATION if ddcutil was built with ***--disable-drm***.  
+  (An alternative code path through **ddca_redetect_displays()** is possible for
+  the ***--disable-drm*** case, but is non-trivial and so not implemented for now.)
+  Also option ***--disable-drm*** forces ***--disable-watch-displays***. 
+  Addresses issue #506
+- man page ddcutil: correct typo in hyperlink. Patch #535
+- man page ddcutil: document that **loadvcp** uses the display identifier on the 
+  command line if one was specified, and ensures it identifies the same display as
+  the one identified by the data in the file being loaded.  Noted in issue #552.
+- Command **environment --verbose**: 
+  - Permission denied errors corrupted output of the find command used to scan for 
+    DisplayLink devices.
+  - Incorrectly formed path name for examining /sys/class/drm
+- Fix invalid hyperlink in README.md. Pull Request #558
+
+#### Building
+
+- Fix out-of-tree build reference to generated file /src/base/build_details.h. Pull request #544
+
+### Shared library
+
+The shared library **libddcutil** is backwardly compatible with the one in 
+ddcutil 2.2.1. The SONAME is unchanged as libddcutil.so.5. The released library
+file is libddcutil.so.5.4.0. 
+
+#### Added
+
+- Option ***--watch-mode udev***
+  Uses libudev to watch for display connection and disconnection. This is now 
+  the default watch mode when executing on wayland if ddcutil was built to use 
+  libudev, which is normally the case (configure option ***--enable-udev***). 
+  Xevent continues to be the default watch mode when executing on X11. A specific
+  watch mode can be forced using ***--watch-mode udev***, ***--watch-mode xevent***, 
+  or ***--watch-mode poll***.  Addresses issues in [KDE-Plasma Powerdevil merge request 542]
+  (https://invent.kde.org/plasma/powerdevil/-/merge_requests/542)
+- Define bit **DDCA_NOVERIFY** in **DDCA_Version_Feature_Flags**. 
+
+#### Fixed
+
+- **ddca_open_display2()**: Return DDCRC_INTERNAL_ERROR instead of terminating 
+  with assert() failure in certain ill-defined situations.  Addresses issue #556
+  reported by PowerDevil.
+- **ddca_redetect_displays()**: Set the **DREF_REMOVED** bit in all entries
+  in the table of published display references, i.e. references that have been 
+  reported to the client program, instead of emptying the table.
+
+
+## [2.2.1] 2025-07-07
+
+### General
+
+#### Added
+
+- Do not perform permission checks if running with effective user root, i.e. when 
+  running with setuid bit set. Partially addresses issue #509
+
+#### Changed
+
+- Command **environment**: report if running as root, with sudo, or setuid bit set
+- Command **environment --verbose**: eliminate some unneeded edid read tests
+- Command **setvcp**: Emit more more useful messages when the cause of a 
+  DDCRC_RETRIES error is itself a DDCRC_RETRIES error.
+- Add option ***--disable-traced-function-stack***
+  The default traced-function-stack option value (disabled) is set in parms.h. 
+
+#### Fixed
+
+- Avoid segfault if invalid feature code specified
+- Maximum wait time on function lock_display() not respected, possible infinte
+  loop.  Addresses issue #511
+- Fix --verify/--noverify parsing.  Addresses issue #512.
+- ddca_close_display(): do not respect quiesce, allowing the display lock
+  record to be released, avoiding possible deadlock
+- Fix the spelling of company name HON HAI PRECISION" (obtained from UEFI), 
+  avoiding a lintian message. Addresses issue #500
+- Fix errors reported by clang 19: unused variable, expression which evaluates
+  to 0 treated as null pointer. Addresses issue #502.
+- Command **getvcp --terse**: Eliminate irrelevant messages regarding VCP version not set.
+- Make test for missing DRM card-connector directories more robust. Issue #507.
+- DDC communication not detected with old (340 series) Nvidia proprietary driver. Issue #507
+- Function end_capture(): call close() in case of fflush() error, ensuring that 
+  messages are always sent to the terminal after message capture complete
+- Functions **ddca_find_display_ref()** and **ddca_get_display_ref()** were 
+  returning a pointer to the internal Display_Ref struct rather than an external 
+  integer DDCA_Display_Ref, causing segfault or return code DDCRC_INVALID_DISPLAY
+  on a subsequent api call such as **ddca_open_display2()**.  Addresses issue #528.
+- Several API functions were not recognized as arguments to ***--trcfunc*** and ***--trcfrom***. 
+  These included **ddca_find_display_ref()**, **ddca_get_display_ref()**, **report_parsed_capabilities()** 
+- Option ***--stats*** was not reporting data 
+- **ddc_open_display()**: return DDCRC_DISCONNECTED instead of an assert failure if 
+  bus_info == NULL.  Addresses KDE Powerdevil issue #504861 (powerdevil crash from 
+  libddcutil, no restart happens)
+- Macro TRACED_ASSERT() calls **__assert_fail()** instead of exit(1). 
+  Addresses Powerdevil issue #504861.
+- Fix troff formatting in ddcutil man page. Pull request #531.
+
+### Building
+
+- **configure** option ***--enable-watch-displays***/***--disable-watch-displays***
+  controls whether display watch functionaliity is built.  The default is 
+  ***--enable-watch-displays***.
+  - If built with ***--disable-watch-displays***, API functions related 
+    to display change detection return DDCRC_UNIMPLEMENTED
+- If **configure** option ***--disable-x11*** is specified, the only watch-mode 
+  is POLL. watch-mode XEVENT does not exist.
+
+#### Shared Library
+
+### Added
+
+- Struct DDCA_Display_Info2 is an extended version of DDCA_Display_Info that 
+  adds fields for the display's sysfs card-connector directory, how that 
+  directory was determined (precisely using I2C bus number or heristically
+  using EDID), and the DRM connector id. API functions have been added to 
+  use this struct: **ddca_get_display_info2()**, **ddca_free_display_info2()**, 
+  and **ddca_report_display_info2()**.  Addresses issue #518.
+
+### Changed
+
+- By default, watching for display connection and disconnection by default uses
+  watch-mode **XEVENT** if X11 is the display manager, watch-mode **UDEV**
+  otherwise.
+- Callback function handling made more bulletproof
+  - Close any unlock displays left open by user callback function
+  - Write syslog messages (with log level NOTICE) before and after executing
+    the callback function
+
+### Fixed
+
+- **ddca_redetect_displays()**: block if called with callback threads active or 
+  if already executing
+- **ddca_close_display()**: allow execution even if libddcutil is quiesced.
+  Avoids a possible deadlock due to an internal display lock not being released.
+- **ddca_stop_watch_displays()** did not release the X11/Wayland connection 
+  obtained by **ddca_start_watch_displays()**.  This also occured with each 
+  **ddca_redetect_displays()** call. As a result KDE PowerDevil eventually 
+  exhausted X11 connections of a very long running system with repeated
+  display connections and disconnections.  Pull request #519.
+- KDE powerdevil was terminating with status success instead of failure if
+  libddcutil terminated with a traced assertion, causing the powerdevil 
+  service to not restart automatically. Macro TRACE_ASSERT() is modified to
+  use **__assert_fail()** instead of **exit()** for termination. 
+
+## [2.2.0] 2025-02-10
+
+### General
+
+#### Added
+
+- Support DisplayLink devices
+- Add command **noop**, which allows for executing options such as 
+  ***--settings*** without having to execute a real command.
+- As an aid to development, the build date and time are normally embedded in
+  the ddcutil and libddcutil executables.  This is reported using command
+  **ddcutil --version --verbose".  **libddcutil** reports this to the system
+  log. If reproducible builds are required, use **configure** option 
+  ***--disable-build-timestamp***. (For reproducible builds, building typically
+  is performed using a script or build system, so it's not inconvenient to 
+  specify ***--disable-build-timestamp*** in this situation.)
+- Add ***--enable-flock*** and ***--disable-flock*** as aliases for 
+  ***--enable-cross-instance-locks*** and ***--disable-cross-instance-locks***
+- Add option ***--ignore-mmid*** to ignore problematic monitor models.
+  Takes a Monitor Model Id, e.g. SAM-U32H75x-3587 as an argument. 
+  Indicates that DDC/CI communication is disabled for monitors with this id.  
+  Typically, this will be added to the [libddcutil] section of configuration 
+  file ddcutilrc. It can also be included in the options string passed in the
+  opts argument to ddca_init2(). Addresses issue #446.
+- Maintain a stack of traced functions for debugging. Turned on by option 
+  ***--enable-traced-function-stack***
+
+#### Changed
+
+- User Defined Features: 
+  - Add XNC (Extended Non-Continous) like simple NC, but the SH byte is
+    also reported.
+  - Allow SNC (Simple Non-Continuous) as alternative name for NC.
+  - Report user defined features as part of parsed capabilities.
+  - Commands recognizing user defined features now fail if there's an error
+    loading a user defined feature file.  These are **capabilities**, 
+    **setvcp**, **dumpvcp**, and **probe**.
+- /usr/lib/udev/rules.d/60-ddcutil-i2c-rules:
+  - Give logged on user r/w access to /dev/dri/cardN, needed
+    to allow logged on user to probe connectors using DRM.
+- Do not install /usr/lib/udev/rules.d/60-ddcutil-usb.rules, delete it
+  if previously installed. Addresses issues #405, #428, #437
+- Command **ddcutil chkusbmon**:  
+  - Skip processing and always return 1 (failure) if option ***--disable-usb***
+    is in effect.
+- Command **detect**: 
+  - Only show communication error detail if --verbose
+  - Provide a clearer message if slave address x37 is inactive: 
+     - "Monitor does not support DDC" instead of generic "DDC_commnication failed"
+     - If option ***--verbose*** is in effect, emit an additional message to
+       check the monitor's OSD.
+- Parser changes:
+  - Add alternative option names for symmetry with other options: 
+    - ***--discard-capabilities-cache*** is an alias for ***--discard-cache capabilities***
+    - ***--discard-sleep-cache*** is an alias for ***--discard cache dsa***
+    - ***--discard-dsa-cache*** is an alias for ***--discard cache dsa***
+  - Eliminate --enable-dsa-cache as alias for --enable-dynamic-sleep-cache
+  - Improve handling of --verify/--noverify, error if both specified
+- File .gitignore:
+  - Add: *.tar.gz, docs/ddcutil-c-api
+- Commands **interrogate** and **environment --verbose**:
+  - Force settings --disable-cross-instance-locking, --disable-dynamic-sleep (VERIFY)
+  - Forced settings apply to **environment --verbose** as well as **interrogate**
+  - When probing DRM, recognize bus types DRM_BUS_PLATFORM, DRM_BUS_HOST1X, 
+    report as "platform", "host1x"
+- Change the system log message level when sleep time is adjusted from WARNING
+  to VERBOSE. Addresses issue #427: Adjusting multiplier message fills system
+  log when libddcutil used by clightd
+- Configuration file ddcutilrc: If there is a pound sign "#" on a line, 
+  the remainder of the line is treated as a comment.
+- Add -Wformat-security to compiler options.  Addresses issue #458.
+- If option --bus specified, only check accessability for that bus, avoiding
+  irrelevant warning messages regarding other buses.  Addresses issue #461.
+- Return DDCRC_CONFIG_ERROR instead of DDCRC_BAD_DATA for User Defined Feature File
+  errors.
+- Report the Monitor Model Id in the ***--verbose*** output to **ddcutil detect**.
+- Command **setvcp**: Do not report "Interpretation may not be accurate.", which
+  is irrelevant for this command. Partially addresses issue #454.
+- rpt...() functions can redirect output to syslog, making lines coming from 
+  multiple threads more coherent
+- Enable additional compiler warnings to tighten the code.
+- Additional trace groups SYSFS, CONN
+
+#### Fixed
+
+- Rework laptop detection. A non-laptop display can have an eDP connector.
+  This is an i915 video driver bug that will not be fixed. See freedesktop.org 
+  issue "DRM connector for external monitor has name card1-eDP-1" 
+  https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10389
+- When processing environment variable user $XDG_DATA_DIRS, or $XDG_CONFIG_DIRS,  
+  the final directory in the list was ignored.  Issue #438
+- When processing a user defined feature file, recognize any whitespace character
+  (e.g. tab), not just space.
+- Fix core dump on ddcutil getvcp. Issue #407 
+- Commands **interrogate** and **environment --verbose**
+   - Simple getvcp test was not reporting the bytes of the response packet.
+   - If no device with class x03 was found, the user's home directory
+     was dumped. Issue #413.
+   - Remove "-i" option on get-edid command. Does not exist on some versions.
+- Fix display not found on Raspberry Pi. Do not rely on /sys/class/drm to read 
+  EDID, which is not valid for some drivers.  Addresses issue #403
+- Fix DDC communication failed on Raspberry Pi. Do not rely on sysfs attributes
+  that do not exist for ARM devices. Resolves issue #413.
+- User Define Features file: fix error msg when nothing follow VALUE
+- Convert CRLF line endings to LF
+- Use printf() formats %jd and %zd to portably print variables of type ssize_t, 
+  time_t, so as to build  unchanged on architectures such as armel, armhf.
+- Avoid compiler warning possible depending on compiler configuration when
+  a switch() construct is used. Replaced with if/else if/else. Resolves issue #458.
+- Do not use function strerrrorname_np(). Requires glibc >= 2.32.
+- Miscellaneous changes to allow for building on raspbian (debian bullseye).
+- Replace function sysfs_find_adapter().  Fixes display detection problem aspect
+  of issue #465.
+- Dump information to syslog instead of asserting failure if unable to get flock
+  on /dev/i2c device.
+- Option ***--skip-ddc-checks*** set vcp version in Display_Ref to DDCA_VSPEC_UNKNOWN
+  to avoid possible assert failure.
+- Prepend thread id to most syslog messages.
+- Make syslog messages more consistent in form. 
+- Memory leaks.
+
+### Building 
+
+- Re-enable autoconf/configure option --enable-x11/--disable-x11.
+  X11 specific code is used in display change and sleep state detection.
+  The default is --enable-x11.   
+- Add autoconf/configure option ***--enable-static-functions-visible***. 
+  If set, storage class specifier "static" is removed from many functions so
+  that their names appear in backtrace reports from valgrind, asan, and glibc 
+  function backtrace().
+
+### Shared Library
+
+The shared library **libddcutil** is backwardly compatible with the one in 
+ddcutil 2.1.x. The SONAME is unchanged as libddcutil.so.5. The released library
+file is libddcutil.so.5.2.0. 
+
+#### Added
+
+- Option ***--disable-api*** completely disables the API. Most API calls, including
+  those performing DDC communications, will fail. This can be useful for testing 
+  whether **libddcutil** is the source of a system error in the case of client
+  applications, e.g. KDE PowerDevil, that will not build without the shared library.
+- Add libddcutil only option ***--disable-watch-displays***, which unconditionally
+  blocks **ddca_start_watch_displays()** from starting the thread that watches
+  for display changes. Workaround for issue #470.
+- **ddca_get_display_watch_settings()**, **ddca_set_display_watch_settings()**
+
+#### Changed
+
+- **ddca_start_watch_displays()**: 
+  - The only event class that can currently be enabled is DDCA_EVENT_CLASS_DISPLAY_CONNECTION. 
+    Watching for sleep state changes is not currently supported.  
+  - Regards DDCA_EVENT_CLASS_ALL as same as DDCA_EVENT_CLASS_DISPLAY_CONNECTION
+  - Error if either DDCA_EVENT_CLASS_DPMS or DDCA_EVENT_CLASS_NONE are specified.
+- Status code DDCRC_INVALID_CONFIG_FILE renamed to more general DDCRC_CONFIG_ERROR. 
+  DDCRC_INVALID_CONFIG_FILE is a valid alias.
+- Write build date and time to system log when starting libddcutil.
+- Rework libdccutil output to avoid duplicate msgs in system log when all terminal 
+  output is directed to the log, as with KDE Plasma
+- Most API functions that specify a display reference now return status code 
+  DDCRC_DISCONNECTED if the display reference is no longer valid.
+- Quiesce the API during **ddca_redetect_displays()**.  Operations that access
+  display state are not permitted, and return DDCRC_QUIESCED.
+- Add DDCA_STATS_API to enum DDCA_Stats_Type, for reporting API specific stats.
+- Compile using option -Wformat-security. Issue #458.
+- Opaque pointer DDCA_Display_Ref now contains a display reference id instead
+  of an actual pointer. It's type continues to be void* so client program use
+  of this type is unchanged.
+- **libddcutil** maintains a table of DDCA_Display_Refs that have been
+  "published" by the API, for validating DDCA_Display_Ref args on API 
+  function calls.
+- The opaque value in DDCA_Display_Ref is now an integer id number instead of 
+  pointer into the libddcutil data structures, making it slightly more opaque.
+  The type of DDCA_Display_Ref remains "void*", so no client changes are needed
+- syslog output is generally prefixed with date and thread id
+
+#### Fixed
+
+- Whan a display is connected, the display number assigned to its display 
+  reference is one greater than the highest already assigned, instead of 99.  
+- **ddca_start_watch_displays()**: 
+  Fixed segfault that occured with driver nvidia when checking if all video
+  adapters implement drm. Issue #390. 
+- Ignore phantom displays when searching for a display reference. Issue #412. 
+- **ddca_get_display_refs()**, **ddca_get_display_info_list2()** always
+  return 0, even if an error occured when examining a particular monitor. 
+  Addresses issue #417. 
+  - Errors that occur opening individual displays or reading their EDIDs are
+    are still reported using **ddca_get_error_detail()**. In addition, error
+    messages are written to the terminal and, depending on the current
+    syslog level, to the system log.
+- **ddca_get_display_refs()** and **ddac_get_display_info_list2()** do not 
+  include display references for displays that are no longer connected.
+- **ddca_get_display_info()** succeeds even if DDC communication is not working.  
+    Addresses issue #???.
+- Display reference validation: Do not use dref->drm_connector, which may be 
+  invalid after hotplug. Addresses issue #418.
+- **ddca_dref_repr()**: Do not check that the display reference is still valid.
+  It is meaningful to create a string representation of a display reference even
+  if it is no longer usable. Addresses ddcui issue #55.
+- Protect hash table of open monitors to avoid a possible race condition.
+- Recover instead of abort when more than one non-removed display refs exist 
+  for the same display.
+- Do not call ddca_stop_watch_displays() at library termination if client has
+  already called it. 
+- Use mutexes to control access to corruptable data structures.
+- Memory leaks.
+
+#### Display Change Detection
+
+- Alternative algorithms for detecting display changes, specified by option 
+  ***--watch-mode***
+  - watch mode XEVENT
+    - Scans for changes only when a X11 change notification occurs. 
+      (Uses X11 API extension RANDR, which is also implemented on Wayland.)
+  - watch mode POLL
+    - doesn't use X11 
+    - doesn't rely on /sys 
+    - reads EDIDs in polling loop
+    - can consume a significant amount of CPU time on older machines
+  - watch mode DYNAMIC (the default)
+    - resolves to XEVENT on X11 or Wayland, otherwise to POLL
+- Extensively reworked display change detection
+  - use /sys to get EDID if possible
+  - handle MST hub devices if driver/device allow
+    - not all drivers work
+  - only perform stabilization for removed display
+  - not checking for asleep
+- Named options affecting display change detection:
+  - --watch-mode POLL, XEVENT, DYNAMIC
+  - --enable/disable-try-get-edid-from-sysfs (default is --enable-try-get-edid-from-sysfs)
+- options ***--xevent-watch-loop-millisec*** ***--poll-watch-loop-millisec***
+- Added **ddca_get_display_watch_settings()**, **ddca_set_display_watch_settings()**
+- Use constants in parms.h to specify retry intevals and counts
+- Handle possible delay between time that EDID can be read and DDC becomes functional
+- Added **flags** field in unused secton of DDCA_Display_Status Event, with bit DDCA_DISPLAY_EVENT_DDC_WORKING.
+  Normally, this bit is set on display connection events.  In case DDC is not immediately available after 
+  EDID detection, this bit is not set.  If DDC subsequently becomes enabled, and event of type DDCA_EVENT_DDC_ENABLED occurs. 
+
+- It's possible that there's a delay between the time a monitor is turned on 
+  (and X11/Wayland generate a display change event) and the time that DDC 
+  becomes enabled. There's a newly added flags field in DDCA_Display_Status_Event,
+  with one bit defined, DDCA_DISPLAY_EVENT_DDC_WORKING.  Normally, this bit is 
+  set in the emitted DDCA_Display_Status_Event. However, if DDC is not immediately
+  enabled the bit is not set, and the display reference goes onto a recheck queue 
+  to be processed by a separate thread. An event of type DDCA_EVENT_DDC_ENABLED
+  will be emitted if and when the recheck thread determines that DDC is working.
+- There's a tension in display change detection between minimizing the time between
+  when X11/Wayland detects a monitor having been turned on and libddcutil issuing
+  an event of type DDCA_DISPLAY_EVENT_CONNECTED versus checking and rechecking 
+  failed states (e.g. DDC not working).  In many caes, the frequency and wait 
+  intervals are controlled by settings in file src/base/parms.h.
+
+
+
+## [2.1.4] 2024-02-17
+
+### Shared Library
+
+- Reinstall previously deprecated and removed **ddca_create_display_ref()**, 
+  allowing existing clients to build unchanged.
+
+
+## [2.1.3] 2024-02-07
+
+### Changed
+
+- Option ***--settings*** reports build options.
+
+### Fixed
+
+- Memory leaks
+
+### Shared Library
+
+The shared library **libddcutil** is backwardly compatible with the one in 
+ddcutil 2.1.0. The SONAME is unchanged as libddcutil.so.5. The released library
+file is libddcutil.so.5.2.0.
+
+### Fixed
+
+- Due to overly aggressive DDCA_Display_Ref validation, ddca_get_display_info()
+  returned status DDCRC_ARG when obtaining information about an invalid display 
+  (i.e. one for which the EDID is detected but DDC communication fails). This
+  fixes ddcui issue #55, which reported an abort if a display was invalid.
+- Checking for whether the video adapter supports DRM was consolidated.
+  This fixes a case where all displays were reported to support DRM when that
+  was not the case, causing incorrect display status change monitoring.
+  
+## [2.1.2] 2024-01-27
+
+### General
+
+### Added
+
+- Option ***--vstats*** reports minimum, maximum, and average successful
+  sleep multiplier
+
+### Changed
+
+- Make hidden option ***--min-dynamic-multiplier*** non-hidden
+- Revert **ddca_get/set_sleep_multiplier()** to 2.0.0 semantics
+- Allow for the fact that the proprietary Nvidia driver always reports
+  the value of /sys/class/drm/<connector name>/enabled as "disabled"
+
+### Fixed
+
+- Invalid assert when checking how monitor reports unsupported features. 
+  (Issue #371)
+- Segfault in environment command when examining procfs if compiled using clang
+  option -flto (Issue #354)
+- Bring man page up to date (Issue #364)
+
+### Shared Library
+
+The shared library **libddcutil** is backwardly compatible with the one in 
+ddcutil 2.1.0. The SONAME is unchanged as libddcutil.so.5. The released library
+file is libddcutil.so.5.1.1.
+
+### Changed
+
+- **ddca_start_watch_displays()** requires that all video drivers support DRM. 
+  If the API call fails, detailed error information is available using 
+  **ddca_get_error_detail()**.
+- Additional syslog messages
+
+### Fixed
+
+- SIGABRT in API calls that have a display reference or handle argument if 
+  **ddca_init2()** (or **ddca_init()**) had not been called.  This caused
+  KDE PowerDevil to repeatedly crash and restart. 
+- Fix the check of whether all video drivers implement DRM, required for
+  display hotplug detection.
+
+
+## [2.1.0] 2024-01-16
+
+### General
+
+#### Added
+- Option ***--skip-ddc-checks***
+  - Skips initialization checks to confirm that DDC communication is working
+    and the monitor properly uses the unsupported feature bit in Get Feature 
+    Reply packets, thereby improving initialization time.
+- Cross-instance locking (experimental). Uses flock() to coordinate I2C bus
+  access to /dev/i2c devices when multiple instances of ddcutil or libddcutil
+  are executing. Enabled by option ***--enable-cross-instance-locks***.
+- Option ***--min-dynamic-multiplier*** Specifies a floor to how low dynamic
+  sleep adjustment sets the sleep multiplier. (experimental)
+
+#### Changed
+- Multiple "Options:" lines in an ini file segment are combined
+- Option ***--help***: 
+  - Only show extended information when ***--verbose*** specified
+- Option ***--version***: 
+  - Show only the version, without prefix if ***--brief*** specified
+  - Include detailed build information if ***--verbose** specified 
+- I2C bus examination during initialization can be parallelized, improving performance
+  (This is distinct from the ddc protocol checking.) This is an experimental
+  feature.  It can be enabled by using a low value as an argument to option 
+  ***--i2c-init-async-min***, e.g. ***--i2c-init-async-min 4***.
+  THIS OPTION IS DISABLED BY DEFAULT AS IT OCCASIONALLY TRIGGERS A BUG IN
+  DRIVER amdgpu THAT CAN CAUSE THE MOUSE AND KEYBOARD TO BECOME UNRESPONSIVE.
+  See freedesktop.org bug report "lockup in dce_i2c_submit_command_hw" at
+  https://gitlab.freedesktop.org/drm/amd/-/issues.
+- Command detect: better messages when laptop display detected
+  - do not report "DDC communication failed"
+  - report "Is laptop display" instead of "Is eDP device" or "Is LVDS device"
+- Better accomodate the variation in use of sysfs by different drivers
+- Turned off unconditional message that reported an elusive Nvidia/i2c-dev
+  driver compatibility error.  The incompatibility has been full diagnosed 
+  as being caused by use of a legacy proprietary Nvidia driver. A message
+  is still written to the system log.
+- Make more extensive use of the system log.
+- Options ***--enable-displays-cache***, ***--disable-displays-cache*** are marked
+  hidden since displays caching is not a released feature.
+- Deprecate vaguely named option ***--force***.  Replace its single use with  
+  option ***--permit-unknown-feature***.
+- Deprecate vaguely named option ***--async***. Use ***--ddc-checks-async-min***
+- Deprecate vaguely named option ***--ddc***. Use option ***--ddcdata***, which more
+  clearly indicates that it causes DDC data errors to be reported.
+- **configure** option ***--enable-asan*** causes libasan to be linked into binaries 
+- **configure** option ***--enable-x11*** is deprecated. The X11 API is no longer used.
+
+#### Fixed
+- Better handling of DDC Null Message recognition and adjustments
+- Dynamic sleep: make it easier to reduce time - once high didn't come down
+- Command detect: ensure output of model name, serial number, and extra display descriptor 
+  use only ASCII character in the range 0..127.
+- Some USB-only code was not iftested out when **configure** option ***--disable-usb*** was set. (Issue 355)
+- Always set sleep multiplier to at least 1.0 for commands **setvcp** and **scs**. Addresses reports
+  that aggressive optimization caused setvcp to fail.
+- Cross-thread locking handles situtations where a display ref does not yet exist, e.g. reading EDID.
+- Memory leaks.
+
+### Shared library
+
+The shared library **libddcutil** is backwardly compatible with the one in 
+ddcutil 2.0.0. The SONAME is unchanged as libddcutil.so.5. The released library
+file is libddcutil.so.5.1.0.
+
+#### Added
+- Implemented display hotplug event detection
+  - Requires DRM video drivers (e.g. amdgpu, i915)
+  - Can detect physical connection/disconnection and DPMS sleep status chanes,
+    but the effect of turning a monitor on or off is monitor dependant and 
+    cannot reliably be detected.
+  - Enabled by libddcutil option ***--enable-watch-displays***, or
+    API call **ddca_enable_start_watch_displays()**
+  - API uses callbacks to report report status changes to client
+  - new status codes possible for many current API functions: 
+    DDCRC_DISCONNECTED, DDCRC_DPMS_ASLEEP
+  - When a display connection event is reported, the client should call 
+    **ddca_redetect_displays()**
+- **ddca_validate_display_ref()**: Exposes the validation that occurs on any
+    API call that has a DDCA_Display_Ref argument.  Can be used to check 
+    whether a monitor asleep, disconnected, etc.
+- New functions for sleep multiplier control:
+  - **ddca_enable_dynamic_sleep() 
+  - **ddca_disable_dynamic_sleep() 
+  - **ddca_get_current_sleep_multiplier() 
+  - **ddca_set_display_sleep_multiplier() 
+- **ddca_init2()** replaces **ddca_init()**, which is deprecated: 
+  Has an additional argument for collecting informational msgs. Allows for not
+  issuing information messages regarding the assembly of options and parsing directly
+  from libddcutil to the terminal (now enabled by setting flag DDCA_INIT_OPTIONS_ENABLE_INIT_MSGS),
+  but instead gives client complete control as to what to do with the messages.
+
+#### Changed
+- Functions that depend on initialization and that return a status code now 
+  return DDCRC_UNINITIALIZED if ddca_init() failed.
+- Revert **ddca_get_sleep_multiplier()**, **ddca_set_sleep_multiplier()** to 
+  their pre 2.0 semantics changing the multiplier on the current thread.
+  However, these functions are marked as deprecated.
+
+#### Fixed
+- Argument passing on **ddca_get_any_vcp_value_using_implicit_type()**
+- Fixed cause of assert() failure in **ddca_init()** when the libopts string
+  argument has a value and the configuration file is enabled but no options 
+  are obtained from the configuation file.
+- Contents of the libopts arg were added twice to the string passed to the
+  libddcutil parser.
+
+## [2.0.0] 2023-09-25
+
+Release 2.0.0 contains extensive changes.  Shared library libddcutil is not 
+backwards compatible.  
+
+#### Added
+- Install /usr/lib/modules-load.d/ddcutil.conf. Ensures that driver i2c-dev
+  is loaded.
+- Install file /usr/share/udev/rules.d/60-ddcutil-i2c.rules, autmatically granting
+  the logged on user read/write access to /dev/i2c devices for video displays.
+  For most configurations, use of group i2c is no longer necessary.
+- Command options not of interest to general users are now hidden when help is 
+  requested.  Option ***--hh*** exposes them, and implies option ***--help***.
+- Option ***--noconfig***. Do not process the configuration file.
+- Option ***--verbose***.  If specified on the command line, the options obtained
+  from the configuration file are reported.
+- Added utility options --f7, --f8, --i2, --s1, --s2, --s3, --s4, --fl1, --fl2
+  These options are for temporary use during development. The current use of 
+  the utility options is reported by option ***--settings***. 
+- Added utility command C1 for temporary use during development.
+- Added option ***--enable-mock-data*** for testing
+- Option ***--trcfrom***. Traces the call stack starting with the specified 
+  function.  This option applies only to functions for which tracing has been enabled.
+- API performance profiling
+- Added options ***--ignore-hiddev*** and ***--ignore-usb-vid-pid***
+- Added: Sample file nvidia-i2c.conf that can be installed in directory 
+  /etc/modprobe.d to set options sometimes needed by the proprieatry NVidia 
+  video driver.
+- Added option ***--discard-cache*** to discard cached data at the start of 
+  program execution.  Valid arguments are ***capabilities***, ***dsa***, and ***all***.
+- Command **discard [capabilites|dsa|all] cache(s)** discards cached data.
+- Option ***--pid*** (alt ***--process-id***) prepends the process id to trace messages.
+- Command **traceable-functions*** lists functions that can be traced by name, 
+  i.e. ones that can be specified as a ***--trcfunc*** argument.
+- If using X11, terminate immediately if a DPMS sleep mode is active.
+
+#### Changed
+- The dynamic sleep algorithm has been completely rewritten to both dynamically
+  increase the sleep-multiplier factor (as needed) and decrease the sleep 
+  multiplier factor (insofar as possible).  Data is maintained across program 
+  executions in file $HOME/.cache/ddcutil/stats. Option ***-dsa***, or one of 
+  its variants such as ***--enable-dsa*** turn it on.
+- Option ***--sleep-multiplier***:  0 is now allowed as an argument. Some 
+  DisplayPort monitors have been observed to work with this value. 
+- Writing to the system log has been generalized. 
+  Option ***--syslog <level>*** controls what is written to the system log.
+  Recognized levels are NEVER, ERROR, WARN, INFO, and DEBUG.  This option 
+  replaces ***--enable-syslog***, ***--disable-syslog***, and ***--trace-to-syslog***. 
+- **environment --verbose**: Option ***--quickenv*** skips some slow tests such as 
+  use of program i2cdetect.
+- **environment --verbose**: extended sysfs scan for ARM SOC devices to explore how 
+  those devices use /sys
+- Detailed statistics are now maintained on a per-display instead of per-thread basis.
+- Option ***--vstats*** includes per-display statistics in its reports.  It takes
+  the same arguments as ***--stats***. 
+- Cached capabilities are not erased by ddcutil calls that are not executed with 
+  ***--enable-capabilities-cache***.  This makes the behavior the same as cached 
+  displays and cached performance statistics.
+- **environment --verbose** disables caching, reports contents of cached files.
+- loosen criteria for when to try fallback methods to read EDID when using USB 
+  to communicate with Eizo monitors
+- udev rule changes: 
+  - install /usr/lib/udev/rules.d/60-ddcutil-usb.rules
+  - rename /usr/lib/udev/rules.d/60-ddcutil.rules to 60-ddcutil-i2c.rules
+  - update and rename sample rules files installed in /usr/share/data/ddcutil as 
+    60-ddcutil-i2c.rules and  60-ddcutil-usb.rules.  The user can modify these 
+    files and install them in /etc/udev/rules.d to override the files installed 
+    in /usr/lib/udev/rules.d. 
+- ***--enable-dsa*** is a valid synonym for ***--enable-dynamic-sleep***
+- Display detection improved
+  - Rework the algorithm for detecting display communication and testing how 
+    invalid features are reported.
+  - Handle the phantom monitor case where a MST capabile monitor is detected as
+    a separeate i2c bus/drm connector along with that on the video card
+- Command **detect** improved:
+  - verbose output: 
+    - Reports the sysfs DRM values for dpms, enabled, and status 
+     - Reports if I2C slave address x37 is responsive
+  - reports an error summary if DDC communication fails
+  - Issue warnings that output may be inaccurate if the monitor is sleeping 
+    or if it cannot be determined how unsupported features are indicated.
+- Messages regarding DDC data errors (controlled by option ***--ddc***) are 
+  written to the system log with level LOG_WARNING instead of LOG_NOTICE.
+
+#### Fixed
+- More robust checks during display detection to test for misuse of the DDC Null Message
+  and all zero getvcp response to indicate unsupported features.
+- Option ***--help***: Document **ELAPSED** as a recognized statistics class
+- ddca_dfr_check_by_dref(): do not return an error if no user defined feature file 
+  exists for the monitor
+- Recognize (but always report failure for) CHKUSBMON command even when ddcutil not 
+  built with USB support.
+- Improve reporting of /dev/hiddev* open failures to reduce confusion caused by this
+  typically benign error.
+- Check that no display identifier is included on commands that don't use one
+- Increase buffer size to allow for a Get Feature Reply packet that contains an 
+  incorrectly large length field.
+- Change the USB infomation shown for option ***--version*** to emphasize that
+  ddcutil uses USB for communicating with the monitor's Virtual Control Pandl, 
+  not for video transmission.
+- Memory leaks
+
+### Shared library changes
+
+The shared library **libddcutil** in is not backwardly compatible.  
+The SONAME is now libddcutil.so.5. The released library file is libddcutil.so.5.0.0.
+
+Library initialization has been reworked extensively to move operations 
+that can fail and other aspects that should be under control of the library user
+into a new function **ddca_init()**.
+
+This function: 
+- controls the level of messages written to the system log
+- optionally processes options obtained from the **ddcutil** configuration file
+- processes additional options passed as a string
+- sets error information for ddca_get_error_detail()
+
+If this function is not called by the user program, any API function that relies on its 
+processing invokes **ddca_init()** using arguments such that it never fails, e.g. 
+the configuration file is not processed.
+
+Added typedef 
+- struct DDCA_Display_Detection_Report
+
+Added functions: 
+- ddca_init() See above.
+- ddca_register_display_detection_callback(): Registers a function 
+  of type DDCA_Display_Status_Func which will be called to inform the client
+  of display hotplug events.
+- ddca_library_filename():  Returns the fully qualified name of the 
+  shared library.
+
+Changed functions:
+
+- ddca_report_display_info() returns DDCA_Status instead of void
+- ddca_get_feature_name() implementation restored
+
+Changed semantics:
+
+The semantics of some functions have changed, reflecting
+the fact that some statistics are now maintained on a per-display
+rather than per-thread basis.
+
+- ddca_set_sleep_multiplier(), ddca_get_sleep_multiplier(). 
+  Instead of operating on the current thread, these functions operate on the
+  display, if any, open in the current thread.
+
+- ddca_set_default_sleep_multiplier(), ddca_get_default_sleep_multiplier()
+  Operate on newly detected displays, not new threads.
+
+Removed functions: 
+
+With the ability to configure libddcutil operation both by the ddcutil 
+configuration file and by passing an option string in the ddca_init() arguments, 
+several API functions are no longer needed and have been removed: 
+
+Max-tries options:
+  - ddca_max_max_tries()
+  - ddca_get_max_tries()
+  - ddca_set_max_tries()
+  - ddca_set_default_sleep_multiplier(), ddca_set_global_sleep_multiplier()
+  - ddca_get_default_sleep_multiplier(), ddca_set_global_sleep_multiplier()
+
+Trace options: 
+  - ddca_add_traced_function()
+  - ddca_add_traced_file()
+  - ddca_set_trace_groups()
+  - ddca_add_trace_groups()
+  - ddca_trace_group_name_to_value()
+  - ddca_set_trace_options()
+
+USB enablement: 
+  - ddca_enable_usb_display_detection
+  - ddca_disable_usb_display_detection 
+
+Miscellaneous: 
+  - ddca_enable_force_slave_adress() 
+  - ddca_is_force_slave_address_enabled()
+  - ddca_enable_error_info()
+
+Most per-thread statistics are now instead maintained on a per-display basis.
+The following functions are no longer useful and have been removed
+- ddca_set_thread_description()
+- ddca_append_thread_description()
+- ddca_get_thread_desription() 
+
+Remove previously deprecated functions: 
+- ddca_open_display(). Use ddca_open_display2().
+- ddca_create_display_ref(). Use ddca_get_display_ref()
+- ddca_free_display_ref(). Had become a NO-OP. All display references are persistent
+
+Symbols for functions and enums that had previously been removed from ddcutil_c_api.h are no longer exported.
+
+Options that apply only to libddcutil (Specified in the ddcutil configuration file or passed to ddca_init())
+
+- Option ***--profile-api***. Applies only to **libddcutil**.  Statistics
+  for API functions that perform display IO are collected and subsequently
+  reported when the library is terminated.  
+
+- Option ***--trcapi***. Trace the call stack for a specified API function.
+
+#### Building ddcutil
+
+- configure options --enable-syslog/--disable-syslog have been eliminated.   
+  Use runtime option ***--syslog NEVER*** to disable all writes to the system log.
+- Use of shared library **libkmod** eliminated.
+- Shared library **libjansson** is now required
+
+## [1.4.5] 2023-09-18
+
+#### Building ddcutil
+
+- The autotools **configure** command now recognizes ***--enable-install-lib-only***.  If specified, 
+  command **make install** only installs the shared library. This is intended to facilitate installation 
+  of **libddcutil.so.4** along with the upcoming **libddcutil.so.5**.
+
+
+## [1.4.2] 2023-02-17
+
+### Added 
+
+- **ddcutil** installation installs files /usr/lib/modules-load.d/ddcutil.conf
+  and /usr/lib/modules-load.d#libddcutil.conf to ensure that kernel module 
+  i2c-dev is loaded at boot time if it is not built into the kernel. There are
+  two files so that when split up into distribution packages, each of the 
+  command line **ddcutil** package and the shared library **libddcutil** 
+  package installs a file.  
+
+## [1.4.1] 2023-01-16
+
+### Fixed
+- The default sleep-multipler value was 0, instead of 1. This resulted in failure of
+  most DDC/CI operations, including display detection.
+  
+## [1.4.0] 2023-01-04
+
+### Added
+- **ddcutil** installation installs file /usr/lib/udev/rules.c/60-ddcutil.rules.
+  This udev rule uses tag uaccess to  give the logged on user read/write access
+  to /dev/i2c devices associated with video adapters. Configuring use of group 
+  i2c is no longer necessary.
+- configure options ***--enable-syslog*** and ***--disable-syslog*** control 
+  whether messages are written to the system log.  The default is enabled.
+
+### Changed
+- The ability to use the write()/read() interface of i2c-dev has been restored.
+  It is needed to work around a bug in the proprietary Nvidia driver.  By
+  default,  ioctl() interface is used for all drivers.  If the Nvidia bug is 
+  detected, the write()/read() interface is used instead. Command line options 
+  ***--use-file-io*** and ***--use-ioctl-io*** affect this default behavior. 
+  When i2c-dev's file io interface is used, option ***--force-slave-address***
+  is again meaningful.
+- Option ***--sleep-multiplier*** and API functions **ddca_set_sleep_multiplier_value()**, 
+  **ddca_set_default_sleep_multiplier_value()** now accept 0 as a valid 
+  argument.
+- The ddcutil command parser reports an error if a display selection option 
+  (e.g. ***--bus***) is given on a command to which it does not apply.
+- Write additional error and information messages to the system log.
+- Eliminate message "Is DDC/CI enabled in the monitor's on-screen display?"
+  It's rarely the cause of communication failures.
+
+### Fixed
+- Warn of a possibly invalid DRM connector name in **detect** output if 
+  monitors with identical EDIDs are used with the proprietary nvidia driver.
+- Handle /dev/i2c device names with a double hyphen, e.g. /dev/i2c--3. 
+- Better libddcutil handling of configuration file errors.  Do not abort
+  initialization in case of errors.
+- Fix interpretation of digital display type bits for EDID version 1.4
+- Miscellaneous segfaults.
+
+## [1.3.2] 2022-09-04
+
+### Changed
+- Modify tarball creation to eliminate garbage and otherwise unneeded files.
+
+## [1.3.0] 2022-07-19
+
+### Added
+- Command **detect**: 
+  - Issue warning for monitors for which **ddcutil** should not be used to
+    change settings.
+    - Currently only entry is Xaomi model "Mi Monitor"
+- Debug messages.  Environment variables DDCUTIL_DEBUG_PARSE, 
+  DDCUTIL_DEBUG_MAIN, DDCUTIL_DEBUG_LIBINIT can be set to enable trace messages
+  in command line **ddcutil** or shared library **libddcutil.so** during 
+  initialization and before command options.
+
+### Changed
+- Option ***--force-slave-address*** no longer has any effect. The dev-i2c 
+  ioctl() interface is now used exclusively instead of write() and read()
+  calls for writing to and reading from the I2C bus. As a result, 
+  ioctl(SLAVE_ADDRESS), which has been the source of EBUSY errors from driver
+  i2-dev, is no longer used. In principle, EBUSY errors are still possible from
+  within individual video drivers, but this has never been observed.
+- Sleeps immediately after opening a /dev/i2c device and after completion of a
+  read operation are completely eliminated. The sleep-suppression related 
+  uptions, ***--sleep-less***, ***--less-sleep, ***--enable-sleep-suppression***,
+  and ***--disable-sleep-suppression*** no longer have any effect.
+- Option ***--dca***: The Dynamic Sleep Adjustment algorithm was rewritten to 
+  more sensibly increment sleep times after before each retry. 
+- Commands **getvcp** and **vcpinfo**: 
+  - Allow specification of multiple feature codes, for example 
+    ***ddcutil getvcp 10 12*** , ***ddcutil vcpinfo 14 16 18 1a***
+- Command **detect**: 
+  - Option ***--verbose*** produces addtional information: 
+   - The product code is reported in hex as well as decimal
+   - The EDID source field is set to **I2C** in the normal case where the EDID
+     is read directly from slave address X50.  Alternative values include 
+     **USB**, **X11**, and **SYSFS**.
+- Command **environment**:
+   - Scanning of /sys by option ***--verbose*** has been improved.
+   - Add msg re SYSENV_QUICK_TEST environment variable
+- Command **interrogate**: 
+   - Set --disable-capabilities-cache
+- More user friendly messages at startup regarding /dev/i2c buses that cannont
+  be opened.  If the problem is inadequate permissions (EACCES), the user is 
+  directed to www.ddcutil.com/permissions.
+- Better handle malformed EDIDs
+  - Trailing blanks on model and serial number are stripped.  This affects 
+    commands **detect --terse**, **loadvcp** and **dumpvcp**, and also the 
+    file names of user defined features.
+- Option ***--stats***: 
+  - I2C ioctl() calls for reading and writing are now reported as type IE_IOCTL_WRITE
+    and IE_IOCTL_READ rather than IE_OTHER
+  - IE_WRITE_READ stats are no longer reported, as they are redundant
+- Source code has been extensively cleaned up. In particular, directory **adl**
+  containing code for the old proprietary AMD video driver, has been removed.
+- Building ddcutil:
+  - Library **libi2c.so** is no longer linked.  It was needed only for some
+    experimental code.
+libddcutil: 
+- ddca_get_display_refs(), ddca_get_display_info_list2(): 
+  - Open errors can be retrieved using ddca_get_error_info(). 
+    Note that the API calls still succeed.
+  - Deprecated API functions have no effect:
+    - ddca_enable_force_slave_address(), ddca_is_force_slave_address_enabled()
+
+### Fixed
+- The sleep multiplier value was not respected for new API threads.
+- User Defined Features: Keyword **NC** set the incorrect flag in a feature
+  descriptor.
+- Option **--dsa**: Fix adjustment factor calculation due to incorrect variable
+  type.
+- Fixed a segfault that occurred at **ddcui** startup.  The fault was in a 
+  trace message for function ddc_start_watch_displays() which watches for
+  displays that are added or removed.
+- Fixed a segfault in **ddcutil** initialization because of unexpected
+  contents in sysfs.
+- Do not use glib function g_byte_array_steal(), which requires glib 2.60.
+  ddcutil requires only glib 2.40. 
+- Miscellaneous memory leaks
+- Double count I2C writes in stats. 
+
+## [1.2.2] 2022-01-22
+
+### Added
+- API function ddca_enable_force_slave_address()
+- API function ddca_is_force_slave_address_enabled()
+
+### Changed
+- Improve handling of and messages regarding DDC communication failures with 
+  errno EBUSY. In particular, this error occurs when driver ddcci is loaded.
+  - Command **detect**: If DDC communication fails with error EBUSY, report the
+    display as "Busy" instead of "Invalid" and suggest use of option 
+    ***--force-slave-address***.
+  - Command **environment**: Suggest use of option ***--force-slave-address*** 
+    if driver ddcci is detected.
+  - Messages re EBUSY errors are always written to the system log.
+- Command **detect**:
+  - Do not report the EDID source unless there is a value to show.
+    This value is set only for USB connected monitors.
+  - Show extended output based on option ***--verbose***, not undocumented
+    option ***--very-verbose***.
+  - Report color bit depth if EDID version >= 1.4
+- Command **environment**: Simplify the exploration of sysfs.
+- API changes:
+  - Field latest_sl_values in struct DDCA_Feature_Metadata struct is no 
+    longer set,
+  - API function ddca_report_display_info(): include binary serial number
+- Building and porting:
+  - When building ddcutil, allow for building a static library if **configure** 
+    option ***--enable-static*** is set. Linux distributions frown on packaging 
+    static libraries, but if a user wants to build it who am I to judge. 
+    By default, static libraries are not built,
+  - Replace use of Linux specific function **__assert_fail()** with **exit()**
+    in traced assertions.  **__assert_fail** is used in the Linux implementation
+    of **assert()**, but is not in the C specification.  This can present a 
+    problem in porting ddcutil. 
+- Code cleanup:
+  - Delete incomplete, experimental code for asynhronous feature access, 
+    including files src/ddc/ddc_async.c/h. 
+  - Remove unused files src/util/output_sink.c/h.
+
+### Fixed
+- Only write Starting/Terminating messages to the system log if option 
+  ***--syslog*** is specified.
+- Avoid compilation warnings when assert() statments are disabled (NDEBUG is
+  defined).
+- Fixed a segfault in the debug/trace code of ddca_get_display_refs()
+- Memory leaks.
+
+## [1.2.1] 2021-11-15
+
+### Added
+- Option ***--syslog***: Send trace and debug messages to the system log in
+  addition to the trace location.
+- Option ***--wall-timestamp***, ***--wts***: Prefix trace and debug messages
+  with the current wall time.
+- Option ***--settings***: Report option settings in effect.
+
+### Changed
+- Details of current settings are no longer reported by every command invocation
+  when option ***--verbose*** is specified.  Use option ***--settings*** to 
+  control option reporting.
+- Removed sample program demo_watch_displays.
+
+### Fixed
+- Numerous memory leaks, in particular ones triggered by ddca_redetect_displays(). 
+- Build failure if configure option ***--enable-x11=no*** was specified.
+- API functions ddc_open_display(),ddc_open_display2() now always return 
+  DDCRC_ALREADY_OPEN if the the display is already open in the current thread.
+  Previously an assert() failure would occur under certain circumstances.
+- Options ***--disable-capabilities-cache***, ***--disable-udf*** not respected
+- Proof of concept code that watches for display hotplug events 
+
+## [1.2.0] 2021-09-28
+
+### Added
+- libddcutil log file
+- libddcuti and ddcutil write critical events to syslog
+- API function ddca_add_trace_group()
+- API function ddca_extended_version_string()
+- API function ddca_redetect_displays()
+- API function ddca_get_display_refs()
+- API function ddca_get_display_info()
+- API function ddca_free_display_info()
+- Macro DDCUTIL_VSUFFIX
+
+### Changed
+- If possible, command **ddcutil environment --verbose** calls **get-edid|parse-edid** 
+  as an additional EDID check.
+- Additional validation of DDCA_Display_Ref and DDCA_Display_Handle arguments to API functions
+- Improved tracing of assert() failures
+- --enable-capabilities-cache is now the default
+- libddcutil name is now libddcutil.so.4.1.0
+- Command **detect**: improved analysis of /sys
+- Command **detect**: ***--verbose*** option reports raw EDID
+- Option ***--help*** does not report undocumented option ***--very-verbose***.
+
+### Fixed
+- Incorrect assembly of sysfs path definitions in **ddcutil environment --verbose** 
+- ddcutil diagnostics were not finding module i2c-dev if the system (e.g. NixOS) 
+  used a non-standard location for the modules directory (Issue #178). The checks 
+  have been rewritten to use libkmod.
+- Eliminate repeated messages from the experimental display hotplug detection code
+  if no /sys/class/drm/cardN devices exist. (libddcutil)
+
+## [1.1.0] 2021-04-05
+
+For details, see [ddcutil Release Notes](https://www.ddcutil.com/release_notes).
+
+### Added
+- Configuration file **ddcutilrc**, located on the XDG config path.   
+- Cache monitor capabilities strings to improve performance of the **capabilities** command.  
+  Controlled by options ***--enable-capabilities-cache***, ***--disable-capabilities-cache***.
+- Workarounds for problems in DRM video drivers (e.g. i915, AMDGPU) when displays are connected to 
+  a docking station. The same monitor can appear as two different /dev/i2c devices,
+  but only one supports DDC/CI.  If possible these are reported as a "Phantom Display" instead 
+  of as "Invalid Display". Also, try to work around problems reading the EDID on these 
+  monitors, which  can cause the monitor to not be detected.
+- Option ***--edid-read-size 128*** or ***--edid-read-size 256*** forces **ddcutil** to request
+  that number of bytes when reading the EDID, which can occasionally allow the EDID to
+  be read successfully. 
+- Issue warning at startup if driver i2c-dev is neither loaded nor built into the kernel.
+
+### Changed
+- By default, files generated by **dumpvcp** are saved in the XDG_DATA_HOME directory.
+- **environment --verbose** has more detailed reporting of relevant sections of /sys.
+- Additional information on **detect --verbose**.
+- Additional functions are traceable using option ***--trcfunc***
+- User defined features are enabled by default.
+
+### Fixed
+- Regard IO operations setting errno EBUSY as recoverable, suggest use of option 
+  ***--force-slave-address***.  (EBUSY can occur when ddcontrol's ddcci driver 
+  is loaded.)
+- Fix build failure when configure option ***--disable-usb*** is combined with 
+  ***--enable-envcmds***.
+- On AMD Navi2 variants, e.g. RX 6000 series, **ddcutil** display detection put
+ the GPU into an inconsistent state when probing a SMU I2C bus exposed by the GPU. 
+ This change ensures that **ddcutil** does not attempt to probe such buses. 
+

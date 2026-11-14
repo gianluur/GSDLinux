@@ -1,0 +1,4343 @@
+_bootc() {
+    local i cur prev opts cmd
+    COMPREPLY=()
+    if [[ "${BASH_VERSINFO[0]}" -ge 4 ]]; then
+        cur="$2"
+    else
+        cur="${COMP_WORDS[COMP_CWORD]}"
+    fi
+    prev="$3"
+    cmd=""
+    opts=""
+
+    for i in "${COMP_WORDS[@]:0:COMP_CWORD}"
+    do
+        case "${cmd},${i}" in
+            ",$1")
+                cmd="bootc"
+                ;;
+            bootc,completion)
+                cmd="bootc__subcmd__completion"
+                ;;
+            bootc,composefs-finalize-staged)
+                cmd="bootc__subcmd__composefs__subcmd__finalize__subcmd__staged"
+                ;;
+            bootc,config-diff)
+                cmd="bootc__subcmd__config__subcmd__diff"
+                ;;
+            bootc,container)
+                cmd="bootc__subcmd__container"
+                ;;
+            bootc,delete-deployment)
+                cmd="bootc__subcmd__delete__subcmd__deployment"
+                ;;
+            bootc,edit)
+                cmd="bootc__subcmd__edit"
+                ;;
+            bootc,exec-in-host-mount-namespace)
+                cmd="bootc__subcmd__exec__subcmd__in__subcmd__host__subcmd__mount__subcmd__namespace"
+                ;;
+            bootc,help)
+                cmd="bootc__subcmd__help"
+                ;;
+            bootc,image)
+                cmd="bootc__subcmd__image"
+                ;;
+            bootc,install)
+                cmd="bootc__subcmd__install"
+                ;;
+            bootc,internals)
+                cmd="bootc__subcmd__internals"
+                ;;
+            bootc,loader-entries)
+                cmd="bootc__subcmd__loader__subcmd__entries"
+                ;;
+            bootc,rollback)
+                cmd="bootc__subcmd__rollback"
+                ;;
+            bootc,state)
+                cmd="bootc__subcmd__state"
+                ;;
+            bootc,status)
+                cmd="bootc__subcmd__status"
+                ;;
+            bootc,switch)
+                cmd="bootc__subcmd__switch"
+                ;;
+            bootc,upgrade)
+                cmd="bootc__subcmd__upgrade"
+                ;;
+            bootc,usr-overlay)
+                cmd="bootc__subcmd__usr__subcmd__overlay"
+                ;;
+            bootc__subcmd__container,compute-composefs-digest)
+                cmd="bootc__subcmd__container__subcmd__compute__subcmd__composefs__subcmd__digest"
+                ;;
+            bootc__subcmd__container,compute-composefs-digest-from-storage)
+                cmd="bootc__subcmd__container__subcmd__compute__subcmd__composefs__subcmd__digest__subcmd__from__subcmd__storage"
+                ;;
+            bootc__subcmd__container,export)
+                cmd="bootc__subcmd__container__subcmd__export"
+                ;;
+            bootc__subcmd__container,help)
+                cmd="bootc__subcmd__container__subcmd__help"
+                ;;
+            bootc__subcmd__container,inspect)
+                cmd="bootc__subcmd__container__subcmd__inspect"
+                ;;
+            bootc__subcmd__container,lint)
+                cmd="bootc__subcmd__container__subcmd__lint"
+                ;;
+            bootc__subcmd__container,split-kernel-and-rootfs)
+                cmd="bootc__subcmd__container__subcmd__split__subcmd__kernel__subcmd__and__subcmd__rootfs"
+                ;;
+            bootc__subcmd__container,ukify)
+                cmd="bootc__subcmd__container__subcmd__ukify"
+                ;;
+            bootc__subcmd__container__subcmd__help,compute-composefs-digest)
+                cmd="bootc__subcmd__container__subcmd__help__subcmd__compute__subcmd__composefs__subcmd__digest"
+                ;;
+            bootc__subcmd__container__subcmd__help,compute-composefs-digest-from-storage)
+                cmd="bootc__subcmd__container__subcmd__help__subcmd__compute__subcmd__composefs__subcmd__digest__subcmd__from__subcmd__storage"
+                ;;
+            bootc__subcmd__container__subcmd__help,export)
+                cmd="bootc__subcmd__container__subcmd__help__subcmd__export"
+                ;;
+            bootc__subcmd__container__subcmd__help,help)
+                cmd="bootc__subcmd__container__subcmd__help__subcmd__help"
+                ;;
+            bootc__subcmd__container__subcmd__help,inspect)
+                cmd="bootc__subcmd__container__subcmd__help__subcmd__inspect"
+                ;;
+            bootc__subcmd__container__subcmd__help,lint)
+                cmd="bootc__subcmd__container__subcmd__help__subcmd__lint"
+                ;;
+            bootc__subcmd__container__subcmd__help,split-kernel-and-rootfs)
+                cmd="bootc__subcmd__container__subcmd__help__subcmd__split__subcmd__kernel__subcmd__and__subcmd__rootfs"
+                ;;
+            bootc__subcmd__container__subcmd__help,ukify)
+                cmd="bootc__subcmd__container__subcmd__help__subcmd__ukify"
+                ;;
+            bootc__subcmd__help,completion)
+                cmd="bootc__subcmd__help__subcmd__completion"
+                ;;
+            bootc__subcmd__help,composefs-finalize-staged)
+                cmd="bootc__subcmd__help__subcmd__composefs__subcmd__finalize__subcmd__staged"
+                ;;
+            bootc__subcmd__help,config-diff)
+                cmd="bootc__subcmd__help__subcmd__config__subcmd__diff"
+                ;;
+            bootc__subcmd__help,container)
+                cmd="bootc__subcmd__help__subcmd__container"
+                ;;
+            bootc__subcmd__help,delete-deployment)
+                cmd="bootc__subcmd__help__subcmd__delete__subcmd__deployment"
+                ;;
+            bootc__subcmd__help,edit)
+                cmd="bootc__subcmd__help__subcmd__edit"
+                ;;
+            bootc__subcmd__help,exec-in-host-mount-namespace)
+                cmd="bootc__subcmd__help__subcmd__exec__subcmd__in__subcmd__host__subcmd__mount__subcmd__namespace"
+                ;;
+            bootc__subcmd__help,help)
+                cmd="bootc__subcmd__help__subcmd__help"
+                ;;
+            bootc__subcmd__help,image)
+                cmd="bootc__subcmd__help__subcmd__image"
+                ;;
+            bootc__subcmd__help,install)
+                cmd="bootc__subcmd__help__subcmd__install"
+                ;;
+            bootc__subcmd__help,internals)
+                cmd="bootc__subcmd__help__subcmd__internals"
+                ;;
+            bootc__subcmd__help,loader-entries)
+                cmd="bootc__subcmd__help__subcmd__loader__subcmd__entries"
+                ;;
+            bootc__subcmd__help,rollback)
+                cmd="bootc__subcmd__help__subcmd__rollback"
+                ;;
+            bootc__subcmd__help,state)
+                cmd="bootc__subcmd__help__subcmd__state"
+                ;;
+            bootc__subcmd__help,status)
+                cmd="bootc__subcmd__help__subcmd__status"
+                ;;
+            bootc__subcmd__help,switch)
+                cmd="bootc__subcmd__help__subcmd__switch"
+                ;;
+            bootc__subcmd__help,upgrade)
+                cmd="bootc__subcmd__help__subcmd__upgrade"
+                ;;
+            bootc__subcmd__help,usr-overlay)
+                cmd="bootc__subcmd__help__subcmd__usr__subcmd__overlay"
+                ;;
+            bootc__subcmd__help__subcmd__container,compute-composefs-digest)
+                cmd="bootc__subcmd__help__subcmd__container__subcmd__compute__subcmd__composefs__subcmd__digest"
+                ;;
+            bootc__subcmd__help__subcmd__container,compute-composefs-digest-from-storage)
+                cmd="bootc__subcmd__help__subcmd__container__subcmd__compute__subcmd__composefs__subcmd__digest__subcmd__from__subcmd__storage"
+                ;;
+            bootc__subcmd__help__subcmd__container,export)
+                cmd="bootc__subcmd__help__subcmd__container__subcmd__export"
+                ;;
+            bootc__subcmd__help__subcmd__container,inspect)
+                cmd="bootc__subcmd__help__subcmd__container__subcmd__inspect"
+                ;;
+            bootc__subcmd__help__subcmd__container,lint)
+                cmd="bootc__subcmd__help__subcmd__container__subcmd__lint"
+                ;;
+            bootc__subcmd__help__subcmd__container,split-kernel-and-rootfs)
+                cmd="bootc__subcmd__help__subcmd__container__subcmd__split__subcmd__kernel__subcmd__and__subcmd__rootfs"
+                ;;
+            bootc__subcmd__help__subcmd__container,ukify)
+                cmd="bootc__subcmd__help__subcmd__container__subcmd__ukify"
+                ;;
+            bootc__subcmd__help__subcmd__image,cmd)
+                cmd="bootc__subcmd__help__subcmd__image__subcmd__cmd"
+                ;;
+            bootc__subcmd__help__subcmd__image,copy-to-storage)
+                cmd="bootc__subcmd__help__subcmd__image__subcmd__copy__subcmd__to__subcmd__storage"
+                ;;
+            bootc__subcmd__help__subcmd__image,list)
+                cmd="bootc__subcmd__help__subcmd__image__subcmd__list"
+                ;;
+            bootc__subcmd__help__subcmd__image,pull-from-default-storage)
+                cmd="bootc__subcmd__help__subcmd__image__subcmd__pull__subcmd__from__subcmd__default__subcmd__storage"
+                ;;
+            bootc__subcmd__help__subcmd__image,set-unified)
+                cmd="bootc__subcmd__help__subcmd__image__subcmd__set__subcmd__unified"
+                ;;
+            bootc__subcmd__help__subcmd__image__subcmd__cmd,build)
+                cmd="bootc__subcmd__help__subcmd__image__subcmd__cmd__subcmd__build"
+                ;;
+            bootc__subcmd__help__subcmd__image__subcmd__cmd,list)
+                cmd="bootc__subcmd__help__subcmd__image__subcmd__cmd__subcmd__list"
+                ;;
+            bootc__subcmd__help__subcmd__image__subcmd__cmd,pull)
+                cmd="bootc__subcmd__help__subcmd__image__subcmd__cmd__subcmd__pull"
+                ;;
+            bootc__subcmd__help__subcmd__image__subcmd__cmd,push)
+                cmd="bootc__subcmd__help__subcmd__image__subcmd__cmd__subcmd__push"
+                ;;
+            bootc__subcmd__help__subcmd__install,ensure-completion)
+                cmd="bootc__subcmd__help__subcmd__install__subcmd__ensure__subcmd__completion"
+                ;;
+            bootc__subcmd__help__subcmd__install,finalize)
+                cmd="bootc__subcmd__help__subcmd__install__subcmd__finalize"
+                ;;
+            bootc__subcmd__help__subcmd__install,mount)
+                cmd="bootc__subcmd__help__subcmd__install__subcmd__mount"
+                ;;
+            bootc__subcmd__help__subcmd__install,print-configuration)
+                cmd="bootc__subcmd__help__subcmd__install__subcmd__print__subcmd__configuration"
+                ;;
+            bootc__subcmd__help__subcmd__install,reset)
+                cmd="bootc__subcmd__help__subcmd__install__subcmd__reset"
+                ;;
+            bootc__subcmd__help__subcmd__install,to-disk)
+                cmd="bootc__subcmd__help__subcmd__install__subcmd__to__subcmd__disk"
+                ;;
+            bootc__subcmd__help__subcmd__install,to-existing-root)
+                cmd="bootc__subcmd__help__subcmd__install__subcmd__to__subcmd__existing__subcmd__root"
+                ;;
+            bootc__subcmd__help__subcmd__install,to-filesystem)
+                cmd="bootc__subcmd__help__subcmd__install__subcmd__to__subcmd__filesystem"
+                ;;
+            bootc__subcmd__help__subcmd__internals,allocate-cleanup-loopback)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__allocate__subcmd__cleanup__subcmd__loopback"
+                ;;
+            bootc__subcmd__help__subcmd__internals,blockdev)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__blockdev"
+                ;;
+            bootc__subcmd__help__subcmd__internals,bootc-install-completion)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__bootc__subcmd__install__subcmd__completion"
+                ;;
+            bootc__subcmd__help__subcmd__internals,cfs)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__cfs"
+                ;;
+            bootc__subcmd__help__subcmd__internals,cleanup)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__cleanup"
+                ;;
+            bootc__subcmd__help__subcmd__internals,composefs-gc)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__composefs__subcmd__gc"
+                ;;
+            bootc__subcmd__help__subcmd__internals,dir-diff)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__dir__subcmd__diff"
+                ;;
+            bootc__subcmd__help__subcmd__internals,fixup-etc-fstab)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__fixup__subcmd__etc__subcmd__fstab"
+                ;;
+            bootc__subcmd__help__subcmd__internals,fsck)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__fsck"
+                ;;
+            bootc__subcmd__help__subcmd__internals,fsverity)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__fsverity"
+                ;;
+            bootc__subcmd__help__subcmd__internals,loopback-cleanup-helper)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__loopback__subcmd__cleanup__subcmd__helper"
+                ;;
+            bootc__subcmd__help__subcmd__internals,ostree-container)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__ostree__subcmd__container"
+                ;;
+            bootc__subcmd__help__subcmd__internals,ostree-ext)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__ostree__subcmd__ext"
+                ;;
+            bootc__subcmd__help__subcmd__internals,prep-soft-reboot)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__prep__subcmd__soft__subcmd__reboot"
+                ;;
+            bootc__subcmd__help__subcmd__internals,print-json-schema)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__print__subcmd__json__subcmd__schema"
+                ;;
+            bootc__subcmd__help__subcmd__internals,reboot)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__reboot"
+                ;;
+            bootc__subcmd__help__subcmd__internals,relabel)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__relabel"
+                ;;
+            bootc__subcmd__help__subcmd__internals,relabel-overlay-mountpoints)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__relabel__subcmd__overlay__subcmd__mountpoints"
+                ;;
+            bootc__subcmd__help__subcmd__internals,selinux)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__selinux"
+                ;;
+            bootc__subcmd__help__subcmd__internals,systemd-generator)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__systemd__subcmd__generator"
+                ;;
+            bootc__subcmd__help__subcmd__internals,sysusers-sync)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__sysusers__subcmd__sync"
+                ;;
+            bootc__subcmd__help__subcmd__internals,test-composefs)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__test__subcmd__composefs"
+                ;;
+            bootc__subcmd__help__subcmd__internals,uki)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__uki"
+                ;;
+            bootc__subcmd__help__subcmd__internals__subcmd__blockdev,ls)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__blockdev__subcmd__ls"
+                ;;
+            bootc__subcmd__help__subcmd__internals__subcmd__blockdev,ls-filesystem)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__blockdev__subcmd__ls__subcmd__filesystem"
+                ;;
+            bootc__subcmd__help__subcmd__internals__subcmd__fsverity,enable)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__fsverity__subcmd__enable"
+                ;;
+            bootc__subcmd__help__subcmd__internals__subcmd__fsverity,measure)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__fsverity__subcmd__measure"
+                ;;
+            bootc__subcmd__help__subcmd__internals__subcmd__selinux,is-unlabeled)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__selinux__subcmd__is__subcmd__unlabeled"
+                ;;
+            bootc__subcmd__help__subcmd__internals__subcmd__uki,extract)
+                cmd="bootc__subcmd__help__subcmd__internals__subcmd__uki__subcmd__extract"
+                ;;
+            bootc__subcmd__help__subcmd__loader__subcmd__entries,set-options-for-source)
+                cmd="bootc__subcmd__help__subcmd__loader__subcmd__entries__subcmd__set__subcmd__options__subcmd__for__subcmd__source"
+                ;;
+            bootc__subcmd__help__subcmd__state,wipe-ostree)
+                cmd="bootc__subcmd__help__subcmd__state__subcmd__wipe__subcmd__ostree"
+                ;;
+            bootc__subcmd__image,cmd)
+                cmd="bootc__subcmd__image__subcmd__cmd"
+                ;;
+            bootc__subcmd__image,copy-to-storage)
+                cmd="bootc__subcmd__image__subcmd__copy__subcmd__to__subcmd__storage"
+                ;;
+            bootc__subcmd__image,help)
+                cmd="bootc__subcmd__image__subcmd__help"
+                ;;
+            bootc__subcmd__image,list)
+                cmd="bootc__subcmd__image__subcmd__list"
+                ;;
+            bootc__subcmd__image,pull-from-default-storage)
+                cmd="bootc__subcmd__image__subcmd__pull__subcmd__from__subcmd__default__subcmd__storage"
+                ;;
+            bootc__subcmd__image,set-unified)
+                cmd="bootc__subcmd__image__subcmd__set__subcmd__unified"
+                ;;
+            bootc__subcmd__image__subcmd__cmd,build)
+                cmd="bootc__subcmd__image__subcmd__cmd__subcmd__build"
+                ;;
+            bootc__subcmd__image__subcmd__cmd,help)
+                cmd="bootc__subcmd__image__subcmd__cmd__subcmd__help"
+                ;;
+            bootc__subcmd__image__subcmd__cmd,list)
+                cmd="bootc__subcmd__image__subcmd__cmd__subcmd__list"
+                ;;
+            bootc__subcmd__image__subcmd__cmd,pull)
+                cmd="bootc__subcmd__image__subcmd__cmd__subcmd__pull"
+                ;;
+            bootc__subcmd__image__subcmd__cmd,push)
+                cmd="bootc__subcmd__image__subcmd__cmd__subcmd__push"
+                ;;
+            bootc__subcmd__image__subcmd__cmd__subcmd__help,build)
+                cmd="bootc__subcmd__image__subcmd__cmd__subcmd__help__subcmd__build"
+                ;;
+            bootc__subcmd__image__subcmd__cmd__subcmd__help,help)
+                cmd="bootc__subcmd__image__subcmd__cmd__subcmd__help__subcmd__help"
+                ;;
+            bootc__subcmd__image__subcmd__cmd__subcmd__help,list)
+                cmd="bootc__subcmd__image__subcmd__cmd__subcmd__help__subcmd__list"
+                ;;
+            bootc__subcmd__image__subcmd__cmd__subcmd__help,pull)
+                cmd="bootc__subcmd__image__subcmd__cmd__subcmd__help__subcmd__pull"
+                ;;
+            bootc__subcmd__image__subcmd__cmd__subcmd__help,push)
+                cmd="bootc__subcmd__image__subcmd__cmd__subcmd__help__subcmd__push"
+                ;;
+            bootc__subcmd__image__subcmd__help,cmd)
+                cmd="bootc__subcmd__image__subcmd__help__subcmd__cmd"
+                ;;
+            bootc__subcmd__image__subcmd__help,copy-to-storage)
+                cmd="bootc__subcmd__image__subcmd__help__subcmd__copy__subcmd__to__subcmd__storage"
+                ;;
+            bootc__subcmd__image__subcmd__help,help)
+                cmd="bootc__subcmd__image__subcmd__help__subcmd__help"
+                ;;
+            bootc__subcmd__image__subcmd__help,list)
+                cmd="bootc__subcmd__image__subcmd__help__subcmd__list"
+                ;;
+            bootc__subcmd__image__subcmd__help,pull-from-default-storage)
+                cmd="bootc__subcmd__image__subcmd__help__subcmd__pull__subcmd__from__subcmd__default__subcmd__storage"
+                ;;
+            bootc__subcmd__image__subcmd__help,set-unified)
+                cmd="bootc__subcmd__image__subcmd__help__subcmd__set__subcmd__unified"
+                ;;
+            bootc__subcmd__image__subcmd__help__subcmd__cmd,build)
+                cmd="bootc__subcmd__image__subcmd__help__subcmd__cmd__subcmd__build"
+                ;;
+            bootc__subcmd__image__subcmd__help__subcmd__cmd,list)
+                cmd="bootc__subcmd__image__subcmd__help__subcmd__cmd__subcmd__list"
+                ;;
+            bootc__subcmd__image__subcmd__help__subcmd__cmd,pull)
+                cmd="bootc__subcmd__image__subcmd__help__subcmd__cmd__subcmd__pull"
+                ;;
+            bootc__subcmd__image__subcmd__help__subcmd__cmd,push)
+                cmd="bootc__subcmd__image__subcmd__help__subcmd__cmd__subcmd__push"
+                ;;
+            bootc__subcmd__install,ensure-completion)
+                cmd="bootc__subcmd__install__subcmd__ensure__subcmd__completion"
+                ;;
+            bootc__subcmd__install,finalize)
+                cmd="bootc__subcmd__install__subcmd__finalize"
+                ;;
+            bootc__subcmd__install,help)
+                cmd="bootc__subcmd__install__subcmd__help"
+                ;;
+            bootc__subcmd__install,mount)
+                cmd="bootc__subcmd__install__subcmd__mount"
+                ;;
+            bootc__subcmd__install,print-configuration)
+                cmd="bootc__subcmd__install__subcmd__print__subcmd__configuration"
+                ;;
+            bootc__subcmd__install,reset)
+                cmd="bootc__subcmd__install__subcmd__reset"
+                ;;
+            bootc__subcmd__install,to-disk)
+                cmd="bootc__subcmd__install__subcmd__to__subcmd__disk"
+                ;;
+            bootc__subcmd__install,to-existing-root)
+                cmd="bootc__subcmd__install__subcmd__to__subcmd__existing__subcmd__root"
+                ;;
+            bootc__subcmd__install,to-filesystem)
+                cmd="bootc__subcmd__install__subcmd__to__subcmd__filesystem"
+                ;;
+            bootc__subcmd__install__subcmd__help,ensure-completion)
+                cmd="bootc__subcmd__install__subcmd__help__subcmd__ensure__subcmd__completion"
+                ;;
+            bootc__subcmd__install__subcmd__help,finalize)
+                cmd="bootc__subcmd__install__subcmd__help__subcmd__finalize"
+                ;;
+            bootc__subcmd__install__subcmd__help,help)
+                cmd="bootc__subcmd__install__subcmd__help__subcmd__help"
+                ;;
+            bootc__subcmd__install__subcmd__help,mount)
+                cmd="bootc__subcmd__install__subcmd__help__subcmd__mount"
+                ;;
+            bootc__subcmd__install__subcmd__help,print-configuration)
+                cmd="bootc__subcmd__install__subcmd__help__subcmd__print__subcmd__configuration"
+                ;;
+            bootc__subcmd__install__subcmd__help,reset)
+                cmd="bootc__subcmd__install__subcmd__help__subcmd__reset"
+                ;;
+            bootc__subcmd__install__subcmd__help,to-disk)
+                cmd="bootc__subcmd__install__subcmd__help__subcmd__to__subcmd__disk"
+                ;;
+            bootc__subcmd__install__subcmd__help,to-existing-root)
+                cmd="bootc__subcmd__install__subcmd__help__subcmd__to__subcmd__existing__subcmd__root"
+                ;;
+            bootc__subcmd__install__subcmd__help,to-filesystem)
+                cmd="bootc__subcmd__install__subcmd__help__subcmd__to__subcmd__filesystem"
+                ;;
+            bootc__subcmd__internals,allocate-cleanup-loopback)
+                cmd="bootc__subcmd__internals__subcmd__allocate__subcmd__cleanup__subcmd__loopback"
+                ;;
+            bootc__subcmd__internals,blockdev)
+                cmd="bootc__subcmd__internals__subcmd__blockdev"
+                ;;
+            bootc__subcmd__internals,bootc-install-completion)
+                cmd="bootc__subcmd__internals__subcmd__bootc__subcmd__install__subcmd__completion"
+                ;;
+            bootc__subcmd__internals,cfs)
+                cmd="bootc__subcmd__internals__subcmd__cfs"
+                ;;
+            bootc__subcmd__internals,cleanup)
+                cmd="bootc__subcmd__internals__subcmd__cleanup"
+                ;;
+            bootc__subcmd__internals,composefs-gc)
+                cmd="bootc__subcmd__internals__subcmd__composefs__subcmd__gc"
+                ;;
+            bootc__subcmd__internals,dir-diff)
+                cmd="bootc__subcmd__internals__subcmd__dir__subcmd__diff"
+                ;;
+            bootc__subcmd__internals,fixup-etc-fstab)
+                cmd="bootc__subcmd__internals__subcmd__fixup__subcmd__etc__subcmd__fstab"
+                ;;
+            bootc__subcmd__internals,fsck)
+                cmd="bootc__subcmd__internals__subcmd__fsck"
+                ;;
+            bootc__subcmd__internals,fsverity)
+                cmd="bootc__subcmd__internals__subcmd__fsverity"
+                ;;
+            bootc__subcmd__internals,help)
+                cmd="bootc__subcmd__internals__subcmd__help"
+                ;;
+            bootc__subcmd__internals,loopback-cleanup-helper)
+                cmd="bootc__subcmd__internals__subcmd__loopback__subcmd__cleanup__subcmd__helper"
+                ;;
+            bootc__subcmd__internals,ostree-container)
+                cmd="bootc__subcmd__internals__subcmd__ostree__subcmd__container"
+                ;;
+            bootc__subcmd__internals,ostree-ext)
+                cmd="bootc__subcmd__internals__subcmd__ostree__subcmd__ext"
+                ;;
+            bootc__subcmd__internals,prep-soft-reboot)
+                cmd="bootc__subcmd__internals__subcmd__prep__subcmd__soft__subcmd__reboot"
+                ;;
+            bootc__subcmd__internals,print-json-schema)
+                cmd="bootc__subcmd__internals__subcmd__print__subcmd__json__subcmd__schema"
+                ;;
+            bootc__subcmd__internals,reboot)
+                cmd="bootc__subcmd__internals__subcmd__reboot"
+                ;;
+            bootc__subcmd__internals,relabel)
+                cmd="bootc__subcmd__internals__subcmd__relabel"
+                ;;
+            bootc__subcmd__internals,relabel-overlay-mountpoints)
+                cmd="bootc__subcmd__internals__subcmd__relabel__subcmd__overlay__subcmd__mountpoints"
+                ;;
+            bootc__subcmd__internals,selinux)
+                cmd="bootc__subcmd__internals__subcmd__selinux"
+                ;;
+            bootc__subcmd__internals,systemd-generator)
+                cmd="bootc__subcmd__internals__subcmd__systemd__subcmd__generator"
+                ;;
+            bootc__subcmd__internals,sysusers-sync)
+                cmd="bootc__subcmd__internals__subcmd__sysusers__subcmd__sync"
+                ;;
+            bootc__subcmd__internals,test-composefs)
+                cmd="bootc__subcmd__internals__subcmd__test__subcmd__composefs"
+                ;;
+            bootc__subcmd__internals,uki)
+                cmd="bootc__subcmd__internals__subcmd__uki"
+                ;;
+            bootc__subcmd__internals__subcmd__blockdev,help)
+                cmd="bootc__subcmd__internals__subcmd__blockdev__subcmd__help"
+                ;;
+            bootc__subcmd__internals__subcmd__blockdev,ls)
+                cmd="bootc__subcmd__internals__subcmd__blockdev__subcmd__ls"
+                ;;
+            bootc__subcmd__internals__subcmd__blockdev,ls-filesystem)
+                cmd="bootc__subcmd__internals__subcmd__blockdev__subcmd__ls__subcmd__filesystem"
+                ;;
+            bootc__subcmd__internals__subcmd__blockdev__subcmd__help,help)
+                cmd="bootc__subcmd__internals__subcmd__blockdev__subcmd__help__subcmd__help"
+                ;;
+            bootc__subcmd__internals__subcmd__blockdev__subcmd__help,ls)
+                cmd="bootc__subcmd__internals__subcmd__blockdev__subcmd__help__subcmd__ls"
+                ;;
+            bootc__subcmd__internals__subcmd__blockdev__subcmd__help,ls-filesystem)
+                cmd="bootc__subcmd__internals__subcmd__blockdev__subcmd__help__subcmd__ls__subcmd__filesystem"
+                ;;
+            bootc__subcmd__internals__subcmd__fsverity,enable)
+                cmd="bootc__subcmd__internals__subcmd__fsverity__subcmd__enable"
+                ;;
+            bootc__subcmd__internals__subcmd__fsverity,help)
+                cmd="bootc__subcmd__internals__subcmd__fsverity__subcmd__help"
+                ;;
+            bootc__subcmd__internals__subcmd__fsverity,measure)
+                cmd="bootc__subcmd__internals__subcmd__fsverity__subcmd__measure"
+                ;;
+            bootc__subcmd__internals__subcmd__fsverity__subcmd__help,enable)
+                cmd="bootc__subcmd__internals__subcmd__fsverity__subcmd__help__subcmd__enable"
+                ;;
+            bootc__subcmd__internals__subcmd__fsverity__subcmd__help,help)
+                cmd="bootc__subcmd__internals__subcmd__fsverity__subcmd__help__subcmd__help"
+                ;;
+            bootc__subcmd__internals__subcmd__fsverity__subcmd__help,measure)
+                cmd="bootc__subcmd__internals__subcmd__fsverity__subcmd__help__subcmd__measure"
+                ;;
+            bootc__subcmd__internals__subcmd__help,allocate-cleanup-loopback)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__allocate__subcmd__cleanup__subcmd__loopback"
+                ;;
+            bootc__subcmd__internals__subcmd__help,blockdev)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__blockdev"
+                ;;
+            bootc__subcmd__internals__subcmd__help,bootc-install-completion)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__bootc__subcmd__install__subcmd__completion"
+                ;;
+            bootc__subcmd__internals__subcmd__help,cfs)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__cfs"
+                ;;
+            bootc__subcmd__internals__subcmd__help,cleanup)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__cleanup"
+                ;;
+            bootc__subcmd__internals__subcmd__help,composefs-gc)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__composefs__subcmd__gc"
+                ;;
+            bootc__subcmd__internals__subcmd__help,dir-diff)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__dir__subcmd__diff"
+                ;;
+            bootc__subcmd__internals__subcmd__help,fixup-etc-fstab)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__fixup__subcmd__etc__subcmd__fstab"
+                ;;
+            bootc__subcmd__internals__subcmd__help,fsck)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__fsck"
+                ;;
+            bootc__subcmd__internals__subcmd__help,fsverity)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__fsverity"
+                ;;
+            bootc__subcmd__internals__subcmd__help,help)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__help"
+                ;;
+            bootc__subcmd__internals__subcmd__help,loopback-cleanup-helper)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__loopback__subcmd__cleanup__subcmd__helper"
+                ;;
+            bootc__subcmd__internals__subcmd__help,ostree-container)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__ostree__subcmd__container"
+                ;;
+            bootc__subcmd__internals__subcmd__help,ostree-ext)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__ostree__subcmd__ext"
+                ;;
+            bootc__subcmd__internals__subcmd__help,prep-soft-reboot)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__prep__subcmd__soft__subcmd__reboot"
+                ;;
+            bootc__subcmd__internals__subcmd__help,print-json-schema)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__print__subcmd__json__subcmd__schema"
+                ;;
+            bootc__subcmd__internals__subcmd__help,reboot)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__reboot"
+                ;;
+            bootc__subcmd__internals__subcmd__help,relabel)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__relabel"
+                ;;
+            bootc__subcmd__internals__subcmd__help,relabel-overlay-mountpoints)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__relabel__subcmd__overlay__subcmd__mountpoints"
+                ;;
+            bootc__subcmd__internals__subcmd__help,selinux)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__selinux"
+                ;;
+            bootc__subcmd__internals__subcmd__help,systemd-generator)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__systemd__subcmd__generator"
+                ;;
+            bootc__subcmd__internals__subcmd__help,sysusers-sync)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__sysusers__subcmd__sync"
+                ;;
+            bootc__subcmd__internals__subcmd__help,test-composefs)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__test__subcmd__composefs"
+                ;;
+            bootc__subcmd__internals__subcmd__help,uki)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__uki"
+                ;;
+            bootc__subcmd__internals__subcmd__help__subcmd__blockdev,ls)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__blockdev__subcmd__ls"
+                ;;
+            bootc__subcmd__internals__subcmd__help__subcmd__blockdev,ls-filesystem)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__blockdev__subcmd__ls__subcmd__filesystem"
+                ;;
+            bootc__subcmd__internals__subcmd__help__subcmd__fsverity,enable)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__fsverity__subcmd__enable"
+                ;;
+            bootc__subcmd__internals__subcmd__help__subcmd__fsverity,measure)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__fsverity__subcmd__measure"
+                ;;
+            bootc__subcmd__internals__subcmd__help__subcmd__selinux,is-unlabeled)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__selinux__subcmd__is__subcmd__unlabeled"
+                ;;
+            bootc__subcmd__internals__subcmd__help__subcmd__uki,extract)
+                cmd="bootc__subcmd__internals__subcmd__help__subcmd__uki__subcmd__extract"
+                ;;
+            bootc__subcmd__internals__subcmd__selinux,help)
+                cmd="bootc__subcmd__internals__subcmd__selinux__subcmd__help"
+                ;;
+            bootc__subcmd__internals__subcmd__selinux,is-unlabeled)
+                cmd="bootc__subcmd__internals__subcmd__selinux__subcmd__is__subcmd__unlabeled"
+                ;;
+            bootc__subcmd__internals__subcmd__selinux__subcmd__help,help)
+                cmd="bootc__subcmd__internals__subcmd__selinux__subcmd__help__subcmd__help"
+                ;;
+            bootc__subcmd__internals__subcmd__selinux__subcmd__help,is-unlabeled)
+                cmd="bootc__subcmd__internals__subcmd__selinux__subcmd__help__subcmd__is__subcmd__unlabeled"
+                ;;
+            bootc__subcmd__internals__subcmd__uki,extract)
+                cmd="bootc__subcmd__internals__subcmd__uki__subcmd__extract"
+                ;;
+            bootc__subcmd__internals__subcmd__uki,help)
+                cmd="bootc__subcmd__internals__subcmd__uki__subcmd__help"
+                ;;
+            bootc__subcmd__internals__subcmd__uki__subcmd__help,extract)
+                cmd="bootc__subcmd__internals__subcmd__uki__subcmd__help__subcmd__extract"
+                ;;
+            bootc__subcmd__internals__subcmd__uki__subcmd__help,help)
+                cmd="bootc__subcmd__internals__subcmd__uki__subcmd__help__subcmd__help"
+                ;;
+            bootc__subcmd__loader__subcmd__entries,help)
+                cmd="bootc__subcmd__loader__subcmd__entries__subcmd__help"
+                ;;
+            bootc__subcmd__loader__subcmd__entries,set-options-for-source)
+                cmd="bootc__subcmd__loader__subcmd__entries__subcmd__set__subcmd__options__subcmd__for__subcmd__source"
+                ;;
+            bootc__subcmd__loader__subcmd__entries__subcmd__help,help)
+                cmd="bootc__subcmd__loader__subcmd__entries__subcmd__help__subcmd__help"
+                ;;
+            bootc__subcmd__loader__subcmd__entries__subcmd__help,set-options-for-source)
+                cmd="bootc__subcmd__loader__subcmd__entries__subcmd__help__subcmd__set__subcmd__options__subcmd__for__subcmd__source"
+                ;;
+            bootc__subcmd__state,help)
+                cmd="bootc__subcmd__state__subcmd__help"
+                ;;
+            bootc__subcmd__state,wipe-ostree)
+                cmd="bootc__subcmd__state__subcmd__wipe__subcmd__ostree"
+                ;;
+            bootc__subcmd__state__subcmd__help,help)
+                cmd="bootc__subcmd__state__subcmd__help__subcmd__help"
+                ;;
+            bootc__subcmd__state__subcmd__help,wipe-ostree)
+                cmd="bootc__subcmd__state__subcmd__help__subcmd__wipe__subcmd__ostree"
+                ;;
+            *)
+                ;;
+        esac
+    done
+
+    case "${cmd}" in
+        bootc)
+            opts="-h -V --help --version upgrade switch rollback edit status usr-overlay install container image loader-entries exec-in-host-mount-namespace state internals composefs-finalize-staged config-diff completion delete-deployment help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__completion)
+            opts="-h --help bash elvish fish powershell zsh"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__composefs__subcmd__finalize__subcmd__staged)
+            opts="-h --hold --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__config__subcmd__diff)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container)
+            opts="-h --help inspect lint compute-composefs-digest compute-composefs-digest-from-storage split-kernel-and-rootfs ukify export help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__compute__subcmd__composefs__subcmd__digest)
+            opts="-h --write-dumpfile-to --erofs-version --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --write-dumpfile-to)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --erofs-version)
+                    COMPREPLY=($(compgen -W "v1 v2" -- "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__compute__subcmd__composefs__subcmd__digest__subcmd__from__subcmd__storage)
+            opts="-h --write-dumpfile-to --erofs-version --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --write-dumpfile-to)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --erofs-version)
+                    COMPREPLY=($(compgen -W "v1 v2" -- "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__export)
+            opts="-o -h --format --output --kernel-in-boot --selinux --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --format)
+                    COMPREPLY=($(compgen -W "tar" -- "${cur}"))
+                    return 0
+                    ;;
+                --output)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -o)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --selinux)
+                    COMPREPLY=($(compgen -W "enabled warn-on-missing disabled" -- "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__help)
+            opts="inspect lint compute-composefs-digest compute-composefs-digest-from-storage split-kernel-and-rootfs ukify export help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__help__subcmd__compute__subcmd__composefs__subcmd__digest)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__help__subcmd__compute__subcmd__composefs__subcmd__digest__subcmd__from__subcmd__storage)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__help__subcmd__export)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__help__subcmd__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__help__subcmd__inspect)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__help__subcmd__lint)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__help__subcmd__split__subcmd__kernel__subcmd__and__subcmd__rootfs)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__help__subcmd__ukify)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__inspect)
+            opts="-h --rootfs --json --format --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --rootfs)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --format)
+                    COMPREPLY=($(compgen -W "humanreadable yaml json" -- "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__lint)
+            opts="-h --rootfs --fatal-warnings --list --skip --no-truncate --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --rootfs)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --skip)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__split__subcmd__kernel__subcmd__and__subcmd__rootfs)
+            opts="-h --rootfs --output --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --rootfs)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --output)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__container__subcmd__ukify)
+            opts="-h --rootfs --karg --allow-missing-verity --erofs-version --write-dumpfile-to --kernel-dir --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --rootfs)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --karg)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --erofs-version)
+                    COMPREPLY=($(compgen -W "v1 v2" -- "${cur}"))
+                    return 0
+                    ;;
+                --write-dumpfile-to)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --kernel-dir)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__delete__subcmd__deployment)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__edit)
+            opts="-f -h --filename --quiet --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --filename)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -f)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__exec__subcmd__in__subcmd__host__subcmd__mount__subcmd__namespace)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help)
+            opts="upgrade switch rollback edit status usr-overlay install container image loader-entries exec-in-host-mount-namespace state internals composefs-finalize-staged config-diff completion delete-deployment help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__completion)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__composefs__subcmd__finalize__subcmd__staged)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__config__subcmd__diff)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__container)
+            opts="inspect lint compute-composefs-digest compute-composefs-digest-from-storage split-kernel-and-rootfs ukify export"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__container__subcmd__compute__subcmd__composefs__subcmd__digest)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__container__subcmd__compute__subcmd__composefs__subcmd__digest__subcmd__from__subcmd__storage)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__container__subcmd__export)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__container__subcmd__inspect)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__container__subcmd__lint)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__container__subcmd__split__subcmd__kernel__subcmd__and__subcmd__rootfs)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__container__subcmd__ukify)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__delete__subcmd__deployment)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__edit)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__exec__subcmd__in__subcmd__host__subcmd__mount__subcmd__namespace)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__image)
+            opts="list copy-to-storage set-unified pull-from-default-storage cmd"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__image__subcmd__cmd)
+            opts="list build pull push"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__image__subcmd__cmd__subcmd__build)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__image__subcmd__cmd__subcmd__list)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__image__subcmd__cmd__subcmd__pull)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__image__subcmd__cmd__subcmd__push)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__image__subcmd__copy__subcmd__to__subcmd__storage)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__image__subcmd__list)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__image__subcmd__pull__subcmd__from__subcmd__default__subcmd__storage)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__image__subcmd__set__subcmd__unified)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__install)
+            opts="mount to-disk to-filesystem to-existing-root reset finalize ensure-completion print-configuration"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__install__subcmd__ensure__subcmd__completion)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__install__subcmd__finalize)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__install__subcmd__mount)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__install__subcmd__print__subcmd__configuration)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__install__subcmd__reset)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__install__subcmd__to__subcmd__disk)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__install__subcmd__to__subcmd__existing__subcmd__root)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__install__subcmd__to__subcmd__filesystem)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals)
+            opts="systemd-generator fixup-etc-fstab sysusers-sync print-json-schema fsverity selinux fsck cleanup relabel relabel-overlay-mountpoints ostree-ext cfs ostree-container test-composefs loopback-cleanup-helper allocate-cleanup-loopback bootc-install-completion reboot dir-diff prep-soft-reboot composefs-gc blockdev uki"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__allocate__subcmd__cleanup__subcmd__loopback)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__blockdev)
+            opts="ls ls-filesystem"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__blockdev__subcmd__ls)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__blockdev__subcmd__ls__subcmd__filesystem)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__bootc__subcmd__install__subcmd__completion)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__cfs)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__cleanup)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__composefs__subcmd__gc)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__dir__subcmd__diff)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__fixup__subcmd__etc__subcmd__fstab)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__fsck)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__fsverity)
+            opts="measure enable"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__fsverity__subcmd__enable)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__fsverity__subcmd__measure)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__loopback__subcmd__cleanup__subcmd__helper)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__ostree__subcmd__container)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__ostree__subcmd__ext)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__prep__subcmd__soft__subcmd__reboot)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__print__subcmd__json__subcmd__schema)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__reboot)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__relabel)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__relabel__subcmd__overlay__subcmd__mountpoints)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__selinux)
+            opts="is-unlabeled"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__selinux__subcmd__is__subcmd__unlabeled)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__systemd__subcmd__generator)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__sysusers__subcmd__sync)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__test__subcmd__composefs)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__uki)
+            opts="extract"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__internals__subcmd__uki__subcmd__extract)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__loader__subcmd__entries)
+            opts="set-options-for-source"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__loader__subcmd__entries__subcmd__set__subcmd__options__subcmd__for__subcmd__source)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__rollback)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__state)
+            opts="wipe-ostree"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__state__subcmd__wipe__subcmd__ostree)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__status)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__switch)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__upgrade)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__help__subcmd__usr__subcmd__overlay)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image)
+            opts="-h --help list copy-to-storage set-unified pull-from-default-storage cmd help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__cmd)
+            opts="-h --help list build pull push help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__cmd__subcmd__build)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__cmd__subcmd__help)
+            opts="list build pull push help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__cmd__subcmd__help__subcmd__build)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__cmd__subcmd__help__subcmd__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__cmd__subcmd__help__subcmd__list)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__cmd__subcmd__help__subcmd__pull)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__cmd__subcmd__help__subcmd__push)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__cmd__subcmd__list)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__cmd__subcmd__pull)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__cmd__subcmd__push)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__copy__subcmd__to__subcmd__storage)
+            opts="-h --source --target --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --source)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --target)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__help)
+            opts="list copy-to-storage set-unified pull-from-default-storage cmd help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__help__subcmd__cmd)
+            opts="list build pull push"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__help__subcmd__cmd__subcmd__build)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__help__subcmd__cmd__subcmd__list)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__help__subcmd__cmd__subcmd__pull)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__help__subcmd__cmd__subcmd__push)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__help__subcmd__copy__subcmd__to__subcmd__storage)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__help__subcmd__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__help__subcmd__list)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__help__subcmd__pull__subcmd__from__subcmd__default__subcmd__storage)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__help__subcmd__set__subcmd__unified)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__list)
+            opts="-h --type --format --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --type)
+                    COMPREPLY=($(compgen -W "all logical host" -- "${cur}"))
+                    return 0
+                    ;;
+                --format)
+                    COMPREPLY=($(compgen -W "table json" -- "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__pull__subcmd__from__subcmd__default__subcmd__storage)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__image__subcmd__set__subcmd__unified)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install)
+            opts="-h --help mount to-disk to-filesystem to-existing-root reset finalize ensure-completion print-configuration help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__ensure__subcmd__completion)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__finalize)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__help)
+            opts="mount to-disk to-filesystem to-existing-root reset finalize ensure-completion print-configuration help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__help__subcmd__ensure__subcmd__completion)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__help__subcmd__finalize)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__help__subcmd__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__help__subcmd__mount)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__help__subcmd__print__subcmd__configuration)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__help__subcmd__reset)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__help__subcmd__to__subcmd__disk)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__help__subcmd__to__subcmd__existing__subcmd__root)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__help__subcmd__to__subcmd__filesystem)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__mount)
+            opts="-h --sysroot --latest --read-only --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --sysroot)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__print__subcmd__configuration)
+            opts="-h --all --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__reset)
+            opts="-h --experimental --source-imgref --target-transport --target-imgref --target-no-signature-verification --enforce-container-sigpolicy --run-fetch-check --skip-fetch-check --experimental-unified-storage --stateroot --quiet --progress-fd --apply --no-root-kargs --karg --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --source-imgref)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --target-transport)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --target-imgref)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --stateroot)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --progress-fd)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --karg)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__to__subcmd__disk)
+            opts="-h --wipe --block-setup --filesystem --root-size --source-imgref --target-transport --target-imgref --target-no-signature-verification --enforce-container-sigpolicy --run-fetch-check --skip-fetch-check --experimental-unified-storage --disable-selinux --karg --karg-delete --root-ssh-authorized-keys --generic-image --bound-images --stateroot --bootupd-skip-boot-uuid --bootloader --via-loopback --composefs-backend --allow-missing-verity --uki-addon --run-repart --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --block-setup)
+                    COMPREPLY=($(compgen -W "direct tpm2-luks" -- "${cur}"))
+                    return 0
+                    ;;
+                --filesystem)
+                    COMPREPLY=($(compgen -W "xfs ext4 btrfs" -- "${cur}"))
+                    return 0
+                    ;;
+                --root-size)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --source-imgref)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --target-transport)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --target-imgref)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --karg)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --karg-delete)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --root-ssh-authorized-keys)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --bound-images)
+                    COMPREPLY=($(compgen -W "stored pull" -- "${cur}"))
+                    return 0
+                    ;;
+                --stateroot)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --bootloader)
+                    COMPREPLY=($(compgen -W "grub grub-cc systemd none" -- "${cur}"))
+                    return 0
+                    ;;
+                --uki-addon)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__to__subcmd__existing__subcmd__root)
+            opts="-h --replace --source-imgref --target-transport --target-imgref --target-no-signature-verification --enforce-container-sigpolicy --run-fetch-check --skip-fetch-check --experimental-unified-storage --disable-selinux --karg --karg-delete --root-ssh-authorized-keys --generic-image --bound-images --stateroot --bootupd-skip-boot-uuid --bootloader --acknowledge-destructive --cleanup --composefs-backend --allow-missing-verity --uki-addon --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --replace)
+                    COMPREPLY=($(compgen -W "wipe alongside" -- "${cur}"))
+                    return 0
+                    ;;
+                --source-imgref)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --target-transport)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --target-imgref)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --karg)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --karg-delete)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --root-ssh-authorized-keys)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --bound-images)
+                    COMPREPLY=($(compgen -W "stored pull" -- "${cur}"))
+                    return 0
+                    ;;
+                --stateroot)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --bootloader)
+                    COMPREPLY=($(compgen -W "grub grub-cc systemd none" -- "${cur}"))
+                    return 0
+                    ;;
+                --uki-addon)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__install__subcmd__to__subcmd__filesystem)
+            opts="-h --root-mount-spec --boot-mount-spec --replace --acknowledge-destructive --skip-finalize --source-imgref --target-transport --target-imgref --target-no-signature-verification --enforce-container-sigpolicy --run-fetch-check --skip-fetch-check --experimental-unified-storage --disable-selinux --karg --karg-delete --root-ssh-authorized-keys --generic-image --bound-images --stateroot --bootupd-skip-boot-uuid --bootloader --composefs-backend --allow-missing-verity --uki-addon --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --root-mount-spec)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --boot-mount-spec)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --replace)
+                    COMPREPLY=($(compgen -W "wipe alongside" -- "${cur}"))
+                    return 0
+                    ;;
+                --source-imgref)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --target-transport)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --target-imgref)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --karg)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --karg-delete)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --root-ssh-authorized-keys)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --bound-images)
+                    COMPREPLY=($(compgen -W "stored pull" -- "${cur}"))
+                    return 0
+                    ;;
+                --stateroot)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --bootloader)
+                    COMPREPLY=($(compgen -W "grub grub-cc systemd none" -- "${cur}"))
+                    return 0
+                    ;;
+                --uki-addon)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals)
+            opts="-h --help systemd-generator fixup-etc-fstab sysusers-sync print-json-schema fsverity selinux fsck cleanup relabel relabel-overlay-mountpoints ostree-ext cfs ostree-container test-composefs loopback-cleanup-helper allocate-cleanup-loopback bootc-install-completion reboot dir-diff prep-soft-reboot composefs-gc blockdev uki help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__allocate__subcmd__cleanup__subcmd__loopback)
+            opts="-h --file-path --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --file-path)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__blockdev)
+            opts="-h --help ls ls-filesystem help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__blockdev__subcmd__help)
+            opts="ls ls-filesystem help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__blockdev__subcmd__help__subcmd__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__blockdev__subcmd__help__subcmd__ls)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__blockdev__subcmd__help__subcmd__ls__subcmd__filesystem)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__blockdev__subcmd__ls)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__blockdev__subcmd__ls__subcmd__filesystem)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__bootc__subcmd__install__subcmd__completion)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__cfs)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__cleanup)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__composefs__subcmd__gc)
+            opts="-h --dry-run --assert-no-op --prune-repo --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__dir__subcmd__diff)
+            opts="-h --merge --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__fixup__subcmd__etc__subcmd__fstab)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__fsck)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__fsverity)
+            opts="-h --help measure enable help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__fsverity__subcmd__enable)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__fsverity__subcmd__help)
+            opts="measure enable help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__fsverity__subcmd__help__subcmd__enable)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__fsverity__subcmd__help__subcmd__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__fsverity__subcmd__help__subcmd__measure)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__fsverity__subcmd__measure)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help)
+            opts="systemd-generator fixup-etc-fstab sysusers-sync print-json-schema fsverity selinux fsck cleanup relabel relabel-overlay-mountpoints ostree-ext cfs ostree-container test-composefs loopback-cleanup-helper allocate-cleanup-loopback bootc-install-completion reboot dir-diff prep-soft-reboot composefs-gc blockdev uki help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__allocate__subcmd__cleanup__subcmd__loopback)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__blockdev)
+            opts="ls ls-filesystem"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__blockdev__subcmd__ls)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__blockdev__subcmd__ls__subcmd__filesystem)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__bootc__subcmd__install__subcmd__completion)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__cfs)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__cleanup)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__composefs__subcmd__gc)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__dir__subcmd__diff)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__fixup__subcmd__etc__subcmd__fstab)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__fsck)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__fsverity)
+            opts="measure enable"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__fsverity__subcmd__enable)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__fsverity__subcmd__measure)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__loopback__subcmd__cleanup__subcmd__helper)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__ostree__subcmd__container)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__ostree__subcmd__ext)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__prep__subcmd__soft__subcmd__reboot)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__print__subcmd__json__subcmd__schema)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__reboot)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__relabel)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__relabel__subcmd__overlay__subcmd__mountpoints)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__selinux)
+            opts="is-unlabeled"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__selinux__subcmd__is__subcmd__unlabeled)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__systemd__subcmd__generator)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__sysusers__subcmd__sync)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__test__subcmd__composefs)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__uki)
+            opts="extract"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__help__subcmd__uki__subcmd__extract)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__loopback__subcmd__cleanup__subcmd__helper)
+            opts="-h --device --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --device)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__ostree__subcmd__container)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__ostree__subcmd__ext)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__prep__subcmd__soft__subcmd__reboot)
+            opts="-h --reboot --reset --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__print__subcmd__json__subcmd__schema)
+            opts="-h --of --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --of)
+                    COMPREPLY=($(compgen -W "host progress" -- "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__reboot)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__relabel)
+            opts="-h --as-path --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --as-path)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__relabel__subcmd__overlay__subcmd__mountpoints)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__selinux)
+            opts="-h --help is-unlabeled help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__selinux__subcmd__help)
+            opts="is-unlabeled help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__selinux__subcmd__help__subcmd__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__selinux__subcmd__help__subcmd__is__subcmd__unlabeled)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__selinux__subcmd__is__subcmd__unlabeled)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__systemd__subcmd__generator)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__sysusers__subcmd__sync)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__test__subcmd__composefs)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__uki)
+            opts="-h --help extract help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__uki__subcmd__extract)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__uki__subcmd__help)
+            opts="extract help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__uki__subcmd__help__subcmd__extract)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__internals__subcmd__uki__subcmd__help__subcmd__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__loader__subcmd__entries)
+            opts="-h --help set-options-for-source help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__loader__subcmd__entries__subcmd__help)
+            opts="set-options-for-source help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__loader__subcmd__entries__subcmd__help__subcmd__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__loader__subcmd__entries__subcmd__help__subcmd__set__subcmd__options__subcmd__for__subcmd__source)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__loader__subcmd__entries__subcmd__set__subcmd__options__subcmd__for__subcmd__source)
+            opts="-h --source --options --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --source)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --options)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__rollback)
+            opts="-h --apply --soft-reboot --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --soft-reboot)
+                    COMPREPLY=($(compgen -W "required auto" -- "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__state)
+            opts="-h --help wipe-ostree help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__state__subcmd__help)
+            opts="wipe-ostree help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__state__subcmd__help__subcmd__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__state__subcmd__help__subcmd__wipe__subcmd__ostree)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__state__subcmd__wipe__subcmd__ostree)
+            opts="-h --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__status)
+            opts="-v -h --json --format --format-version --booted --verbose --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --format)
+                    COMPREPLY=($(compgen -W "humanreadable yaml json" -- "${cur}"))
+                    return 0
+                    ;;
+                --format-version)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__switch)
+            opts="-h --quiet --apply --soft-reboot --transport --download-only --from-downloaded --no-signature-verification --enforce-container-sigpolicy --mutate-in-place --retain --experimental-unified-storage --progress-fd --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --soft-reboot)
+                    COMPREPLY=($(compgen -W "required auto" -- "${cur}"))
+                    return 0
+                    ;;
+                --transport)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --progress-fd)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__upgrade)
+            opts="-h --quiet --check --apply --soft-reboot --download-only --from-downloaded --tag --progress-fd --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --soft-reboot)
+                    COMPREPLY=($(compgen -W "required auto" -- "${cur}"))
+                    return 0
+                    ;;
+                --tag)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --progress-fd)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        bootc__subcmd__usr__subcmd__overlay)
+            opts="-h --read-only --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+    esac
+}
+
+if [[ "${BASH_VERSINFO[0]}" -eq 4 && "${BASH_VERSINFO[1]}" -ge 4 || "${BASH_VERSINFO[0]}" -gt 4 ]]; then
+    complete -F _bootc -o nosort -o bashdefault -o default bootc
+else
+    complete -F _bootc -o bashdefault -o default bootc
+fi

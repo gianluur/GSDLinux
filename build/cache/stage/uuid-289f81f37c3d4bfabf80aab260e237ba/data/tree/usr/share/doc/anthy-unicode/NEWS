@@ -1,0 +1,129 @@
+Changes in anthy-unicode 1.0.0.20260213
+
+Jens Petersen (1):
+      word_dic.c: rename master_dic_file to main_dic_file
+
+Masanari Iida (3):
+      compound.t: Fix some mistakes in compound.t
+      name.t: Remove a word which is not name
+      gcanna.ctd: Update Teisanso
+
+Rocka (2):
+      xchar: fix typo in header guard
+      src-diclib: implement set logger
+
+Shinji Tamura (4):
+      src-util: Convert ISO-2022-JP to UTF-8 in *.el
+      src-util: Fix Makefile.am to work with renamed EL files
+      src-util: Call anthy-agent-unicode and anthy-dic-tool-unicode in EL files
+      src-util: Run anthy-agent-unicode with UTF-8 encoding
+
+fujiwarat (38):
+      Update COPYING with the latest LGPL 2.1
+      mkworddic: Make parse_modify_freq_command() for UTF-8
+      src-worddic: Revert ptab.h to EUC-JP
+      src-util: Fix some obsolete warnings in emacs batch-byte-compile
+      src-diclib: Fix rpmlint shared-lib-calls-exit
+      test: Convert test data to UTF-8
+      test: Change test programs to UTF-8
+      src-worddic: Fix ptab.h to stop the warning "Failed to find wtype"
+      calctrans: Convert corpus data to UTF-8
+      calctrans: Convert proccorpus program to UTF-8
+      depgraph: Convert depword data to UTF-8
+      depgraph: Convert mkdepgraph program to UTF-8
+      alt-cannadic: Update gcanna.ctd
+      mkworddic: Fix a SEGV of mkworddic when alt-cannadic data is less than 100
+      test: Add prediction and test-matrix in Makefile
+      src-worddic: Fix buffer overflow in record_stat.base_fn
+      test: Fix to run check in build
+      src-util: Convert Shift-JIS typetab to UTF-8
+      src-util: Fix anthy-dic-tool-unicode to work with UTF-8 files
+      src-util: Add anthy-dic-tool-unicode --migrate option
+      src-util: Enable anthy-dic-tool-unicode --append --text
+      src-diclib: Add anthy_mkdir_with_parents()
+      src-worddic: Replace mkdir() with anthy_mkdir_with_parents()
+      Code reviews
+      Update AUTHORS for anthy-unicode
+      Update README to describe kasumi-unicode
+      src-util: Fix require in *.el
+      Enable travis
+      Update NEWS
+      src-util: set-face-underline is not available in xemacs Lisp
+      src-main/context.c: Code reviews
+      travis: Move git master to main branch
+      alt-cannadic: Fix おきのえらぶ in gcanna.ctd
+      Makefile: Add check sum file
+      meson: Use str.format()
+      meson: Add meson_dist.py to update ChangeLog and NEWS files
+      Fix some compiler warnings
+      meson_dist: Fix typo
+
+masanari iida (1):
+      alt-cannadic: Update gcanna.ctd with Shubitai
+
+oreo639 (7):
+      calctrans: allow specifying output directory from cli args
+      depgraph: allow specifying output file from cli args
+      mkanthydic: allow specifying output file from cli args
+      mkworddic: allow specifying output file from cli args
+      Port to meson
+      src-diclib: fix crash when getpwuid() returns null
+      meson: Fix anthy-unicode.conf search path in mkdepgraph
+
+
+Update COPYING with the latest LGPL 2.1 (fujiwarat) 0b21c7d
+mkworddic: Make parse_modify_freq_command() for UTF-8 (fujiwarat) 8546594
+src-worddic: Revert ptab.h to EUC-JP (fujiwarat) 73357ba
+src-util: Fix some obsolete warnings in emacs batch-byte-compile (fujiwarat) 4f737e0
+src-diclib: Fix rpmlint shared-lib-calls-exit (fujiwarat) 4c618b8
+test: Convert test data to UTF-8 (fujiwarat) f2a166a
+test: Change test programs to UTF-8 (fujiwarat) a615196
+src-worddic: Fix ptab.h to stop the warning "Failed to find wtype" (fujiwarat) 9faafdf
+calctrans: Convert corpus data to UTF-8 (fujiwarat) 1ee6fee
+calctrans: Convert proccorpus program to UTF-8 (fujiwarat) bcf7f39
+depgraph: Convert depword data to UTF-8 (fujiwarat) b14a0a5
+depgraph: Convert mkdepgraph program to UTF-8 (fujiwarat) 24139f8
+alt-cannadic: Update gcanna.ctd (fujiwarat) 5271219
+mkworddic: Fix a SEGV of mkworddic when alt-cannadic data is less than 100 (fujiwarat) ff706dc
+test: Add prediction and test-matrix in Makefile (fujiwarat) 0d057d4
+src-worddic: Fix buffer overflow in record_stat.base_fn (fujiwarat) c7039a1
+test: Fix to run check in build (fujiwarat) 686845b
+src-util: Convert Shift-JIS typetab to UTF-8 (fujiwarat) 15c138a
+src-util: Fix anthy-dic-tool-unicode to work with UTF-8 files (fujiwarat) 7f63b39
+src-util: Add anthy-dic-tool-unicode --migrate option (fujiwarat) db4f4b4
+src-util: Enable anthy-dic-tool-unicode --append --text (fujiwarat) 0e42332
+src-diclib: Add anthy_mkdir_with_parents() (fujiwarat) 4d0c11d
+src-worddic: Replace mkdir() with anthy_mkdir_with_parents() (fujiwarat) f59ccfd
+Code reviews (fujiwarat) e10880f
+Update AUTHORS for anthy-unicode (fujiwarat) be56445
+Update README to describe kasumi-unicode (fujiwarat) 0a55deb
+alt-cannadic: Update gcanna.ctd with Shubitai (masanari iida) 1873b39
+src-util: Convert ISO-2022-JP to UTF-8 in *.el (Shinji Tamura) c5a2643
+src-util: Fix Makefile.am to work with renamed EL files (Shinji Tamura) b831814
+src-util: Call anthy-agent-unicode and anthy-dic-tool-unicode in EL files (Shinji Tamura) 4493804
+src-util: Run anthy-agent-unicode with UTF-8 encoding (Shinji Tamura) 96bac7f
+src-util: Fix require in *.el (fujiwarat) 3268769
+Enable travis (fujiwarat) 3152690
+compound.t: Fix some mistakes in compound.t (Masanari Iida) 2eb4aae
+name.t: Remove a word which is not name (Masanari Iida) f6c5f4b
+Update NEWS (fujiwarat) 8203577
+src-util: set-face-underline is not available in xemacs Lisp (fujiwarat) d9355d3
+gcanna.ctd: Update Teisanso (Masanari Iida) 8ed7a30
+src-main/context.c: Code reviews (fujiwarat) 2553233
+word_dic.c: rename master_dic_file to main_dic_file (Jens Petersen) 754f1c8
+travis: Move git master to main branch (fujiwarat) be047ce
+xchar: fix typo in header guard (Rocka) be2f8aa
+src-diclib: implement set logger (Rocka) 360c112
+alt-cannadic: Fix おきのえらぶ in gcanna.ctd (fujiwarat) d6e0489
+Makefile: Add check sum file (fujiwarat) e63d1d6
+calctrans: allow specifying output directory from cli args (oreo639) 7b38360
+depgraph: allow specifying output file from cli args (oreo639) 05aae4c
+mkanthydic: allow specifying output file from cli args (oreo639) b8b23ec
+mkworddic: allow specifying output file from cli args (oreo639) 9cca844
+Port to meson (oreo639) 5a9d5e2
+src-diclib: fix crash when getpwuid() returns null (oreo639) c34f331
+meson: Use str.format() (fujiwarat) 858e6ce
+meson: Add meson_dist.py to update ChangeLog and NEWS files (fujiwarat) 85e3555
+Fix some compiler warnings (fujiwarat) 924994e
+meson: Fix anthy-unicode.conf search path in mkdepgraph (oreo639) 61c8596
+meson_dist: Fix typo (fujiwarat) 35cb19e

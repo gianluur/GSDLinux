@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-wii-u-firmware-image">
+  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+  <comment>Wii U firmware image</comment>
+  <sub-class-of type="application/x-executable"/>
+  <generic-icon name="application-x-executable"/>
+  <alias type="application/x-wii-u-ancast"/>
+  <glob pattern="*.ancast"/>
+  <glob pattern="*.img"/>
+</mime-type>
