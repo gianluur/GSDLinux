@@ -11,6 +11,7 @@ modules:
       packages:
         - kitty
         - lumine-capture
+        - dolphin
         - kde-partitionmanager
         - seahorse
 
@@ -20,7 +21,6 @@ modules:
       - notify: true
         install:
           - app.zen_browser.zen
-          - org.kde.dolphin
           - org.kde.gwenview
           - org.kde.okular
           - org.kde.ark
