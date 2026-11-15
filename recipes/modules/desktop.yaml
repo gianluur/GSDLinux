@@ -28,7 +28,6 @@ install:
     - xdg-desktop-portal
     - xdg-desktop-portal-kde
     - xdg-desktop-portal-gnome
-    - kimageformat
     - cups-pk-helper
     - power-profiles-daemon
     - qt6-qtimageformats 
