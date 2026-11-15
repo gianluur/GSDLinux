@@ -33,4 +33,3 @@ install:
     - power-profiles-daemon
     - qt6-qtimageformats 
     - khal
-    - oo7
