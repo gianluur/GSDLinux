@@ -13,3 +13,5 @@ modules:
               - alacritty
               - kf6-*
               - kf5-*
+              - tuned
+              - tuned-ppd
