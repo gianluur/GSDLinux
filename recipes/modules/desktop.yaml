@@ -32,3 +32,8 @@ install:
     - power-profiles-daemon
     - qt6-qtimageformats 
     - khal
+    - oo7-daemon 
+    - pam_oo7
+    - oo7-portal
+    - oo7-cli
+    
