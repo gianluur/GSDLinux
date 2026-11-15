@@ -31,3 +31,4 @@ install:
     - kimageformat
     - cups-pk-helper
     - power-profiles-daemon
+    - qt6-qtimageformats 
