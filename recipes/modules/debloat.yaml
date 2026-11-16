@@ -16,3 +16,12 @@ modules:
               - tuned
               - tuned-ppd
               - bazaar
+              - fish
+              - msedit
+              - cockpit-*
+              - btop
+              - fastfetch
+              - tailscale
+              - fira-code-fonts
+              - lato-fonts
+              - gnome-disks

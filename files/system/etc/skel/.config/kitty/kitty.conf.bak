@@ -1,0 +1,97 @@
+# vim:fileencoding=utf-8:foldmethod=marker
+
+# BEGIN_KITTY_THEME
+# Matugen
+include current-theme.conf
+# END_KITTY_THEME
+
+input_delay 0
+repaint_delay 10
+sync_to_monitor yes
+scrollback_lines 10000
+linux_display_server wayland
+text_composition_strategy 1.7 0
+
+enable_audio_bell no
+visual_bell_duration 0.0
+
+# ---------- Size ----------
+remember_window_size no
+initial_window_width 1280
+initial_window_height 720
+
+# ---------- Font ----------
+# font_family JetBrainsMono
+# bold_font auto
+# italic_font auto
+# bold_italic_font auto
+font_size 14
+disable_ligatures always
+
+# ---------- Cursor ----------
+cursor_shape block
+# Enable the cursor trail (set to the number of trail segments)
+cursor_trail 100
+# Control how fast the trail fades away
+cursor_trail_decay 0.1 0.2
+# Set the minimum movement threshold to trigger the trail
+cursor_trail_start_threshold 1
+
+# ---------- Mouse / Clipboard ----------
+copy_on_select yes
+strip_trailing_spaces smart
+
+# ---------- Window ----------
+remember_window_size  no
+initial_window_width  900
+initial_window_height 600
+confirm_os_window_close 0
+
+# ---------- Tabs ----------
+tab_bar_edge bottom
+tab_bar_style powerline
+tab_powerline_style angled
+
+map ctrl+shift+t new_tab
+map ctrl+shift+q close_tab
+map ctrl+tab next_tab
+map ctrl+shift+tab previous_tab
+
+# ---------- Splits (no tmux needed) ----------
+map ctrl+shift+enter new_window
+map ctrl+shift+x launch --location=hsplit
+map ctrl+shift+y launch --location=vsplit
+
+# Navigate between splits
+map ctrl+shift+left neighboring_window left
+map ctrl+shift+right neighboring_window right
+map ctrl+shift+up neighboring_window up
+map ctrl+shift+down neighboring_window down
+
+# Resize splits
+map ctrl+shift+alt+left resize_window narrower
+map ctrl+shift+alt+right resize_window wider
+map ctrl+shift+alt+up resize_window taller
+map ctrl+shift+alt+down resize_window shorter
+
+# ---------- Scrolling ----------
+map ctrl+shift+up scroll_line_up
+map ctrl+shift+down scroll_line_down
+map ctrl+shift+page_up scroll_page_up
+map ctrl+shift+page_down scroll_page_down
+
+# ---------- Misc ----------
+startup_session startup.conf
+shell .
+
+open_url_with default
+shell_integration enabled
+update_check_interval 0
+
+
+# BEGIN_KITTY_FONTS
+font_family      family="JetBrainsMono Nerd Font"
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+# END_KITTY_FONTS
