@@ -37,6 +37,7 @@ modules:
               - pam_oo7
               - oo7-portal
               - oo7-cli
+              - adw-gtk3-theme
 
     - type: script
       scripts:

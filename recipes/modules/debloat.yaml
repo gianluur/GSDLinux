@@ -25,3 +25,9 @@ modules:
               - fira-code-fonts
               - lato-fonts
               - gnome-disks
+
+    - type: script
+      snippets:
+          - "rm -rf /usr/share/icons/KDE_Classic"
+          - "rm -rf /usr/share/icons/Oxygen_*"
+          - "rm -rf oxygen"
