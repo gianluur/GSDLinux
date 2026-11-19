@@ -27,7 +27,6 @@ modules:
     - type: systemd
       system:
           enabled:
-              - docker.socket
               - nix-daemon.socket
               - virtqemud.socket
               - virtlxcd.socket
@@ -40,5 +39,4 @@ modules:
               - NetworkManager-wait-online.service
               - fedora-atomic-desktop-mandb-update.service
               - systemd-oomd.service
-              - docker.service
               - libvirtd.service
