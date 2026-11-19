@@ -31,7 +31,6 @@ modules:
               - git
               - starship
               - zsh
-              - distrobox
               - mise
               - nix
               - wl-clipboard
