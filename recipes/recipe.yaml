@@ -7,15 +7,15 @@ base-image: ghcr.io/ublue-os/bazzite-nvidia-open
 image-version: latest
 
 modules:
-  - from-file: modules/configs.yaml
-  - from-file: modules/debloat.yaml
-  - from-file: modules/fonts.yaml
-  - from-file: modules/cli.yaml
-  - from-file: modules/desktop.yaml
-  - from-file: modules/apps.yaml
-  - from-file: modules/vpn.yaml
-  - from-file: modules/vms.yaml
-  - from-file: modules/misc.yaml
-  - from-file: required.yaml
+    - from-file: required.yaml
+    - from-file: modules/configs.yaml
+    - from-file: modules/debloat.yaml
+    - from-file: modules/fonts.yaml
+    - from-file: modules/cli.yaml
+    - from-file: modules/desktop.yaml
+    - from-file: modules/apps.yaml
+    - from-file: modules/vpn.yaml
+    - from-file: modules/vms.yaml
+    - from-file: modules/misc.yaml
 
-  - type: signing
+    - type: signing
