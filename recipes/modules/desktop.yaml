@@ -40,10 +40,12 @@ modules:
         - adw-gtk3-theme
 
   - type: default-flatpaks
-    system:
-      install:
-        - org.gtk.Gtk3theme.adw-gtk3
-        - org.gtk.Gtk3theme.adw-gtk3-dark
+    configurations:
+      - scope: system
+      - notify: true
+        install:
+          - org.gtk.Gtk3theme.adw-gtk3
+          - org.gtk.Gtk3theme.adw-gtk3-dark
 
   - type: script
     scripts:
