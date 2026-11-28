@@ -7,7 +7,9 @@ base-image: ghcr.io/ublue-os/bazzite-nvidia-open
 image-version: latest
 
 modules:
-  - from-file: required.yaml
+  # Without this file generating an iso will not be possibile
+  # - from-file: iso-generation.yaml
+
   - from-file: modules/configs.yaml
   - from-file: modules/debloat.yaml
   - from-file: modules/fonts.yaml
