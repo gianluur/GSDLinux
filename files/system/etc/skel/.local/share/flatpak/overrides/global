@@ -1,0 +1,8 @@
+[Context]
+filesystems=xdg-data/fonts:ro;/usr/share/fonts:ro;/usr/lib64/qt6/plugins/styles:ro;/usr/share/kstyle/themes/:ro;xdg-config/gtk-3.0:ro;xdg-config/gtk-4.0:ro;xdg-data/color-schemes/:ro;/usr/share/color-schemes/:ro;xdg-config/qt6ct:ro;xdg-data/themes:ro;/usr/share/themes:ro;~/.themes:ro;~/.icons:ro;/usr/share/icons:ro;xdg-data/icons:ro
+
+[Environment]
+GTK_THEME=adw-gtk3
+ICON_THEME=MacTahoe-purple-dark
+QT_STYLE_OVERRIDE=Darkly
+QT_QPA_PLATFORMTHEME=kde

@@ -1,0 +1,13 @@
+[Unit]
+Description=Install Darkly Flatpak runtime extension
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/install-darkly-flatpak.sh
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
